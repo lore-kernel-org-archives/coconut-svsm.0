@@ -1,23 +1,26 @@
-Return-Path: <joro@8bytes.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1692772571;
- bh=7Wz7jODOp7cP7peWiUFYcmlJ0daZjC1uS3TaCn1xvJw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BALJWmAePhTUVwvQsUz1WqelPyozsW1Fqi/xr9p+MrdAvoRzGNfrEllLl7TNGhgc1
- g2efkh9P6mVgtskCvV6oLjJLe2pVb9QYxdgs1kbA+Ogifcm95je+BhTZ1M/jawca+X
- 0+2cskl6vj9DlpKO9lK0j6+V5elMvasWZH4jFfgIhAH3ltttjV96wtIaBTrTsLWH+u
- EfbSQiKatxJ2uAo2rM6/uDLbMZYhhVH6wV/S7HSZVMxA1kRIC/8RHWgfjcv8iiMpav
- kPtgucePNZYXcLXZxdgaBvzN7d+jYrThldbb3b2IcjHc9rai9lwQoNJNN8qpa9ue8r
- 9lKAnL9MJeZAQ==
-Date: Wed, 23 Aug 2023 08:36:10 +0200
-From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <ZOWo2qXyP7Q0emxH@8bytes.org>
-References: <4233d253-cb30-c003-6179-86cc2a0e42c8@amd.com>
+Return-Path: <Ashish.Kalra@amd.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on20629.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eab::629])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPS id EE9422693B7
+ for <svsm-devel@coconut-svsm.dev>; Wed, 30 Aug 2023 20:03:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kDhc07M5dMmbt5BEikhUjKI1AiIgjPGSImf8p61duCc=;
+ b=eeVttHDaMdHFcAuy4fdJPuUcT37d6pi4QARqEOLcmEssAf9cw0oy8vQMVsFbEzTNSgUA4QqaPK1nCb5ReMFpA65YQme96meR8wV3KmFEpgpEqMWSG34COkokVj1IG3iNv3j3oCuqymvU5H19a+a16HevGycBC91VjlgdzpXjRSY=
+Message-ID: <baf07b2e-d3b1-3477-c9e3-caa3ba7b3147@amd.com>
+Date: Wed, 30 Aug 2023 13:03:09 -0500
+Content-Language: en-US
+References: <586dd9d8-f057-5601-41ca-7c1c64083879@amd.com>
+From: "Kalra, Ashish" <ashish.kalra@amd.com>
+In-Reply-To: <586dd9d8-f057-5601-41ca-7c1c64083879@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4233d253-cb30-c003-6179-86cc2a0e42c8@amd.com>
-Subject: Re: [svsm-devel] [RFC] Document Coconut-SVSM
+Subject: [svsm-devel] Fwd: Stage1 loader linker issues while building
+ coconut svsm
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -26,24 +29,32 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Carlos Bilbao <carlos.bilbao@amd.com>
-Cc: svsm-devel@coconut-svsm.dev, Roy Hopkins <roy.hopkins@suse.com>
+To: svsm-devel@coconut-svsm.dev
 
-Hi Carlos,
+Hello,
 
-On Tue, Aug 22, 2023 at 10:27:55AM -0500, Carlos Bilbao wrote:
-> I just opened issue #74 on GitHub titled "Document COCONUT-SVSM" [1].
-> Little explanation is needed, we should start this task while the project
-> is in its early stages. I suggest we (1) Compile a list of critical
-> components to document, potentially in order of importance and (2) Decide
-> whether we'll use Rustdoc or consider other alternatives e.g. GitHub Wiki.
+Getting this ld error while linking stage1 loader in coconut svsm:
 
-Good idea, thanks for bringing this up. I think rustdoc is the best
-choice because keeps code and documentation close together.
+# cc -c -o stage1/stage1.o stage1/stage1.S
 
-As a starting point we can take a look at the submodules/directories in
-the source and take this as the list of components.
+# cc -o stage1/stage1 stage1/stage1.o stage1/reset.o -nostdlib 
+-Wl,--build-id=none -Wl,-Tstage1/stage1.lds
 
-Regards,
+/usr/local/bin/ld: stage1/stage1.o: relocation R_X86_64_32 against 
+`.startup.text' can not be used when making a PIE object; recompile with 
+-fPIE
+/usr/local/bin/ld: failed to set dynamic section sizes: bad value
 
-	Joerg
+
+When i link with -no-pie, ld works fine.
+
+The stage1 loader code looks to be doing all relative addressing, i 
+don't see any absolute addresses, compiling is not giving any issues anyway.
+
+Also, ld is version 2.40:
+
+$ ld --version
+GNU ld (GNU Binutils) 2.40
+
+Thanks,
+Ashish
