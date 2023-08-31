@@ -1,41 +1,26 @@
-Return-Path: <jroedel@suse.de>
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 19D31269816
- for <svsm-devel@coconut-svsm.dev>; Thu, 31 Aug 2023 12:26:07 +0200 (CEST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id CB7AD21863
- for <svsm-devel@coconut-svsm.dev>; Thu, 31 Aug 2023 10:26:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1693477566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EsKmLbLWEIYWdfmbXRl5cqTMkvRLmcZ441BVSZTknTo=;
- b=Px6IN8vakis5CLoBNnvwaMhwYwZCaSsmUUVdxSdcsJSak5vOvJael93icjxEREcoiCd/IB
- pzhyDW3e01bF+Duo0O7B+8Xt+gFkkotQOk2jxdZnt1csjxAUH8SbYrev8YmqcvFCU/Bn27
- gDoiGJ6Tk23LvBz1HWjQ1z+ZgysBvUg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1693477566;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EsKmLbLWEIYWdfmbXRl5cqTMkvRLmcZ441BVSZTknTo=;
- b=pN2ZqXSqemspBNhINSPulpBqQy/AIx1Ezm4vW9WoKWfQgzSJh3NjYJvocKfDVS6taOhDpM
- sYPQypV2ui97taAg==
-Received: from suse.de (jroedel.udp.ovpn1.nue.suse.de [10.163.24.26])
+Return-Path: <Dhaval.Giani@amd.com>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on20600.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eae::600])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by relay2.suse.de (Postfix) with ESMTPS id BB2E22C142
- for <svsm-devel@coconut-svsm.dev>; Thu, 31 Aug 2023 10:26:06 +0000 (UTC)
-Date: Thu, 31 Aug 2023 12:26:05 +0200
-From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <jroedel@suse.de>
-Message-ID: <ZPBqvbMM28sdqewQ@suse.de>
+ by mail.8bytes.org (Postfix) with ESMTPS id 3FDF3269B19
+ for <svsm-devel@coconut-svsm.dev>; Thu, 31 Aug 2023 18:02:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Btr+n4lH6ogLAFQKvPyTSXEuxjbtwkgK8AfRkZ2wI0w=;
+ b=4SZXXw7Y6hQi2SRZ8aVajipN7Jto/TnlypurhlGpkvL4S0BcZHKFlvl8DDR1TjScDrYDpog5nf3hneceCel53ozLaKt2bf+TMBB9ScdhFMQBc8BUIgloigywXZQPS8rYQQ7XTLNhvmRxLV3bimzyqdvAwSsgs2mU5EVnrZmSvLw=
+From: "Giani, Dhaval" <Dhaval.Giani@amd.com>
+Date: Thu, 31 Aug 2023 16:02:16 +0000
+Message-ID: <8a5a1ecd-7470-1b5a-a6d9-7750ab978d10@amd.com>
+References: <ZPBqvbMM28sdqewQ@suse.de>
+In-Reply-To: <ZPBqvbMM28sdqewQ@suse.de>
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5070EE76A68EA44ABE6FB9F5C43D77B2@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] [RFC] SVSM Development Call
+Subject: Re: [svsm-devel] [RFC] SVSM Development Call
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -44,57 +29,33 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: svsm-devel@coconut-svsm.dev
-Content-Type: text/plain; charset="utf-8"
+To: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>, "Lendacky,
+ Thomas" <Thomas.Lendacky@amd.com>, "Bilbao, Carlos" <Carlos.Bilbao@amd.com>, "Kalra, Ashish" <Ashish.Kalra@amd.com>
 
-Hi,
-
-I talked to a couple of people recently about our SVSM project and the
-idea came up to schedule a semi-regular call where the community can
-sync on development and direction of the project.
-
-It also fits my wish to be more transparent about our direction and work
-and helps move discussions out of private formats to a more public
-community forum.
-
-So I wanted to propose a couple of time slots and see what people think.
-The idea is to have a meeting every 2 weeks, I will collect and post an
-agenda beforehand and we can always cancel if there is nothing to talk
-about.
-
-Some time slots that would work for me:
-
-                  CEST   ET     CT     PST
-
-	Tuesday	  5pm    11am   10am   8am
-	          6pm    12pm   11am   9am
-
-	Wednesday 5pm    11am   10am   8am
-	          6pm    12pm   11am   9am 
-
-	Thursday  6pm    12pm   11am   9am
-
-	Friday    4pm    10am    9am   7am
-
-I have only considered slots that work well for participants joining
-from America or Europe/Africa because most people I talked to live in
-these areas. If people living in Asia/Australia time zones want to join
-as well please let me know. We can use alternating time slots to make
-this possible.
-
-Please let me know what you think.
-
-Thanks,
-
--- 
-Jörg Rödel
-jroedel@suse.de
-
-SUSE Software Solutions Germany GmbH
-Frankenstraße 146
-90461 Nürnberg
-Germany
-
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-
+DQpIaSBKb2VyZywNCg0KT24gOC8zMS8yMyAwMzoyNiwgSsO2cmcgUsO2ZGVsIHdyb3RlOg0KPiBI
+aSwNCj4NCj4gSSB0YWxrZWQgdG8gYSBjb3VwbGUgb2YgcGVvcGxlIHJlY2VudGx5IGFib3V0IG91
+ciBTVlNNIHByb2plY3QgYW5kIHRoZQ0KPiBpZGVhIGNhbWUgdXAgdG8gc2NoZWR1bGUgYSBzZW1p
+LXJlZ3VsYXIgY2FsbCB3aGVyZSB0aGUgY29tbXVuaXR5IGNhbg0KPiBzeW5jIG9uIGRldmVsb3Bt
+ZW50IGFuZCBkaXJlY3Rpb24gb2YgdGhlIHByb2plY3QuDQo+DQo+IEl0IGFsc28gZml0cyBteSB3
+aXNoIHRvIGJlIG1vcmUgdHJhbnNwYXJlbnQgYWJvdXQgb3VyIGRpcmVjdGlvbiBhbmQgd29yaw0K
+PiBhbmQgaGVscHMgbW92ZSBkaXNjdXNzaW9ucyBvdXQgb2YgcHJpdmF0ZSBmb3JtYXRzIHRvIGEg
+bW9yZSBwdWJsaWMNCj4gY29tbXVuaXR5IGZvcnVtLg0KPg0KPiBTbyBJIHdhbnRlZCB0byBwcm9w
+b3NlIGEgY291cGxlIG9mIHRpbWUgc2xvdHMgYW5kIHNlZSB3aGF0IHBlb3BsZSB0aGluay4NCj4g
+VGhlIGlkZWEgaXMgdG8gaGF2ZSBhIG1lZXRpbmcgZXZlcnkgMiB3ZWVrcywgSSB3aWxsIGNvbGxl
+Y3QgYW5kIHBvc3QgYW4NCj4gYWdlbmRhIGJlZm9yZWhhbmQgYW5kIHdlIGNhbiBhbHdheXMgY2Fu
+Y2VsIGlmIHRoZXJlIGlzIG5vdGhpbmcgdG8gdGFsaw0KPiBhYm91dC4NCj4NCj4gU29tZSB0aW1l
+IHNsb3RzIHRoYXQgd291bGQgd29yayBmb3IgbWU6DQo+DQo+ICAgICAgICAgICAgICAgICAgICBD
+RVNUICAgRVQgICAgIENUICAgICBQU1QNCj4NCj4gCVR1ZXNkYXkJICA1cG0gICAgMTFhbSAgIDEw
+YW0gICA4YW0NCj4gCSAgICAgICAgICA2cG0gICAgMTJwbSAgIDExYW0gICA5YW0NCj4NCj4gCVdl
+ZG5lc2RheSA1cG0gICAgMTFhbSAgIDEwYW0gICA4YW0NCj4gCSAgICAgICAgICA2cG0gICAgMTJw
+bSAgIDExYW0gICA5YW0NCj4NCj4gCVRodXJzZGF5ICA2cG0gICAgMTJwbSAgIDExYW0gICA5YW0N
+Cj4NCj4gCUZyaWRheSAgICA0cG0gICAgMTBhbSAgICA5YW0gICA3YW0NCj4NCj4gSSBoYXZlIG9u
+bHkgY29uc2lkZXJlZCBzbG90cyB0aGF0IHdvcmsgd2VsbCBmb3IgcGFydGljaXBhbnRzIGpvaW5p
+bmcNCj4gZnJvbSBBbWVyaWNhIG9yIEV1cm9wZS9BZnJpY2EgYmVjYXVzZSBtb3N0IHBlb3BsZSBJ
+IHRhbGtlZCB0byBsaXZlIGluDQo+IHRoZXNlIGFyZWFzLiBJZiBwZW9wbGUgbGl2aW5nIGluIEFz
+aWEvQXVzdHJhbGlhIHRpbWUgem9uZXMgd2FudCB0byBqb2luDQo+IGFzIHdlbGwgcGxlYXNlIGxl
+dCBtZSBrbm93LiBXZSBjYW4gdXNlIGFsdGVybmF0aW5nIHRpbWUgc2xvdHMgdG8gbWFrZQ0KPiB0
+aGlzIHBvc3NpYmxlLg0KPg0KPiBQbGVhc2UgbGV0IG1lIGtub3cgd2hhdCB5b3UgdGhpbmsuDQoN
+Cg0KSSBsaWtlIHRoZSBUdWVzZGF5L1dlZG5lc2RheSA5YW0gc2xvdHMuIERvIHlvdSBtaW5kIHNl
+dHRpbmcgdXAgYSBkb29kbGUgDQpwb2xsPw0KDQoNClRoYW5rcyENCg0KRGhhdmFsDQoNCg0KPg0K
+PiBUaGFua3MsDQo+DQoNCg==
