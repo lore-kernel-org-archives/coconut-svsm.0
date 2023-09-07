@@ -1,23 +1,37 @@
-Return-Path: <joro@8bytes.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1694076438;
- bh=CREQ9JvSCqQ/oiKHtN5ihBf9yCAQzFtKPA0sZW2W9Hk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rV6GM673OFmTAcg06B18ER4qvhcsEAKenGnNH4i9lucpi12yUhlDLavv0tX39BX++
- W6gXoIHWgkvzZvJerocDTMStfAMjA00wfmrkS7jvmk+2j4mj3+x9UoR5GyObzFRv6q
- jr5qP2e9ezmwSbD2OQPjJAtunL/VayC+ZxBTzq1QNdd8NkSAumh4EmJyL1Xct4bOYB
- hEulNfCJnSf7RjQtXghBHyHNAA+gtL11eeI2n4X/Y4RF7mm22UaueJAPmntXZvIqqb
- pZKNl9fPdFfZiBIH6vxqykXeHDnogAzh4G1HHlpKLEUfGerNZMrUgSEQEcludi4xeq
- jn+tPxVU70HqQ==
-Date: Thu, 7 Sep 2023 10:47:16 +0200
-From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <ZPmGEFGYVQtQF9uT@8bytes.org>
-References: <9ff1416f-5436-9148-73e1-fdd72ceb6285@amd.com>
+Return-Path: <clopez@suse.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPS id 597CE265DB8
+ for <svsm-devel@coconut-svsm.dev>; Thu,  7 Sep 2023 14:29:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1694089758; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZfMNOtrCX9KzdsmgKliyvWiybfvhIl4+AjArrwWhlFA=;
+ b=11YKeYmk8hgEQy3mxBfwinT1JW5R/lt54akghMSlEOnEF+bA00w1AgCvIyFPh7TBU7JYSh
+ QLh4JgO8s3JPD9zzd4yRHYIFz56M9x+7St1g2m4xLa2zEMfnoXReKFRkg4cjBaTboS0RJk
+ Ewhwtukwr7TKpwo3TbW/L4MbhhHpXG4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1694089758;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZfMNOtrCX9KzdsmgKliyvWiybfvhIl4+AjArrwWhlFA=;
+ b=XEjcmS4ft96186+LAynH8bwW9pcquj6XLprPfnvG0KAAzML7q5tCb3AlY8aHGQwMMu5Ki/
+ RmTmgMdBDVfjsqCQ==
+Message-ID: <873bdb74-a67b-4fe7-a41b-ba3477fccb01@suse.de>
+Date: Thu, 7 Sep 2023 14:29:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ff1416f-5436-9148-73e1-fdd72ceb6285@amd.com>
-Subject: Re: [svsm-devel] [RFC] task/schedule: Idle process?
+References: <ZPBqvbMM28sdqewQ@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Carlos_L=C3=B3pez?= <clopez@suse.de>
+In-Reply-To: <ZPBqvbMM28sdqewQ@suse.de>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [svsm-devel] [RFC] SVSM Development Call
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -26,34 +40,55 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Carlos Bilbao <carlos.bilbao@amd.com>
-Cc: svsm-devel@coconut-svsm.dev, Roy Hopkins <roy.hopkins@suse.com>
+To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
+Cc: svsm-devel@coconut-svsm.dev
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 
-Hi Carlos,
+Thursday would be a bit harder for me, but I could make it depending on 
+the week. The rest of the slots look good.
 
-On Wed, Sep 06, 2023 at 09:29:00AM -0500, Carlos Bilbao wrote:
-> The PR for the scheduler (#64) is still under review. In traditional OSs,
-> it makes sense to include an idle userspace process that does nothing and
-> is always there to be scheduled. So I was wondering if we should do the
-> same for the SVSM.
+On 31/8/23 12:26, Jörg Rödel wrote:
+> Hi,
 > 
-> Currently, SVSM schedules the "root" task responsible for running the
-> request loop. However, in the event of a SvsmReqError:FatalError, this
-> process may terminate prematurely. This raises the question: should we
-> introduce an idle process in SVSM, or is it irrelevant in that context?
+> I talked to a couple of people recently about our SVSM project and the
+> idea came up to schedule a semi-regular call where the community can
+> sync on development and direction of the project.
 > 
-> My first intuition is that if we don't have an idle process, then the SVSM
-> itself would terminate, and perhaps that would difficult further debugging
-> of potential errors. Or maybe it would not?
+> It also fits my wish to be more transparent about our direction and work
+> and helps move discussions out of private formats to a more public
+> community forum.
+> 
+> So I wanted to propose a couple of time slots and see what people think.
+> The idea is to have a meeting every 2 weeks, I will collect and post an
+> agenda beforehand and we can always cancel if there is nothing to talk
+> about.
+> 
+> Some time slots that would work for me:
+> 
+>                    CEST   ET     CT     PST
+> 
+> 	Tuesday	  5pm    11am   10am   8am
+> 	          6pm    12pm   11am   9am
+> 
+> 	Wednesday 5pm    11am   10am   8am
+> 	          6pm    12pm   11am   9am
+> 
+> 	Thursday  6pm    12pm   11am   9am
+> 
+> 	Friday    4pm    10am    9am   7am
+> 
+> I have only considered slots that work well for participants joining
+> from America or Europe/Africa because most people I talked to live in
+> these areas. If people living in Asia/Australia time zones want to join
+> as well please let me know. We can use alternating time slots to make
+> this possible.
+> 
+> Please let me know what you think.
+> 
+> Thanks,
+> 
 
-Yes, we plan with an idle process. It will be the (kernel-only) process
-that gives control back to the guest OS by switching the VMPL.
-
-The idea is that we have a runqueue and execute tasks from that as
-long as any of them is runable. Once no process is runable anymore the
-idle task is selected by the scheduler and switches back to the guest
-VMPL.
-
-Regards,
-
-	Joerg
+-- 
+Carlos López
+Security Engineer
+SUSE Software Solutions
