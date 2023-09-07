@@ -1,27 +1,54 @@
-Return-Path: <roy.hopkins@suse.com>
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2060a.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7d00::60a])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <jroedel@suse.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 71362266D6B
- for <svsm-devel@coconut-svsm.dev>; Thu,  7 Sep 2023 15:35:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d0CzvUjLwGAHAuZzGv0/UA84To6keI2kRRSnraq16Sc=;
- b=DQQ3Lrqii6SpoFy5gebc+ByhBC3fCyQd1C+quAqPvwi7wmlT2ox/pQpE6JPRxSDjSKunAfsjvxelV86Q6b2RIN8224pzQbwaXBeCdwjj/oHdefh1Ln0O9fILeDtG7wIGpFc5OmnE/alGhFD7n+FV0X1M+YRZek2HPCY5UnH5/5uNwK86bUcVjijd9XOsqCo3LLXBjvuJcmsKkNBG95+3WFq7d8c2kJA/mGYZis93F2rgJmSXjgLWrsbeOGs+CbP4h4seHY9YUyGHKouhxmMOZ7MlKZmXUTrXwcTATrVtUeuBtMspE71lNuFQVtwX+nugS+du6ZPv5upZBeWgj2x/hQ==
-From: Roy Hopkins <roy.hopkins@suse.com>
-Date: Thu, 7 Sep 2023 13:35:07 +0000
-Message-ID: <b1f77daea131b4a01e97eb4f197f2339f3454ba3.camel@suse.com>
-References: <9ff1416f-5436-9148-73e1-fdd72ceb6285@amd.com>
- <ZPmGEFGYVQtQF9uT@8bytes.org>
-In-Reply-To: <ZPmGEFGYVQtQF9uT@8bytes.org>
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6EF33CD1649450408677CE69F845653F@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-Subject: Re: [svsm-devel] [RFC] task/schedule: Idle process?
+ by mail.8bytes.org (Postfix) with ESMTPS id 51EC62670C2
+ for <svsm-devel@coconut-svsm.dev>; Thu,  7 Sep 2023 18:42:09 +0200 (CEST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id EA2062187B
+ for <svsm-devel@coconut-svsm.dev>; Thu,  7 Sep 2023 16:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1694104928; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=flLZgF9HTkAOwp7PNUPFqdmUOrELcenT4PT6A7daOPU=;
+ b=P1BC6lO/gzRB8fOyE8QJ3mDWmLwxPrxKFddeLdGnEqkIOB4BYOS2Zzj73FMZ4qxDLO1hQ7
+ k6AUf7wLKD7XvRuVokzlpIpL4RMm4P+W6uCiqQh/AvCOQDQ52l08hx1OcSqVeVD/RqnPnK
+ fovrdJX2Kag3utBQ2oT5hKUIPkMy+RU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1694104928;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=flLZgF9HTkAOwp7PNUPFqdmUOrELcenT4PT6A7daOPU=;
+ b=K0DZRebKLrPynx83Go+SCH8BUjDp/R2KUCZlB7jfLJ0HUJBnj+XtUjm6KFgLsNeoI5Scct
+ jZIllWOy8W6e6aBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D9C12138F9
+ for <svsm-devel@coconut-svsm.dev>; Thu,  7 Sep 2023 16:42:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id RlTkM2D9+WTIJAAAMHmgww
+ (envelope-from <jroedel@suse.de>)
+ for <svsm-devel@coconut-svsm.dev>; Thu, 07 Sep 2023 16:42:08 +0000
+From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.700.6\))
+Date: Thu, 7 Sep 2023 18:41:58 +0200
+References: <ZPBqvbMM28sdqewQ@suse.de>
+In-Reply-To: <ZPBqvbMM28sdqewQ@suse.de>
+Message-Id: <54F5774C-F26A-449E-83FE-6BAA6EF9CD53@suse.de>
+Subject: Re: [svsm-devel] [RFC] SVSM Development Call
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -30,42 +57,44 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: "carlos.bilbao@amd.com" <carlos.bilbao@amd.com>, "joro@8bytes.org" <joro@8bytes.org>
-Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: svsm-devel@coconut-svsm.dev
 
-T24gVGh1LCAyMDIzLTA5LTA3IGF0IDEwOjQ3ICswMjAwLCBKw7ZyZyBSw7ZkZWwgd3JvdGU6DQo+
-IEhpIENhcmxvcywNCj4gDQo+IE9uIFdlZCwgU2VwIDA2LCAyMDIzIGF0IDA5OjI5OjAwQU0gLTA1
-MDAsIENhcmxvcyBCaWxiYW8gd3JvdGU6DQo+ID4gVGhlIFBSIGZvciB0aGUgc2NoZWR1bGVyICgj
-NjQpIGlzIHN0aWxsIHVuZGVyIHJldmlldy4gSW4gdHJhZGl0aW9uYWwgT1NzLA0KPiA+IGl0IG1h
-a2VzIHNlbnNlIHRvIGluY2x1ZGUgYW4gaWRsZSB1c2Vyc3BhY2UgcHJvY2VzcyB0aGF0IGRvZXMg
-bm90aGluZyBhbmQNCj4gPiBpcyBhbHdheXMgdGhlcmUgdG8gYmUgc2NoZWR1bGVkLiBTbyBJIHdh
-cyB3b25kZXJpbmcgaWYgd2Ugc2hvdWxkIGRvIHRoZQ0KPiA+IHNhbWUgZm9yIHRoZSBTVlNNLg0K
-PiA+IA0KPiA+IEN1cnJlbnRseSwgU1ZTTSBzY2hlZHVsZXMgdGhlICJyb290IiB0YXNrIHJlc3Bv
-bnNpYmxlIGZvciBydW5uaW5nIHRoZQ0KPiA+IHJlcXVlc3QgbG9vcC4gSG93ZXZlciwgaW4gdGhl
-IGV2ZW50IG9mIGEgU3ZzbVJlcUVycm9yOkZhdGFsRXJyb3IsIHRoaXMNCj4gPiBwcm9jZXNzIG1h
-eSB0ZXJtaW5hdGUgcHJlbWF0dXJlbHkuIFRoaXMgcmFpc2VzIHRoZSBxdWVzdGlvbjogc2hvdWxk
-IHdlDQo+ID4gaW50cm9kdWNlIGFuIGlkbGUgcHJvY2VzcyBpbiBTVlNNLCBvciBpcyBpdCBpcnJl
-bGV2YW50IGluIHRoYXQgY29udGV4dD8NCj4gPiANCj4gPiBNeSBmaXJzdCBpbnR1aXRpb24gaXMg
-dGhhdCBpZiB3ZSBkb24ndCBoYXZlIGFuIGlkbGUgcHJvY2VzcywgdGhlbiB0aGUgU1ZTTQ0KPiA+
-IGl0c2VsZiB3b3VsZCB0ZXJtaW5hdGUsIGFuZCBwZXJoYXBzIHRoYXQgd291bGQgZGlmZmljdWx0
-IGZ1cnRoZXIgZGVidWdnaW5nDQo+ID4gb2YgcG90ZW50aWFsIGVycm9ycy4gT3IgbWF5YmUgaXQg
-d291bGQgbm90Pw0KPiANCj4gWWVzLCB3ZSBwbGFuIHdpdGggYW4gaWRsZSBwcm9jZXNzLiBJdCB3
-aWxsIGJlIHRoZSAoa2VybmVsLW9ubHkpIHByb2Nlc3MNCj4gdGhhdCBnaXZlcyBjb250cm9sIGJh
-Y2sgdG8gdGhlIGd1ZXN0IE9TIGJ5IHN3aXRjaGluZyB0aGUgVk1QTC4NCj4gDQo+IFRoZSBpZGVh
-IGlzIHRoYXQgd2UgaGF2ZSBhIHJ1bnF1ZXVlIGFuZCBleGVjdXRlIHRhc2tzIGZyb20gdGhhdCBh
-cw0KPiBsb25nIGFzIGFueSBvZiB0aGVtIGlzIHJ1bmFibGUuIE9uY2Ugbm8gcHJvY2VzcyBpcyBy
-dW5hYmxlIGFueW1vcmUgdGhlDQo+IGlkbGUgdGFzayBpcyBzZWxlY3RlZCBieSB0aGUgc2NoZWR1
-bGVyIGFuZCBzd2l0Y2hlcyBiYWNrIHRvIHRoZSBndWVzdA0KPiBWTVBMLg0KPiANCj4gUmVnYXJk
-cywNCj4gDQo+IMKgwqDCoMKgwqDCoMKgwqBKb2VyZw0KDQpJIHRob3VnaHQgYWJvdXQgaW5jb3Jw
-b3JhdGluZyBhbiBpZGxlIHRhc2sgaW50byB0aGUgY3VycmVudCBQUiBidXQgdW50aWwgdGhlDQp1
-c2FnZSBvZiB0YXNrcyBpcyBhIGJpdCBtb3JlIG1hdHVyZSBhbmQgd2Ugc3RhcnQgdG8gc3VwcG9y
-dCBtb2R1bGVzIHRoYXQNCmFjdHVhbGx5IHVzZSB0YXNrcywgaXQgcHJvYmFibHkgZG9lcyBub3Qg
-bWFrZSBzZW5zZSB0byBhZGQgYW4gaWRsZSB0YXNrIHlldC4NCg0KSSBndWVzcyB3ZSBjb3VsZCBy
-ZWZhY3RvciB0aGUgZXhpc3RpbmcgcmVxdWVzdF9sb29wKCkgZnVuY3Rpb24gaW50byBpdHMgb3du
-IHRhc2sNCmFuZCBjYWxsIHRoaXMgdGhlICdpZGxlIHRhc2snLCBhbGxvd2luZyB0aGUgZW50cnkg
-cG9pbnQgdGhyZWFkIHRvIHJldHVybiBhbmQNCnN1YnNlcXVlbnRseSB0ZXJtaW5hdGUgYW5kIHN3
-aXRjaCBjb250ZXh0LiBIb3dldmVyLCB0aGUgcmVxdWVzdF9sb29wKCkgbmV2ZXINCmNhbGxzIHNj
-aGVkdWxlKCkgbWVhbmluZyB0aGUgaWRsZSB0YXNrIHdpbGwgbmV2ZXIgY2VkZSBleGVjdXRpb24u
-IFRoaXMgaXMgdGhlDQpzYW1lIGJlaGF2aW91ciBhcyB0aGUgY3VycmVudCBzdGF0ZSBvZiB0aGUg
-UFIgYnV0IGl0IGlzIHBlcmhhcHMgbGVzcyBvYnZpb3VzIGlmDQp3ZSBjYWxsIGl0IGFuIGlkbGUg
-dGFzay4NCg0KUmVnYXJkcywNClJveQ0K
+Hi,
+
+> Am 31.08.2023 um 12:26 schrieb J=C3=B6rg R=C3=B6del <jroedel@suse.de>:
+>=20
+>                  CEST   ET     CT     PST
+> Wednesday         6pm    12pm   11am   9am=20
+
+Based on the feedback to this thread I chose the above slot for the =
+meeting. The first one is scheduled for September 13 at 6pm CEST/9am PST =
+and repeats every two weeks.
+
+There is a public Google calendar which you can add to a calendar app of =
+your choice:
+
+=
+https://calendar.google.com/calendar/embed?src=3Dd750138ac91273752b32e5e9d=
+7b2a96c826b800da6a3afd690d9ff1298e05181%40group.calendar.google.com&ctz=3D=
+Europe%2FBerlin
+
+The meeting will happen via Google meet here:
+
+https://meet.google.com/jqz-yonh-ngb
+
+Have a nice week and hope to see you all there :-)
+
+Regards,
+
+J=C3=B6rg R=C3=B6del
+jroedel@suse.de
+
+SUSE Software Solutions Germany GmbH
+Frankenstra=C3=9Fe 146
+90461 N=C3=BCrnberg
+Germany
+
+Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev, Andrew Myers, Andrew McDonald, =
+Boudien Moerman
+(HRB 36809, AG N=C3=BCrnberg)
+
