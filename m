@@ -1,40 +1,23 @@
-Return-Path: <jroedel@suse.de>
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Return-Path: <Carlos.Bilbao@amd.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on20628.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e89::628])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 0BA21265DB8
- for <svsm-devel@coconut-svsm.dev>; Thu,  7 Sep 2023 20:19:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1694110740; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g4liSZIXT7AcFiLKI410hiNf0zhpFOimFfyW64k1rkU=;
- b=su2Phtcghaqoj2R1s6URS11H5gneXgZAdV7xAet3wK5zKZnVyVd8Y+KyxO0yyxbrfI4UNj
- WpF4xam97GHWd/xWz59gNgLS1uUqSAxrZbyOZqVYwz3H0GK7E+hcEtHJKepdHcDtaNbMny
- FYCJArHE+/FHOhDtCPWqRjrxVquV8uw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1694110740;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g4liSZIXT7AcFiLKI410hiNf0zhpFOimFfyW64k1rkU=;
- b=EaSTBU6LjVchl/fCuo43jBXTG6H10Kh/7YaB23vT5Q2gcj5d/2fGq8ththuPS+qzrSy9mg
- WqyniQTJSyCtpGAA==
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.700.6\))
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
-In-Reply-To: <14c73cc1-7a0c-521a-11d8-dcf22e618672@amd.com>
-Date: Thu, 7 Sep 2023 20:18:49 +0200
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <AB8C7E4D-E8B7-413D-8DA6-C9AB307BCC03@suse.de>
-References: <ZPBqvbMM28sdqewQ@suse.de>
- <54F5774C-F26A-449E-83FE-6BAA6EF9CD53@suse.de>
- <14c73cc1-7a0c-521a-11d8-dcf22e618672@amd.com>
-Subject: Re: [svsm-devel] [RFC] SVSM Development Call
+ by mail.8bytes.org (Postfix) with ESMTPS id ED5A31A11EF
+ for <svsm-devel@coconut-svsm.dev>; Fri,  8 Sep 2023 14:55:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ClUanAj+9qf2A4gjECqPkW/10UL1DFcF1g6jaQTDZpA=;
+ b=2sGNXY/S0cEvXYl1wYMXSVkkbTzeFqFk32oSU69CO4c0dkLuHcB9hqM0v4QZRSr1rKtKV+xjfJealryer9NOEFr7dNpYOK78RSSBRVKIjAoiVds9oNqpN1ahdZXQlqLpQIbcK3EI5HW+pi1L1+uKAqO7A5UOHVH1XN1UQ4+bqWs=
+Message-ID: <aa870f4a-d27f-9a6c-6dac-85385caafc7f@amd.com>
+Date: Fri, 8 Sep 2023 07:55:03 -0500
+Content-Language: en-US
+From: Carlos Bilbao <carlos.bilbao@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Subject: [svsm-devel] task: Implement system call interface
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -43,32 +26,176 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: "Giani, Dhaval" <Dhaval.Giani@amd.com>
-Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: svsm-devel@coconut-svsm.dev, Roy Hopkins <roy.hopkins@suse.com>
 
-Hi Dhaval,
+Hello,
 
-> Am 07.09.2023 um 18:57 schrieb Giani, Dhaval <Dhaval.Giani@amd.com>:
->=20
-> Do you have an agenda is place already somewhere? And if we want to =
-add=20
-> items, do we just email here?
+Just opened pull request to add a system call interface [1]. Sharing below
+too in case anyone wants to review.
 
-Yes, if you or anyone else has specific items to discuss please drop me =
-an email. I will aggregate everything and send out an agenda before the =
-meeting.
+[1] https://github.com/roy-hopkins/svsm/pull/5
 
-Regards,
+Thanks,
+Carlos
+---
+[PATCH] scheduler: Implement system call interface
 
-J=C3=B6rg R=C3=B6del
-jroedel@suse.de
+Added system call interface with enum-based invocation handling.
 
-SUSE Software Solutions Germany GmbH
-Frankenstra=C3=9Fe 146
-90461 N=C3=BCrnberg
-Germany
+Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+---
+  src/task/syscall.rs | 122 +++++++++++++++++++++++++++++++++++++++++---
+  1 file changed, 114 insertions(+), 8 deletions(-)
 
-Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev, Andrew Myers, Andrew McDonald, =
-Boudien Moerman
-(HRB 36809, AG N=C3=BCrnberg)
+diff --git a/src/task/syscall.rs b/src/task/syscall.rs
+index 3ac7b92..67c0197 100644
+--- a/src/task/syscall.rs
++++ b/src/task/syscall.rs
+@@ -3,8 +3,13 @@
+  // Copyright (c) 2022-2023 SUSE LLC
+  //
+  // Author: Roy Hopkins <rhopkins@suse.de>
+-
++//
++// Other contributors:
++//
++// Carlos Bilbao <carlos.bilbao@amd.com>
++//
+  use core::{
++    arch::asm,
+      arch::global_asm,
+      ffi::{c_char, CStr},
+  };
+@@ -32,21 +37,122 @@ const MSR_STAR: u32 = 0xc000_0081;
+  const MSR_LSTAR: u32 = 0xc000_0082;
+  const MSR_SFMASK: u32 = 0xc000_0084;
+
++#[repr(u32)]
++#[derive(Debug)]
++pub enum SystemCalls {
++    Exit = 0,
++    Log = 1,
++    Sleep = 2,
++}
++
++fn map_to_syscall(index: u32) -> Option<SystemCalls> {
++    match index {
++        1 => Some(SystemCalls::Exit),
++        2 => Some(SystemCalls::Log),
++        3 => Some(SystemCalls::Sleep),
++        _ => None,
++    }
++}
++
++#[inline]
++#[allow(dead_code)]
++pub fn syscall0(id: u32) -> u64 {
++    let ret: u64;
++    // syscall modifies both rcx and r11
++    unsafe {
++        asm!("syscall",
++               inout("rax") id as u64 => ret,
++               options(nostack));
++    }
++
++    ret
++}
++
++#[inline]
++#[allow(dead_code)]
++pub fn syscall1(id: u32, p1: u64) -> u64 {
++    let ret: u64;
++    unsafe {
++        asm!("syscall",
++               inout("rax") id as u64 => ret,
++               in("rdi") p1,
++               options(nostack));
++    }
++
++    ret
++}
++
++#[inline]
++#[allow(dead_code)]
++pub fn syscall2(id: u32, p1: u64, p2: u64) -> u64 {
++    let ret: u64;
++    unsafe {
++        asm!("syscall",
++               inout("rax") id as u64 => ret,
++               in("rdi") p1,
++               in("rsi") p2,
++               options(nostack));
++    }
++
++    ret
++}
++
++#[inline]
++#[allow(dead_code)]
++pub fn syscall3(id: u32, p1: u64, p2: u64, p3: u64) -> u64 {
++    let ret: u64;
++    // syscall modifies both rcx and r11
++    unsafe {
++        asm!("syscall",
++               inout("rax") id as u64 => ret,
++               in("rdi") p1,
++               in("rsi") p2,
++               in("rdx") p3,
++               options(nostack));
++    }
++
++    ret
++}
++
++// In case of adding system calls with more parameters, this is the order
++// in which to fill the registers:
++// p4=r10, p5=r8, p6=r9
++// We can't pass >6 params without using the stack
++// Don't forget to include the call in system_call!() too.
++
++/// System call macro. Example of usage:
++/// system_call!(SystemCalls:CALL_ID, param1)
++///
++#[macro_export]
++macro_rules! system_call {
++    ($id: expr) => {
++        syscall0($id)
++    };
++
++    ($id: expr, $param_1:expr) => {
++        syscall1($id, $param_1 as u64)
++    };
++    ($id: expr, $param_1:expr, $param_2:expr) => {
++        syscall2($id, $param_1 as u64, $param_2 as u64)
++    };
++
++    ($id: expr, $param_1:expr, $param_2:expr, $param_3:expr) => {
++        syscall3($id, $param_1 as u64, $param_2 as u64, $param_3 as u64)
++    };
++}
++
+  #[no_mangle]
+  extern "C" fn syscall_handler(index: u32, param1: u64) -> u64 {
+-    let ret = match index {
+-        // exit
+-        0 => SyscallRet::Terminate,
+-        // log
+-        1 => {
++    let ret = match map_to_syscall(index) {
++        Some(SystemCalls::Exit) => SyscallRet::Terminate,
++        Some(SystemCalls::Log) => {
+              unsafe {
+                  let str = CStr::from_ptr(param1 as *const c_char);
+                  log::info!("{}", str.to_str().unwrap());
+              }
+              SyscallRet::Ok
+          }
+-        // sleep
+-        2 => SyscallRet::Ok,
++        Some(SystemCalls::Sleep) => SyscallRet::Ok,
+          _ => {
+              log::info!("Invalid syscall received: {}", index);
+              SyscallRet::Unknown
+-- 
+2.41.0
 
