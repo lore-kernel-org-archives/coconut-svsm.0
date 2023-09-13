@@ -1,32 +1,44 @@
-Return-Path: <osteffen@redhat.com>
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Return-Path: <jroedel@suse.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 4288E1A154E
- for <svsm-devel@coconut-svsm.dev>; Wed, 13 Sep 2023 19:04:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694624686;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ by mail.8bytes.org (Postfix) with ESMTPS id 476A11A154E
+ for <svsm-devel@coconut-svsm.dev>; Wed, 13 Sep 2023 19:05:53 +0200 (CEST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id EF914218DF
+ for <svsm-devel@coconut-svsm.dev>; Wed, 13 Sep 2023 17:05:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1694624752; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dkNtQtKkPH0sOHbzoGaVExdRg5WOFzuLyIpeeTkNitU=;
- b=VJWNZf4z3sJEkgQkzdppTDhIxu/BGanBr6TKTKZiDRjRo5Jo0x9G+gpAEDoqGf9QeQl6Wf
- E8bHCnTcLEijb5cFtWZ6BB3ibupocyYufzTrqYKv7axuqsDanK+lhBBwHB764QS3Sm406D
- mByS/hF1CWiWEmcmyuUVTpRZpFMWhwU=
-Received: by mail-lj1-f198.google.com with SMTP id
- 38308e7fff4ca-2bbc1d8011dso390001fa.1
- for <svsm-devel@coconut-svsm.dev>; Wed, 13 Sep 2023 10:04:37 -0700 (PDT)
-MIME-Version: 1.0
+ bh=pEIdO62kG3ZWVUuqiNMyJegrJ+zxHeDHkDgIyeAjHcc=;
+ b=syBUDZ+JQaRyQzmpEkmjtMIpUzJMh/uXs1iIagX/mYd+N2oQXch73auUiMe1oJ6RE8ok+l
+ 5lLqlJG7Q4NEe8qblZOWLTWArZxTiS7bFiZ6zkX/kOVMYgl1AwIvMiv8vOYr5SJ0Ig6QC9
+ vnUVYDcnmtnbVtwcSINxN+oeaanyGXg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1694624752;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pEIdO62kG3ZWVUuqiNMyJegrJ+zxHeDHkDgIyeAjHcc=;
+ b=VW13Fzx1eRqK7BAgyUHgSTSWC7oNnxpUU5I1W/1mZo7aJnz+jN4e+iNZJj8ttD4cZY1Aq9
+ rsV12+ktvSCfieBw==
+Received: from suse.de (jroedel.udp.ovpn1.nue.suse.de [10.163.24.26])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by relay2.suse.de (Postfix) with ESMTPS id D24CF2C142
+ for <svsm-devel@coconut-svsm.dev>; Wed, 13 Sep 2023 17:05:52 +0000 (UTC)
+Date: Wed, 13 Sep 2023 19:05:51 +0200
+From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <jroedel@suse.de>
+Message-ID: <ZQHr75YiTvnEt4-A@suse.de>
 References: <ZQGe5nq8rMWujAY9@suse.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <ZQGe5nq8rMWujAY9@suse.de>
-From: Oliver Steffen <osteffen@redhat.com>
-Date: Wed, 13 Sep 2023 19:04:22 +0200
-Message-ID: <CA+bRGFq=8YJE6tshRdsxtF4m3sRoK2fZu0BmSO2fPHrs52iARQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Subject: Re: [svsm-devel] SVSM Call Agenda Sept. 13th
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
@@ -36,49 +48,32 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
-Cc: svsm-devel@coconut-svsm.dev
+To: svsm-devel@coconut-svsm.dev
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, Sep 13, 2023 at 1:37=E2=80=AFPM J=C3=B6rg R=C3=B6del <jroedel@suse.=
-de> wrote:
->
-> Hi,
->
-> here is a rough agenda for todays inaugural SVSM development call. Feel
-> free to reply to this email with additional agenda items you want to see
-> covered.
->
->         1. Introduction round. Everyone please introduce themselves and
->            tell what your interest in the SVSM is and/or what you are
->            working on for the SVSM.
->
->         2. Development update - Current plan how to move forward
->            - CPL3 support/virtual memory management/tasks
->            - Crypto support
->            - Launch protocol
->            - ...?
->            I hope to give a short overview to the above topics and then
->            we can have an open discussion.
->
->         3. Governance discussion - This becomes more pressing, so let us
->            discuss how we can move to a multi-maintainer model better
->            sooner than later.
->
->         4. Open discussion/your topics :)
->
+On Wed, Sep 13, 2023 at 01:37:10PM +0200, Jörg Rödel wrote:
 > Have a lot of fun and see you in the meeting!
->
-> Regards,
->
-> --
-> J=C3=B6rg R=C3=B6del
-> jroedel@suse.de
->
 
-Ah, the call ended very sudden. And I was not able to rejoin.
+Sorry that the meeting ended so abruptly, apparently it is because I am
+not a paying google customer :(
 
-We could maybe try https://meet.jit.si/ next time? There we have
-unlimited time :-)
+I will look into how to change that for the next meeting.
 
-Oliver
+Anyway, I want to thank everyone for attending and the good discussions
+we had before the tool threw us out. I really enjoyed it and felt we
+made some good progress on the topics discussed.
+
+Regards,
+
+-- 
+Jörg Rödel
+jroedel@suse.de
+
+SUSE Software Solutions Germany GmbH
+Frankenstraße 146
+90461 Nürnberg
+Germany
+
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
 
