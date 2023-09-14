@@ -1,23 +1,25 @@
-Return-Path: <joro@8bytes.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1694690397;
- bh=fcFbbhumxDboHyNN7Cuohv0HjvbDm5M6tg8tTIpIwbo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=0Vak1M98i+nBVe/Km1nVs/1cslIAJyL5YV7Lsm2dDejeiruZgno7RtO9UywbCNbMR
- nMz5lllqNjQcP+QRzmTnhbFA9X2pLcvTBIx3UcJIjrKw2gUYFPT2L6hCI0AeC+qLn/
- CstOI+AvM9uaut53yz2sqLJu13TNieasutCgGe+Ijs5BT+pb5RfWUnuHLCzNBr234n
- Y/p1LGFVAUYPtBRJkGfE2Du6db+e8cA/j2LAjYE8GS5CgaijYsNE6IoPJlqfK5lali
- YHYJ/A8a1zbQ88OLfYf72rXvH7ni9OsgBbKyHmafOMcm8XpQ2OYlZePgKR3O8T5FAF
- bK4/nEtehYrUA==
-Date: Thu, 14 Sep 2023 13:19:56 +0200
-From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <ZQLsXABCSv2JME-V@8bytes.org>
-References: <CA+bRGFrbQPcVKs4suEkM1c-5GxqGYrxLp48DLBT3knwgx=nABA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
+Return-Path: <Carlos.Bilbao@amd.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2062a.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e89::62a])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPS id 699FD1A14FF
+ for <svsm-devel@coconut-svsm.dev>; Thu, 14 Sep 2023 16:28:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TLsltu9zxnDaCmR0bbNrwfLnQU64TX5V67iYuZA8xZw=;
+ b=1EnlnlUCFghsxOXthE0w+1u9OCeUj1J+D1xGWtXXTmYf3TNQFSPyjl6vKwnFtHHLz2TdlJy3ywx1U/4TRmNuULFKT8ZDuMvC95wMZYjB1xqfCXucnUowjpj69wd03MYHRl8F4QhnXkA9A4uxXYRCgL0AUxAW2957PWpe1mWEe5g=
+Message-ID: <cfd7a6c8-33f4-8615-6ed9-6f2eb079c64d@amd.com>
+Date: Thu, 14 Sep 2023 09:28:11 -0500
+Content-Language: en-US
+References: <aa870f4a-d27f-9a6c-6dac-85385caafc7f@amd.com>
+ <4998fc1d-6733-2b7e-5409-f43625700eb5@amd.com>
+From: Carlos Bilbao <carlos.bilbao@amd.com>
+In-Reply-To: <4998fc1d-6733-2b7e-5409-f43625700eb5@amd.com>
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+bRGFrbQPcVKs4suEkM1c-5GxqGYrxLp48DLBT3knwgx=nABA@mail.gmail.com>
-Subject: Re: [svsm-devel] Notes: SVSM Call 2023-09-13
+MIME-Version: 1.0
+Subject: Re: [svsm-devel] task: Implement system call interface
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -26,120 +28,191 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Oliver Steffen <osteffen@redhat.com>
-Cc: svsm-devel@coconut-svsm.dev
-Content-Type: text/plain; charset="utf-8"
+To: Tom Lendacky <thomas.lendacky@amd.com>, svsm-devel@coconut-svsm.dev, Roy Hopkins <roy.hopkins@suse.com>
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 
-Hi,
+On 9/11/23 12:43, Tom Lendacky wrote:
+> On 9/8/23 07:55, Carlos Bilbao wrote:
+>> Hello,
+>>
+>> Just opened pull request to add a system call interface [1]. Sharing below
+>> too in case anyone wants to review.
+>>
+>> [1] https://github.com/roy-hopkins/svsm/pull/5
+>>
+>> Thanks,
+>> Carlos
+>> ---
+>> [PATCH] scheduler: Implement system call interface
+>>
+>> Added system call interface with enum-based invocation handling.
+>>
+>> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+>> ---
+>>   src/task/syscall.rs | 122 +++++++++++++++++++++++++++++++++++++++++---
+>>   1 file changed, 114 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/src/task/syscall.rs b/src/task/syscall.rs
+>> index 3ac7b92..67c0197 100644
+>> --- a/src/task/syscall.rs
+>> +++ b/src/task/syscall.rs
+>> @@ -3,8 +3,13 @@
+>>   // Copyright (c) 2022-2023 SUSE LLC
+>>   //
+>>   // Author: Roy Hopkins <rhopkins@suse.de>
+>> -
+>> +//
+>> +// Other contributors:
+>> +//
+>> +// Carlos Bilbao <carlos.bilbao@amd.com>
+>> +//
+>>   use core::{
+>> +    arch::asm,
+>>       arch::global_asm,
+>>       ffi::{c_char, CStr},
+>>   };
+>> @@ -32,21 +37,122 @@ const MSR_STAR: u32 = 0xc000_0081;
+>>   const MSR_LSTAR: u32 = 0xc000_0082;
+>>   const MSR_SFMASK: u32 = 0xc000_0084;
+>>
+>> +#[repr(u32)]
+>> +#[derive(Debug)]
+>> +pub enum SystemCalls {
+>> +    Exit = 0,
+>> +    Log = 1,
+>> +    Sleep = 2,
+>> +}
+> 
+> The SVSM unique syscalls should have numbers that don't conflict with the 
+> POSIX syscall numbers. This allows for (future) implementation of userspace 
+> support for things like malloc, mmap, etc.
 
-thanks a lot for taking notes, Oliver. Much appreciated!
+Thanks for pointing that out, I have updated the pull request, now we
+start with SystemCalls::Exit = 500.
 
-And appologies for the abrupt ending, next time we will use another
-meeting tool which does not have the limitations of unpaid Google Meet.
+> 
+> Thanks,
+> Tom
+> 
+>> +
+>> +fn map_to_syscall(index: u32) -> Option<SystemCalls> {
+>> +    match index {
+>> +        1 => Some(SystemCalls::Exit),
+>> +        2 => Some(SystemCalls::Log),
+>> +        3 => Some(SystemCalls::Sleep),
+>> +        _ => None,
+>> +    }
+>> +}
+>> +
+>> +#[inline]
+>> +#[allow(dead_code)]
+>> +pub fn syscall0(id: u32) -> u64 {
+>> +    let ret: u64;
+>> +    // syscall modifies both rcx and r11
+>> +    unsafe {
+>> +        asm!("syscall",
+>> +               inout("rax") id as u64 => ret,
+>> +               options(nostack));
+>> +    }
+>> +
+>> +    ret
+>> +}
+>> +
+>> +#[inline]
+>> +#[allow(dead_code)]
+>> +pub fn syscall1(id: u32, p1: u64) -> u64 {
+>> +    let ret: u64;
+>> +    unsafe {
+>> +        asm!("syscall",
+>> +               inout("rax") id as u64 => ret,
+>> +               in("rdi") p1,
+>> +               options(nostack));
+>> +    }
+>> +
+>> +    ret
+>> +}
+>> +
+>> +#[inline]
+>> +#[allow(dead_code)]
+>> +pub fn syscall2(id: u32, p1: u64, p2: u64) -> u64 {
+>> +    let ret: u64;
+>> +    unsafe {
+>> +        asm!("syscall",
+>> +               inout("rax") id as u64 => ret,
+>> +               in("rdi") p1,
+>> +               in("rsi") p2,
+>> +               options(nostack));
+>> +    }
+>> +
+>> +    ret
+>> +}
+>> +
+>> +#[inline]
+>> +#[allow(dead_code)]
+>> +pub fn syscall3(id: u32, p1: u64, p2: u64, p3: u64) -> u64 {
+>> +    let ret: u64;
+>> +    // syscall modifies both rcx and r11
+>> +    unsafe {
+>> +        asm!("syscall",
+>> +               inout("rax") id as u64 => ret,
+>> +               in("rdi") p1,
+>> +               in("rsi") p2,
+>> +               in("rdx") p3,
+>> +               options(nostack));
+>> +    }
+>> +
+>> +    ret
+>> +}
+>> +
+>> +// In case of adding system calls with more parameters, this is the order
+>> +// in which to fill the registers:
+>> +// p4=r10, p5=r8, p6=r9
+>> +// We can't pass >6 params without using the stack
+>> +// Don't forget to include the call in system_call!() too.
+>> +
+>> +/// System call macro. Example of usage:
+>> +/// system_call!(SystemCalls:CALL_ID, param1)
+>> +///
+>> +#[macro_export]
+>> +macro_rules! system_call {
+>> +    ($id: expr) => {
+>> +        syscall0($id)
+>> +    };
+>> +
+>> +    ($id: expr, $param_1:expr) => {
+>> +        syscall1($id, $param_1 as u64)
+>> +    };
+>> +    ($id: expr, $param_1:expr, $param_2:expr) => {
+>> +        syscall2($id, $param_1 as u64, $param_2 as u64)
+>> +    };
+>> +
+>> +    ($id: expr, $param_1:expr, $param_2:expr, $param_3:expr) => {
+>> +        syscall3($id, $param_1 as u64, $param_2 as u64, $param_3 as u64)
+>> +    };
+>> +}
+>> +
+>>   #[no_mangle]
+>>   extern "C" fn syscall_handler(index: u32, param1: u64) -> u64 {
+>> -    let ret = match index {
+>> -        // exit
+>> -        0 => SyscallRet::Terminate,
+>> -        // log
+>> -        1 => {
+>> +    let ret = match map_to_syscall(index) {
+>> +        Some(SystemCalls::Exit) => SyscallRet::Terminate,
+>> +        Some(SystemCalls::Log) => {
+>>               unsafe {
+>>                   let str = CStr::from_ptr(param1 as *const c_char);
+>>                   log::info!("{}", str.to_str().unwrap());
+>>               }
+>>               SyscallRet::Ok
+>>           }
+>> -        // sleep
+>> -        2 => SyscallRet::Ok,
+>> +        Some(SystemCalls::Sleep) => SyscallRet::Ok,
+>>           _ => {
+>>               log::info!("Invalid syscall received: {}", index);
+>>               SyscallRet::Unknown
 
-Regards,
-
-	Joerg
-
-On Wed, Sep 13, 2023 at 08:48:13PM +0200, Oliver Steffen wrote:
-> Hi all,
-> I tried to capture the conversation during the meeting as best I
-> could. But it definitely has some holes, sorry. We talked about a lot of
-> things during this 1h.
-> 
-> Please feel free to comment, correct, and extend where necessary.
-> 
-> ---
-> 
-> Recording of the meeting was not possible due to technical reasons.
-> 
-> The introduction round was skipped due to the number of participants
-> (>20).
-> 
-> Agenda:
-> 
-> - Jörg: Goal of this call is to raise awareness in the community on who
->   is doing what and to sync on plans and wishes for the project.
-> 
-> Development update from SUSE:
->   - Work on CPL3 support ongoing
->     Jörg showed a diagram of the virtual memory management data
->     structures.
-> 
->    @Jörg, can you describe it again here? I was not able to correctly
->      capture this during the meeting. Also please attach the diagram :-)
-> 
-> Crypto support
-> 
->   - Claudio's PR uses the RustCrypto crate, which is fine for now.
->      Later, we need something different to get certification.
->   - Jörg: We could create a separate crypto module, that could be in C,
->     and make use of well established libraries
->   - Claudio: could be a good idea, but this needs more infrastructure
->     for exchanging data between the modules, etc.
->   - James: IPC vs library based approach, IPC might have architectural
->     problems if used in a kernel (as the SVSM is)
->   - Jörg: OTOH, including crypto lib into each module requires
->     certification for each module. We should look at the performance
->     impact of IPC, see if it is feasible.
->     We could use shared memory between tasks.
->   - Nicolai: We might need an object file for FIPS certification,
->     a static Rust crate might not be sufficient.
->   - Jörg: We would need a userspace library linker
->   - James: Look at the a.out format.
->   - Carlos: Separate libraries would also help with fuzzing.
-> 
->   The discussion is to be continued on the mailing list.
-> 
-> Launch protocol
-> 
->   Jörg talked about the IGVM file format from Microsoft
->   (https://github.com/microsoft/igvm)
->   - It is a hypervisor independent description of a CVM
->   - usable for both AMD SEV-SNP and Intel TDX
->   - It is under MIT license
->   - Comes with a Rust crate (for use on the hypervisor side)
->   - This could be a replacement for the current launch protocol
->   - With this we could get rid of the stage2 loader
->   - Would not have to touch Qemu's fw_cfg mechanism in Coconut
->   - The implementation on the Qemu side is still missing.
->   - The question is, will this be adopted widely?
->   - It might become a maintenance burden if nobody else is using it.
->   - OVMF also needs to adopt it.
-> 
-> Priorities of features
-> 
->  - Jörg:
->     - CPL3 has highest priority
->     - it is hard to parallelize this work across people
->     - but other features can be developed in parallel
->  - Jörg was asked to share diagrams or description of the intended CPL3
->    design, so the community can discuss in parallel.
->  - Would it help to implement a simplified CPL3 support as a first step?
->    So that work on dependent parts (vTPM module, for example) can start
->    sooner?
-> 
-> Governance
-> 
->   - Jörg: From face to face discussions at KVM forum:
->     - A model of 3 top-level maintainers from different entities.
->     - But how to choose?
->   - Candidates should have a significant track record in the project
->     (code contribution and/or reviews)
->   - Which entities are to consider?
->   - Claudio volunteered to look after the vTPM implementation, but so
->     far no other candidates.
->   - Currently approx. 14 contributions according to GitHub, many have
->     very few commits.
->   - Maybe we should wait some more time and see who is active in the
->     project?
-> 
-> The call ended abruptly due to the time limit of 1h imposed by gmeet.
-> 
-> 
-> Oliver
-> 
-> -- 
-> Svsm-devel mailing list
-> Svsm-devel@coconut-svsm.dev
-> https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel
+Thanks,
+Carlos
