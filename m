@@ -1,50 +1,23 @@
-Return-Path: <jroedel@suse.de>
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Return-Path: <Carlos.Bilbao@amd.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on20618.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5a::618])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id D57BE1A1900
- for <svsm-devel@coconut-svsm.dev>; Mon, 18 Sep 2023 11:35:46 +0200 (CEST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 618A61F892
- for <svsm-devel@coconut-svsm.dev>; Mon, 18 Sep 2023 09:35:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1695029746; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=TXLq1udPsw7NlFNl2s7n31iJpn8E//ACUlZu0ey84I4=;
- b=eGx6zx+95WDpEQ+tItjvdbz0RqFEM8FRXKdWn2raoOOLep00GoNNLnUk2uF1+GByGcLIgo
- qC+xLlPVj1fjevp9QUEzoh/7fYjAypFDBQXmSBBAVXcK9MWnwD3oktLLLhKmQhC2LTAXMx
- HUs72O0gwjyqXBLfRCHLuqqGbGtRf8Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1695029746;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=TXLq1udPsw7NlFNl2s7n31iJpn8E//ACUlZu0ey84I4=;
- b=tYWsTEWXXKLBg2QQX4DjFbpwv0RW8zoWnAhvHM1mHlB1YY+cXwwqelPGcRBVbgJktFgbCf
- 5AqALmztGZ7WaCDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 413D413480
- for <svsm-devel@coconut-svsm.dev>; Mon, 18 Sep 2023 09:35:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ReITDfIZCGU+HAAAMHmgww
- (envelope-from <jroedel@suse.de>)
- for <svsm-devel@coconut-svsm.dev>; Mon, 18 Sep 2023 09:35:46 +0000
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.700.6\))
-Message-Id: <AD3DFF43-0B09-4AD6-86BE-E91978BA29E2@suse.de>
-Date: Mon, 18 Sep 2023 11:35:35 +0200
-Subject: [svsm-devel] SVSM development call
+ by mail.8bytes.org (Postfix) with ESMTPS id F12081A1BB4
+ for <svsm-devel@coconut-svsm.dev>; Mon, 18 Sep 2023 17:33:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qkhRQCNCzs0FT8zq72FDZebFCuMG9cg7xK6Q7flWIFs=;
+ b=Zqn0XOVpPyyxwmHb6z/rtuhN0qATEX6JGh5cDElPhnBM4FZZbc+1t7xaO2WrSL3WnSEFjUd5q9aZRyyIE1MGsMqSFcEugUyHB8nCR7BzGFUPRIS8+tfvxpJY2fb2mX6FCcMlgynY05TtinRGIulzlcDhWE2fn2P449ZKLIrN9rI=
+Message-ID: <8537543f-523a-1226-f054-c2177356d69b@amd.com>
+Date: Mon, 18 Sep 2023 10:33:04 -0500
+Content-Language: en-US
+From: Carlos Bilbao <carlos.bilbao@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Subject: [svsm-devel] [PR] elf: Add unit tests
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -55,32 +28,246 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: svsm-devel@coconut-svsm.dev
 
-Hi,
+Hello,
 
-Apologies again for the abrupt ending of our last call. Next time we =
-will try Jitsi, which will at least not throw us out in the middle of an =
-interesting discussion.
+Just opened pull request to add unit tests for ELF handling [1]. Sharing
+patch below too in case anyone wants to review.
 
-Claudio requested that we have these meetings weekly for now, which if =
-fine with me. Unfortunately this week does not work for me as I am =
-attending OSS EU in Bilbao, but we can start a weekly schedule from next =
-week on.
+[1] https://github.com/coconut-svsm/svsm/pull/99
 
-I will send around a Jitsi link early next week for our next call, which =
-will happen at September 27th, 6pm CEST.
+Thanks,
+Carlos
+---
+Subject: [PATCH] elf: Add unit tests
 
-Regards,
+Add unit tests to test correct behavior of ELF handling.
 
-J=C3=B6rg R=C3=B6del
-jroedel@suse.de
+Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+---
+  src/elf/mod.rs | 195 +++++++++++++++++++++++++++++++++++++++++++++++++
+  1 file changed, 195 insertions(+)
 
-SUSE Software Solutions Germany GmbH
-Frankenstra=C3=9Fe 146
-90461 N=C3=BCrnberg
-Germany
-
-Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev, Andrew Myers, Andrew McDonald, =
-Boudien Moerman
-(HRB 36809, AG N=C3=BCrnberg)
-
+diff --git a/src/elf/mod.rs b/src/elf/mod.rs
+index 39731f8..891c462 100644
+--- a/src/elf/mod.rs
++++ b/src/elf/mod.rs
+@@ -1605,3 +1605,198 @@ impl<'a, RP: Elf64RelocProcessor> Iterator for 
+Elf64AppliedRelaIterator<'a, RP>
+          Some(Ok(Some(reloc_op)))
+      }
+  }
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    #[test]
++    fn test_elf64_shdr_verify_methods() {
++        // Create a valid Elf64Shdr instance for testing.
++        let valid_shdr = Elf64Shdr {
++            sh_name: 1,
++            sh_type: 2,
++            sh_flags: Elf64ShdrFlags::WRITE | Elf64ShdrFlags::ALLOC,
++            sh_addr: 0x1000,
++            sh_offset: 0x2000,
++            sh_size: 0x3000,
++            sh_link: 3,
++            sh_info: 4,
++            sh_addralign: 8,
++            sh_entsize: 0,
++        };
++
++        // Verify that the valid Elf64Shdr instance passes verification.
++        assert!(valid_shdr.verify().is_ok());
++
++        // Create an invalid Elf64Shdr instance for testing.
++        let invalid_shdr = Elf64Shdr {
++            sh_name: 0,
++            sh_type: 2,
++            sh_flags: Elf64ShdrFlags::from_bits(0).unwrap(),
++            sh_addr: 0x1000,
++            sh_offset: 0x2000,
++            sh_size: 0x3000,
++            sh_link: 3,
++            sh_info: 4,
++            sh_addralign: 7, // Invalid alignment
++            sh_entsize: 0,
++        };
++
++        // Verify that the invalid Elf64Shdr instance fails verification.
++        assert!(invalid_shdr.verify().is_err());
++    }
++
++    #[test]
++    fn test_elf64_dynamic_reloc_table_verify_valid() {
++        // Create a valid Elf64DynamicRelocTable instance for testing.
++        let reloc_table = Elf64DynamicRelocTable {
++            base_vaddr: 0x1000,
++            size: 0x2000,
++            entsize: 0x30,
++        };
++
++        // Verify that the valid Elf64DynamicRelocTable instance passes 
+verification.
++        assert!(reloc_table.verify().is_ok());
++    }
++
++    #[test]
++    fn test_elf64_addr_range_methods() {
++        // Test Elf64AddrRange::len() and Elf64AddrRange::is_empty().
++
++        // Create an Elf64AddrRange instance for testing.
++        let addr_range = Elf64AddrRange {
++            vaddr_begin: 0x1000,
++            vaddr_end: 0x2000,
++        };
++
++        // Check that the length calculation is correct.
++        assert_eq!(addr_range.len(), 0x1000);
++
++        // Check if the address range is empty.
++        assert!(!addr_range.is_empty());
++
++        // Test Elf64AddrRange::try_from().
++
++        // Create a valid input tuple for try_from.
++        let valid_input: (Elf64Addr, Elf64Xword) = (0x1000, 0x2000);
++
++        // Attempt to create an Elf64AddrRange from the valid input.
++        let result = Elf64AddrRange::try_from(valid_input);
++
++        // Verify that the result is Ok and contains the expected 
+Elf64AddrRange.
++        assert!(result.is_ok());
++        let valid_addr_range = result.unwrap();
++        assert_eq!(valid_addr_range.vaddr_begin, 0x1000);
++        assert_eq!(valid_addr_range.vaddr_end, 0x3000);
++    }
++
++    #[test]
++    fn test_elf64_file_range_try_from() {
++        // Valid range
++        let valid_range: (Elf64Off, Elf64Xword) = (0, 100);
++        let result: Result<Elf64FileRange, ElfError> = valid_range.try_into();
++        assert!(result.is_ok());
++        let file_range = result.unwrap();
++        assert_eq!(file_range.offset_begin, 0);
++        assert_eq!(file_range.offset_end, 100);
++
++        // Invalid range (overflow)
++        let invalid_range: (Elf64Off, Elf64Xword) = (usize::MAX as 
+Elf64Off, 100);
++        let result: Result<Elf64FileRange, ElfError> = 
+invalid_range.try_into();
++        assert!(result.is_err());
++    }
++
++    #[test]
++    fn test_elf64_file_read() {
++        // In the future, you can play around with this skeleton ELF
++        // file to test other cases
++        let byte_data: [u8; 184] = [
++            // ELF Header
++            0x7F, 0x45, 0x4C, 0x46, 0x02, 0x01, 0x01, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00,
++            0x00, 0x00, 0x02, 0x00, 0x3E, 0x00, 0x01, 0x00, 0x00, 0x00, 
+0x40, 0x00, 0x00, 0x00,
++            0x00, 0x00, 0x00, 0x00, // Program Header (with PT_LOAD)
++            0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00,
++            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00,
++            0x00, 0x00, 0x00, 0x00, // Section Header (simplified)
++            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00,
++            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00,
++            0x00, 0x00, 0x00, 0x00, // Raw Machine Code Instructions
++            0xf3, 0x0f, 0x1e, 0xfa, 0x31, 0xed, 0x49, 0x89, 0xd1, 0x5e, 
+0x48, 0x89, 0xe2, 0x48,
++            0x83, 0xe4, 0xf0, 0x50, 0x54, 0x45, 0x31, 0xc0, 0x31, 0xc9, 
+0x48, 0x8d, 0x3d, 0xca,
++            0x00, 0x00, 0x00, 0xff, 0x15, 0x53, 0x2f, 0x00, 0x00, 0xf4, 
+0x66, 0x2e, 0x0f, 0x1f,
++            0x84, 0x00, 0x00, 0x00, 0x00, 0x48, 0x8d, 0x3d, 0x79, 0x2f, 
+0x00, 0x00, 0x48, 0x8d,
++            0x05, 0x72, 0x2f, 0x00, 0x00, 0x48, 0x39, 0xf8, 0x74, 0x15, 
+0x48, 0x8b, 0x05, 0x36,
++            0x2f, 0x00, 0x00, 0x48, 0x85, 0xc0, 0x74, 0x09, 0xff, 0xe0, 
+0x0f, 0x1f, 0x80, 0x00,
++            0x00, 0x00, 0x00, 0xc3,
++        ];
++
++        // Use the Elf64File::read method to create an Elf64File instance
++        match Elf64File::read(&byte_data) {
++            Ok(_elf_file) => {
++                assert!(false);
++            }
++            Err(err) => {
++                assert!(matches!(err, crate::elf::ElfError::InvalidPhdrSize));
++            }
++        }
++
++        // Construct an Elf64Hdr instance from the byte data
++        let elf_hdr = Elf64Hdr::read(&byte_data).expect("Failed to read 
+ELF header");
++        let expected_type = 2;
++        let expected_machine = 0x3E;
++        let expected_version = 1;
++
++        // Assert that the fields of the header match the expected values
++        assert_eq!(elf_hdr.e_type, expected_type);
++        assert_eq!(elf_hdr.e_machine, expected_machine);
++        assert_eq!(elf_hdr.e_version, expected_version);
++    }
++
++    #[test]
++    fn test_elf64_load_segments() {
++        let mut load_segments = Elf64LoadSegments::new();
++        let vaddr_range1 = Elf64AddrRange {
++            vaddr_begin: 0x1000,
++            vaddr_end: 0x2000,
++        };
++        let vaddr_range2 = Elf64AddrRange {
++            vaddr_begin: 0x3000,
++            vaddr_end: 0x4000,
++        };
++        let segment_index1 = 0;
++        let segment_index2 = 1;
++
++        // Insert load segments
++        assert!(load_segments
++            .try_insert(vaddr_range1, segment_index1)
++            .is_ok());
++        assert!(load_segments
++            .try_insert(vaddr_range2, segment_index2)
++            .is_ok());
++
++        // Lookup load segments by virtual address
++        let (index1, offset1) = load_segments
++            .lookup_vaddr_range(&Elf64AddrRange {
++                vaddr_begin: 0x1500,
++                vaddr_end: 0x1700,
++            })
++            .unwrap();
++        let (index2, offset2) = load_segments
++            .lookup_vaddr_range(&Elf64AddrRange {
++                vaddr_begin: 0x3500,
++                vaddr_end: 0x3700,
++            })
++            .unwrap();
++
++        assert_eq!(index1, segment_index1);
++        assert_eq!(offset1, 0x500); // Offset within the segment
++        assert_eq!(index2, segment_index2);
++        assert_eq!(offset2, 0x500); // Offset within the segment
++
++        // Total virtual address range
++        let total_range = load_segments.total_vaddr_range();
++        assert_eq!(total_range.vaddr_begin, 0x1000);
++        assert_eq!(total_range.vaddr_end, 0x4000);
++    }
++}
+-- 
+2.41.0
 
