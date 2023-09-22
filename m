@@ -1,23 +1,58 @@
-Return-Path: <Carlos.Bilbao@amd.com>
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on20618.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe5a::618])
+Return-Path: <cclaudio@linux.ibm.com>
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id F12081A1BB4
- for <svsm-devel@coconut-svsm.dev>; Mon, 18 Sep 2023 17:33:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qkhRQCNCzs0FT8zq72FDZebFCuMG9cg7xK6Q7flWIFs=;
- b=Zqn0XOVpPyyxwmHb6z/rtuhN0qATEX6JGh5cDElPhnBM4FZZbc+1t7xaO2WrSL3WnSEFjUd5q9aZRyyIE1MGsMqSFcEugUyHB8nCR7BzGFUPRIS8+tfvxpJY2fb2mX6FCcMlgynY05TtinRGIulzlcDhWE2fn2P449ZKLIrN9rI=
-Message-ID: <8537543f-523a-1226-f054-c2177356d69b@amd.com>
-Date: Mon, 18 Sep 2023 10:33:04 -0500
-Content-Language: en-US
-From: Carlos Bilbao <carlos.bilbao@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ by mail.8bytes.org (Postfix) with ESMTPS id 3DD121A20E5
+ for <svsm-devel@coconut-svsm.dev>; Fri, 22 Sep 2023 23:04:52 +0200 (CEST)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38ML2Oc6004639
+ for <svsm-devel@coconut-svsm.dev>; Fri, 22 Sep 2023 21:04:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : date : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=S9ARLHZso0W4GS9ZOI1NrmRC2HncNMTStdzChzK5Mxs=;
+ b=jx0B45KKeWHDCgtky+/sK+Q/eJtYhyG5S8iik1Ojrf4gzhz+h3zaB9VjXN7LZpV3fRkb
+ Q9VCT6S348tL1BtjxfMmxObeA+MbEET1luB+u/PgPuqdQ2wcxC8kz/P8ANO+flFQnhSP
+ RcwmAQe+r6DlY+YxsoJfsQ+FKkM4blUrWPyjbyMv0x8+iFfZgreiuHGkZFq0TxAsa7TO
+ bzo4hmgOCt0UysmNBMCSxRrQZ3lVSPOpAm1sAitH0IFFN56ZmLnMHFndXevRcoO1Y9ca
+ Ha+2NsLvU2yFNMr3HiBzaYBi0IZ3qi1H+4WqgWNSiZ+MZY0442hQHnVfWjV/hiZ9T60H HQ== 
+Received: from ppma21.wdc07v.mail.ibm.com
+ (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3t9jg507gk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <svsm-devel@coconut-svsm.dev>; Fri, 22 Sep 2023 21:04:49 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+ by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38MK0pKR017442
+ for <svsm-devel@coconut-svsm.dev>; Fri, 22 Sep 2023 21:04:46 GMT
+Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
+ by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3t8tsmra7n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <svsm-devel@coconut-svsm.dev>; Fri, 22 Sep 2023 21:04:46 +0000
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com
+ [10.241.53.102])
+ by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 38ML4kFf786972
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <svsm-devel@coconut-svsm.dev>; Fri, 22 Sep 2023 21:04:46 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0A8EA5803F
+ for <svsm-devel@coconut-svsm.dev>; Fri, 22 Sep 2023 21:04:46 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D5EFC58056
+ for <svsm-devel@coconut-svsm.dev>; Fri, 22 Sep 2023 21:04:45 +0000 (GMT)
+Received: from li-a300cfcc-3261-11b2-a85c-fa2d52d0d140.ibm.com (unknown
+ [9.61.53.150]) by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP
+ for <svsm-devel@coconut-svsm.dev>; Fri, 22 Sep 2023 21:04:45 +0000 (GMT)
+Message-ID: <52e7321c9b1c77a1fa0c8f830deb2a78fcbf8243.camel@linux.ibm.com>
+From: Claudio Carvalho <cclaudio@linux.ibm.com>
+Date: Fri, 22 Sep 2023 17:04:45 -0400
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Subject: [svsm-devel] [PR] elf: Add unit tests
+Subject: [svsm-devel] Questions about crypto support
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -28,246 +63,130 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: svsm-devel@coconut-svsm.dev
 
-Hello,
+Hi everybody,
 
-Just opened pull request to add unit tests for ELF handling [1]. Sharing
-patch below too in case anyone wants to review.
+In the last SVSM meeting we started to discuss some design questions relate=
+d to
+crypto support and I mentioned that I could open a github issue for us to
+continue the discussion. However, I have the impression that mailing lists =
+have
+worked better for discussions. Let me know if this is not the case.
 
-[1] https://github.com/coconut-svsm/svsm/pull/99
+Since the crypto support questions applies directly to the context of vTPM =
+and
+attestation, I also added a block diagram below to help us visualize the bi=
+g
+picture.
+
+Feel free to add new questions or information that you find relevant.
 
 Thanks,
-Carlos
----
-Subject: [PATCH] elf: Add unit tests
+Claudio
 
-Add unit tests to test correct behavior of ELF handling.
 
-Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
----
-  src/elf/mod.rs | 195 +++++++++++++++++++++++++++++++++++++++++++++++++
-  1 file changed, 195 insertions(+)
+Questions
+---------
 
-diff --git a/src/elf/mod.rs b/src/elf/mod.rs
-index 39731f8..891c462 100644
---- a/src/elf/mod.rs
-+++ b/src/elf/mod.rs
-@@ -1605,3 +1605,198 @@ impl<'a, RP: Elf64RelocProcessor> Iterator for 
-Elf64AppliedRelaIterator<'a, RP>
-          Some(Ok(Some(reloc_op)))
-      }
-  }
-+
-+#[cfg(test)]
-+mod tests {
-+    use super::*;
-+
-+    #[test]
-+    fn test_elf64_shdr_verify_methods() {
-+        // Create a valid Elf64Shdr instance for testing.
-+        let valid_shdr = Elf64Shdr {
-+            sh_name: 1,
-+            sh_type: 2,
-+            sh_flags: Elf64ShdrFlags::WRITE | Elf64ShdrFlags::ALLOC,
-+            sh_addr: 0x1000,
-+            sh_offset: 0x2000,
-+            sh_size: 0x3000,
-+            sh_link: 3,
-+            sh_info: 4,
-+            sh_addralign: 8,
-+            sh_entsize: 0,
-+        };
-+
-+        // Verify that the valid Elf64Shdr instance passes verification.
-+        assert!(valid_shdr.verify().is_ok());
-+
-+        // Create an invalid Elf64Shdr instance for testing.
-+        let invalid_shdr = Elf64Shdr {
-+            sh_name: 0,
-+            sh_type: 2,
-+            sh_flags: Elf64ShdrFlags::from_bits(0).unwrap(),
-+            sh_addr: 0x1000,
-+            sh_offset: 0x2000,
-+            sh_size: 0x3000,
-+            sh_link: 3,
-+            sh_info: 4,
-+            sh_addralign: 7, // Invalid alignment
-+            sh_entsize: 0,
-+        };
-+
-+        // Verify that the invalid Elf64Shdr instance fails verification.
-+        assert!(invalid_shdr.verify().is_err());
-+    }
-+
-+    #[test]
-+    fn test_elf64_dynamic_reloc_table_verify_valid() {
-+        // Create a valid Elf64DynamicRelocTable instance for testing.
-+        let reloc_table = Elf64DynamicRelocTable {
-+            base_vaddr: 0x1000,
-+            size: 0x2000,
-+            entsize: 0x30,
-+        };
-+
-+        // Verify that the valid Elf64DynamicRelocTable instance passes 
-verification.
-+        assert!(reloc_table.verify().is_ok());
-+    }
-+
-+    #[test]
-+    fn test_elf64_addr_range_methods() {
-+        // Test Elf64AddrRange::len() and Elf64AddrRange::is_empty().
-+
-+        // Create an Elf64AddrRange instance for testing.
-+        let addr_range = Elf64AddrRange {
-+            vaddr_begin: 0x1000,
-+            vaddr_end: 0x2000,
-+        };
-+
-+        // Check that the length calculation is correct.
-+        assert_eq!(addr_range.len(), 0x1000);
-+
-+        // Check if the address range is empty.
-+        assert!(!addr_range.is_empty());
-+
-+        // Test Elf64AddrRange::try_from().
-+
-+        // Create a valid input tuple for try_from.
-+        let valid_input: (Elf64Addr, Elf64Xword) = (0x1000, 0x2000);
-+
-+        // Attempt to create an Elf64AddrRange from the valid input.
-+        let result = Elf64AddrRange::try_from(valid_input);
-+
-+        // Verify that the result is Ok and contains the expected 
-Elf64AddrRange.
-+        assert!(result.is_ok());
-+        let valid_addr_range = result.unwrap();
-+        assert_eq!(valid_addr_range.vaddr_begin, 0x1000);
-+        assert_eq!(valid_addr_range.vaddr_end, 0x3000);
-+    }
-+
-+    #[test]
-+    fn test_elf64_file_range_try_from() {
-+        // Valid range
-+        let valid_range: (Elf64Off, Elf64Xword) = (0, 100);
-+        let result: Result<Elf64FileRange, ElfError> = valid_range.try_into();
-+        assert!(result.is_ok());
-+        let file_range = result.unwrap();
-+        assert_eq!(file_range.offset_begin, 0);
-+        assert_eq!(file_range.offset_end, 100);
-+
-+        // Invalid range (overflow)
-+        let invalid_range: (Elf64Off, Elf64Xword) = (usize::MAX as 
-Elf64Off, 100);
-+        let result: Result<Elf64FileRange, ElfError> = 
-invalid_range.try_into();
-+        assert!(result.is_err());
-+    }
-+
-+    #[test]
-+    fn test_elf64_file_read() {
-+        // In the future, you can play around with this skeleton ELF
-+        // file to test other cases
-+        let byte_data: [u8; 184] = [
-+            // ELF Header
-+            0x7F, 0x45, 0x4C, 0x46, 0x02, 0x01, 0x01, 0x00, 0x00, 0x00, 
-0x00, 0x00, 0x00, 0x00,
-+            0x00, 0x00, 0x02, 0x00, 0x3E, 0x00, 0x01, 0x00, 0x00, 0x00, 
-0x40, 0x00, 0x00, 0x00,
-+            0x00, 0x00, 0x00, 0x00, // Program Header (with PT_LOAD)
-+            0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-0x00, 0x00, 0x00, 0x00,
-+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-0x00, 0x00, 0x00, 0x00,
-+            0x00, 0x00, 0x00, 0x00, // Section Header (simplified)
-+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-0x00, 0x00, 0x00, 0x00,
-+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-0x00, 0x00, 0x00, 0x00,
-+            0x00, 0x00, 0x00, 0x00, // Raw Machine Code Instructions
-+            0xf3, 0x0f, 0x1e, 0xfa, 0x31, 0xed, 0x49, 0x89, 0xd1, 0x5e, 
-0x48, 0x89, 0xe2, 0x48,
-+            0x83, 0xe4, 0xf0, 0x50, 0x54, 0x45, 0x31, 0xc0, 0x31, 0xc9, 
-0x48, 0x8d, 0x3d, 0xca,
-+            0x00, 0x00, 0x00, 0xff, 0x15, 0x53, 0x2f, 0x00, 0x00, 0xf4, 
-0x66, 0x2e, 0x0f, 0x1f,
-+            0x84, 0x00, 0x00, 0x00, 0x00, 0x48, 0x8d, 0x3d, 0x79, 0x2f, 
-0x00, 0x00, 0x48, 0x8d,
-+            0x05, 0x72, 0x2f, 0x00, 0x00, 0x48, 0x39, 0xf8, 0x74, 0x15, 
-0x48, 0x8b, 0x05, 0x36,
-+            0x2f, 0x00, 0x00, 0x48, 0x85, 0xc0, 0x74, 0x09, 0xff, 0xe0, 
-0x0f, 0x1f, 0x80, 0x00,
-+            0x00, 0x00, 0x00, 0xc3,
-+        ];
-+
-+        // Use the Elf64File::read method to create an Elf64File instance
-+        match Elf64File::read(&byte_data) {
-+            Ok(_elf_file) => {
-+                assert!(false);
-+            }
-+            Err(err) => {
-+                assert!(matches!(err, crate::elf::ElfError::InvalidPhdrSize));
-+            }
-+        }
-+
-+        // Construct an Elf64Hdr instance from the byte data
-+        let elf_hdr = Elf64Hdr::read(&byte_data).expect("Failed to read 
-ELF header");
-+        let expected_type = 2;
-+        let expected_machine = 0x3E;
-+        let expected_version = 1;
-+
-+        // Assert that the fields of the header match the expected values
-+        assert_eq!(elf_hdr.e_type, expected_type);
-+        assert_eq!(elf_hdr.e_machine, expected_machine);
-+        assert_eq!(elf_hdr.e_version, expected_version);
-+    }
-+
-+    #[test]
-+    fn test_elf64_load_segments() {
-+        let mut load_segments = Elf64LoadSegments::new();
-+        let vaddr_range1 = Elf64AddrRange {
-+            vaddr_begin: 0x1000,
-+            vaddr_end: 0x2000,
-+        };
-+        let vaddr_range2 = Elf64AddrRange {
-+            vaddr_begin: 0x3000,
-+            vaddr_end: 0x4000,
-+        };
-+        let segment_index1 = 0;
-+        let segment_index2 = 1;
-+
-+        // Insert load segments
-+        assert!(load_segments
-+            .try_insert(vaddr_range1, segment_index1)
-+            .is_ok());
-+        assert!(load_segments
-+            .try_insert(vaddr_range2, segment_index2)
-+            .is_ok());
-+
-+        // Lookup load segments by virtual address
-+        let (index1, offset1) = load_segments
-+            .lookup_vaddr_range(&Elf64AddrRange {
-+                vaddr_begin: 0x1500,
-+                vaddr_end: 0x1700,
-+            })
-+            .unwrap();
-+        let (index2, offset2) = load_segments
-+            .lookup_vaddr_range(&Elf64AddrRange {
-+                vaddr_begin: 0x3500,
-+                vaddr_end: 0x3700,
-+            })
-+            .unwrap();
-+
-+        assert_eq!(index1, segment_index1);
-+        assert_eq!(offset1, 0x500); // Offset within the segment
-+        assert_eq!(index2, segment_index2);
-+        assert_eq!(offset2, 0x500); // Offset within the segment
-+
-+        // Total virtual address range
-+        let total_range = load_segments.total_vaddr_range();
-+        assert_eq!(total_range.vaddr_begin, 0x1000);
-+        assert_eq!(total_range.vaddr_end, 0x4000);
-+    }
-+}
--- 
-2.41.0
+Q1) FIPS 140 certification. Should we consider OpenSSL as a static or share=
+d
+library?=20
 
+Q2) How should we handle build dependencies between CPL3 modules? E.g. the =
+vTPM
+(Microsoft TPM impl.) build depends on the OpenSSL library.
+
+Q3) What libc implementation should we use to build OpenSSL and other CPL3
+modules?
+
+Q4) Interface 1. How CPL0 code should communicate with CPL3 code?
+
+Q5) Interface 2. CPL0 to CPL3 communication may need to carry secrets (e.g.
+VMPCK0 key), how should we do that securely?
+
+Q6) Interface 3. How a CPL3 module should communicate with other CPL3 modul=
+es?
+It may also need to carry secrets such as keys.
+
+
+Appendix 1: vTPM and attestation as a use case
+----------------------------------------------
+
+           .-------------.     .-------------.
+           |   Runtime   |     | Attestation |
+  -------->|  Protocols  |---->|   Report    |
+           '-------------'     '-------------'
+                  |                   |
+                  |                   v
+                  |            .------------.
+                  |            | Crypto API |-----.
+                  |            '------------'     v
+                  |                           .------.
+              Interface 1                     | ossl |
+                  |                           '------'
+                  |                               |=20
+          CPL0    |                          Interface 2
+      |-------------------------------------------|-------|
+          CPL3    |                               |
+                  |                               |
+                  v                               v
+           .------------.                    .---------.
+           |    vTPM    |                    | OpenSSL |
+           |   Module   |----Interface 3---->| Module  |
+           '------------'                    '---------'
+
+
+A1-1) CPL0: Runtime Protocols
+-----------------------------
+
+SVSM protocols described in the SVSM spec:
+- Core
+- Attestation
+- vTPM
+
+A1-2) CPL0: Attestation Report
+------------------------------
+
+Implements the attestation report feature. When a VMPL0 attestation report =
+is
+requested, the request needs to be encrypted/decrypted with the VMPCK0 key
+using AES-GCM.
+
+A1-3) CPL0: Crypto API
+----------------------
+
+SVSM kernel interface (Rust trait) that abstracts the crypto module running=
+ in
+CPL3.
+
+Example in pseudo-code:
+
+aes_gcm_encrypt(key, iv, aad, cleartext, ciphertext, authtag)
+aes_gcm_decrypt(key, iv, aad, ciphertext, authtag, cleartext)
+
+A1-4) CPL0: ossl
+----------------
+
+Crypto API implementation (wrappers) for OpenSSL.
+
+A1-5) CPL3: vTPM Module
+-----------------------
+
+Microsoft TPM 2.0 reference (ms-tpm-20-ref) implementation; only the TPM
+Simulator interface is exported.
+
+The ms-tpm-20-ref build requires OpenSSL (or WolfSSL).
+
+A1-6) CPL3: OpenSSL Module
+--------------------------
+
+OpenSSL library built to run in the restricted SVSM environment. Summary of=
+ the
+build steps we have used (inspired on how OVMF builds OpenSSL):
+
+- create a svsm_openssl.config that sets some compiler flags and inherited
+  configs.
+- disable crypto modules not needed
+- reduce memory footprint
+- link it against the libcrt library, which is a small libc we crafted to b=
+uild
+  OpenSSL (libcrt) and the Microsoft TPM.
