@@ -1,34 +1,45 @@
-Return-Path: <dionnaglaze@google.com>
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Return-Path: <jroedel@suse.de>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 307901A2482
- for <svsm-devel@coconut-svsm.dev>; Tue, 26 Sep 2023 20:50:58 +0200 (CEST)
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-4053f24c900so18145e9.1
- for <svsm-devel@coconut-svsm.dev>; Tue, 26 Sep 2023 11:50:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1695754257; x=1696359057; darn=coconut-svsm.dev;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Iee+MmkxMmKRsKfkBm15VWyq+58kZGH01RjjC4TueXw=;
- b=24IoaWxXJIjI6BVDTWxUeoP9xRMx8pgltRjz5YkHZ4fcoftc+POKFZ6Xl/8Ldd4qgO
- Nd5KEB6oxs2Hkm/MBtt6XtJkhjiRQ1rH6cHPtRz6WjSCkJplZE7MGrBxvQlOdSeNxDDd
- 5vS4g7AgiwoCrbhdOO1EGEjkTk90JRoqeKO9Mhh7jz5FMyp3P1yaGD+c4LWzJ5aA0ow+
- Nnzp700rHjyTGwNGVcY5/+Rh3B41fqnw6Uu61vEUaiQLpoVHGMvOna+p62XaLuHrQ2zV
- cOOp7A2pEBuQvQmVrgeWV9GBilk7A08lGWrGu1D8RBrBtIH4TvFWRF8ZwT/rgx8CCPyY
- BA0Q==
+ by mail.8bytes.org (Postfix) with ESMTPS id 520F01A2556
+ for <svsm-devel@coconut-svsm.dev>; Wed, 27 Sep 2023 14:11:23 +0200 (CEST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id A61791F891
+ for <svsm-devel@coconut-svsm.dev>; Wed, 27 Sep 2023 12:11:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1695816682; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5iorFX9bACHqAE6V6wass6af3K/CBbTzQhAxWMMRao0=;
+ b=DU3tH29jQNETFvgvH+RYLMUmAnw7b+ZQuCNARq4anOk5jSvEKXRsp9GJ26Rg9ZoOEooDJk
+ MWLV/c4fxEzpXSV3gulRXycpwsOLMIVqsxZBXqy3tBMBSMFEogEairfF8ZyUQB0vE9wO0A
+ LOC+OIWKSDfOh6tMzy8zF3XIs83UCtc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1695816682;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5iorFX9bACHqAE6V6wass6af3K/CBbTzQhAxWMMRao0=;
+ b=tE6PgZ2EPh8kykK8FP//z6RJ25WN1fjDOVn4J/MmJ5dm9spOzOQg5fl1aBYApLEZLdc2F4
+ fuudvl4TMBNL+uDw==
+Received: from suse.de (jroedel.udp.ovpn1.nue.suse.de [10.163.24.26])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by relay2.suse.de (Postfix) with ESMTPS id 809002C142
+ for <svsm-devel@coconut-svsm.dev>; Wed, 27 Sep 2023 12:11:22 +0000 (UTC)
+Date: Wed, 27 Sep 2023 14:11:21 +0200
+From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <jroedel@suse.de>
+Message-ID: <ZRQb6WDRz3q1F4Jg@suse.de>
+References: <ZRGfRVgczigX_tyR@suse.de>
 MIME-Version: 1.0
-References: <52e7321c9b1c77a1fa0c8f830deb2a78fcbf8243.camel@linux.ibm.com>
- <ZRMkpiiFuBHaF2pP@8bytes.org>
-In-Reply-To: <ZRMkpiiFuBHaF2pP@8bytes.org>
-From: Dionna Amalie Glaze <dionnaglaze@google.com>
-Date: Tue, 26 Sep 2023 11:50:44 -0700
-Message-ID: <CAAH4kHbUDwrxZSNrcGQf=qD3P6uh0EYLAn7HE3inZAnBmuge-A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Subject: Re: [svsm-devel] Questions about crypto support
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZRGfRVgczigX_tyR@suse.de>
+Subject: [svsm-devel] SVSM Call Agenda for Sept. 27th
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -37,40 +48,53 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-Cc: Claudio Carvalho <cclaudio@linux.ibm.com>, svsm-devel@coconut-svsm.dev
+To: svsm-devel@coconut-svsm.dev
+Content-Type: text/plain; charset="utf-8"
 
-> > Q3) What libc implementation should we use to build OpenSSL and other CPL3
-> > modules?
->
-> What amount of libc does openssl need? Or how much is it beyond
-> malloc/free? Whatever libc we chose, some porting efforts to the SVSM
-> syscall interface will be needed.
->
+Hi,
 
-I've written some stubs to enable the crypto components of BoringSSL
-(trimmed-down OpenSSL) in a nostdlib environment, and it's not
-insignificant.
+I received no requests for agenda items, so I put mine into the agenda
+below:
 
-There are a number of string manipulation functions, of course
-malloc/free, and also pthread_once and pthread_key_* functions.
-Without pthreads, you have to build with
--DOPENSSL_NO_THREADS_CORRUPT_MEMORY_AND_LEAK_SECRETS_IF_THREADED
-I don't know what the concurrency story is for SVSM, but I imagine
-it's concurrent for all vCPUs to use without a global lock.
+	1. Development update
+	
+	   What happened since last meeting. Everyone is encouraged to
+	   give their update as well about what they are working on and
+	   what progress was made.
 
->
-> > Q6) Interface 3. How a CPL3 module should communicate with other CPL3 modules?
-> > It may also need to carry secrets such as keys.
->
-> For secrets like the VMPCK keys there should be a single owner, or do
-> you see a need to pass those around? Besides secrets, communication will
-> be done via the TBD IPC mechanism.
->
+	2. Rust smart pointers and usage of alloc crate
 
-VMPCKs may have a single conceptual owner, but they'll still need to
-be used in cryptographic operations, so I do see them getting passed
-around.
+	   There are several problems with the usage of the alloc crate,
+	   which could be solved by using unstable features. But we just
+	   switched to stable Rust for a good reason. So I like to
+	   discuss how to move forward.
+
+	3. Module runtime discussion
+
+	   This started on the mailing list and questions came up about
+	   which runtime to use and how to get there (e.g. which libc to
+	   use).
+
+	4. Governance discussion - Continued
+
+	   This ended very abruptly last time. Let's continue in this
+	   meeting.
+
+See you at 6pm CEST/9am PST at
+
+	https://meet.opensuse.org/coconutsvsm
+
+Regards,
 
 -- 
--Dionna Glaze, PhD (she/her)
+Jörg Rödel
+jroedel@suse.de
+
+SUSE Software Solutions Germany GmbH
+Frankenstraße 146
+90461 Nürnberg
+Germany
+
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+
