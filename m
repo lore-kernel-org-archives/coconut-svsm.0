@@ -1,37 +1,37 @@
-Return-Path: <cclaudio@ibm.com>
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <clopez@suse.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id CADE71A5D66
- for <svsm-devel@coconut-svsm.dev>; Thu,  2 Nov 2023 03:58:18 +0100 (CET)
-Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3A22j5jQ017327
- for <svsm-devel@coconut-svsm.dev>; Thu, 2 Nov 2023 02:58:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : subject :
- date : message-id : content-type : content-id : content-transfer-encoding
- : mime-version; s=pp1; bh=j2tfcrFHGQSTS4Ya1assYB6CNbhQcz5yyJPb/+PCCkw=;
- b=KKkw2egyjtAoHm6/6iu2e59GJQaq1Alr5tZ5lnlTRhBOA66oMqerHlOGOJRtjHXgewR0
- +TMjG0Crm2OKiNkNXREiR0Ih0sOiKXafeBXYU+9aDkeEzpn3wJpWOEvN53tkBq69zEuf
- G3wguphXV1m/A4xNd00bepGFpiUvD3pBFwYP2AWebAA5+cslflywfveG+qwSpIatkXiu
- mwTvyDdbQgTd2b4XXy7Zz5VdWjkT9I2VTp9Z79pr71aRPlgvK8ooE6zKWF6CdHqMJK6M
- H4sDalq6WyiogE75fiMJhb2Vj14SbxDU51zv4mSi/c/AN4a7zPRv0x9LwW9tihf1hybX Uw== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3u438mg98e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <svsm-devel@coconut-svsm.dev>; Thu, 02 Nov 2023 02:58:17 +0000
-From: Claudio Siqueira de Carvalho <cclaudio@ibm.com>
-Date: Thu, 2 Nov 2023 02:57:03 +0000
-Message-ID: <1279ce20004b4c9023b8746f5833fe0da96b13f9.camel@ibm.com>
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7018C4C48E6D9F47B9074771CCD56D79@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ by mail.8bytes.org (Postfix) with ESMTPS id 0642E1A655B
+ for <svsm-devel@coconut-svsm.dev>; Thu,  2 Nov 2023 13:37:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1698928672; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5oxddugKU1WmK+FGuakRnUYKGamQFoZ+fREZk17DdD0=;
+ b=OCXSnJ5qiIjfVRaRtIgp4Qf1gFjjYEaZ6TuSomodXCoBxgRtfPMb5OmmtnwUjpVqU2gI4y
+ wxzJ6KO5lF4vhogVrK+kxjwoGIqpodCViBgA8fyEfMcjaHl6Rb/Z2Mbvq7h5qL1Bpz2TSk
+ 4m+vVSxZL0Mo1sbCdrERCoI6O63GS5w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1698928672;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5oxddugKU1WmK+FGuakRnUYKGamQFoZ+fREZk17DdD0=;
+ b=ECuXo+1a5GsIy8Ykg2n8nkvtQLC6MrcbjbaW9x+kXYugHvBHH1oTADSOBJvrRCO2bCtleP
+ 1B26Za8GlkPmPFDA==
+Message-ID: <d3f765f9-3d15-46d6-9715-6cabb1902a85@suse.de>
+Date: Thu, 2 Nov 2023 13:37:01 +0100
 MIME-Version: 1.0
-Subject: [svsm-devel] Allocating 4 contiguous pages and set them shared
+Content-Language: en-US
+References: <1279ce20004b4c9023b8746f5833fe0da96b13f9.camel@ibm.com>
+From: =?UTF-8?Q?Carlos_L=C3=B3pez?= <clopez@suse.de>
+In-Reply-To: <1279ce20004b4c9023b8746f5833fe0da96b13f9.camel@ibm.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [svsm-devel] Allocating 4 contiguous pages and set them shared
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -40,15 +40,63 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: Claudio Siqueira de Carvalho <cclaudio@ibm.com>
+Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 
-SGVsbG8sDQoNCkkgY291bGQgdXNlIHRoZSBsaW5lcyBiZWxvdyB0byBhbGxvY2F0ZSBhbmQgZnJl
-ZSA0IGNvbnRpZ3VvdXMgZ3Vlc3QgdmlydHVhbA0KcGFnZXMsIGJ1dCBpdCB3aWxsIGFsbG9jYXRl
-IGEgcGFnZSBvZiBvcmRlciAyLCB3aGljaCBJSVVDIGlzIGJpZ2dlciB0aGFuIHRoZQ0Kc2l6ZSBy
-ZXF1ZXN0ZWQuDQoNCmxldCBwID0gYWxsb2NhdGVfcGFnZXMoZ2V0X29yZGVyKDQqUEFHRV9TSVpF
-KSk/Ow0KZnJlZV9wYWdlKHApOw0KDQpNeSBxdWVzdGlvbiBpcyBob3cgc2hvdWxkIEkgc2hhcmUg
-NCBwYWdlcyB3aXRoIHRoZSBoeXBlcnZpc29yIGluIHRoaXMgY2FzZT8gSQ0KY291bGQgY2FsbCAi
-dGhpc19jcHVfbXV0KCkuZ2V0X3BndGFibGUoKS5zZXRfc2hhcmVkXzRrKCkiIGZvciB0aGUgZmly
-c3QgNA0KY29udGlndW91cyBwYWdlcyBvZiBwLCBidXQgaXQgc2VlbXMgdGhhdCBzZXRfc2hhcmVk
-XzRrKCkgd2FzIG1lYW50IGZvciBwYWdlcyBvZg0Kb3JkZXIgemVyby4gQW0gSSBtaXNzaW5nIHNv
-bWV0aGluZz8gQW55IHRob3VnaHRzPw0KDQpUaGFuayB5b3UuDQoNCkNsYXVkaW8NCg0KDQo=
+Hi Claudio,
+
+On 2/11/23 3:57, Claudio Siqueira de Carvalho wrote:
+> My question is how should I share 4 pages with the hypervisor in this case? I
+> could call "this_cpu_mut().get_pgtable().set_shared_4k()" for the first 4
+> contiguous pages of p, but it seems that set_shared_4k() was meant for pages of
+> order zero. Am I missing something? Any thoughts?
+
+I'll preface this by saying I'm not completely familiar with the mm
+code, so I could be completely wrong here. That being said, IIUC, page
+order does not have much to do with the page table, but rather with the
+size of the blocks in the free list.
+
+`MemoryRegion` in src/mm/alloc.rs is initialized with a range of virtual
+addresses (in `root_mem_init()`) and manages that range in blocks of
+determined sizes. It stores a free list for each order, with each free
+list holding blocks of `(1 << order)` pages.
+
+You'll notice that the code in mm/alloc does not call into the page
+table code at all, meaning that it has no knowledge of page table
+hierarchy (or at least none that I could see). In other words, you
+should be able to give `PageTable::set_shared_4k()` the address of any
+page, and it will (un)set the appropriate bit in the corresponding
+entry. Even if you give it the address of a huge page, the function
+will handle it by calling `PageTable::split_4k()` first.
+
+In other words, something like this should work:
+
+     let p = allocate_pages(get_order(4*PAGE_SIZE))?;
+     let pgtable = this_cpu_mut().get_pgtable();
+     for page in (p..p + PAGE_SIZE * 4).step_by(PAGE_SIZE) {
+         pgtable.set_shared_4k(page);
+     }
+
+Again, maybe I'm wrong here, so maybe someone else can confirm or refute
+my explanation. Jörg wrote most of the mm/alloc code according to git
+blame, but he's out this week.
+
+PS: with my new `MemoryRegion` type in PR#131, (not to be confused with
+the `MemoryRegion` above), the for loop should be simplified quite a
+bit, as `allocate_pages()` could return a `MemoryRegion<VirtAddr>`,
+which would allow:
+
+     for page in pages.iter_pages(PageSize::Regular) {
+         pgtable.set_shared_4k(page);
+     }
+
+But this is still a WIP.
+
+Best,
+Carlos
+
+-- 
+Carlos López
+Security Engineer
+SUSE Software Solutions
