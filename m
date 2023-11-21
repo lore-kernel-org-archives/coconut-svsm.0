@@ -1,50 +1,50 @@
 Return-Path: <jroedel@suse.de>
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 9A4D41A6569
- for <svsm-devel@coconut-svsm.dev>; Wed,  8 Nov 2023 08:59:24 +0100 (CET)
+ by mail.8bytes.org (Postfix) with ESMTPS id 6F74A1A9E48
+ for <svsm-devel@coconut-svsm.dev>; Tue, 21 Nov 2023 11:48:41 +0100 (CET)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 160751F8AB
- for <svsm-devel@coconut-svsm.dev>; Wed,  8 Nov 2023 07:59:24 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 131332192D
+ for <svsm-devel@coconut-svsm.dev>; Tue, 21 Nov 2023 10:48:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1699430364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ t=1700563720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=/j1sqi4iJ1klyB4H9gnqIeFfQGpAAqFPwoDDCGsSR5c=;
- b=zMowMYH+MQsmKlRATUkj6aw8C4pUAilGSaJse9MHh47rrSmWekdOZdcKVCznz+kIu+6Yr8
- /vkvZipSiddNHpa7hCrAEeFB7rum8RtDWEkFgcxdLQIbhhriIsrFbiYahVm4pSloca/2lc
- vyNgjGwSq2FQjX7TwstljEkicFSOgDw=
+ bh=QFzFO+jfACQBaCjefj9pjQhWpRk/FgqB3yjMFFBi+Oo=;
+ b=cSpdqV17SoOPegljkGREpIU4zUQyoWlHyvuVXUQQZuGZqhnWQii3hl86anzAAktWa3GntC
+ OXIFwKDYPiUqu/gL3lc0Mou8MjqF4FeTPdbJd8Um7BayvMQLzBV6i1GfzFrHdYjEWVXf6E
+ b1Kmd0sysTrg89fsxQmjaHmcYAQyKSc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1699430364;
+ s=susede2_ed25519; t=1700563720;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=/j1sqi4iJ1klyB4H9gnqIeFfQGpAAqFPwoDDCGsSR5c=;
- b=YzuC+/DqnqLNfRbtC3iVh5nrt3oaKotK+rZeGDxxVVZTJdhQKLcvPEhp3KlQj9G2MU0/AK
- fnkYF9284uBg96Dw==
+ bh=QFzFO+jfACQBaCjefj9pjQhWpRk/FgqB3yjMFFBi+Oo=;
+ b=MxEzjn/Phw5u/OBEhirMOzVy3bHoX/Jy2YgljyqLXixLfOPsl7cQ+uFpoAZF39Fxpuue54
+ qckBk/aHBKg9rcCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 04A71133F5
- for <svsm-devel@coconut-svsm.dev>; Wed,  8 Nov 2023 07:59:23 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EC4F1139FD
+ for <svsm-devel@coconut-svsm.dev>; Tue, 21 Nov 2023 10:48:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8f1RO9s/S2XUJwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id au5OOAeLXGUVVwAAMHmgww
  (envelope-from <jroedel@suse.de>)
- for <svsm-devel@coconut-svsm.dev>; Wed, 08 Nov 2023 07:59:23 +0000
+ for <svsm-devel@coconut-svsm.dev>; Tue, 21 Nov 2023 10:48:39 +0000
 From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
 Content-Type: text/plain;
 	charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.700.6\))
-Message-Id: <F33FFDDF-777F-4D13-A793-0597F137864F@suse.de>
-Date: Wed, 8 Nov 2023 08:59:13 +0100
-Subject: [svsm-devel] Canceling todays call
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
+Message-Id: <2F79114D-CB2D-4B82-9A6F-35F930B546E9@suse.de>
+Date: Tue, 21 Nov 2023 11:48:29 +0100
+Subject: [svsm-devel] No SVSM call this week
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -55,11 +55,12 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: svsm-devel@coconut-svsm.dev
 
-Hi all,
+Hi,
 
-I am sorry to cancel todays call, but I am currently out sick. I will =
-use the time for recovery so that we all can have productive sessions at =
-Linux Plumbers next week.
+Tomorrow is a public holiday where I live and it is also Thanksgiving =
+week, so there will be no SVSM call this week.
+
+See you all on Wednesday next week.
 
 Regards,
 
