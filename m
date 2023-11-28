@@ -1,50 +1,27 @@
-Return-Path: <jroedel@suse.de>
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+Return-Path: <joro@8bytes.org>
+Received: from 8bytes.org (p4ffe1e67.dip0.t-ipconnect.de [79.254.30.103])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 6F74A1A9E48
- for <svsm-devel@coconut-svsm.dev>; Tue, 21 Nov 2023 11:48:41 +0100 (CET)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 131332192D
- for <svsm-devel@coconut-svsm.dev>; Tue, 21 Nov 2023 10:48:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1700563720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=QFzFO+jfACQBaCjefj9pjQhWpRk/FgqB3yjMFFBi+Oo=;
- b=cSpdqV17SoOPegljkGREpIU4zUQyoWlHyvuVXUQQZuGZqhnWQii3hl86anzAAktWa3GntC
- OXIFwKDYPiUqu/gL3lc0Mou8MjqF4FeTPdbJd8Um7BayvMQLzBV6i1GfzFrHdYjEWVXf6E
- b1Kmd0sysTrg89fsxQmjaHmcYAQyKSc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1700563720;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=QFzFO+jfACQBaCjefj9pjQhWpRk/FgqB3yjMFFBi+Oo=;
- b=MxEzjn/Phw5u/OBEhirMOzVy3bHoX/Jy2YgljyqLXixLfOPsl7cQ+uFpoAZF39Fxpuue54
- qckBk/aHBKg9rcCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EC4F1139FD
- for <svsm-devel@coconut-svsm.dev>; Tue, 21 Nov 2023 10:48:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id au5OOAeLXGUVVwAAMHmgww
- (envelope-from <jroedel@suse.de>)
- for <svsm-devel@coconut-svsm.dev>; Tue, 21 Nov 2023 10:48:39 +0000
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
-Message-Id: <2F79114D-CB2D-4B82-9A6F-35F930B546E9@suse.de>
-Date: Tue, 21 Nov 2023 11:48:29 +0100
-Subject: [svsm-devel] No SVSM call this week
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPSA id 7AC751A8608
+ for <svsm-devel@coconut-svsm.dev>; Tue, 28 Nov 2023 18:03:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+ s=default; t=1701191030;
+ bh=aN9nin+9G2Kgt0bpDATaoyiakYgHF4lCxwlux6JH+8w=;
+ h=Date:From:To:Subject:From;
+ b=2Mz9SrNaTWPiRIZmkdcprWvKsG09D2dBmzwYb3CNdRIRIWawMRBh2XkGgv9heKmcr
+ 5/h0Ybig02QZIohQ5gw4vD9yMWH9VPHyBvgFx6ys3TZnPAeGwqADnukUtBZUiJ05kr
+ dwIJ7OYn1laoAkykbR+iqw16WHUE9ke7kAkLeI6qxZJFjObS7DChG1mPL7PWOhWtg+
+ Z/AGT0g3DlxyL0hpuksXepHXedZEPac7rVUwDT1ckUQC0o8XYwbTrZoTEOq/a3Lvrx
+ VV+b4Qe+Bx5l/zkU6MaezPQ3cf1POt4NmzKYtF7LW7pOXJlVOtAXkS1JRlZ9L/MH/h
+ c10Pb90hC3eow==
+Date: Tue, 28 Nov 2023 18:03:49 +0100
+From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
+Message-ID: <ZWYddXGZroFm70AW@8bytes.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Subject: [svsm-devel] SVSM Call Nov 29th - Call for Agenda Items
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -55,25 +32,18 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: svsm-devel@coconut-svsm.dev
 
-Hi,
+Hi all,
 
-Tomorrow is a public holiday where I live and it is also Thanksgiving =
-week, so there will be no SVSM call this week.
+Here is the call for agenda items for the SVSM development call
+tomorrow. So if you have anything specific to discuss please let me
+know. The rough draft agenda currently is:
 
-See you all on Wednesday next week.
+	1) Round of updates and pending PR discussions
+	
+	2) Project Governance
+
+Have a lot of fun and seeing you all tomorrow.
 
 Regards,
 
-J=C3=B6rg R=C3=B6del
-jroedel@suse.de
-
-SUSE Software Solutions Germany GmbH
-Frankenstra=C3=9Fe 146
-90461 N=C3=BCrnberg
-Germany
-
-Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev, Andrew Myers, Andrew McDonald, =
-Boudien Moerman
-(HRB 36809, AG N=C3=BCrnberg)
-
-
+	Joerg
