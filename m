@@ -1,29 +1,23 @@
 Return-Path: <joro@8bytes.org>
-Received: from smtpclient.apple
- (p200300f6af15730031598bc15cb29c1b.dip0.t-ipconnect.de
- [IPv6:2003:f6:af15:7300:3159:8bc1:5cb2:9c1b])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPSA id 0901A1A9639
- for <svsm-devel@coconut-svsm.dev>; Thu, 30 Nov 2023 15:25:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1701354347;
- bh=kv8OJOpniLip/vTPK1zeHsDtG+UayZt8Lh9e5iyUI4E=;
- h=From:Subject:Date:To:From;
- b=mPhpuQut5nuywmPl368csPg/a+37cJ5BUUKXm7tzPtD0UZADBtqs0BydgieUvkgw5
- VmrTlCtgz28B7MVSz+UxyC4FBVLZB1GZPeePfuEgieblUKJAaFwvF1Css9g1s9/Eoh
- qRVz8VpqoP7fnDHJWDsWAo4DW+p9tQoBGfmzs5yZvySxLR2fgbvjfIqkR1am1RZB6i
- oHEFLlwbBnQ3D4aZZkqWBg2Zkx+xBOJX6X52Ak2kzd8L6lOXY6dIDqYfkWrjrturE0
- l6yPsdS3lFRZeApDY3YJLZXlc+IycxHJHTt68IRQgwBDQCfQx5+xjAZQPyGpaAPDQP
- +KPC92Wrmnosg==
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
-Message-Id: <5C183AA3-D483-454C-8CA6-07A1A68A2BF6@8bytes.org>
-Date: Thu, 30 Nov 2023 15:25:36 +0100
-Subject: [svsm-devel] CCC TAC meeting details
+ s=default; t=1701448312;
+ bh=lbDlSswzZfLkNh2dewy1+SNCNY4IiGXNOGG47W3uwJ8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=t44i0q5oMI7XVKmmALxk2XSu+ug2szX3VW804g7dU+x0BsY/XRgHH2KFQXYpNv3VL
+ JhQHcYKQ8kWMqpPwS7p3bbCL7snADSf4EhXc34s4eZvVuwdw9p3bucuLgGtgxi2aPc
+ QjCYJX7iqBKJ63+Ips/WryzaB8BzAYwOaVocVPkC3gIzd+9324YmJJbRou6v5mSG1J
+ M/d74xFcuxXL8wXTGnKzeSd+q4v1spJP4zSTVe2qtAG/0o1rhedeJB4//qTG88li0p
+ kHtJjoU/5GGcNNG63Sn78Aqi1NCU+TTDZvuPIlc8ChSm6KZVsGcT0nHlXWByqhnq8r
+ tyA0jGTfTiHtw==
+Date: Fri, 1 Dec 2023 17:31:50 +0100
+From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
+Message-ID: <ZWoKdnX8XtXHe_mV@8bytes.org>
+References: <f83d8e11-41fa-4377-a646-cb11ba51404f@suse.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f83d8e11-41fa-4377-a646-cb11ba51404f@suse.de>
+Subject: Re: [svsm-devel] Fallible allocations and smart pointers
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -32,24 +26,34 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: svsm-devel@coconut-svsm.dev
+To: Carlos =?iso-8859-1?Q?L=F3pez?= <clopez@suse.de>
+Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+Content-Type: text/plain; charset="utf-8"
 
-Hi,
+Hi Carlos,
 
-As mentioned in our call yesterday, I will present the COCONUT-SVSM in =
-today=E2=80=99s CCC TAC meeting. The meeting is public and for those who =
-want to join, please find the details here (including Zoom link):
+On Thu, Nov 30, 2023 at 01:20:42PM +0100, Carlos López wrote:
+> 1. Bring our own implementation from scratch: costly and error-prone.
+> 2. fallible-alloc crate [2]: only provides `Box` and `Vec`, so we
+>    would need to build the remaining types (for example the upstream
+>    alloc crate builds `Arc` and `Rc` out of `Box`, and so on). Costly,
+>    but less so than a completely from-scratch implementation.
+> 3. fallible-collections crate [3]: supports `Box`, `Vec`, `Rc` and
+>    `HashMap`, but not `Arc` (it is listed as deprecated [4], and I
+>    suspect the root issue might also affect `Rc`). Same issues as
+>    point #2.
+> 4. Linux kernel model (copy a subset of the upstream alloc files):
+>    requires maintenance to keep up with upstream, and likely means
+>    only supporting a specific version of the toolchain (see [5]).
 
- =
-https://github.com/confidential-computing/governance/blob/main/TAC/Meeting=
-s/README.md
+Which of these options would give us the API most similar to the
+unstable allocator API? At some point, when the unstable allocator API
+becomes stable, we want to switch over with minimal impact.
 
-The meeting is two hours and there are 30 minutes on the agenda for =
-COCONUT. The presentation slot starts 45 minutes into the meeting (so =
-7:45am PT/3:45pm UTC/4:45pm CET)
+As another option besides the one you listed, can we import a copy
+of the unstable Rust API into the SVSM code-base until it becomes
+stable?
 
 Regards,
 
-J=C3=B6rg
-
-
+	Joerg
