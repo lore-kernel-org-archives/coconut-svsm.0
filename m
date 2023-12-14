@@ -2,27 +2,26 @@ Return-Path: <joro@8bytes.org>
 Received: from smtpclient.apple (p4ffe1e67.dip0.t-ipconnect.de [79.254.30.103])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPSA id 61ECE1A52ED
- for <svsm-devel@coconut-svsm.dev>; Tue, 12 Dec 2023 15:43:51 +0100 (CET)
+ by mail.8bytes.org (Postfix) with ESMTPSA id DFEB61A4058
+ for <svsm-devel@coconut-svsm.dev>; Thu, 14 Dec 2023 20:16:29 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1702392231;
- bh=Jp4TtP0h/5EPLDxIVWeje3fmFbMsrRo00egIjpX49cY=;
+ s=default; t=1702581389;
+ bh=DwnR6MbCEhljDXfQ+055dZ04aohLqouPppWRQxxnZRU=;
  h=From:Subject:Date:To:From;
- b=HWfm1nLEkIGnoi+oE0kl9xvzE1YIRFYwHEy5BxpS+JhrYC3FpcpsKEzbqZtCiWQD5
- Kkmfe8nC67UQGlDuQgvYMg1jpfTqGSCwjHHPVTnNcJe5Tz2lTr21LnDPBDvtu2ZGzb
- UuTMiv2xWCZtUJgfHIw3lWA+70NbRP85Kk6/RKT49JAZu0b61y0fUdn6lQKc+bIVSg
- 3EeGIvpKvTiLaxOqmy9Li00yqTNz1y9PoUgR57AwWeCbWTKAIyNeOCp7s6snvk9/qB
- 3pKehCT5X+RUUCApvubxfb+NN6LduRCGzLhDgHqVigwG7gzsHhR7IcEm9BbUM56zQZ
- IaQ3HnlSRtBsg==
+ b=5Qezq+APJs++SLhlExccw3x7a43JpGq90+tRxznxreDIzCsCYxSE1z921pKsHHNum
+ tZwUlyjT831pJ6ip0BZlcEupjuRjnKY4KLY+9M2Mjd1xpxu3u2uMySK0CTr+PehscK
+ JZ7QzWFjbI1wdyR2A3inPuPMfGe17YiWEnMoHHT2gb6l7KIEQQvkQMGg+S7n8lqmTT
+ sC9fJHJLPHFyK4jmKRsXwRTAjLk91Edywlz0Whs2biQDadKh1eTM7qhR8MKQKSfxWr
+ LrTCmhlW4syXX2y7m1HoZ/cTmkLjONNggUcOZCKyrVFXtgB9fFRMqw1XByypGbQrct
+ 3xsVHkwnV2czQ==
 From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
 Content-Type: text/plain;
 	charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
-Message-Id: <D2BC6EA1-8A6A-4A43-925E-88AA960B6BC3@8bytes.org>
-Date: Tue, 12 Dec 2023 15:43:41 +0100
-Subject: [svsm-devel] New SVSM Call Calendar and Meeting Link (and call for
- agenda items)
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
+Message-Id: <7F00DB2D-7BB2-4E2C-95D7-7C48C622AED4@8bytes.org>
+Date: Thu, 14 Dec 2023 20:16:19 +0100
+Subject: [svsm-devel] CCC TAC acceptance of COCONUT-SVSM
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -33,39 +32,19 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: svsm-devel@coconut-svsm.dev
 
-Hi,
+Hey,
 
-I recently gained access to a Google Workspace account, which means we =
-can move the SVSM call back to Google Meet and it will not cut us off =
-after an hour.
+As mentioned yesterday in our call, I presented the SVSM project =
+submission today in the TAC meeting and there were no major objections, =
+so the CCC drove it to a vote.
 
-For that I also had to create a new public calendar under the other =
-account.=20
+I am happy to announce that the TAC uniformly voted to accept the =
+COCONUT-SVSM project!
 
-Hopefully this solves the connection problems some people have been =
-experiencing. The new links are below:
+There are some more steps necessary within the CCC (Legal review and =
+board vote), but what happened today is already a bit step forward to =
+make the COCONUT-SVSM an official CCC project.
 
-Google Calendar:
+Cheers,
 
-=
-https://calendar.google.com/calendar/embed?src=3Dc_55a38f3460c638762a75d4f=
-d6eda3b1cf455ec4cfd7f83201e3cbf817b420dd8%40group.calendar.google.com&ctz=3D=
-Europe%2FBerlin
-
-iCal:
-
-=
-https://calendar.google.com/calendar/ical/c_55a38f3460c638762a75d4fd6eda3b=
-1cf455ec4cfd7f83201e3cbf817b420dd8%40group.calendar.google.com/public/basi=
-c.ics
-
-Google Meet:
-
-https://meet.google.com/ppv-xehx-dvb
-
-Also, please send me any agenda items you want to cover tomorrow.
-
-Regards,
-
-J=C3=B6rg
-
+J=C3=B6rg=
