@@ -1,22 +1,52 @@
-Return-Path: <joro@8bytes.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1706628796;
- bh=RDJuywBa8mKM0Mz/nW7YLrR/sd7UWiuAdnDmFhWOzBo=;
- h=From:Subject:Date:To:From;
- b=tyFdzb8tzoh5rX6iCY0IEFIOiQ4n9iVRCmb/mjh54Ikt7toULPlk2slVy5ABw0Ubo
- tUFMpN5Vx7EmqEyzGMZ5+f3nOBVdgKJ3CzAV9rvHOEbQOM4R5ifH+SNdCVcHBQJypi
- Pmm0Oy5dFl2qmIVjUYrqWoGaNxJjppXKmu3o7rkjSbfojMYUK0p2pc7UztIbKTDBGW
- RHAyU0j3ddzFOZNjKatrlsoxtfp1DClpp1nGcxYUR1jHGAiVy67Cnep86IBdxaCp9K
- yA4KfuS7B5NEKtElg0f2MeNwaMdvOKYDGcktgvHbk3J+0oi+c5WUqGLybE15XoaL/M
- c1j6VmTZAwBWQ==
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
+Return-Path: <jroedel@suse.de>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de
+ [IPv6:2a07:de40:b251:101:10:150:64:2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPS id 0F55D1C456B
+ for <svsm-devel@coconut-svsm.dev>; Tue,  6 Feb 2024 17:29:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707236954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nUysi8c9Bu/xn+XNFRmS2UCGeK6DxQQ45GIXgJSIVFE=;
+ b=tjWoCJa42WiaEtlG5rBVf16JiQ8zvyriWzHAuvUWh1pHsdhhWLdnqKhwCp7nkD4/1OIZKm
+ bCx5m6QhcpgJXpgZLMWAwlUppcWVqbu8WzB/5m0y7O4CWObhpX8OtELMdgoWSzgOuGcLBx
+ SR547VTDuPmCQjDdqiqZqYZPmiJZ+h8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707236954;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nUysi8c9Bu/xn+XNFRmS2UCGeK6DxQQ45GIXgJSIVFE=;
+ b=sBc929WthFJ5xO4U75hihDUa/FzlpL3ZvEHkbf7dq5O2z23LoWvhkdEjLI97NrPU72YeEi
+ Ax2eFnoWdgXcvUAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707236954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nUysi8c9Bu/xn+XNFRmS2UCGeK6DxQQ45GIXgJSIVFE=;
+ b=tjWoCJa42WiaEtlG5rBVf16JiQ8zvyriWzHAuvUWh1pHsdhhWLdnqKhwCp7nkD4/1OIZKm
+ bCx5m6QhcpgJXpgZLMWAwlUppcWVqbu8WzB/5m0y7O4CWObhpX8OtELMdgoWSzgOuGcLBx
+ SR547VTDuPmCQjDdqiqZqYZPmiJZ+h8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707236954;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nUysi8c9Bu/xn+XNFRmS2UCGeK6DxQQ45GIXgJSIVFE=;
+ b=sBc929WthFJ5xO4U75hihDUa/FzlpL3ZvEHkbf7dq5O2z23LoWvhkdEjLI97NrPU72YeEi
+ Ax2eFnoWdgXcvUAA==
+From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
 Content-Type: text/plain;
 	charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
-Message-Id: <F0CA63AD-EE1A-41E8-8F2D-6181BF4CEB7E@8bytes.org>
-Date: Tue, 30 Jan 2024 16:33:06 +0100
-Subject: [svsm-devel] SVSM Development Call Jan. 31st
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.400.31\))
+Message-Id: <C58BAD04-27B1-4183-8A65-5E4699E1BFF1@suse.de>
+Date: Tue, 6 Feb 2024 17:29:02 +0100
+Subject: [svsm-devel] SVSM Development Call Feb. 7th,
+ 2024 (and Cargo workspace transition)
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -27,19 +57,61 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
 
+Hi,
 
-Hi all,
+As some of you already noticed there is a PR now which transforms the =
+SVSM repository into a cargo workspace.=20
 
-Just again a call for agenda items for tomorrow=E2=80=99s SVSM =
-development call. I have one item to cover among the usual round of =
-updates:
+I consider the move to a cargo workspace an important change which =
+should better happen sooner than later, but it is also very intrusive, =
+basically breaking any other pending PR.
 
-* Licensing discussion; Moving from Apache-2.0 OR MIT -> MIT-only
+So there are two possible strategies right now:
 
-If you have additional topics to discuss, please let me know.
+1) Merge the cargo workspace PR and let everyone else rebase their work =
+on-top. That is work for everyone, but should not cause major hickups as =
+only file paths will change and not the actual file content
+2) Merge some of the pending PRs first and then do the cargo workspace =
+transition. This requires re-basing the cargo workspace PR, which is =
+also quite some work.
 
-Hope to see you all there!
+I am leaning towards option 1) as I think the sooner the transition is =
+done the better, but I am open to other opinions on this. So if you =
+think option 1) will not work/causes too much hassle or we should do =
+something different, please speak up. Merging PRs is stopped until there =
+is a decision on this, which I hope will be made after the SVSM =
+Development call tomorrow.
+
+The call is happing as usual tomorrow at 9am PST/5pm UTC/6pm CET.
+
+You are all invited to join the discussion at:
+
+https://meet.google.com/ppv-xehx-dvb
+
+Please also let me know of any additional agenda items you want to =
+discuss, either by replying to this email or raising them in the =
+meeting.
+
+A public Google calendar is available here:
+
+=
+https://calendar.google.com/calendar/u/0?cid=3DY181NWEzOGYzNDYwYzYzODc2MmE=
+3NWQ0ZmQ2ZWRhM2IxY2Y0NTVlYzRjZmQ3ZjgzMjAxZTNjYmY4MTdiNDIwZGQ4QGdyb3VwLmNhb=
+GVuZGFyLmdvb2dsZS5jb20
+
+Looking forward to see you all there and discuss the above topics!
 
 Regards,
 
-J=C3=B6rg=
+J=C3=B6rg R=C3=B6del
+jroedel@suse.de
+
+SUSE Software Solutions Germany GmbH
+Frankenstra=C3=9Fe 146
+90461 N=C3=BCrnberg
+Germany
+https://www.suse.com/
+
+Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev, Andrew McDonald, Werner Knoblich
+(HRB 36809, AG N=C3=BCrnberg)
+
