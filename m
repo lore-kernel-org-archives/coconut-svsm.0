@@ -1,23 +1,32 @@
-Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on20600.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2415::600])
+Return-Path: <cclaudio@ibm.com>
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 7547D2811F1
- for <svsm-devel@coconut-svsm.dev>; Thu, 28 Mar 2024 17:54:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gnGboK7cNcRAYh5Zf03a+2kSNpJZumOnBktkqxH8M0s=;
- b=J4XfPJ+GM78MPEeN2NB4Ywp2EeM1HsfKaC7TraHD2GzfkPjQzAPk0zrQj9wWYjaLKbb3WLV2T1kivSPKeairN6bW1Je8tlCB3FYEAgyEjUPGbbAcpcfwxEpzE0CGwLbtarw4lvmSHmT2mGrL8dAbW/Ck6AcBjhiX0DPXwz/6DF4=
-Message-ID: <8e5d6e1b-96e6-4248-819b-2ef613a57913@amd.com>
-Date: Thu, 28 Mar 2024 11:54:14 -0500
-From: Tom Lendacky <thomas.lendacky@amd.com>
+ by mail.8bytes.org (Postfix) with ESMTPS id ECC94281240
+ for <svsm-devel@coconut-svsm.dev>; Thu, 28 Mar 2024 19:06:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=pp1;
+ bh=YNEyiPgyqTbZgVQ+AGrhk1H7nwEMmapV2M0zIXFllyA=;
+ b=j+wBD4+7K0nRD+xSXy6QjWXeZRdwTYSmbzNyDJCBArJh8FxBxUW53QAecR6TMRyXYGRU
+ s7B951kCQhmnMn0I5nMndg0OCIrKjgy6dlur5kHN3k6tPr/rMNJ9vF2Dn/IS7O9sd6Xa
+ xOfngzzOuD13WvyXIjvEoXsRUtmdgTebqF6a5H6JzYYmXX+m4whSNDRvJ0AS/ijsQ0kB
+ v3/aypCAUNnWWEzq+SdjKTc/+E+0qKUWNyuA7nDUZfrI6VgPNukFf9avtkPcwhVSNBH/
+ KX2Ivb/LN4/XCOPq6WLmCwtoPas4MlBl1rTgqTxCSxo+wDZaO848oWoUNAmwJOLrcerQ vQ== 
+From: Claudio Siqueira de Carvalho <cclaudio@ibm.com>
+Date: Thu, 28 Mar 2024 18:06:37 +0000
+Message-ID: <e43228aada00c5560c97387318f5b52b18d576a5.camel@ibm.com>
 References: <9a2a2fec29450701145a97b52ce70844eaac793d.camel@ibm.com>
- <ZcZKBdaSWI4cNDBP@8bytes.org> <2e6bf651-c720-405f-a598-2f2a2b911049@amd.com>
+ <ZcZKBdaSWI4cNDBP@8bytes.org>
+ <2e6bf651-c720-405f-a598-2f2a2b911049@amd.com>
+ <8e5d6e1b-96e6-4248-819b-2ef613a57913@amd.com>
+In-Reply-To: <8e5d6e1b-96e6-4248-819b-2ef613a57913@amd.com>
 Content-Language: en-US
-In-Reply-To: <2e6bf651-c720-405f-a598-2f2a2b911049@amd.com>
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5C8515081CA9B94195E7E4A19AE24993@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 Subject: Re: [svsm-devel] Launch coconut-svsm using IGVM
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
@@ -28,84 +37,62 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>, Roy Hopkins <roy.hopkins@suse.com>
+To: "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>, "roy.hopkins@suse.com" <roy.hopkins@suse.com>, "joro@8bytes.org" <joro@8bytes.org>
 Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
-Content-Type: text/plain; charset="utf-8"; format="flowed"
 
-On 3/27/24 16:49, Tom Lendacky wrote:
-> On 2/9/24 09:51, Jörg Rödel wrote:
->> Hi Claudio,
->>
->> On Fri, Feb 09, 2024 at 02:46:03PM +0000, Claudio Siqueira de Carvalho 
->> wrote:
->>> I was doing some research on IGVM, but I did not find any example. Does 
->>> anybody
->>> have an example of an IGVM file and a QEMU command line that I could 
->>> use to
->>> launch the coconut-svsm?
->>>
->>> This might be helpful for other people too.
->>
->> The COCONUT build process will generate two IGVM files, one for use with
->> QEMU and one for use with Hyper-V.
->>
->> To use it with QEMU, you need an IGVM-enabled QEMU, instructions on how
->> to get one can be found in here:
->>
->>     https://github.com/roy-hopkins/svsm/blob/igvm_install_doc/Documentation/INSTALL.md
->>
->> This is a file from Roy's pending PR on updating the documentation for
->> the IGVM switch.
-> 
-> I just tried building everything fresh on a new system based on the 
-> installation instructions and can't get the firmware to launch. Doing some 
-> debugging, the firmware loading appears to be off by a page (0x1000). In 
-> other words, the code that should be at the CS:RIP 0xfffffff0 is actually 
-> located at 0xffffeff0, with all 0's at 0xfffffff0.
-> 
-> I don't have a full grasp on the Qemu IGVM support to understand if it is 
-> the IGVM file that is built wrong or the Qemu IGVM support that ends up 
-> off by a page. It appears that the firmware is handled as the last item in 
-> igvm_process() and if process_mem_page() is invoked with "i - 1" instead 
-> of "i", then the firmware begins booting.
-
-Just to supply a bit more info, the failing launch ends with the following:
-
-...
-[SVSM] Launching Firmware
-[SVSM] Launching request-processing task on CPU 0
-qemu-system-x86_64: warning: memory fault: GPA 0x0 size 0x1000 flags 0x8
-qemu-system-x86_64: cpus are not resettable, terminating
-
-
-The following patch to Qemu works around the issue, but I'm unsure if this 
-is a proper fix. The error can either be in Qemu or the IGVM creation process.
-
-diff --git a/backends/igvm.c b/backends/igvm.c
-index df663b300b..1923d31ad6 100644
---- a/backends/igvm.c
-+++ b/backends/igvm.c
-@@ -675,7 +675,7 @@ void igvm_process(ConfidentialGuestSupport *cgs)
-       * to reduce the number of memory regions we create. Make sure the 
-last group is
-       * processed with this call.
-       */
--    process_mem_page(cgs, i, NULL);
-+    process_mem_page(cgs, i - 1, NULL);
-
-      QTAILQ_FOREACH(parameter, &parameter_data, next)
-      {
-
-Thanks,
-Tom
-
-> 
-> Thanks,
-> Tom
-> 
->>
->> Hope that helps.
->>
->> Regards,
->>
->>     Joerg
+T24gVGh1LCAyMDI0LTAzLTI4IGF0IDExOjU0IC0wNTAwLCBUb20gTGVuZGFja3kgd3JvdGU6DQo+
+IE9uIDMvMjcvMjQgMTY6NDksIFRvbSBMZW5kYWNreSB3cm90ZToNCj4gPiBPbiAyLzkvMjQgMDk6
+NTEsIErDtnJnIFLDtmRlbCB3cm90ZToNCj4gPiA+IEhpIENsYXVkaW8sDQo+ID4gPiANCj4gPiA+
+IE9uIEZyaSwgRmViIDA5LCAyMDI0IGF0IDAyOjQ2OjAzUE0gKzAwMDAsIENsYXVkaW8gU2lxdWVp
+cmEgZGUgQ2FydmFsaG8gDQo+ID4gPiB3cm90ZToNCj4gPiA+ID4gSSB3YXMgZG9pbmcgc29tZSBy
+ZXNlYXJjaCBvbiBJR1ZNLCBidXQgSSBkaWQgbm90IGZpbmQgYW55IGV4YW1wbGUuIERvZXMgDQo+
+ID4gPiA+IGFueWJvZHkNCj4gPiA+ID4gaGF2ZSBhbiBleGFtcGxlIG9mIGFuIElHVk0gZmlsZSBh
+bmQgYSBRRU1VIGNvbW1hbmQgbGluZSB0aGF0IEkgY291bGQgDQo+ID4gPiA+IHVzZSB0bw0KPiA+
+ID4gPiBsYXVuY2ggdGhlIGNvY29udXQtc3ZzbT8NCj4gPiA+ID4gDQo+ID4gPiA+IFRoaXMgbWln
+aHQgYmUgaGVscGZ1bCBmb3Igb3RoZXIgcGVvcGxlIHRvby4NCj4gPiA+IA0KPiA+ID4gVGhlIENP
+Q09OVVQgYnVpbGQgcHJvY2VzcyB3aWxsIGdlbmVyYXRlIHR3byBJR1ZNIGZpbGVzLCBvbmUgZm9y
+IHVzZSB3aXRoDQo+ID4gPiBRRU1VIGFuZCBvbmUgZm9yIHVzZSB3aXRoIEh5cGVyLVYuDQo+ID4g
+PiANCj4gPiA+IFRvIHVzZSBpdCB3aXRoIFFFTVUsIHlvdSBuZWVkIGFuIElHVk0tZW5hYmxlZCBR
+RU1VLCBpbnN0cnVjdGlvbnMgb24gaG93DQo+ID4gPiB0byBnZXQgb25lIGNhbiBiZSBmb3VuZCBp
+biBoZXJlOg0KPiA+ID4gDQo+ID4gPiDCoMKgwqDCoA0KPiA+ID4gaHR0cHM6Ly9naXRodWIuY29t
+L3JveS1ob3BraW5zL3N2c20vYmxvYi9pZ3ZtX2luc3RhbGxfZG9jL0RvY3VtZW50YXRpb24vSU4N
+Cj4gPiA+IFNUQUxMLm1kDQo+ID4gPiANCj4gPiA+IFRoaXMgaXMgYSBmaWxlIGZyb20gUm95J3Mg
+cGVuZGluZyBQUiBvbiB1cGRhdGluZyB0aGUgZG9jdW1lbnRhdGlvbiBmb3INCj4gPiA+IHRoZSBJ
+R1ZNIHN3aXRjaC4NCj4gPiANCj4gPiBJIGp1c3QgdHJpZWQgYnVpbGRpbmcgZXZlcnl0aGluZyBm
+cmVzaCBvbiBhIG5ldyBzeXN0ZW0gYmFzZWQgb24gdGhlIA0KPiA+IGluc3RhbGxhdGlvbiBpbnN0
+cnVjdGlvbnMgYW5kIGNhbid0IGdldCB0aGUgZmlybXdhcmUgdG8gbGF1bmNoLiBEb2luZyBzb21l
+IA0KPiA+IGRlYnVnZ2luZywgdGhlIGZpcm13YXJlIGxvYWRpbmcgYXBwZWFycyB0byBiZSBvZmYg
+YnkgYSBwYWdlICgweDEwMDApLiBJbiANCj4gPiBvdGhlciB3b3JkcywgdGhlIGNvZGUgdGhhdCBz
+aG91bGQgYmUgYXQgdGhlIENTOlJJUCAweGZmZmZmZmYwIGlzIGFjdHVhbGx5IA0KPiA+IGxvY2F0
+ZWQgYXQgMHhmZmZmZWZmMCwgd2l0aCBhbGwgMCdzIGF0IDB4ZmZmZmZmZjAuDQo+ID4gDQo+ID4g
+SSBkb24ndCBoYXZlIGEgZnVsbCBncmFzcCBvbiB0aGUgUWVtdSBJR1ZNIHN1cHBvcnQgdG8gdW5k
+ZXJzdGFuZCBpZiBpdCBpcyANCj4gPiB0aGUgSUdWTSBmaWxlIHRoYXQgaXMgYnVpbHQgd3Jvbmcg
+b3IgdGhlIFFlbXUgSUdWTSBzdXBwb3J0IHRoYXQgZW5kcyB1cCANCj4gPiBvZmYgYnkgYSBwYWdl
+LiBJdCBhcHBlYXJzIHRoYXQgdGhlIGZpcm13YXJlIGlzIGhhbmRsZWQgYXMgdGhlIGxhc3QgaXRl
+bSBpbiANCj4gPiBpZ3ZtX3Byb2Nlc3MoKSBhbmQgaWYgcHJvY2Vzc19tZW1fcGFnZSgpIGlzIGlu
+dm9rZWQgd2l0aCAiaSAtIDEiIGluc3RlYWQgDQo+ID4gb2YgImkiLCB0aGVuIHRoZSBmaXJtd2Fy
+ZSBiZWdpbnMgYm9vdGluZy4NCj4gDQo+IEp1c3QgdG8gc3VwcGx5IGEgYml0IG1vcmUgaW5mbywg
+dGhlIGZhaWxpbmcgbGF1bmNoIGVuZHMgd2l0aCB0aGUgZm9sbG93aW5nOg0KPiANCj4gLi4uDQo+
+IFtTVlNNXSBMYXVuY2hpbmcgRmlybXdhcmUNCj4gW1NWU01dIExhdW5jaGluZyByZXF1ZXN0LXBy
+b2Nlc3NpbmcgdGFzayBvbiBDUFUgMA0KPiBxZW11LXN5c3RlbS14ODZfNjQ6IHdhcm5pbmc6IG1l
+bW9yeSBmYXVsdDogR1BBIDB4MCBzaXplIDB4MTAwMCBmbGFncyAweDgNCj4gcWVtdS1zeXN0ZW0t
+eDg2XzY0OiBjcHVzIGFyZSBub3QgcmVzZXR0YWJsZSwgdGVybWluYXRpbmcNCj4gDQo+IA0KPiBU
+aGUgZm9sbG93aW5nIHBhdGNoIHRvIFFlbXUgd29ya3MgYXJvdW5kIHRoZSBpc3N1ZSwgYnV0IEkn
+bSB1bnN1cmUgaWYgdGhpcyANCj4gaXMgYSBwcm9wZXIgZml4LiBUaGUgZXJyb3IgY2FuIGVpdGhl
+ciBiZSBpbiBRZW11IG9yIHRoZSBJR1ZNIGNyZWF0aW9uIHByb2Nlc3MuDQoNCkkgYW0gYWxzbyBo
+YXZpbmcgdGhlIHNhbWUgcHJvYmxlbS4gSWYgSSBiaXNlY3RlZCBpdCByaWdodCwgdGhlIHByb2Js
+ZW0gc2VlbXMgdG8NCmJlIGluIHRoZSBpZ3ZtYnVpbGRlci4NCg0KaHR0cHM6Ly9naXRodWIuY29t
+L2NvY29udXQtc3ZzbS9zdnNtL2lzc3Vlcy8zMTENCg0KVGhhbmtzLA0KQ2xhdWRpbw0KDQo+IA0K
+PiBkaWZmIC0tZ2l0IGEvYmFja2VuZHMvaWd2bS5jIGIvYmFja2VuZHMvaWd2bS5jDQo+IGluZGV4
+IGRmNjYzYjMwMGIuLjE5MjNkMzFhZDYgMTAwNjQ0DQo+IC0tLSBhL2JhY2tlbmRzL2lndm0uYw0K
+PiArKysgYi9iYWNrZW5kcy9pZ3ZtLmMNCj4gQEAgLTY3NSw3ICs2NzUsNyBAQCB2b2lkIGlndm1f
+cHJvY2VzcyhDb25maWRlbnRpYWxHdWVzdFN1cHBvcnQgKmNncykNCj4gwqDCoMKgwqDCoMKgICog
+dG8gcmVkdWNlIHRoZSBudW1iZXIgb2YgbWVtb3J5IHJlZ2lvbnMgd2UgY3JlYXRlLiBNYWtlIHN1
+cmUgdGhlIA0KPiBsYXN0IGdyb3VwIGlzDQo+IMKgwqDCoMKgwqDCoCAqIHByb2Nlc3NlZCB3aXRo
+IHRoaXMgY2FsbC4NCj4gwqDCoMKgwqDCoMKgICovDQo+IC3CoMKgwqAgcHJvY2Vzc19tZW1fcGFn
+ZShjZ3MsIGksIE5VTEwpOw0KPiArwqDCoMKgIHByb2Nlc3NfbWVtX3BhZ2UoY2dzLCBpIC0gMSwg
+TlVMTCk7DQo+IA0KPiDCoMKgwqDCoMKgIFFUQUlMUV9GT1JFQUNIKHBhcmFtZXRlciwgJnBhcmFt
+ZXRlcl9kYXRhLCBuZXh0KQ0KPiDCoMKgwqDCoMKgIHsNCj4gDQo+IFRoYW5rcywNCj4gVG9tDQo+
+IA0KPiA+IA0KPiA+IFRoYW5rcywNCj4gPiBUb20NCj4gPiANCj4gPiA+IA0KPiA+ID4gSG9wZSB0
+aGF0IGhlbHBzLg0KPiA+ID4gDQo+ID4gPiBSZWdhcmRzLA0KPiA+ID4gDQo+ID4gPiDCoMKgwqDC
+oEpvZXJnDQo=
