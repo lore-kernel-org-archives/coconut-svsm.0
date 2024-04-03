@@ -1,34 +1,21 @@
-Return-Path: <cclaudio@ibm.com>
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id ECC94281240
- for <svsm-devel@coconut-svsm.dev>; Thu, 28 Mar 2024 19:06:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=pp1;
- bh=YNEyiPgyqTbZgVQ+AGrhk1H7nwEMmapV2M0zIXFllyA=;
- b=j+wBD4+7K0nRD+xSXy6QjWXeZRdwTYSmbzNyDJCBArJh8FxBxUW53QAecR6TMRyXYGRU
- s7B951kCQhmnMn0I5nMndg0OCIrKjgy6dlur5kHN3k6tPr/rMNJ9vF2Dn/IS7O9sd6Xa
- xOfngzzOuD13WvyXIjvEoXsRUtmdgTebqF6a5H6JzYYmXX+m4whSNDRvJ0AS/ijsQ0kB
- v3/aypCAUNnWWEzq+SdjKTc/+E+0qKUWNyuA7nDUZfrI6VgPNukFf9avtkPcwhVSNBH/
- KX2Ivb/LN4/XCOPq6WLmCwtoPas4MlBl1rTgqTxCSxo+wDZaO848oWoUNAmwJOLrcerQ vQ== 
-From: Claudio Siqueira de Carvalho <cclaudio@ibm.com>
-Date: Thu, 28 Mar 2024 18:06:37 +0000
-Message-ID: <e43228aada00c5560c97387318f5b52b18d576a5.camel@ibm.com>
-References: <9a2a2fec29450701145a97b52ce70844eaac793d.camel@ibm.com>
- <ZcZKBdaSWI4cNDBP@8bytes.org>
- <2e6bf651-c720-405f-a598-2f2a2b911049@amd.com>
- <8e5d6e1b-96e6-4248-819b-2ef613a57913@amd.com>
-In-Reply-To: <8e5d6e1b-96e6-4248-819b-2ef613a57913@amd.com>
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5C8515081CA9B94195E7E4A19AE24993@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Return-Path: <joro@8bytes.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+ s=default; t=1712143221;
+ bh=Q+0d3QLYSAKT24pMf5w49gK2Ew6aWzMbitLv1/LRZtE=;
+ h=Date:From:To:Subject:From;
+ b=jLqOZlkzbxwS0415SiTutxRuSAFFLq+aG1UvTGtdfomwYHft6xjBO3NmWT4rfAzDP
+ 1F6ep4ilSPpfqh60X9Jm1wRCEDugngFrXxxbISbnxK0IyU84R2dgjDRDsJ+WCN4GsG
+ l6JUNl1sCEaRk9exATF96zAZiUABc1QcAcpkQUOcuDUtAV2pZZdBCchgR+fQAmj5TM
+ 8Q1/GbC8OVuCvM0cUCJ5XFKy4qfaWL0XSiTVRtOrFQ3twXLJ6pFISU4PVUB5nOyAND
+ He4ZSdP7XQvvWykQ44aGIERJbo2RyEXEjZbzt5CDb2rZqazf1k756AWBJnQqmAjbrj
+ 3mEdvvYfOltuw==
+Date: Wed, 3 Apr 2024 13:20:19 +0200
+From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
+Message-ID: <Zg07c6Y5a_Ak5oXs@8bytes.org>
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] Launch coconut-svsm using IGVM
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Subject: [svsm-devel] SVSM Development Call April 3rd, 2024
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -37,62 +24,33 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>, "roy.hopkins@suse.com" <roy.hopkins@suse.com>, "joro@8bytes.org" <joro@8bytes.org>
-Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
 
-T24gVGh1LCAyMDI0LTAzLTI4IGF0IDExOjU0IC0wNTAwLCBUb20gTGVuZGFja3kgd3JvdGU6DQo+
-IE9uIDMvMjcvMjQgMTY6NDksIFRvbSBMZW5kYWNreSB3cm90ZToNCj4gPiBPbiAyLzkvMjQgMDk6
-NTEsIErDtnJnIFLDtmRlbCB3cm90ZToNCj4gPiA+IEhpIENsYXVkaW8sDQo+ID4gPiANCj4gPiA+
-IE9uIEZyaSwgRmViIDA5LCAyMDI0IGF0IDAyOjQ2OjAzUE0gKzAwMDAsIENsYXVkaW8gU2lxdWVp
-cmEgZGUgQ2FydmFsaG8gDQo+ID4gPiB3cm90ZToNCj4gPiA+ID4gSSB3YXMgZG9pbmcgc29tZSBy
-ZXNlYXJjaCBvbiBJR1ZNLCBidXQgSSBkaWQgbm90IGZpbmQgYW55IGV4YW1wbGUuIERvZXMgDQo+
-ID4gPiA+IGFueWJvZHkNCj4gPiA+ID4gaGF2ZSBhbiBleGFtcGxlIG9mIGFuIElHVk0gZmlsZSBh
-bmQgYSBRRU1VIGNvbW1hbmQgbGluZSB0aGF0IEkgY291bGQgDQo+ID4gPiA+IHVzZSB0bw0KPiA+
-ID4gPiBsYXVuY2ggdGhlIGNvY29udXQtc3ZzbT8NCj4gPiA+ID4gDQo+ID4gPiA+IFRoaXMgbWln
-aHQgYmUgaGVscGZ1bCBmb3Igb3RoZXIgcGVvcGxlIHRvby4NCj4gPiA+IA0KPiA+ID4gVGhlIENP
-Q09OVVQgYnVpbGQgcHJvY2VzcyB3aWxsIGdlbmVyYXRlIHR3byBJR1ZNIGZpbGVzLCBvbmUgZm9y
-IHVzZSB3aXRoDQo+ID4gPiBRRU1VIGFuZCBvbmUgZm9yIHVzZSB3aXRoIEh5cGVyLVYuDQo+ID4g
-PiANCj4gPiA+IFRvIHVzZSBpdCB3aXRoIFFFTVUsIHlvdSBuZWVkIGFuIElHVk0tZW5hYmxlZCBR
-RU1VLCBpbnN0cnVjdGlvbnMgb24gaG93DQo+ID4gPiB0byBnZXQgb25lIGNhbiBiZSBmb3VuZCBp
-biBoZXJlOg0KPiA+ID4gDQo+ID4gPiDCoMKgwqDCoA0KPiA+ID4gaHR0cHM6Ly9naXRodWIuY29t
-L3JveS1ob3BraW5zL3N2c20vYmxvYi9pZ3ZtX2luc3RhbGxfZG9jL0RvY3VtZW50YXRpb24vSU4N
-Cj4gPiA+IFNUQUxMLm1kDQo+ID4gPiANCj4gPiA+IFRoaXMgaXMgYSBmaWxlIGZyb20gUm95J3Mg
-cGVuZGluZyBQUiBvbiB1cGRhdGluZyB0aGUgZG9jdW1lbnRhdGlvbiBmb3INCj4gPiA+IHRoZSBJ
-R1ZNIHN3aXRjaC4NCj4gPiANCj4gPiBJIGp1c3QgdHJpZWQgYnVpbGRpbmcgZXZlcnl0aGluZyBm
-cmVzaCBvbiBhIG5ldyBzeXN0ZW0gYmFzZWQgb24gdGhlIA0KPiA+IGluc3RhbGxhdGlvbiBpbnN0
-cnVjdGlvbnMgYW5kIGNhbid0IGdldCB0aGUgZmlybXdhcmUgdG8gbGF1bmNoLiBEb2luZyBzb21l
-IA0KPiA+IGRlYnVnZ2luZywgdGhlIGZpcm13YXJlIGxvYWRpbmcgYXBwZWFycyB0byBiZSBvZmYg
-YnkgYSBwYWdlICgweDEwMDApLiBJbiANCj4gPiBvdGhlciB3b3JkcywgdGhlIGNvZGUgdGhhdCBz
-aG91bGQgYmUgYXQgdGhlIENTOlJJUCAweGZmZmZmZmYwIGlzIGFjdHVhbGx5IA0KPiA+IGxvY2F0
-ZWQgYXQgMHhmZmZmZWZmMCwgd2l0aCBhbGwgMCdzIGF0IDB4ZmZmZmZmZjAuDQo+ID4gDQo+ID4g
-SSBkb24ndCBoYXZlIGEgZnVsbCBncmFzcCBvbiB0aGUgUWVtdSBJR1ZNIHN1cHBvcnQgdG8gdW5k
-ZXJzdGFuZCBpZiBpdCBpcyANCj4gPiB0aGUgSUdWTSBmaWxlIHRoYXQgaXMgYnVpbHQgd3Jvbmcg
-b3IgdGhlIFFlbXUgSUdWTSBzdXBwb3J0IHRoYXQgZW5kcyB1cCANCj4gPiBvZmYgYnkgYSBwYWdl
-LiBJdCBhcHBlYXJzIHRoYXQgdGhlIGZpcm13YXJlIGlzIGhhbmRsZWQgYXMgdGhlIGxhc3QgaXRl
-bSBpbiANCj4gPiBpZ3ZtX3Byb2Nlc3MoKSBhbmQgaWYgcHJvY2Vzc19tZW1fcGFnZSgpIGlzIGlu
-dm9rZWQgd2l0aCAiaSAtIDEiIGluc3RlYWQgDQo+ID4gb2YgImkiLCB0aGVuIHRoZSBmaXJtd2Fy
-ZSBiZWdpbnMgYm9vdGluZy4NCj4gDQo+IEp1c3QgdG8gc3VwcGx5IGEgYml0IG1vcmUgaW5mbywg
-dGhlIGZhaWxpbmcgbGF1bmNoIGVuZHMgd2l0aCB0aGUgZm9sbG93aW5nOg0KPiANCj4gLi4uDQo+
-IFtTVlNNXSBMYXVuY2hpbmcgRmlybXdhcmUNCj4gW1NWU01dIExhdW5jaGluZyByZXF1ZXN0LXBy
-b2Nlc3NpbmcgdGFzayBvbiBDUFUgMA0KPiBxZW11LXN5c3RlbS14ODZfNjQ6IHdhcm5pbmc6IG1l
-bW9yeSBmYXVsdDogR1BBIDB4MCBzaXplIDB4MTAwMCBmbGFncyAweDgNCj4gcWVtdS1zeXN0ZW0t
-eDg2XzY0OiBjcHVzIGFyZSBub3QgcmVzZXR0YWJsZSwgdGVybWluYXRpbmcNCj4gDQo+IA0KPiBU
-aGUgZm9sbG93aW5nIHBhdGNoIHRvIFFlbXUgd29ya3MgYXJvdW5kIHRoZSBpc3N1ZSwgYnV0IEkn
-bSB1bnN1cmUgaWYgdGhpcyANCj4gaXMgYSBwcm9wZXIgZml4LiBUaGUgZXJyb3IgY2FuIGVpdGhl
-ciBiZSBpbiBRZW11IG9yIHRoZSBJR1ZNIGNyZWF0aW9uIHByb2Nlc3MuDQoNCkkgYW0gYWxzbyBo
-YXZpbmcgdGhlIHNhbWUgcHJvYmxlbS4gSWYgSSBiaXNlY3RlZCBpdCByaWdodCwgdGhlIHByb2Js
-ZW0gc2VlbXMgdG8NCmJlIGluIHRoZSBpZ3ZtYnVpbGRlci4NCg0KaHR0cHM6Ly9naXRodWIuY29t
-L2NvY29udXQtc3ZzbS9zdnNtL2lzc3Vlcy8zMTENCg0KVGhhbmtzLA0KQ2xhdWRpbw0KDQo+IA0K
-PiBkaWZmIC0tZ2l0IGEvYmFja2VuZHMvaWd2bS5jIGIvYmFja2VuZHMvaWd2bS5jDQo+IGluZGV4
-IGRmNjYzYjMwMGIuLjE5MjNkMzFhZDYgMTAwNjQ0DQo+IC0tLSBhL2JhY2tlbmRzL2lndm0uYw0K
-PiArKysgYi9iYWNrZW5kcy9pZ3ZtLmMNCj4gQEAgLTY3NSw3ICs2NzUsNyBAQCB2b2lkIGlndm1f
-cHJvY2VzcyhDb25maWRlbnRpYWxHdWVzdFN1cHBvcnQgKmNncykNCj4gwqDCoMKgwqDCoMKgICog
-dG8gcmVkdWNlIHRoZSBudW1iZXIgb2YgbWVtb3J5IHJlZ2lvbnMgd2UgY3JlYXRlLiBNYWtlIHN1
-cmUgdGhlIA0KPiBsYXN0IGdyb3VwIGlzDQo+IMKgwqDCoMKgwqDCoCAqIHByb2Nlc3NlZCB3aXRo
-IHRoaXMgY2FsbC4NCj4gwqDCoMKgwqDCoMKgICovDQo+IC3CoMKgwqAgcHJvY2Vzc19tZW1fcGFn
-ZShjZ3MsIGksIE5VTEwpOw0KPiArwqDCoMKgIHByb2Nlc3NfbWVtX3BhZ2UoY2dzLCBpIC0gMSwg
-TlVMTCk7DQo+IA0KPiDCoMKgwqDCoMKgIFFUQUlMUV9GT1JFQUNIKHBhcmFtZXRlciwgJnBhcmFt
-ZXRlcl9kYXRhLCBuZXh0KQ0KPiDCoMKgwqDCoMKgIHsNCj4gDQo+IFRoYW5rcywNCj4gVG9tDQo+
-IA0KPiA+IA0KPiA+IFRoYW5rcywNCj4gPiBUb20NCj4gPiANCj4gPiA+IA0KPiA+ID4gSG9wZSB0
-aGF0IGhlbHBzLg0KPiA+ID4gDQo+ID4gPiBSZWdhcmRzLA0KPiA+ID4gDQo+ID4gPiDCoMKgwqDC
-oEpvZXJnDQo=
+Hi,
+
+Here is the usual call for agenda items for this weeks SVSM development
+call. My agenda so far is:
+
+	* vTPM merge fallout
+	* Security issue mitigations
+
+The items we can not cover during the meeting will be deferred to the
+next meeting.
+
+Please note that Europe is now also on summer time, so the meeting will
+be at its usual time spot again. The definitive time is always in the
+Google calendar I shared below.
+
+Details of the meeting (GMeet and Calendar links, meeting time) can be
+found in our governance repository at:
+
+	https://github.com/coconut-svsm/governance
+
+The meeting will be recorded and the recording eventually published.
+
+See you all there.
+
+Regards,
+
+	Jörg
