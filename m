@@ -1,23 +1,21 @@
-Return-Path: <joro@8bytes.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1712217843;
- bh=R8LcxvfTc1DjuB+zF4WPxuwk747NekCsbw0Gms40h4I=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=R9UhIKjXIqN9MCNGxmgpgd77jqOXOakrh5SFHDgiWnxQl/R7wBZfWSYFvXdTHuGoD
- 7JLcWdGdBR3YgsgNtS4SRqlEPvdplzxGlpfwDBEK3sILwMWGmfalML7/b7Qdik8Lj4
- ZyKdDSuW5g8MJq9FBq85INTuHpbUErE37JYmPGA2vN2h8lhZKNypHhoEzXOYe3XVVb
- dEaYk9h26vUmxTgMn0uM4BU9c+VoVM6Je2dFK6I/4HfXokXDaxPOOMyYDZBWlnG+tg
- 7O5NUSl8Q51oiHdVBmCYnQkDYyB1LCNhU7OLO+cCIBrYc9lOjekry3Fc6QDOCgIT+U
- XhrPoIwwRVvvw==
-Date: Thu, 4 Apr 2024 10:04:02 +0200
-From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <Zg5e8k3KwZFQK6NQ@8bytes.org>
-References: <Zg07c6Y5a_Ak5oXs@8bytes.org>
+Return-Path: <bp@alien8.de>
+Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPS id 4644F281F40
+ for <svsm-devel@coconut-svsm.dev>; Tue,  9 Apr 2024 19:09:41 +0200 (CEST)
+Date: Tue, 9 Apr 2024 19:09:17 +0200
+From: Borislav Petkov <bp@alien8.de>
+Message-ID: <20240409170917.GCZhV2PWPhmzTHhMRO@fat_crate.local>
+References: <cover.1711405593.git.thomas.lendacky@amd.com>
+ <425afa6512994b1ca1bb366eb7abfb24d65175aa.1711405593.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zg07c6Y5a_Ak5oXs@8bytes.org>
-Subject: Re: [svsm-devel] SVSM Development Call April 3rd, 2024
+In-Reply-To: <425afa6512994b1ca1bb366eb7abfb24d65175aa.1711405593.git.thomas.lendacky@amd.com>
+Subject: Re: [svsm-devel] [PATCH v3 01/14] x86/sev: Rename snp_init() in the
+ boot/compressed/sev.c file
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -26,18 +24,28 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="utf-8"
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-On Wed, Apr 03, 2024 at 01:20:19PM +0200, Jörg Rödel wrote:
-> 
-> 	https://github.com/coconut-svsm/governance
-> 
+On Mon, Mar 25, 2024 at 05:26:20PM -0500, Tom Lendacky wrote:
+> The snp_init() in boot/compressed/sev.c is local to that file and is not
+> called from outside of the file. Change the name so that it is not tied
+> to the function definition in arch/x86/include/asm/sev.h.
 
-PR with the meeting minutes from yesterdays call is now posted:
+That part I don't understand: I can rename the function without making
+it static and it builds fine, so where is it "tied" to the function
+definition in kernel proper?
 
-	https://github.com/coconut-svsm/governance/pull/9
+Don't get me wrong - leaking kernel proper symbols into the decompressor
+has been a pet peeve of mine for a while now but this is not the case
+here, is it?
 
-Regards,
+And yes, the patch is fine - I'm just asking...
 
-	Joerg
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
