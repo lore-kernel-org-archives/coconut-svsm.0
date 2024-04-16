@@ -1,30 +1,34 @@
-Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on20600.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2418::600])
+Return-Path: <dan.j.williams@intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 33E731C7FDF
- for <svsm-devel@coconut-svsm.dev>; Tue, 16 Apr 2024 18:17:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tM1tEwro2rjm4FGZZZCeUi509ZVthQoM1tWA6AA7Sbo=;
- b=hhDylQkDH7+uZc1J7PU2tcSsfkre+y+ziye8Y6ZlRMpHw7amVWRDX2mY0q+ABb1XvyIyPN5fORpwC1AJhEWyunlAGQvpQT9etKAkRGWMIO6MjPxRZ9fEWXYKbvRAasdcL5W/eE8eV9L/vCG5Vj/pmIfFa+wXTfHQhQldYlaICzA=
-Message-ID: <2be81e12-9c62-7fa0-5f3c-ab195406b6b6@amd.com>
-Date: Tue, 16 Apr 2024 11:17:38 -0500
-Content-Language: en-US
+ by mail.8bytes.org (Postfix) with ESMTPS id 496931C7FDF
+ for <svsm-devel@coconut-svsm.dev>; Tue, 16 Apr 2024 18:20:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713284406; x=1744820406;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=tqnHBt08iPmhzxbME0xHsYae6YSGaA7ncoXD6G3ZAB4=;
+ b=Teu8vAy/CvvlsjLmmubUCLZMYidSWSfMDqB914al3htP8vdIlO0yLWR5
+ FIB3xIBk/qyCIvCKsCvwi0G8JZy4eiIz/lua4RNg7T8+s720qGOyi49Zy
+ nef7c3HhtmgHMpjqXEJEEX6IxHFH3Rq/9y5g+gGh90dfre7aeA5nsrlFl
+ 24C9rZ2u8cat9ieitdiphZKE1FMDh6ZT6jqutWylV5a6YpH5bDpWxPLKF
+ eQNtk80ZYFrJKX3v0sPeq3zrilGS28ph4g0kzTBKPmwEf34eF/MsCeeR+
+ rGTkcUM2rzigmphZX3o1e4tTgn7Pw6CnE1A5DfNEmk5UVex4/8+cbtxBz Q==;
+Date: Tue, 16 Apr 2024 09:19:54 -0700
+From: Dan Williams <dan.j.williams@intel.com>
+Message-ID: <661ea52a53541_4d56129416@dwillia2-mobl3.amr.corp.intel.com.notmuch>
 References: <cover.1711405593.git.thomas.lendacky@amd.com>
- <bb088b1409283cd323515138feda224759a247ec.1711405593.git.thomas.lendacky@amd.com>
- <661e04cd345af_4d56129468@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <061802e1-7c95-f1f0-b462-3aca27583d76@amd.com>
- <661ea007d1844_4d5612948c@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-In-Reply-To: <661ea007d1844_4d5612948c@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <1ca853e149fe37be748c028a9b0d00237eb73938.1711405593.git.thomas.lendacky@amd.com>
+ <661e0e9418862_4d5612941c@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+ <3732b0d2-0471-48ce-89b8-43f425040846@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <3732b0d2-0471-48ce-89b8-43f425040846@amd.com>
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [PATCH v3 10/14] configfs-tsm: Allow the
- privlevel_floor attribute to be updated
+Subject: Re: [svsm-devel] [PATCH v3 11/14] x86/sev: Extend the config-fs
+ attestation support for an SVSM
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -33,70 +37,150 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
+To: Tom Lendacky <thomas.lendacky@amd.com>, Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter
+ Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-On 4/16/24 10:57, Dan Williams wrote:
-> Tom Lendacky wrote:
->> On 4/15/24 23:55, Dan Williams wrote:
->>> Tom Lendacky wrote:
->>>> With the introduction of an SVSM, Linux will be running at a non-zero
->>>> VMPL. Any request for an attestation report at a higher priviledge VMPL
->>>> than what Linux is currently running will result in an error. Allow for
->>>> the privlevel_floor attribute to be updated dynamically so that the
->>>> attribute may be set dynamically.
->>>>
->>>> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
->>>> ---
->>>>    drivers/virt/coco/sev-guest/sev-guest.c | 5 ++++-
->>>>    include/linux/tsm.h                     | 2 +-
->>>>    2 files changed, 5 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/virt/coco/sev-guest/sev-guest.c b/drivers/virt/coco/sev-guest/sev-guest.c
->>>> index 1ff897913bf4..bba6531cb606 100644
->>>> --- a/drivers/virt/coco/sev-guest/sev-guest.c
->>>> +++ b/drivers/virt/coco/sev-guest/sev-guest.c
->>>> @@ -885,7 +885,7 @@ static int sev_report_new(struct tsm_report *report, void *data)
->>>>    	return 0;
->>>>    }
->>>>    
->>>> -static const struct tsm_ops sev_tsm_ops = {
->>>> +static struct tsm_ops sev_tsm_ops = {
->>>>    	.name = KBUILD_MODNAME,
->>>>    	.report_new = sev_report_new,
->>>>    };
->>>> @@ -972,6 +972,9 @@ static int __init sev_guest_probe(struct platform_device *pdev)
->>>>    	snp_dev->input.resp_gpa = __pa(snp_dev->response);
->>>>    	snp_dev->input.data_gpa = __pa(snp_dev->certs_data);
->>>>    
->>>> +	/* Set the privlevel_floor attribute based on the current VMPL */
->>>> +	sev_tsm_ops.privlevel_floor = snp_get_vmpl();
->>>
->>> Why is this not vmpck_id?
->>
->> Good catch, this probably should be pulled out separately and submitted
->> as a Fixes: against the current support. If you think it's important
->> enough, I can do that and put this at the beginning of the series. Or I
->> can just modify this to use the vmpck_id value. Any preference?
+Tom Lendacky wrote:
+> On 4/16/24 00:37, Dan Williams wrote:
+> > Tom Lendacky wrote:
+> >> When an SVSM is present, the guest can also request attestation reports
+> >> from the SVSM. These SVSM attestation reports can be used to attest the
+> >> SVSM and any services running within the SVSM.
+> >>
+> >> Extend the config-fs attestation support to allow for an SVSM attestation
+> >> report. This involves creating four (4) new config-fs attributes:
+> >>
+> >>    - 'service-provider' (input)
+> >>      This attribute is used to determine whether the attestation request
+> >>      should be sent to the specified service provider or to the SEV
+> >>      firmware. The SVSM service provider is represented by the value
+> >>      'svsm'.
+> >>
+> >>    - 'service_guid' (input)
+> >>      Used for requesting the attestation of a single service within the
+> >>      service provider. A null GUID implies that the SVSM_ATTEST_SERVICES
+> >>      call should be used to request the attestation report. A non-null
+> >>      GUID implies that the SVSM_ATTEST_SINGLE_SERVICE call should be used.
+> >>
+> >>    - 'service_manifest_version' (input)
+> >>      Used with the SVSM_ATTEST_SINGLE_SERVICE call, the service version
+> >>      represents a specific service manifest version be used for the
+> >>      attestation report.
+> >>
+> >>    - 'manifestblob' (output)
+> >>      Used to return the service manifest associated with the attestation
+> >>      report.
+> >>
+> >> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+[..]
+> >> +What:		/sys/kernel/config/tsm/report/$name/service_provider
+> >> +Date:		January, 2024
+> >> +KernelVersion:	v6.10
+> >> +Contact:	linux-coco@lists.linux.dev
+> >> +Description:
+> >> +		(WO) Attribute is visible if a TSM implementation provider
+> >> +		supports the concept of attestation reports from a service
+> >> +		provider for TVMs, like SEV-SNP running under an SVSM.
+> >> +		Specifying the service provider via this attribute will create
+> >> +		an attestation report as specified by the service provider.
+> >> +		Currently supported service-providers are:
+> >> +			svsm
+> >> +
+> >> +		For the SVSM service provider, see the Secure VM Service Module
+> >> +		for SEV-SNP Guests v1.00 Section 7.
+> >> +		https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/specifications/58019.pdf
+> > 
+> > Given "SVSM" is a cross vendor concept should this explicitly
+> > callout: "For provider.service_provider == sev_guest.svsm" as
+> > preparation for other implementations defining their "svsm" manifest
+> > format?
 > 
-> I dunno, you tell me. What breaks if privlevel_floor is mismatched vs
-> vmpl and/or vmpck_id? If it warrants a "Fixes:" it should probably be
-> broken out.
+> I'm not sure. Do we need to get that specific? If SVSM is cross vendor, 
+> will it be using / adding to the existing SVSM specification? If not, 
+> then each vendor is likely to have its own name for the SVSM concept 
+> that would be unique enough...
+
+Yeah, I guess we can kick can that down the road and see what other
+vendors do. I know the coconut-svsm project is cross vendor, but I do
+not know the details.
+
+> >> +
+> >> +What:		/sys/kernel/config/tsm/report/$name/service_manifest_version
+> >> +Date:		January, 2024
+> >> +KernelVersion:	v6.10
+> >> +Contact:	linux-coco@lists.linux.dev
+> >> +Description:
+> >> +		(WO) Attribute is visible if a TSM implementation provider
+> >> +		supports the concept of attestation reports from a service
+> >> +		provider for TVMs, like SEV-SNP running under an SVSM.
+> >> +		Indicates the service manifest version requested for the
+> >> +		attestation report. If this field is not set by the user,
+> >> +		the default manifest version of the service (the service's
+> >> +		initial/first manifest version) is returned. The initial
+> >> +		manifest version is always available.
+> > 
+> > ...and that number is zero? Is there any expectation that the kernel
 > 
-> However, I *guess* it is just adding some sanity checking precision to
-> userspace requests and makes some input validation not catch errors when
-> userspace tries to generate reports from the wrong level, right? I.e.
-> privlevel_floor may be lower than expected, but userspace should not be
-> depending on that since the report generation will fail.
+> Yes, that number is zero.
+> 
+> > sanity checks this version, or how does the user figure out they need to
+> > roll this request back?
+> 
+> Right now there aren't any non-zero versions, so there is nothing for 
+> the user to figure out. However, the service will determine when it 
+> creates a new version and then the user will need to understand what the 
+> reason for that is and decide. I'm not sure I can give you a specific 
+> answer at this stage, but we need to allow for a change in the manifest 
+> without affecting existing users.
 
-Yeah, it just results in a different type of error. If the VMPL 
-specified by the user is numerically lower than the vmpck_id, then the 
-request will fail with a specific return code value. With the change to 
-privlevel_floor to use vmpck_id, then you would just get the error that 
-much sooner when trying to set a value that is lower than the floor.
+Right, but it feels odd that userspace could write UINT_MAX to this
+value and the kernel says, "yup, looks like a valid manifest version to
+me".
 
-Since I don't think the vmpck_id module parameter is a common case 
-today, let's just leave that change in this patch.
+> And since the spec has been approved already, I can't really go back and 
+> add a requirement that manifest format always be additive.
 
-Thanks,
-Tom
+Those breaking changes have not arrived yet so still a chance to
+influence, no?
+
+The documentation here at least guarantees that the initial manifest
+version is always valid, and I expect the spec authors to realize that
+the kernel has a role to play in not breaking existing userspace. I.e.
+it is not in the spec's interest to disallow fallback to any
+version between 0 and N-1 where N is the latest.
+
+The kernel need not tolerate version induced breakage from ACPI
+specification updates because that spec is committed to compatibility,
+why does this spec need to be less disciplined than that?
+
+> >> +
+> >> +		For the SVSM service provider, see the Secure VM Service Module
+> >> +		for SEV-SNP Guests v1.00 Section 7.
+> >> +		https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/specifications/58019.pdf
+> > 
+> 
+> >> +static ssize_t tsm_report_service_provider_store(struct config_item *cfg,
+> >> +						 const char *buf, size_t len)
+> >> +{
+> >> +	struct tsm_report *report = to_tsm_report(cfg);
+> >> +	size_t sp_len;
+> >> +	char *sp;
+> >> +	int rc;
+> >> +
+> >> +	guard(rwsem_write)(&tsm_rwsem);
+> >> +	rc = try_advance_write_generation(report);
+> >> +	if (rc)
+> >> +		return rc;
+> >> +
+> >> +	sp_len = (buf[len - 1] != '\n') ? len : len - 1;
+> > 
+> > This feels like it wants a sysfs_strdup().
+> 
+> If there start to be more string oriented operations in the file, then 
+> it might be worth it. For now I don't really see a reason.
+
+To be clear I was thinking of occurrences of this patten outside of this
+file. Turns out this pattern is not as prevalent as I would have
+guessed, resource_alignment_store() was the only occurrence I could
+find. Skip for now works for me.
