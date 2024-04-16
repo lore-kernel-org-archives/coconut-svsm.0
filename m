@@ -1,34 +1,34 @@
 Return-Path: <dan.j.williams@intel.com>
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 496931C7FDF
- for <svsm-devel@coconut-svsm.dev>; Tue, 16 Apr 2024 18:20:05 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id C65241C80D6
+ for <svsm-devel@coconut-svsm.dev>; Tue, 16 Apr 2024 20:25:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713284406; x=1744820406;
+ t=1713291937; x=1744827937;
  h=date:from:to:cc:subject:message-id:references:
  in-reply-to:mime-version;
- bh=tqnHBt08iPmhzxbME0xHsYae6YSGaA7ncoXD6G3ZAB4=;
- b=Teu8vAy/CvvlsjLmmubUCLZMYidSWSfMDqB914al3htP8vdIlO0yLWR5
- FIB3xIBk/qyCIvCKsCvwi0G8JZy4eiIz/lua4RNg7T8+s720qGOyi49Zy
- nef7c3HhtmgHMpjqXEJEEX6IxHFH3Rq/9y5g+gGh90dfre7aeA5nsrlFl
- 24C9rZ2u8cat9ieitdiphZKE1FMDh6ZT6jqutWylV5a6YpH5bDpWxPLKF
- eQNtk80ZYFrJKX3v0sPeq3zrilGS28ph4g0kzTBKPmwEf34eF/MsCeeR+
- rGTkcUM2rzigmphZX3o1e4tTgn7Pw6CnE1A5DfNEmk5UVex4/8+cbtxBz Q==;
-Date: Tue, 16 Apr 2024 09:19:54 -0700
+ bh=84b2d6yQjSL+1xt0eessl3M2pnesgInUfPzwTd/SCi0=;
+ b=m23F8txmMElest87mbSa0Q0O2DQ62Xnra7v8dTNT956nt1FU0qJ5qb4i
+ mRGiSCqApaJBV4sKPMz53fIvlOatMbR5OUfZZ5X4FqR/1qjWCvWa0cxMQ
+ ujuo0LU6WvovgBL2YQds+cT4lZWX0yVXMsvNBEwRwG9JXo6L49MRth94m
+ yUJGETf6sqTG1xaj4FZHri1+BikhQC/u4CilIqx9FvQCoyPgpjwTMAt5D
+ B7upe2gbE3mCoj6ABsTPZe73KFOBXWPH3TCPzh03sVq60HRy5M5id9tN+
+ 9oiKi2VDw+uddnhvtww21EFNC43Q9pTchc3t0CBQxL5N5HJwCJZiJmrT7 A==;
+Date: Tue, 16 Apr 2024 11:25:26 -0700
 From: Dan Williams <dan.j.williams@intel.com>
-Message-ID: <661ea52a53541_4d56129416@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+Message-ID: <661ec2968fa55_4d56129470@dwillia2-mobl3.amr.corp.intel.com.notmuch>
 References: <cover.1711405593.git.thomas.lendacky@amd.com>
- <1ca853e149fe37be748c028a9b0d00237eb73938.1711405593.git.thomas.lendacky@amd.com>
- <661e0e9418862_4d5612941c@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <3732b0d2-0471-48ce-89b8-43f425040846@amd.com>
+ <e881a70fda1da98882241fc46fd57c3063fde55f.1711405593.git.thomas.lendacky@amd.com>
+ <661e10a01f1d8_4d561294d0@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+ <7fc4e7d4-dfa8-b626-76c7-1f8993304a2d@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <3732b0d2-0471-48ce-89b8-43f425040846@amd.com>
+In-Reply-To: <7fc4e7d4-dfa8-b626-76c7-1f8993304a2d@amd.com>
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [PATCH v3 11/14] x86/sev: Extend the config-fs
- attestation support for an SVSM
+Subject: Re: [svsm-devel] [PATCH v3 12/14] fs/configfs: Add a callback to
+ determine attribute visibility
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -39,148 +39,337 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: Tom Lendacky <thomas.lendacky@amd.com>, Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev
 Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
+ Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>
 
 Tom Lendacky wrote:
-> On 4/16/24 00:37, Dan Williams wrote:
+> On 4/16/24 00:46, Dan Williams wrote:
 > > Tom Lendacky wrote:
-> >> When an SVSM is present, the guest can also request attestation reports
-> >> from the SVSM. These SVSM attestation reports can be used to attest the
-> >> SVSM and any services running within the SVSM.
-> >>
-> >> Extend the config-fs attestation support to allow for an SVSM attestation
-> >> report. This involves creating four (4) new config-fs attributes:
-> >>
-> >>    - 'service-provider' (input)
-> >>      This attribute is used to determine whether the attestation request
-> >>      should be sent to the specified service provider or to the SEV
-> >>      firmware. The SVSM service provider is represented by the value
-> >>      'svsm'.
-> >>
-> >>    - 'service_guid' (input)
-> >>      Used for requesting the attestation of a single service within the
-> >>      service provider. A null GUID implies that the SVSM_ATTEST_SERVICES
-> >>      call should be used to request the attestation report. A non-null
-> >>      GUID implies that the SVSM_ATTEST_SINGLE_SERVICE call should be used.
-> >>
-> >>    - 'service_manifest_version' (input)
-> >>      Used with the SVSM_ATTEST_SINGLE_SERVICE call, the service version
-> >>      represents a specific service manifest version be used for the
-> >>      attestation report.
-> >>
-> >>    - 'manifestblob' (output)
-> >>      Used to return the service manifest associated with the attestation
-> >>      report.
-> >>
-> >> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> >> In order to support dynamic decisions as to whether an attribute should be
+> >> created, add a callback that returns a bool to indicate whether the
+> >> attribute should be display. If no callback is registered, the attribute
 [..]
-> >> +What:		/sys/kernel/config/tsm/report/$name/service_provider
-> >> +Date:		January, 2024
-> >> +KernelVersion:	v6.10
-> >> +Contact:	linux-coco@lists.linux.dev
-> >> +Description:
-> >> +		(WO) Attribute is visible if a TSM implementation provider
-> >> +		supports the concept of attestation reports from a service
-> >> +		provider for TVMs, like SEV-SNP running under an SVSM.
-> >> +		Specifying the service provider via this attribute will create
-> >> +		an attestation report as specified by the service provider.
-> >> +		Currently supported service-providers are:
-> >> +			svsm
-> >> +
-> >> +		For the SVSM service provider, see the Secure VM Service Module
-> >> +		for SEV-SNP Guests v1.00 Section 7.
-> >> +		https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/specifications/58019.pdf
+> >> Cc: Joel Becker <jlbec@evilplan.org>
+> >> Cc: Christoph Hellwig <hch@lst.de>
+> >> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> >> ---
+> >>   fs/configfs/file.c       |   7 +++
+> >>   include/linux/configfs.h | 111 +++++++++++++++++++++++++++------------
+> >>   2 files changed, 84 insertions(+), 34 deletions(-)
+> >>
+[..]
+> >> diff --git a/include/linux/configfs.h b/include/linux/configfs.h
+> >> index 2606711adb18..c836d7bc7c9e 100644
+> >> --- a/include/linux/configfs.h
+> >> +++ b/include/linux/configfs.h
+> >> @@ -116,35 +116,57 @@ struct configfs_attribute {
+> >>   	const char		*ca_name;
+> >>   	struct module 		*ca_owner;
+> >>   	umode_t			ca_mode;
+> >> +	bool (*is_visible)(const struct config_item *, const struct configfs_attribute *);
+> >>   	ssize_t (*show)(struct config_item *, char *);
+> >>   	ssize_t (*store)(struct config_item *, const char *, size_t);
+> >>   };
+> >>   
+> >> -#define CONFIGFS_ATTR(_pfx, _name)			\
+> >> +#define __CONFIGFS_ATTR(_pfx, _name, _vis)		\
+> >>   static struct configfs_attribute _pfx##attr_##_name = {	\
+> >>   	.ca_name	= __stringify(_name),		\
+> >>   	.ca_mode	= S_IRUGO | S_IWUSR,		\
+> >>   	.ca_owner	= THIS_MODULE,			\
+> >> +	.is_visible	= _vis,				\
+> >>   	.show		= _pfx##_name##_show,		\
+> >>   	.store		= _pfx##_name##_store,		\
 > > 
-> > Given "SVSM" is a cross vendor concept should this explicitly
-> > callout: "For provider.service_provider == sev_guest.svsm" as
-> > preparation for other implementations defining their "svsm" manifest
-> > format?
+> > Shouldn't this operation live in configfs_group_operations? That would
+> > mirror the sysfs organization, and likely saves some memory.
 > 
-> I'm not sure. Do we need to get that specific? If SVSM is cross vendor, 
-> will it be using / adding to the existing SVSM specification? If not, 
-> then each vendor is likely to have its own name for the SVSM concept 
-> that would be unique enough...
+> I suppose it can, but then you lose the grouping of attributes within 
+> the same directory, right? A configfs group will result in moving the 
+> entries into a subdirectory, right? If we go with the group level, then 
+> we will be moving the existing TSM extra attributes and the new TSM SVSM 
+> attributes into new, separate sub-directories.
 
-Yeah, I guess we can kick can that down the road and see what other
-vendors do. I know the coconut-svsm project is cross vendor, but I do
-not know the details.
+I am not following the concern about "losing the grouping"? Here is what
+I was thinking with having the visibility routines in group operations.
+This is just the broard strokes, it compiles, but still needs the finer
+detail work to make tdx-guest skip all the attributes that do not apply
+to it.  Might need to be broken up a bit more, but hopefully conveys the
+idea. Does this address your grouping concern?
 
-> >> +
-> >> +What:		/sys/kernel/config/tsm/report/$name/service_manifest_version
-> >> +Date:		January, 2024
-> >> +KernelVersion:	v6.10
-> >> +Contact:	linux-coco@lists.linux.dev
-> >> +Description:
-> >> +		(WO) Attribute is visible if a TSM implementation provider
-> >> +		supports the concept of attestation reports from a service
-> >> +		provider for TVMs, like SEV-SNP running under an SVSM.
-> >> +		Indicates the service manifest version requested for the
-> >> +		attestation report. If this field is not set by the user,
-> >> +		the default manifest version of the service (the service's
-> >> +		initial/first manifest version) is returned. The initial
-> >> +		manifest version is always available.
-> > 
-> > ...and that number is zero? Is there any expectation that the kernel
-> 
-> Yes, that number is zero.
-> 
-> > sanity checks this version, or how does the user figure out they need to
-> > roll this request back?
-> 
-> Right now there aren't any non-zero versions, so there is nothing for 
-> the user to figure out. However, the service will determine when it 
-> creates a new version and then the user will need to understand what the 
-> reason for that is and decide. I'm not sure I can give you a specific 
-> answer at this stage, but we need to allow for a change in the manifest 
-> without affecting existing users.
-
-Right, but it feels odd that userspace could write UINT_MAX to this
-value and the kernel says, "yup, looks like a valid manifest version to
-me".
-
-> And since the spec has been approved already, I can't really go back and 
-> add a requirement that manifest format always be additive.
-
-Those breaking changes have not arrived yet so still a chance to
-influence, no?
-
-The documentation here at least guarantees that the initial manifest
-version is always valid, and I expect the spec authors to realize that
-the kernel has a role to play in not breaking existing userspace. I.e.
-it is not in the spec's interest to disallow fallback to any
-version between 0 and N-1 where N is the latest.
-
-The kernel need not tolerate version induced breakage from ACPI
-specification updates because that spec is committed to compatibility,
-why does this spec need to be less disciplined than that?
-
-> >> +
-> >> +		For the SVSM service provider, see the Secure VM Service Module
-> >> +		for SEV-SNP Guests v1.00 Section 7.
-> >> +		https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/specifications/58019.pdf
-> > 
-> 
-> >> +static ssize_t tsm_report_service_provider_store(struct config_item *cfg,
-> >> +						 const char *buf, size_t len)
-> >> +{
-> >> +	struct tsm_report *report = to_tsm_report(cfg);
-> >> +	size_t sp_len;
-> >> +	char *sp;
-> >> +	int rc;
-> >> +
-> >> +	guard(rwsem_write)(&tsm_rwsem);
-> >> +	rc = try_advance_write_generation(report);
-> >> +	if (rc)
-> >> +		return rc;
-> >> +
-> >> +	sp_len = (buf[len - 1] != '\n') ? len : len - 1;
-> > 
-> > This feels like it wants a sysfs_strdup().
-> 
-> If there start to be more string oriented operations in the file, then 
-> it might be worth it. For now I don't really see a reason.
-
-To be clear I was thinking of occurrences of this patten outside of this
-file. Turns out this pattern is not as prevalent as I would have
-guessed, resource_alignment_store() was the only occurrence I could
-find. Skip for now works for me.
+diff --git a/drivers/virt/coco/sev-guest/sev-guest.c b/drivers/virt/coco/sev-guest/sev-guest.c
+index 87f241825bc3..39b8455f0ba5 100644
+--- a/drivers/virt/coco/sev-guest/sev-guest.c
++++ b/drivers/virt/coco/sev-guest/sev-guest.c
+@@ -968,7 +968,7 @@ static int __init sev_guest_probe(struct platform_device *pdev)
+ 	snp_dev->input.resp_gpa = __pa(snp_dev->response);
+ 	snp_dev->input.data_gpa = __pa(snp_dev->certs_data);
+ 
+-	ret = tsm_register(&sev_tsm_ops, snp_dev, &tsm_report_extra_type);
++	ret = tsm_register(&sev_tsm_ops, snp_dev);
+ 	if (ret)
+ 		goto e_free_cert_data;
+ 
+diff --git a/drivers/virt/coco/tdx-guest/tdx-guest.c b/drivers/virt/coco/tdx-guest/tdx-guest.c
+index 1253bf76b570..654d20ea524a 100644
+--- a/drivers/virt/coco/tdx-guest/tdx-guest.c
++++ b/drivers/virt/coco/tdx-guest/tdx-guest.c
+@@ -301,7 +301,7 @@ static int __init tdx_guest_init(void)
+ 		goto free_misc;
+ 	}
+ 
+-	ret = tsm_register(&tdx_tsm_ops, NULL, NULL);
++	ret = tsm_register(&tdx_tsm_ops, NULL);
+ 	if (ret)
+ 		goto free_quote;
+ 
+diff --git a/drivers/virt/coco/tsm.c b/drivers/virt/coco/tsm.c
+index d1c2db83a8ca..b31be0e61728 100644
+--- a/drivers/virt/coco/tsm.c
++++ b/drivers/virt/coco/tsm.c
+@@ -14,7 +14,6 @@
+ 
+ static struct tsm_provider {
+ 	const struct tsm_ops *ops;
+-	const struct config_item_type *type;
+ 	void *data;
+ } provider;
+ static DECLARE_RWSEM(tsm_rwsem);
+@@ -252,34 +251,18 @@ static ssize_t tsm_report_auxblob_read(struct config_item *cfg, void *buf,
+ }
+ CONFIGFS_BIN_ATTR_RO(tsm_report_, auxblob, NULL, TSM_OUTBLOB_MAX);
+ 
+-#define TSM_DEFAULT_ATTRS() \
+-	&tsm_report_attr_generation, \
+-	&tsm_report_attr_provider
+-
+ static struct configfs_attribute *tsm_report_attrs[] = {
+-	TSM_DEFAULT_ATTRS(),
+-	NULL,
+-};
+-
+-static struct configfs_attribute *tsm_report_extra_attrs[] = {
+-	TSM_DEFAULT_ATTRS(),
+-	&tsm_report_attr_privlevel,
+-	&tsm_report_attr_privlevel_floor,
++	[TSM_REPORT_GENERATION] = &tsm_report_attr_generation,
++	[TSM_REPORT_PROVIDER] = &tsm_report_attr_provider,
++	[TSM_REPORT_PRIVLEVEL] = &tsm_report_attr_privlevel,
++	[TSM_REPORT_PRIVLEVEL_FLOOR] = &tsm_report_attr_privlevel_floor,
+ 	NULL,
+ };
+ 
+-#define TSM_DEFAULT_BIN_ATTRS() \
+-	&tsm_report_attr_inblob, \
+-	&tsm_report_attr_outblob
+-
+ static struct configfs_bin_attribute *tsm_report_bin_attrs[] = {
+-	TSM_DEFAULT_BIN_ATTRS(),
+-	NULL,
+-};
+-
+-static struct configfs_bin_attribute *tsm_report_bin_extra_attrs[] = {
+-	TSM_DEFAULT_BIN_ATTRS(),
+-	&tsm_report_attr_auxblob,
++	[TSM_REPORT_INBLOB] = &tsm_report_attr_inblob,
++	[TSM_REPORT_OUTBLOB] = &tsm_report_attr_outblob,
++	[TSM_REPORT_AUXBLOB] = &tsm_report_attr_auxblob,
+ 	NULL,
+ };
+ 
+@@ -297,21 +280,12 @@ static struct configfs_item_operations tsm_report_item_ops = {
+ 	.release = tsm_report_item_release,
+ };
+ 
+-const struct config_item_type tsm_report_default_type = {
++static const struct config_item_type tsm_report_type = {
+ 	.ct_owner = THIS_MODULE,
+ 	.ct_bin_attrs = tsm_report_bin_attrs,
+ 	.ct_attrs = tsm_report_attrs,
+ 	.ct_item_ops = &tsm_report_item_ops,
+ };
+-EXPORT_SYMBOL_GPL(tsm_report_default_type);
+-
+-const struct config_item_type tsm_report_extra_type = {
+-	.ct_owner = THIS_MODULE,
+-	.ct_bin_attrs = tsm_report_bin_extra_attrs,
+-	.ct_attrs = tsm_report_extra_attrs,
+-	.ct_item_ops = &tsm_report_item_ops,
+-};
+-EXPORT_SYMBOL_GPL(tsm_report_extra_type);
+ 
+ static struct config_item *tsm_report_make_item(struct config_group *group,
+ 						const char *name)
+@@ -326,12 +300,38 @@ static struct config_item *tsm_report_make_item(struct config_group *group,
+ 	if (!state)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	config_item_init_type_name(&state->cfg, name, provider.type);
++	config_item_init_type_name(&state->cfg, name, &tsm_report_type);
+ 	return &state->cfg;
+ }
+ 
++static bool tsm_report_attr_visible(struct configfs_attribute *attr, int n)
++{
++	guard(rwsem_read)(&tsm_rwsem);
++	if (!provider.ops)
++		return false;
++
++	if (!provider.ops->is_visible)
++		return true;
++
++	return provider.ops->is_visible(n);
++}
++
++static bool tsm_report_bin_attr_visible(struct configfs_bin_attribute *attr,
++					int n)
++{
++	if (!provider.ops)
++		return false;
++
++	if (!provider.ops->is_bin_visible)
++		return true;
++
++	return provider.ops->is_bin_visible(n);
++}
++
+ static struct configfs_group_operations tsm_report_group_ops = {
+ 	.make_item = tsm_report_make_item,
++	.is_visible = tsm_report_attr_visible,
++	.is_bin_visible = tsm_report_bin_attr_visible,
+ };
+ 
+ static const struct config_item_type tsm_reports_type = {
+@@ -353,16 +353,10 @@ static struct configfs_subsystem tsm_configfs = {
+ 	.su_mutex = __MUTEX_INITIALIZER(tsm_configfs.su_mutex),
+ };
+ 
+-int tsm_register(const struct tsm_ops *ops, void *priv,
+-		 const struct config_item_type *type)
++int tsm_register(const struct tsm_ops *ops, void *priv)
+ {
+ 	const struct tsm_ops *conflict;
+ 
+-	if (!type)
+-		type = &tsm_report_default_type;
+-	if (!(type == &tsm_report_default_type || type == &tsm_report_extra_type))
+-		return -EINVAL;
+-
+ 	guard(rwsem_write)(&tsm_rwsem);
+ 	conflict = provider.ops;
+ 	if (conflict) {
+@@ -372,7 +366,6 @@ int tsm_register(const struct tsm_ops *ops, void *priv,
+ 
+ 	provider.ops = ops;
+ 	provider.data = priv;
+-	provider.type = type;
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(tsm_register);
+@@ -384,7 +377,6 @@ int tsm_unregister(const struct tsm_ops *ops)
+ 		return -EBUSY;
+ 	provider.ops = NULL;
+ 	provider.data = NULL;
+-	provider.type = NULL;
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(tsm_unregister);
+diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
+index 18677cd4e62f..213e88f4cec2 100644
+--- a/fs/configfs/dir.c
++++ b/fs/configfs/dir.c
+@@ -580,6 +580,7 @@ static void detach_attrs(struct config_item * item)
+ static int populate_attrs(struct config_item *item)
+ {
+ 	const struct config_item_type *t = item->ci_type;
++	struct configfs_group_operations *ops = t->ct_group_ops;
+ 	struct configfs_attribute *attr;
+ 	struct configfs_bin_attribute *bin_attr;
+ 	int error = 0;
+@@ -589,12 +590,17 @@ static int populate_attrs(struct config_item *item)
+ 		return -EINVAL;
+ 	if (t->ct_attrs) {
+ 		for (i = 0; (attr = t->ct_attrs[i]) != NULL; i++) {
++			if (ops && ops->is_visible && !ops->is_visible(attr, i))
++				continue;
+ 			if ((error = configfs_create_file(item, attr)))
+ 				break;
+ 		}
+ 	}
+ 	if (t->ct_bin_attrs) {
+ 		for (i = 0; (bin_attr = t->ct_bin_attrs[i]) != NULL; i++) {
++			if (ops && ops->is_bin_visible &&
++			    !ops->is_bin_visible(bin_attr, i))
++				continue;
+ 			error = configfs_create_bin_file(item, bin_attr);
+ 			if (error)
+ 				break;
+diff --git a/fs/configfs/file.c b/fs/configfs/file.c
+index 0ad32150611e..356d23b6b9cf 100644
+--- a/fs/configfs/file.c
++++ b/fs/configfs/file.c
+@@ -444,7 +444,8 @@ const struct file_operations configfs_bin_file_operations = {
+  *	@attr:	atrribute descriptor.
+  */
+ 
+-int configfs_create_file(struct config_item * item, const struct configfs_attribute * attr)
++int configfs_create_file(struct config_item *item,
++			 const struct configfs_attribute *attr)
+ {
+ 	struct dentry *dir = item->ci_dentry;
+ 	struct configfs_dirent *parent_sd = dir->d_fsdata;
+diff --git a/include/linux/configfs.h b/include/linux/configfs.h
+index 2606711adb18..31553f12db7c 100644
+--- a/include/linux/configfs.h
++++ b/include/linux/configfs.h
+@@ -216,6 +216,8 @@ struct configfs_group_operations {
+ 	struct config_group *(*make_group)(struct config_group *group, const char *name);
+ 	void (*disconnect_notify)(struct config_group *group, struct config_item *item);
+ 	void (*drop_item)(struct config_group *group, struct config_item *item);
++	bool (*is_visible)(struct configfs_attribute *attr, int n);
++	bool (*is_bin_visible)(struct configfs_bin_attribute *attr, int n);
+ };
+ 
+ struct configfs_subsystem {
+diff --git a/include/linux/tsm.h b/include/linux/tsm.h
+index de8324a2223c..a45b12943223 100644
+--- a/include/linux/tsm.h
++++ b/include/linux/tsm.h
+@@ -42,6 +42,19 @@ struct tsm_report {
+ 	u8 *auxblob;
+ };
+ 
++enum tsm_attr_index {
++	TSM_REPORT_GENERATION,
++	TSM_REPORT_PROVIDER,
++	TSM_REPORT_PRIVLEVEL,
++	TSM_REPORT_PRIVLEVEL_FLOOR,
++};
++
++enum tsm_bin_attr_index {
++	TSM_REPORT_INBLOB,
++	TSM_REPORT_OUTBLOB,
++	TSM_REPORT_AUXBLOB,
++};
++
+ /**
+  * struct tsm_ops - attributes and operations for tsm instances
+  * @name: tsm id reflected in /sys/kernel/config/tsm/report/$report/provider
+@@ -55,15 +68,11 @@ struct tsm_report {
+ struct tsm_ops {
+ 	const char *name;
+ 	const unsigned int privlevel_floor;
++	bool (*is_visible)(enum tsm_attr_index index);
++	bool (*is_bin_visible)(enum tsm_bin_attr_index index);
+ 	int (*report_new)(struct tsm_report *report, void *data);
+ };
+ 
+-extern const struct config_item_type tsm_report_default_type;
+-
+-/* publish @privlevel, @privlevel_floor, and @auxblob attributes */
+-extern const struct config_item_type tsm_report_extra_type;
+-
+-int tsm_register(const struct tsm_ops *ops, void *priv,
+-		 const struct config_item_type *type);
++int tsm_register(const struct tsm_ops *ops, void *priv);
+ int tsm_unregister(const struct tsm_ops *ops);
+ #endif /* __TSM_H */
