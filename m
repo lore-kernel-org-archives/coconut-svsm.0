@@ -1,24 +1,24 @@
 Return-Path: <dan.j.williams@intel.com>
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 5AB281C790E
- for <svsm-devel@coconut-svsm.dev>; Tue, 16 Apr 2024 07:47:59 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id 040311C7944
+ for <svsm-devel@coconut-svsm.dev>; Tue, 16 Apr 2024 08:03:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713246480; x=1744782480;
+ t=1713247408; x=1744783408;
  h=date:from:to:cc:subject:message-id:references:
  in-reply-to:mime-version;
- bh=tUTRSyxKYM7em+7cZ0j8poHb+i0bTHAKNPIBGGia9+o=;
- b=Yv7jje/iy/2XynsOD4nSPt4UFYy/7qH6S50xKn24chLqdXJfKtZH5Pke
- IkkSgyjXp7VAqgEDxKDSNAWFj1f+rB5Njpg8d+WSKkjERdDSonO3P8oSy
- zHHcovew7EMxwgjvYafl3qZjT84/imQXd3XT33t0stkOCDafQ8XXIuTjp
- EfGotwyRsye0qpyC+oSi0NemE5EFO9nRl0QbAQRG5Pgu+cQwke7hRK+8M
- QfXLBl+754oQnl5jKi/y1tNhHy9ErGHpaFrDe6ugpi/1iOErKfrN4HEcG
- j6iItLnBjir/cTAnZycW+X+jiFvG5TzNvMqxmAzgeziN/4MJDw7fGTilR g==;
-Date: Mon, 15 Apr 2024 22:47:47 -0700
+ bh=rIOUFsyh/D/LI9pzA9tG6mXw5W4eu3wuNoIVel/fMew=;
+ b=ATOXV63qLdIkXin8raoOYqHkHBt1CFvyaEa/ovitrohQLaQK60OvFQXW
+ ZyTR1r6sst9rMha5+H+fxgL+ypznWrl0/T9Yt5ey6NcasOO4LgASn3NFj
+ BEhCe6x59oDh2VwxbZiPuWXN92DNBtLANzbMsz6VlZ5jPh1b7c7vgSGzf
+ /8/54rJQGzUB/UxEwjVkNKTcNUxSasBWH3svaF+t3NoejF4TOnqdWjziQ
+ 6GjWiHERf/kEjUvVzLEtYRDdEBm5xSTmaCJazjVoZPJ0g2UQ7sbY9qb6n
+ Q1VOK5DVrhl46K8fUyP0ruIxdGfyYcG5eF3Fbx3CgF0WmpsijgIH8w+0m w==;
+Date: Mon, 15 Apr 2024 23:03:14 -0700
 From: Dan Williams <dan.j.williams@intel.com>
-Message-ID: <661e110326bd2_4d5612949a@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+Message-ID: <661e14a2cdb12_4d561294c7@dwillia2-mobl3.amr.corp.intel.com.notmuch>
 References: <cover.1711405593.git.thomas.lendacky@amd.com>
  <67893f352bc54de61160bfe251cba0bdf0431f37.1711405593.git.thomas.lendacky@amd.com>
 Content-Type: text/plain; charset="us-ascii"
@@ -88,43 +88,7 @@ Tom Lendacky wrote:
 > +{
 > +	return cc_platform_has(CC_ATTR_GUEST_SVSM_PRESENT);
 > +}
-> +
->  static int try_advance_write_generation(struct tsm_report *report)
->  {
->  	struct tsm_report_state *state = to_state(report);
-> @@ -144,7 +150,7 @@ static ssize_t tsm_report_service_provider_store(struct config_item *cfg,
->  
->  	return len;
->  }
-> -CONFIGFS_ATTR_WO(tsm_report_, service_provider);
-> +CONFIGFS_ATTR_VISIBLE_WO(tsm_report_, service_provider, provider_visibility);
->  
->  static ssize_t tsm_report_service_guid_store(struct config_item *cfg,
->  					     const char *buf, size_t len)
-> @@ -165,7 +171,7 @@ static ssize_t tsm_report_service_guid_store(struct config_item *cfg,
->  
->  	return len;
->  }
-> -CONFIGFS_ATTR_WO(tsm_report_, service_guid);
-> +CONFIGFS_ATTR_VISIBLE_WO(tsm_report_, service_guid, provider_visibility);
->  
->  static ssize_t tsm_report_service_manifest_version_store(struct config_item *cfg,
->  							 const char *buf, size_t len)
-> @@ -186,7 +192,7 @@ static ssize_t tsm_report_service_manifest_version_store(struct config_item *cfg
->  
->  	return len;
->  }
-> -CONFIGFS_ATTR_WO(tsm_report_, service_manifest_version);
-> +CONFIGFS_ATTR_VISIBLE_WO(tsm_report_, service_manifest_version, provider_visibility);
->  
->  static ssize_t tsm_report_inblob_write(struct config_item *cfg,
->  				       const void *buf, size_t count)
-> @@ -333,7 +339,7 @@ static ssize_t tsm_report_manifestblob_read(struct config_item *cfg, void *buf,
->  
->  	return tsm_report_read(report, buf, count, TSM_MANIFEST);
->  }
-> -CONFIGFS_BIN_ATTR_RO(tsm_report_, manifestblob, NULL, TSM_OUTBLOB_MAX);
-> +CONFIGFS_BIN_ATTR_VISIBLE_RO(tsm_report_, manifestblob, NULL, TSM_OUTBLOB_MAX, provider_visibility);
 
-Yeah the same callback specified multiple times feels like something
-that should only happen once at the group level.
+I expect this needs to be a callback into the provider ops because one
+of the other use cases for this visibility check is to get rid of the
+"extra" attributes and handle that visibility with the same mechanism.
