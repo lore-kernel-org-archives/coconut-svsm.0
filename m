@@ -1,23 +1,23 @@
 Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on20601.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2412::601])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on20600.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2415::600])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 6233F1C7F96
- for <svsm-devel@coconut-svsm.dev>; Tue, 16 Apr 2024 18:07:33 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id 552B41C7F96
+ for <svsm-devel@coconut-svsm.dev>; Tue, 16 Apr 2024 18:10:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WGOVPVDoEVOw6cfh/c0BSuhx5j/OQg/C0hhfFG8RU+Q=;
- b=AlfOhnSCnXvo7aXnOyHX5Ib1AkaBJwoCXquxz6Fha5LbaDArfZph8xkqvWxV4eIL0tjMdIm6/79f7rqN9aR/uOWz42wxFcLhvA4VR8zMy5KWhQh5d58GarfFKu5EE32hqCva8VVPFKN8nnAfMgegmpbABcLFaVhrphnt52K606c=
-Message-ID: <24a30a7e-f90d-550d-b86e-118513ad8017@amd.com>
-Date: Tue, 16 Apr 2024 11:07:26 -0500
+ bh=pvhTamlKAD8kTuh0c9KJ8e4dW0bdeuao5MGTe54skuk=;
+ b=QSIslBDKHm94tHa88MllztuYdxTIEdZlYrUPRF8Evbngl9VaouBuJ5DbsJtxwEJLmTqm1cvwFEP7bB0FB2GsSZppyXjNCmKJUPAct/WCETB6qVJR+sfH7IwF59jMZ3ua3M3qw+fGKc35Exh8MG08MpPZD48FlCBT+5Q+2Zb9WJ8=
+Message-ID: <18dfff9a-b8e0-9d43-8538-366f74d74a7d@amd.com>
+Date: Tue, 16 Apr 2024 11:10:14 -0500
 Content-Language: en-US
 References: <cover.1711405593.git.thomas.lendacky@amd.com>
  <67893f352bc54de61160bfe251cba0bdf0431f37.1711405593.git.thomas.lendacky@amd.com>
- <661e110326bd2_4d5612949a@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+ <661e14a2cdb12_4d561294c7@dwillia2-mobl3.amr.corp.intel.com.notmuch>
 From: Tom Lendacky <thomas.lendacky@amd.com>
-In-Reply-To: <661e110326bd2_4d5612949a@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+In-Reply-To: <661e14a2cdb12_4d561294c7@dwillia2-mobl3.amr.corp.intel.com.notmuch>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
@@ -34,7 +34,9 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
 To: Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev
 Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>
 
-On 4/16/24 00:47, Dan Williams wrote:
+
+
+On 4/16/24 01:03, Dan Williams wrote:
 > Tom Lendacky wrote:
 >> Config-fs provides support to hide individual attribute entries. Using
 >> this support, base the display of the SVSM related entries on the presence
@@ -84,59 +86,16 @@ On 4/16/24 00:47, Dan Williams wrote:
 >> +{
 >> +	return cc_platform_has(CC_ATTR_GUEST_SVSM_PRESENT);
 >> +}
->> +
->>   static int try_advance_write_generation(struct tsm_report *report)
->>   {
->>   	struct tsm_report_state *state = to_state(report);
->> @@ -144,7 +150,7 @@ static ssize_t tsm_report_service_provider_store(struct config_item *cfg,
->>   
->>   	return len;
->>   }
->> -CONFIGFS_ATTR_WO(tsm_report_, service_provider);
->> +CONFIGFS_ATTR_VISIBLE_WO(tsm_report_, service_provider, provider_visibility);
->>   
->>   static ssize_t tsm_report_service_guid_store(struct config_item *cfg,
->>   					     const char *buf, size_t len)
->> @@ -165,7 +171,7 @@ static ssize_t tsm_report_service_guid_store(struct config_item *cfg,
->>   
->>   	return len;
->>   }
->> -CONFIGFS_ATTR_WO(tsm_report_, service_guid);
->> +CONFIGFS_ATTR_VISIBLE_WO(tsm_report_, service_guid, provider_visibility);
->>   
->>   static ssize_t tsm_report_service_manifest_version_store(struct config_item *cfg,
->>   							 const char *buf, size_t len)
->> @@ -186,7 +192,7 @@ static ssize_t tsm_report_service_manifest_version_store(struct config_item *cfg
->>   
->>   	return len;
->>   }
->> -CONFIGFS_ATTR_WO(tsm_report_, service_manifest_version);
->> +CONFIGFS_ATTR_VISIBLE_WO(tsm_report_, service_manifest_version, provider_visibility);
->>   
->>   static ssize_t tsm_report_inblob_write(struct config_item *cfg,
->>   				       const void *buf, size_t count)
->> @@ -333,7 +339,7 @@ static ssize_t tsm_report_manifestblob_read(struct config_item *cfg, void *buf,
->>   
->>   	return tsm_report_read(report, buf, count, TSM_MANIFEST);
->>   }
->> -CONFIGFS_BIN_ATTR_RO(tsm_report_, manifestblob, NULL, TSM_OUTBLOB_MAX);
->> +CONFIGFS_BIN_ATTR_VISIBLE_RO(tsm_report_, manifestblob, NULL, TSM_OUTBLOB_MAX, provider_visibility);
 > 
-> Yeah the same callback specified multiple times feels like something
-> that should only happen once at the group level.
+> I expect this needs to be a callback into the provider ops because one
+> of the other use cases for this visibility check is to get rid of the
+> "extra" attributes and handle that visibility with the same mechanism.
 
-I went with this to keep compatibility of all the attributes existing at 
-the same level in the report sub-directory. Moving the existing extra 
-attributes will break backwards compatibility if we want to apply 
-visibility to them.
+Yes, worked through on the other thread.
 
-If we don't want to apply visibility to the existing extra attributes, 
-then, yes, the the visibility support can be done at the group level 
-instead of the file/attribute level.
-
-Thoughts?
+But the "extra" attributes are likely to remain visible if we go in the 
+group visibility direction, to provide compatibility.
 
 Thanks,
 Tom
 
-> 
