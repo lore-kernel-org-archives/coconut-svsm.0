@@ -1,28 +1,34 @@
-Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on20600.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2412::600])
+Return-Path: <dan.j.williams@intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 44F9B1C7F57
- for <svsm-devel@coconut-svsm.dev>; Tue, 16 Apr 2024 17:23:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3ebCs0dz4LIz1cxpSdWY0HjZ+v/60SibESFOEJiuTuQ=;
- b=RN5a9UIsQDBUjYPqfdfqV0sd8Xz7e8KUENHgKYkxAezYvQookIINtRH80OUsjQyd/RhAdgdFdA3C5uIXqir+cgMia3pEWAqra+VG3vvKmiLtKrXPOlMBTBj3KutOGQNFURahSMmT0ySiTLVdI+JDnwocWvQH+8MM+4oTLjRagsU=
-Message-ID: <061802e1-7c95-f1f0-b462-3aca27583d76@amd.com>
-Date: Tue, 16 Apr 2024 10:23:23 -0500
-Content-Language: en-US
+ by mail.8bytes.org (Postfix) with ESMTPS id 57FE31C7F96
+ for <svsm-devel@coconut-svsm.dev>; Tue, 16 Apr 2024 17:48:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713282484; x=1744818484;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=+u6ByJjY6qvYOBxSH0V/mBazyTGzrAIM8soMZte7ZM4=;
+ b=heQxe8MfrZ+pcK7IArfWsQNMw3qUy+yHpIBhMxj/FhnInclodgYZbg26
+ gnciNAjgEIA9r6VT580g6FwVDxnRymW6Y1YRftRdbJ1yalM2ph18bQZrJ
+ 5kGrN5csy5cawLiOvWht5FcF/52LweEwWQGVnxsxE4e+gks9elHE0UcTc
+ OWsXxam+BJUvPKT5q1LpXx9xtUsxtgwFcH2s2x2cELmEwEqqJt6JxBA1t
+ UzrlHX5l+IqVCSDdgd54TTvbFQ1E9oOrWxb7g7Cd+UPKKtgOOuLEZBHxA
+ dVobAJMAOkG1phVV/AZKv6C9aUK+fXmRqXAivSdTAgD3PmWRgHkOqz8UY w==;
+Date: Tue, 16 Apr 2024 08:47:54 -0700
+From: Dan Williams <dan.j.williams@intel.com>
+Message-ID: <661e9daa4b37c_4d56129418@dwillia2-mobl3.amr.corp.intel.com.notmuch>
 References: <cover.1711405593.git.thomas.lendacky@amd.com>
- <bb088b1409283cd323515138feda224759a247ec.1711405593.git.thomas.lendacky@amd.com>
- <661e04cd345af_4d56129468@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-In-Reply-To: <661e04cd345af_4d56129468@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <9615e6055e5b262a22bf312608647223517595b5.1711405593.git.thomas.lendacky@amd.com>
+ <661e04966c622_4d5612946d@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+ <8a1b16c0-9897-bd10-b6f7-b428292c8c9f@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <8a1b16c0-9897-bd10-b6f7-b428292c8c9f@amd.com>
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [PATCH v3 10/14] configfs-tsm: Allow the
- privlevel_floor attribute to be updated
+Subject: Re: [svsm-devel] [PATCH v3 09/14] virt: sev-guest: Choose the VMPCK
+ key based on executing VMPL
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -31,49 +37,35 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
+To: Tom Lendacky <thomas.lendacky@amd.com>, Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter
+ Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-On 4/15/24 23:55, Dan Williams wrote:
-> Tom Lendacky wrote:
->> With the introduction of an SVSM, Linux will be running at a non-zero
->> VMPL. Any request for an attestation report at a higher priviledge VMPL
->> than what Linux is currently running will result in an error. Allow for
->> the privlevel_floor attribute to be updated dynamically so that the
->> attribute may be set dynamically.
->>
->> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
->> ---
->>   drivers/virt/coco/sev-guest/sev-guest.c | 5 ++++-
->>   include/linux/tsm.h                     | 2 +-
->>   2 files changed, 5 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/virt/coco/sev-guest/sev-guest.c b/drivers/virt/coco/sev-guest/sev-guest.c
->> index 1ff897913bf4..bba6531cb606 100644
->> --- a/drivers/virt/coco/sev-guest/sev-guest.c
->> +++ b/drivers/virt/coco/sev-guest/sev-guest.c
->> @@ -885,7 +885,7 @@ static int sev_report_new(struct tsm_report *report, void *data)
->>   	return 0;
->>   }
->>   
->> -static const struct tsm_ops sev_tsm_ops = {
->> +static struct tsm_ops sev_tsm_ops = {
->>   	.name = KBUILD_MODNAME,
->>   	.report_new = sev_report_new,
->>   };
->> @@ -972,6 +972,9 @@ static int __init sev_guest_probe(struct platform_device *pdev)
->>   	snp_dev->input.resp_gpa = __pa(snp_dev->response);
->>   	snp_dev->input.data_gpa = __pa(snp_dev->certs_data);
->>   
->> +	/* Set the privlevel_floor attribute based on the current VMPL */
->> +	sev_tsm_ops.privlevel_floor = snp_get_vmpl();
+Tom Lendacky wrote:
+> On 4/15/24 23:54, Dan Williams wrote:
+> > Hey, Tom, came looking to review the tsm_report changes and noticed
+> > this...
+> > 
+> > Tom Lendacky wrote:
+> >> Currently, the sev-guest driver uses the vmpck-0 key by default. When an
+> >> SVSM is present the kernel is running at a VMPL other than 0 and the
+> >> vmpck-0 key is no longer available. So choose the vmpck key based on the
+> >> active VMPL level.
+> > 
+> > The module parameter is not mentioned in the changelog. Is it not
+> > sufficient to always use snp_get_vmpl(), and if not should there be some
+> > documentation about when to specify vmpck_id?
 > 
-> Why is this not vmpck_id?
+> It is possible to encounter an issue that causes the vmpck key to be 
+> cleared. In that situation, the guest is allowed to use a vmpck key 
+> associated with a lower VMPL. For that reason, the module parameter was 
+> added to the driver when it was initially created.
 
-Good catch, this probably should be pulled out separately and submitted 
-as a Fixes: against the current support. If you think it's important 
-enough, I can do that and put this at the beginning of the series. Or I 
-can just modify this to use the vmpck_id value. Any preference?
+Oh, sorry, misread that the module parameter was not new.
 
-Thanks,
-Tom
+> I can update the changelog to mention this.
+
+I guess it is too late now, but a proper sysfs attribute rather than a
+module parameter would let you do sanity checking on the writes and
+allow a natural place to document behavior in
+Documentation/ABI/testing/sysfs-devices-sev-guest.
