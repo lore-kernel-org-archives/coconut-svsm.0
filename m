@@ -1,36 +1,67 @@
-Return-Path: <dan.j.williams@intel.com>
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <clopez@suse.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de
+ [IPv6:2a07:de40:b251:101:10:150:64:1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id D26BC1C82D9
- for <svsm-devel@coconut-svsm.dev>; Tue, 16 Apr 2024 22:04:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713297844; x=1744833844;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=0sIMIEA610kk/tFor5FPlu85UAO+Wb30TB2OEIaRzyA=;
- b=FW7NSN18WBDL8vVPLm+df/coA+uET+GrQXLbQEYyzZ8aYuzIB5/kSC2x
- rNoebe5XiYIS6awrFXEEe2DSU9p+hRkjIOj0Mw8ETKbWDhL/U/Q6k9UaP
- HKeST4JX/H33JQ4GfCiFR5NzY+DtT0cgTSTeHmev+UEPC7o15/ATN/rxL
- JKYqYp/tOdk0NbxvdOCRMM3Z1FIysFr+95P9zPI8SNQsDapM0ZiSh9uro
- /nr84qg+DeaYGFxSnuNDi9MI3SwwsWm1z/j/BHawkUve+yPegR2VD2Zo2
- bHzPBgHX37HrL49sZ0f/El3OQwY+gz1Tj8tHBxQMs3CjOqUsUsI5NU4T8 A==;
-Date: Tue, 16 Apr 2024 13:03:51 -0700
-From: Dan Williams <dan.j.williams@intel.com>
-Message-ID: <661ed9a781e80_4d56129495@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-References: <cover.1711405593.git.thomas.lendacky@amd.com>
- <e881a70fda1da98882241fc46fd57c3063fde55f.1711405593.git.thomas.lendacky@amd.com>
- <661e10a01f1d8_4d561294d0@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <7fc4e7d4-dfa8-b626-76c7-1f8993304a2d@amd.com>
- <661ec2968fa55_4d56129470@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <3cb02504-4854-8bc6-7962-e590e656856d@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <3cb02504-4854-8bc6-7962-e590e656856d@amd.com>
+ by mail.8bytes.org (Postfix) with ESMTPS id A9AA31C8817
+ for <svsm-devel@coconut-svsm.dev>; Wed, 17 Apr 2024 12:05:25 +0200 (CEST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 916BE33ABE
+ for <svsm-devel@coconut-svsm.dev>; Wed, 17 Apr 2024 10:05:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1713348324; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aW51khFguFt7X0/bwTqivcrVshkoqx54klH4JM6E7S0=;
+ b=HhbDPaYWGlBIhWpsa8gyOxVTflPG3ZfeE+Tv1/cmKs+ntb7Mray3cqJx8Dr43Cu+a+Yqy4
+ TVg0Bb9cuIVhoTMK9BljNI8zDQIFmnn2iF3tBdw9S46Y86O0mMmdIYe4eiAIXUhYb7ts25
+ L71sC5Wpl7wNkoz4n1NQ++rAyz8SvGA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1713348324;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aW51khFguFt7X0/bwTqivcrVshkoqx54klH4JM6E7S0=;
+ b=XHF1txfexu/f7rkZ78okf6kQlLLs5oJHpTHB7Z1V5NeSCKsFXSGB4KQWLETSSCu1m2VFwc
+ EMY9sQeLeQ0NqXCQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1713348323; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aW51khFguFt7X0/bwTqivcrVshkoqx54klH4JM6E7S0=;
+ b=CgbFnX3fksBmSuhC8r2AkXsEayF/ORwVHWUt1q147ziLAx2nQegbQElFjbfjY8qlmX/tN3
+ Yld6rHv2kmqIfy3roJZzBkU7+kRVCBM4zWVVgH4a/29ZkH+ykP5mpPt59VSg1/tcsk9LKu
+ 4RuiR3A7afz0DXOTfdXzekttsnR5lZI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1713348323;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aW51khFguFt7X0/bwTqivcrVshkoqx54klH4JM6E7S0=;
+ b=JERudIauGYFP+EK+I1RjuxoCQKh/ioXFUflUgu/h+jtzKiyFvBPpGbGLyGmvg6JJCl9wAh
+ 2d1HxyqdjX0COuDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 761EB13957
+ for <svsm-devel@coconut-svsm.dev>; Wed, 17 Apr 2024 10:05:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 1EXxGeOeH2YCZgAAD6G6ig
+ (envelope-from <clopez@suse.de>)
+ for <svsm-devel@coconut-svsm.dev>; Wed, 17 Apr 2024 10:05:23 +0000
+Message-ID: <1cef0323-1881-408b-8883-db3f3445c29e@suse.de>
+Date: Wed, 17 Apr 2024 12:05:22 +0200
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [PATCH v3 12/14] fs/configfs: Add a callback to
- determine attribute visibility
+Content-Language: en-US
+From: =?UTF-8?Q?Carlos_L=C3=B3pez?= <clopez@suse.de>
+Content-Transfer-Encoding: 8bit
+Subject: [svsm-devel] [RFC] moving libstpm bindings and safe abstractions
+ into a separate repository
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -39,81 +70,45 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Tom Lendacky <thomas.lendacky@amd.com>, Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>
+To: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 
-Tom Lendacky wrote:
-> On 4/16/24 13:25, Dan Williams wrote:
-> > Tom Lendacky wrote:
-> >> On 4/16/24 00:46, Dan Williams wrote:
-> >>> Tom Lendacky wrote:
-> >>>> In order to support dynamic decisions as to whether an attribute should be
-> >>>> created, add a callback that returns a bool to indicate whether the
-> >>>> attribute should be display. If no callback is registered, the attribute
-> > [..]
-> >>>> Cc: Joel Becker <jlbec@evilplan.org>
-> >>>> Cc: Christoph Hellwig <hch@lst.de>
-> >>>> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
-> >>>> ---
-> >>>>    fs/configfs/file.c       |   7 +++
-> >>>>    include/linux/configfs.h | 111 +++++++++++++++++++++++++++------------
-> >>>>    2 files changed, 84 insertions(+), 34 deletions(-)
-> >>>>
-> > [..]
-> >>>> diff --git a/include/linux/configfs.h b/include/linux/configfs.h
-> >>>> index 2606711adb18..c836d7bc7c9e 100644
-> >>>> --- a/include/linux/configfs.h
-> >>>> +++ b/include/linux/configfs.h
-> >>>> @@ -116,35 +116,57 @@ struct configfs_attribute {
-> >>>>    	const char		*ca_name;
-> >>>>    	struct module 		*ca_owner;
-> >>>>    	umode_t			ca_mode;
-> >>>> +	bool (*is_visible)(const struct config_item *, const struct configfs_attribute *);
-> >>>>    	ssize_t (*show)(struct config_item *, char *);
-> >>>>    	ssize_t (*store)(struct config_item *, const char *, size_t);
-> >>>>    };
-> >>>>    
-> >>>> -#define CONFIGFS_ATTR(_pfx, _name)			\
-> >>>> +#define __CONFIGFS_ATTR(_pfx, _name, _vis)		\
-> >>>>    static struct configfs_attribute _pfx##attr_##_name = {	\
-> >>>>    	.ca_name	= __stringify(_name),		\
-> >>>>    	.ca_mode	= S_IRUGO | S_IWUSR,		\
-> >>>>    	.ca_owner	= THIS_MODULE,			\
-> >>>> +	.is_visible	= _vis,				\
-> >>>>    	.show		= _pfx##_name##_show,		\
-> >>>>    	.store		= _pfx##_name##_store,		\
-> >>>
-> >>> Shouldn't this operation live in configfs_group_operations? That would
-> >>> mirror the sysfs organization, and likely saves some memory.
-> >>
-> >> I suppose it can, but then you lose the grouping of attributes within
-> >> the same directory, right? A configfs group will result in moving the
-> >> entries into a subdirectory, right? If we go with the group level, then
-> >> we will be moving the existing TSM extra attributes and the new TSM SVSM
-> >> attributes into new, separate sub-directories.
-> > 
-> > I am not following the concern about "losing the grouping"? Here is what
-> > I was thinking with having the visibility routines in group operations.
-> > This is just the broard strokes, it compiles, but still needs the finer
-> > detail work to make tdx-guest skip all the attributes that do not apply
-> > to it.  Might need to be broken up a bit more, but hopefully conveys the
-> > idea. Does this address your grouping concern?
-> 
-> Yes and no. Basically the is_visible()/is_bin_visible() callback will 
-> have to check every index value for a "group" against the passed in 
-> value. I was trying to group the values together using an enum in order 
-> to make it a bit easier and more readable in the callback. Adding 
-> another attribute to the group requires updates in multiple places. But 
-> thats just how I was looking at it. I can also see where you might want 
-> to selectively hide/show entries and this method works well for that.
-> 
-> I'll follow this approach (add you as Co-developed-by: or Suggested-by:, 
-> whichever you prefer) and submit a v4.
+Hi everyone,
 
-Sure, you can add:
+I'd like to suggest that we move both the `libstpm` bindings (currently
+in `libstpm/`) and safe abstractions (currently in
+`kernel/src/vtpm/mstpm/`) to a separate repository.
 
-Co-developed-by: Dan Williams <dan.j.williams@intel.com>
-Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+This new repository would contain two crates `libstpm-sys` (raw
+bindings) and `libstpm` (safe abstractions). This follows the official
+the recommendation in the Cargo Book [0], and mirrors the development of
+other C-based crates. A few examples, among many:
 
-...if you want to reuse any of this sample patch.
+* libgit2-sys and git2 [1]
+* curl-sys and curl [2]
+* openssl-sys and openssl [3]
+* libssh2-sys and ssh2 [4]
+
+Currently we do have a separate crate for the raw bindings in our
+ever-growing monorepo, but the safe abstractions are in the SVSM kernel
+crate.
+
+This change would improve the reusability of the safe abstractions for
+other projects, and also make it easier for third parties to find our
+implementation.
+
+I'd like to take opinions from the SVSM community to see if others think
+it's a positive change or not before starting any work. It's perhaps
+something that could be discussed in the next SVSM call as well.
+
+[0] 
+https://doc.rust-lang.org/cargo/reference/build-scripts.html#-sys-packages
+[1] https://github.com/rust-lang/git2-rs
+[2] https://github.com/alexcrichton/curl-rust
+[3] https://github.com/sfackler/rust-openssl
+[4] https://github.com/alexcrichton/ssh2-rs
+
+-- 
+Carlos López
+Security Engineer
+SUSE Software Solutions
