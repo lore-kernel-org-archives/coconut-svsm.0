@@ -1,28 +1,21 @@
-Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on20601.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2418::601])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <bp@alien8.de>
+Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 69B7B1C0B90
- for <svsm-devel@coconut-svsm.dev>; Wed, 17 Apr 2024 22:36:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4h71yltihMqnyoSsYcitF85Pw54bxFG2ag21jUjHnIc=;
- b=mbJxmXZ++vUA/WokuEotYEEPrGkZnlatnwHJdjzBtdN7DkLe5YA0FWABdV04PE7HywPHq8+uW5I23DlFYTrBlNYw7uV01GPR7cEOpqS8qAX8NxO4KXqiuaQXMKNYK8w+O/AohkI7cL3f8wumCeAZn5b7cRW27zV6xD40/o6wmpA=
-Message-ID: <505dcf34-93ff-643c-b149-8ef9ce90c023@amd.com>
-Date: Wed, 17 Apr 2024 15:35:53 -0500
-Content-Language: en-US
+ by mail.8bytes.org (Postfix) with ESMTPS id 739921C0B91
+ for <svsm-devel@coconut-svsm.dev>; Wed, 17 Apr 2024 22:40:58 +0200 (CEST)
+Date: Wed, 17 Apr 2024 22:40:30 +0200
+From: Borislav Petkov <bp@alien8.de>
+Message-ID: <20240417204030.GIZiAzvuLG6qcFFMyT@fat_crate.local>
 References: <cover.1711405593.git.thomas.lendacky@amd.com>
- <1b0d8ec8e671ad957a2ad888725ce24edeedf74a.1711405593.git.thomas.lendacky@amd.com>
- <20240417114658.GHZh-2sk47TZgCp4Mb@fat_crate.local>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-In-Reply-To: <20240417114658.GHZh-2sk47TZgCp4Mb@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <e8d4877f3b7248031931ed193c026c42dd3363ef.1711405593.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [PATCH v3 02/14] x86/sev: Make the VMPL0 checking
- function more generic
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <e8d4877f3b7248031931ed193c026c42dd3363ef.1711405593.git.thomas.lendacky@amd.com>
+Subject: Re: [svsm-devel] [PATCH v3 03/14] x86/sev: Check for the presence
+ of an SVSM in the SNP Secrets page
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -31,60 +24,181 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Borislav Petkov <bp@alien8.de>
+To: Tom Lendacky <thomas.lendacky@amd.com>
 Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-On 4/17/24 06:46, Borislav Petkov wrote:
-> On Mon, Mar 25, 2024 at 05:26:21PM -0500, Tom Lendacky wrote:
->> -static void enforce_vmpl0(void)
->> +static bool running_at_vmpl0(void *va)
+On Mon, Mar 25, 2024 at 05:26:22PM -0500, Tom Lendacky wrote:
+> During early boot phases, check for the presence of an SVSM when running
+> as an SEV-SNP guest.
 > 
-> Not too crazy about it: you're turning it into a function which runs in
-> boolean context but takes a void *?!
-> 
-> And the boolean result is only a side-effect or what it does to the
-> argument - modify its permissions. Which is weird and not really
-> obvious.
+> An SVSM is present if the 64-bit value at offset 0x148 into the secrets
+> page is non-zero. If an SVSM is present, save the SVSM Calling Area
+> address (CAA), located at offset 0x150 into the secrets page, and set
+> the VMPL level of the guest, which should be non-zero, to indicate the
+> presence of an SVSM.
 
-Well, it doesn't really modify any permissions that matter. It tries to 
-change the permission of a lesser privileged VMPL level. Since the 
-kernel only runs at a single VMPL it would never be effected. The 
-operation performed here is to update VMPL1 permission levels (which can 
-only be done successfully at VMPL0) and return the result of the 
-operation. A success implies running at VMPL0 and failure implies not 
-running at VMPL0.
+Where are we pointing to the SVSM spec?
 
-> 
-> I'd prefer it if you made it into
-> 
-> static void vmpl0_modify_permissions(void *va)
+This is in the 0th message
 
-I guess this confuses me, since it sounds like you're trying to modify 
-the VMPL0 permissions, which you can't do. Maybe calling it 
-modify_vmpl1_permissions() would be better. And a void return doesn't 
-tell me whether it was successful and, therefore, whether the kernel is 
-running at VMPL0.
+https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/specifications/58019.pdf
 
-Thanks,
-Tom
+but pls add it to our documentation here:
 
+Documentation/arch/x86/amd-memory-encryption.rst
+
+> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> ---
+>  arch/x86/boot/compressed/sev.c    | 35 ++++++++---------
+>  arch/x86/include/asm/sev-common.h |  4 ++
+>  arch/x86/include/asm/sev.h        | 25 +++++++++++-
+>  arch/x86/kernel/sev-shared.c      | 64 +++++++++++++++++++++++++++++++
+>  arch/x86/kernel/sev.c             | 16 ++++++++
+>  5 files changed, 125 insertions(+), 19 deletions(-)
 > 
-> which basically says, modify the permissions of @va in vmpl0, which is
-> a lot closer to what the function does.
-> 
-> And then do
-> 
-> #define running_at_vmpl0(va)	vmpl0_modify_permissions((va))
-> 
-> because then through the indirection is at least clear how that "am
-> I running at VMPL0?" check is being done.
-> 
-> And later, if we need other VMPLs, we can extend
-> vmpl0_modify_permissions() and even do a more generic
-> 
-> vmpl_modify_permissions(unsigned int vmpl_level, void *va)
-> 
-> and so on and kill the silly macro.
-> 
-> Thx.
-> 
+> diff --git a/arch/x86/boot/compressed/sev.c b/arch/x86/boot/compressed/sev.c
+> index 49dc9661176d..fe61ff630c7e 100644
+> --- a/arch/x86/boot/compressed/sev.c
+> +++ b/arch/x86/boot/compressed/sev.c
+> @@ -12,6 +12,7 @@
+>   */
+>  #include "misc.h"
+>  
+> +#include <linux/mm.h>
+>  #include <asm/bootparam.h>
+>  #include <asm/pgtable_types.h>
+>  #include <asm/sev.h>
+> @@ -29,6 +30,15 @@
+>  static struct ghcb boot_ghcb_page __aligned(PAGE_SIZE);
+>  struct ghcb *boot_ghcb;
+>  
+> +/*
+> + * SVSM related information:
+> + *   When running under an SVSM, the VMPL that Linux is executing at must be
+> + *   non-zero. The VMPL is therefore used to indicate the presence of an SVSM.
+> + */
+> +static u8 vmpl __section(".data");
+> +static u64 boot_svsm_caa_pa __section(".data");
+> +static struct svsm_ca *boot_svsm_caa __section(".data");
+
+Explain what those last 2 are in comments above it pls.
+
+>  /*
+>   * SNP_FEATURES_IMPL_REQ is the mask of SNP features that will need
+>   * guest side implementation for proper functioning of the guest. If any
+> @@ -480,6 +472,13 @@ static bool early_snp_init(struct boot_params *bp)
+>  	 */
+>  	setup_cpuid_table(cc_info);
+>  
+> +	/*
+> +	 * Record the SVSM Calling Area address (CAA) if the guest is not
+
+			Calling Area (CA) address
+
+> +	 * running at VMPL0. The CA will be used to communicate with the
+
+and then you can use "CA" here.
+
+> +	 * SVSM to perform the SVSM services.
+> +	 */
+> +	setup_svsm_ca(cc_info);
+> +
+>  	/*
+>  	 * Pass run-time kernel a pointer to CC info via boot_params so EFI
+>  	 * config table doesn't need to be searched again during early startup
+> diff --git a/arch/x86/include/asm/sev-common.h b/arch/x86/include/asm/sev-common.h
+> index b463fcbd4b90..68a8cdf6fd6a 100644
+> --- a/arch/x86/include/asm/sev-common.h
+> +++ b/arch/x86/include/asm/sev-common.h
+> @@ -159,6 +159,10 @@ struct snp_psc_desc {
+>  #define GHCB_TERM_NOT_VMPL0		3	/* SNP guest is not running at VMPL-0 */
+>  #define GHCB_TERM_CPUID			4	/* CPUID-validation failure */
+>  #define GHCB_TERM_CPUID_HV		5	/* CPUID failure during hypervisor fallback */
+> +#define GHCB_TERM_SECRETS_PAGE		6	/* Secrets page failure */
+> +#define GHCB_TERM_NO_SVSM		7	/* SVSM is not advertised in the secrets page */
+> +#define GHCB_TERM_SVSM_VMPL0		8	/* SVSM is present but has set VMPL to 0 */
+> +#define GHCB_TERM_SVSM_CAA		9	/* SVSM is present but the CA is not page aligned */
+
+"CAA" in the comment I guess. :)
+
+> +/*
+> + * Maintain the GPA of the SVSM Calling Area (CA) in order to utilize the SVSM
+> + * services needed when not running in VMPL0.
+> + */
+> +static void __head setup_svsm_ca(const struct cc_blob_sev_info *cc_info)
+> +{
+> +	struct snp_secrets_page_layout *secrets_page;
+
+Why was that thing ever called "_layout" and not simply
+snp_secrets_page?
+
+Fix it?
+
+> +	u64 caa;
+> +
+> +	BUILD_BUG_ON(sizeof(*secrets_page) != PAGE_SIZE);
+
+Put it in the header under the struct definition I guess.
+
+> +	/*
+> +	 * Use __pa() since this routine is running identity mapped when
+> +	 * called, both by the decompressor code and the early kernel code.
+> +	 */
+> +	if (running_at_vmpl0((void *)__pa(&boot_ghcb_page)))
+> +		return;
+> +
+> +	/*
+> +	 * Not running at VMPL0, ensure everything has been properly supplied
+> +	 * for running under an SVSM.
+> +	 */
+> +	if (!cc_info || !cc_info->secrets_phys || cc_info->secrets_len != PAGE_SIZE)
+> +		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_SECRETS_PAGE);
+> +
+> +	secrets_page = (struct snp_secrets_page_layout *)cc_info->secrets_phys;
+> +	if (!secrets_page->svsm_size)
+> +		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_NO_SVSM);
+> +
+> +	if (!secrets_page->svsm_guest_vmpl)
+> +		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_SVSM_VMPL0);
+> +
+> +	vmpl = secrets_page->svsm_guest_vmpl;
+> +
+> +	caa = secrets_page->svsm_caa;
+> +	if (!PAGE_ALIGNED(caa))
+> +		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_SVSM_CAA);
+> +
+> +	/*
+> +	 * The CA is identity mapped when this routine is called, both by the
+> +	 * decompressor code and the early kernel code.
+> +	 */
+> +	boot_svsm_caa = (struct svsm_ca *)caa;
+> +	boot_svsm_caa_pa = caa;
+> +}
+> diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
+> index b59b09c2f284..64799a04feb4 100644
+> --- a/arch/x86/kernel/sev.c
+> +++ b/arch/x86/kernel/sev.c
+> @@ -135,6 +135,15 @@ struct ghcb_state {
+>  static DEFINE_PER_CPU(struct sev_es_runtime_data*, runtime_data);
+>  static DEFINE_PER_CPU(struct sev_es_save_area *, sev_vmsa);
+>  
+> +/*
+> + * SVSM related information:
+> + *   When running under an SVSM, the VMPL that Linux is executing at must be
+> + *   non-zero. The VMPL is therefore used to indicate the presence of an SVSM.
+> + */
+> +static u8 vmpl __ro_after_init;
+> +static struct svsm_ca *boot_svsm_caa __ro_after_init;
+> +static u64 boot_svsm_caa_pa __ro_after_init;
+
+Uff, duplication.
+
+Let's put them in sev-shared.c pls and avoid that.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
