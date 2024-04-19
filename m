@@ -1,28 +1,57 @@
-Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on20615.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7ea9::615])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <clopez@suse.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id DF1D81C5FC1
- for <svsm-devel@coconut-svsm.dev>; Thu, 18 Apr 2024 23:17:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hKWDpv9Kpf43XfKqVuz7a6XFWdGXYlTu4VBAt8MxXzE=;
- b=pqsoOZMlHZFZBxVtetlwY5/qvtaCtwA1gh2yCa3O9q0mYwrZ89JIGDWEA04e7Hm6sa+HbsO+JuWFZccLg3zYgqH+82g1Iz3KWK4HwtIB6h0GJ0mDWKOmdiDDM6AyIxGUWCNDY9sNxeAcl0plt5BPbhnQVuz77+P+grcCvz6hDHU=
-Message-ID: <d525f2ef-d8f0-a694-401f-8cb964dcdaed@amd.com>
-Date: Thu, 18 Apr 2024 16:17:36 -0500
-Content-Language: en-US
-References: <cover.1711405593.git.thomas.lendacky@amd.com>
- <e8d4877f3b7248031931ed193c026c42dd3363ef.1711405593.git.thomas.lendacky@amd.com>
- <20240417204030.GIZiAzvuLG6qcFFMyT@fat_crate.local>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-In-Reply-To: <20240417204030.GIZiAzvuLG6qcFFMyT@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ by mail.8bytes.org (Postfix) with ESMTPS id 0034F1C76CE
+ for <svsm-devel@coconut-svsm.dev>; Fri, 19 Apr 2024 09:38:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1713512333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1fQI8cdd6Bt+Pf/l+gNR+/fSBp1Tn+IHepOroZvuf5o=;
+ b=0dWsvjuZH/1XDwfbMcVQo6rO85jIxTtFjVja8VdPnDh6DxdrO1JTfnxKFOvFVcPet3vuye
+ VzicENz1f1r1tOosXdCR2fOgCEI5Vv6B+B+a9BLvKpAZHQyLlQcr1gRWeGhIZ46pRJM9l0
+ 6XA6Zsw/MCqCQi6kabaf+seFKhjkjig=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1713512333;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1fQI8cdd6Bt+Pf/l+gNR+/fSBp1Tn+IHepOroZvuf5o=;
+ b=N9gyJ00aA3LsQ3y+WQYKKg7b9PDqBNuAL4UzovOlreYN1RGqAZi/m+qSMFiHkC1/mUZbw/
+ OPWWqQjoxZyTKCBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1713512332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1fQI8cdd6Bt+Pf/l+gNR+/fSBp1Tn+IHepOroZvuf5o=;
+ b=eBhxifHeRkx0iCjbqhTCIIEnuQGcGR0JaXH5V9LC0sZRAtQx/Ie79HZgrtxOdYhd/1xJRZ
+ RBl7iVCwh6PxVNvRCH72p4t26iFfWMtngqchuFp8L4MeR89IumWi8va76yBkCtZDs6X6pQ
+ 0w69BP0Hnh6Z8PFoxi5IQ0s38ZqgjM8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1713512332;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1fQI8cdd6Bt+Pf/l+gNR+/fSBp1Tn+IHepOroZvuf5o=;
+ b=ZHEBhUbJ0rshe8eeaUW8dyc1MDkH90l3U57d5yzeFT1DWZOhui2exEj3DbcK742++Fk68f
+ R4sZvLFIuqlQA0DA==
+Message-ID: <59a4efd5-b3ae-4b75-b634-d788f613dc12@suse.de>
+Date: Fri, 19 Apr 2024 09:38:46 +0200
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [PATCH v3 03/14] x86/sev: Check for the presence
- of an SVSM in the SNP Secrets page
+References: <1cef0323-1881-408b-8883-db3f3445c29e@suse.de>
+ <81c35d2e7d280d5e6069a1651611834d754286d1.camel@ibm.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Carlos_L=C3=B3pez?= <clopez@suse.de>
+In-Reply-To: <81c35d2e7d280d5e6069a1651611834d754286d1.camel@ibm.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [svsm-devel] [RFC] moving libstpm bindings and safe
+ abstractions into a separate repository
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -31,205 +60,83 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Borislav Petkov <bp@alien8.de>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
+To: Claudio Siqueira de Carvalho <cclaudio@ibm.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 
-On 4/17/24 15:40, Borislav Petkov wrote:
-> On Mon, Mar 25, 2024 at 05:26:22PM -0500, Tom Lendacky wrote:
->> During early boot phases, check for the presence of an SVSM when running
->> as an SEV-SNP guest.
+
+Hi,
+
+On 18/4/24 20:30, Claudio Siqueira de Carvalho wrote:
+> On Wed, 2024-04-17 at 12:05 +0200, Carlos López wrote:
+>> Hi everyone,
+> 
+> Hi Carlos,
+> 
 >>
->> An SVSM is present if the 64-bit value at offset 0x148 into the secrets
->> page is non-zero. If an SVSM is present, save the SVSM Calling Area
->> address (CAA), located at offset 0x150 into the secrets page, and set
->> the VMPL level of the guest, which should be non-zero, to indicate the
->> presence of an SVSM.
-> 
-> Where are we pointing to the SVSM spec?
-> 
-> This is in the 0th message
-> 
-> https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/specifications/58019.pdf
-> 
-> but pls add it to our documentation here:
-> 
-> Documentation/arch/x86/amd-memory-encryption.rst
-
-Do you want it added as a in this patch or in a documentation patch at the 
-end of the series?
-
-> 
->> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
->> ---
->>   arch/x86/boot/compressed/sev.c    | 35 ++++++++---------
->>   arch/x86/include/asm/sev-common.h |  4 ++
->>   arch/x86/include/asm/sev.h        | 25 +++++++++++-
->>   arch/x86/kernel/sev-shared.c      | 64 +++++++++++++++++++++++++++++++
->>   arch/x86/kernel/sev.c             | 16 ++++++++
->>   5 files changed, 125 insertions(+), 19 deletions(-)
+>> I'd like to suggest that we move both the `libstpm` bindings (currently
+>> in `libstpm/`) and safe abstractions (currently in
+>> `kernel/src/vtpm/mstpm/`) to a separate repository.
 >>
->> diff --git a/arch/x86/boot/compressed/sev.c b/arch/x86/boot/compressed/sev.c
->> index 49dc9661176d..fe61ff630c7e 100644
->> --- a/arch/x86/boot/compressed/sev.c
->> +++ b/arch/x86/boot/compressed/sev.c
->> @@ -12,6 +12,7 @@
->>    */
->>   #include "misc.h"
->>   
->> +#include <linux/mm.h>
->>   #include <asm/bootparam.h>
->>   #include <asm/pgtable_types.h>
->>   #include <asm/sev.h>
->> @@ -29,6 +30,15 @@
->>   static struct ghcb boot_ghcb_page __aligned(PAGE_SIZE);
->>   struct ghcb *boot_ghcb;
->>   
->> +/*
->> + * SVSM related information:
->> + *   When running under an SVSM, the VMPL that Linux is executing at must be
->> + *   non-zero. The VMPL is therefore used to indicate the presence of an SVSM.
->> + */
->> +static u8 vmpl __section(".data");
->> +static u64 boot_svsm_caa_pa __section(".data");
->> +static struct svsm_ca *boot_svsm_caa __section(".data");
+>> This new repository would contain two crates `libstpm-sys` (raw
+>> bindings) and `libstpm` (safe abstractions). This follows the official
+>> the recommendation in the Cargo Book [0], and mirrors the development of
+>> other C-based crates. A few examples, among many:
+>>
+>> * libgit2-sys and git2 [1]
+>> * curl-sys and curl [2]
+>> * openssl-sys and openssl [3]
+>> * libssh2-sys and ssh2 [4]
 > 
-> Explain what those last 2 are in comments above it pls.
+> The *-sys recommendations seems to be applicable for packages that link to
+> system libraries, which is not the case of the libmstpm.
+> 
 
-Will do.
+Not necessarily. Most of those examples embed a git submodule of the
+upstream library (just like we do). The user may choose to build the
+crate linking against the system library or the embedded copy.
 
+>>
+>> Currently we do have a separate crate for the raw bindings in our
+>> ever-growing monorepo, but the safe abstractions are in the SVSM kernel
+>> crate.
+>>
+>> This change would improve the reusability of the safe abstractions for
+>> other projects, and also make it easier for third parties to find our
+>> implementation.
 > 
->>   /*
->>    * SNP_FEATURES_IMPL_REQ is the mask of SNP features that will need
->>    * guest side implementation for proper functioning of the guest. If any
->> @@ -480,6 +472,13 @@ static bool early_snp_init(struct boot_params *bp)
->>   	 */
->>   	setup_cpuid_table(cc_info);
->>   
->> +	/*
->> +	 * Record the SVSM Calling Area address (CAA) if the guest is not
-> 
-> 			Calling Area (CA) address
-> 
->> +	 * running at VMPL0. The CA will be used to communicate with the
-> 
-> and then you can use "CA" here.
+> You may want to have a look at the kernel/src/vtpm/mstpm/wrapper.rs as it would
+> require some svsm/kernel functions to be visible to the libmstpm-sys.
 
-Will do.
+To be honest I'm not sure why those wrappers are implemented in terms of
+of these mem_allocate(), mem_reallocate(), etc. functions. As far as I
+can tell we can simply use the functions in the alloc crate that call
+into the global allocator (alloc::alloc::alloc(), realloc(), etc.). The
+downstream user would just need to have a global allocator.
 
-> 
->> +	 * SVSM to perform the SVSM services.
->> +	 */
->> +	setup_svsm_ca(cc_info);
->> +
->>   	/*
->>   	 * Pass run-time kernel a pointer to CC info via boot_params so EFI
->>   	 * config table doesn't need to be searched again during early startup
->> diff --git a/arch/x86/include/asm/sev-common.h b/arch/x86/include/asm/sev-common.h
->> index b463fcbd4b90..68a8cdf6fd6a 100644
->> --- a/arch/x86/include/asm/sev-common.h
->> +++ b/arch/x86/include/asm/sev-common.h
->> @@ -159,6 +159,10 @@ struct snp_psc_desc {
->>   #define GHCB_TERM_NOT_VMPL0		3	/* SNP guest is not running at VMPL-0 */
->>   #define GHCB_TERM_CPUID			4	/* CPUID-validation failure */
->>   #define GHCB_TERM_CPUID_HV		5	/* CPUID failure during hypervisor fallback */
->> +#define GHCB_TERM_SECRETS_PAGE		6	/* Secrets page failure */
->> +#define GHCB_TERM_NO_SVSM		7	/* SVSM is not advertised in the secrets page */
->> +#define GHCB_TERM_SVSM_VMPL0		8	/* SVSM is present but has set VMPL to 0 */
->> +#define GHCB_TERM_SVSM_CAA		9	/* SVSM is present but the CA is not page aligned */
-> 
-> "CAA" in the comment I guess. :)
+> Are there third parties interested on reusing our libmstpm?
 
-Will do.
+Not that I know of.
 
+> Thanks,
+> Claudio
 > 
->> +/*
->> + * Maintain the GPA of the SVSM Calling Area (CA) in order to utilize the SVSM
->> + * services needed when not running in VMPL0.
->> + */
->> +static void __head setup_svsm_ca(const struct cc_blob_sev_info *cc_info)
->> +{
->> +	struct snp_secrets_page_layout *secrets_page;
-> 
-> Why was that thing ever called "_layout" and not simply
-> snp_secrets_page?
-> 
-> Fix it?
+>>
+>> I'd like to take opinions from the SVSM community to see if others think
+>> it's a positive change or not before starting any work. It's perhaps
+>> something that could be discussed in the next SVSM call as well.
+>>
+>> [0]
+>> https://doc.rust-lang.org/cargo/reference/build-scripts.html#-sys-packages
+>> [1] https://github.com/rust-lang/git2-rs
+>> [2] https://github.com/alexcrichton/curl-rust
+>> [3] https://github.com/sfackler/rust-openssl
+>> [4] https://github.com/alexcrichton/ssh2-rs
+>>
 
-Sure, I can change that as a pre-patch to the series.
+Best,
+Carlos
 
-> 
->> +	u64 caa;
->> +
->> +	BUILD_BUG_ON(sizeof(*secrets_page) != PAGE_SIZE);
-> 
-> Put it in the header under the struct definition I guess.
-
-It can't stand on it's own in the header file. I'd have to put it in a 
-#define or an inline function and then use that in some code. So it's 
-probably best to keep it here.
-
-> 
->> +	/*
->> +	 * Use __pa() since this routine is running identity mapped when
->> +	 * called, both by the decompressor code and the early kernel code.
->> +	 */
->> +	if (running_at_vmpl0((void *)__pa(&boot_ghcb_page)))
->> +		return;
->> +
->> +	/*
->> +	 * Not running at VMPL0, ensure everything has been properly supplied
->> +	 * for running under an SVSM.
->> +	 */
->> +	if (!cc_info || !cc_info->secrets_phys || cc_info->secrets_len != PAGE_SIZE)
->> +		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_SECRETS_PAGE);
->> +
->> +	secrets_page = (struct snp_secrets_page_layout *)cc_info->secrets_phys;
->> +	if (!secrets_page->svsm_size)
->> +		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_NO_SVSM);
->> +
->> +	if (!secrets_page->svsm_guest_vmpl)
->> +		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_SVSM_VMPL0);
->> +
->> +	vmpl = secrets_page->svsm_guest_vmpl;
->> +
->> +	caa = secrets_page->svsm_caa;
->> +	if (!PAGE_ALIGNED(caa))
->> +		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_SVSM_CAA);
->> +
->> +	/*
->> +	 * The CA is identity mapped when this routine is called, both by the
->> +	 * decompressor code and the early kernel code.
->> +	 */
->> +	boot_svsm_caa = (struct svsm_ca *)caa;
->> +	boot_svsm_caa_pa = caa;
->> +}
->> diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
->> index b59b09c2f284..64799a04feb4 100644
->> --- a/arch/x86/kernel/sev.c
->> +++ b/arch/x86/kernel/sev.c
->> @@ -135,6 +135,15 @@ struct ghcb_state {
->>   static DEFINE_PER_CPU(struct sev_es_runtime_data*, runtime_data);
->>   static DEFINE_PER_CPU(struct sev_es_save_area *, sev_vmsa);
->>   
->> +/*
->> + * SVSM related information:
->> + *   When running under an SVSM, the VMPL that Linux is executing at must be
->> + *   non-zero. The VMPL is therefore used to indicate the presence of an SVSM.
->> + */
->> +static u8 vmpl __ro_after_init;
->> +static struct svsm_ca *boot_svsm_caa __ro_after_init;
->> +static u64 boot_svsm_caa_pa __ro_after_init;
-> 
-> Uff, duplication.
-> 
-> Let's put them in sev-shared.c pls and avoid that.
-
-Ok, but it will require moving some functions after the inclusion of 
-sev-shared.c and then (later) adding some advance function declarations.
-
-Thanks,
-Tom
-
-> 
-> Thx.
-> 
+-- 
+Carlos López
+Security Engineer
+SUSE Software Solutions
