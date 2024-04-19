@@ -1,57 +1,33 @@
-Return-Path: <clopez@suse.de>
-Received: from smtp-out2.suse.de (smtp-out2.suse.de
- [IPv6:2a07:de40:b251:101:10:150:64:2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Return-Path: <cclaudio@ibm.com>
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 508871C771F
- for <svsm-devel@coconut-svsm.dev>; Fri, 19 Apr 2024 09:51:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1713513061; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5FtclJPfON6//bZPgRudG236mBF17K+nW+yKnA4e8QA=;
- b=vvcOG2dAMiPdi8xKKk8oC95pEgNXeszNoVxgiHEjHnC5h6rCo/2fsfuuGvi1tVcoHHLGy9
- UlEXOgooa81FgP2Yg5ONIhkZn4SfY9ds67A9CU9EIpY+aAM8bwPYjSDCV9JJuQiFNoXVJa
- RgFb83xFDxT6svX766BeYd5/ej0GNtg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1713513061;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5FtclJPfON6//bZPgRudG236mBF17K+nW+yKnA4e8QA=;
- b=XzY3dH1OdXtIWitffj87V6WLittJpxI7VnZrAud1b2odhv4+JG7WiZyhKmZJVXYuDkwOQf
- NW2qq3wbtsSOweAg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1713513061; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5FtclJPfON6//bZPgRudG236mBF17K+nW+yKnA4e8QA=;
- b=vvcOG2dAMiPdi8xKKk8oC95pEgNXeszNoVxgiHEjHnC5h6rCo/2fsfuuGvi1tVcoHHLGy9
- UlEXOgooa81FgP2Yg5ONIhkZn4SfY9ds67A9CU9EIpY+aAM8bwPYjSDCV9JJuQiFNoXVJa
- RgFb83xFDxT6svX766BeYd5/ej0GNtg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1713513061;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5FtclJPfON6//bZPgRudG236mBF17K+nW+yKnA4e8QA=;
- b=XzY3dH1OdXtIWitffj87V6WLittJpxI7VnZrAud1b2odhv4+JG7WiZyhKmZJVXYuDkwOQf
- NW2qq3wbtsSOweAg==
-Message-ID: <efaff480-7221-463f-b67f-d9e721f7632a@suse.de>
-Date: Fri, 19 Apr 2024 09:50:56 +0200
-MIME-Version: 1.0
-Content-Language: en-US
-From: =?UTF-8?Q?Carlos_L=C3=B3pez?= <clopez@suse.de>
+ by mail.8bytes.org (Postfix) with ESMTPS id C2A561C7C41
+ for <svsm-devel@coconut-svsm.dev>; Fri, 19 Apr 2024 15:51:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : subject :
+ date : message-id : references : in-reply-to : content-type : content-id :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=FNqPBbbFPXZJWqhY/0G0WCr41vywZB5szCqXTwmvqN0=;
+ b=ZK+pV5wmxup6eJTrjaK+g8w3x/K5g7uBvC9xsqg65v06iiGdi0lDaa8MEnP2W+F1w98t
+ deLNWHcvwkQcdwio/5h+vttglneYDpvFNxODbWmN11YSEwpVkro+guXPXZJsH6Txp1Mf
+ Z7KP3eLIscJZAlNq+dLSpzhdcJs5y37VFYMrXSzdl5kvxIqVsPxn1wtrWdrlonM2j3VD
+ QgZH8PnwThbYQNrvWtAZv5sWw/Qn3rGhEKbqKGn8097YsqeteELKoWE4i3Tdq60vHeDx
+ voH+KlIQyBCUeRztqGuVHzSJGepcFvYTX0Ys+PekUMwXnjnJeccwjOOnaC4VPDQ4u7lE jA== 
+From: Claudio Siqueira de Carvalho <cclaudio@ibm.com>
+Date: Fri, 19 Apr 2024 13:51:25 +0000
+Message-ID: <aa89a700469f6acc4d4a5a0de05dc8a0828778e1.camel@ibm.com>
 References: <1cef0323-1881-408b-8883-db3f3445c29e@suse.de>
  <81c35d2e7d280d5e6069a1651611834d754286d1.camel@ibm.com>
  <59a4efd5-b3ae-4b75-b634-d788f613dc12@suse.de>
-In-Reply-To: <59a4efd5-b3ae-4b75-b634-d788f613dc12@suse.de>
-Content-Transfer-Encoding: 8bit
+ <efaff480-7221-463f-b67f-d9e721f7632a@suse.de>
+In-Reply-To: <efaff480-7221-463f-b67f-d9e721f7632a@suse.de>
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A5C7629E101BBD4181B6797CEAA17D3B@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 Subject: Re: [svsm-devel] [RFC] moving libstpm bindings and safe
  abstractions into a separate repository
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
@@ -62,33 +38,34 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Claudio Siqueira de Carvalho <cclaudio@ibm.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+To: "clopez@suse.de" <clopez@suse.de>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
-
-On 19/4/24 9:38, Carlos López wrote:
->>> Currently we do have a separate crate for the raw bindings in our
->>> ever-growing monorepo, but the safe abstractions are in the SVSM kernel
->>> crate.
->>>
->>> This change would improve the reusability of the safe abstractions for
->>> other projects, and also make it easier for third parties to find our
->>> implementation.
->>
->> You may want to have a look at the kernel/src/vtpm/mstpm/wrapper.rs as 
->> it would
->> require some svsm/kernel functions to be visible to the libmstpm-sys.
-> 
-> To be honest I'm not sure why those wrappers are implemented in terms of
-> of these mem_allocate(), mem_reallocate(), etc. functions. As far as I
-> can tell we can simply use the functions in the alloc crate that call
-> into the global allocator (alloc::alloc::alloc(), realloc(), etc.). The
-> downstream user would just need to have a global allocator.
-Just realized the use of the layout functions. I guess we could declare
-the needed functions (malloc, free, etc.) as extern and have downstream
-users implement them? Not sure if that would work.
-
--- 
-Carlos López
-Security Engineer
-SUSE Software Solutions
+T24gRnJpLCAyMDI0LTA0LTE5IGF0IDA5OjUwICswMjAwLCBDYXJsb3MgTMOzcGV6IHdyb3RlOg0K
+PiANCj4gT24gMTkvNC8yNCA5OjM4LCBDYXJsb3MgTMOzcGV6IHdyb3RlOg0KPiA+ID4gPiBDdXJy
+ZW50bHkgd2UgZG8gaGF2ZSBhIHNlcGFyYXRlIGNyYXRlIGZvciB0aGUgcmF3IGJpbmRpbmdzIGlu
+IG91cg0KPiA+ID4gPiBldmVyLWdyb3dpbmcgbW9ub3JlcG8sIGJ1dCB0aGUgc2FmZSBhYnN0cmFj
+dGlvbnMgYXJlIGluIHRoZSBTVlNNIGtlcm5lbA0KPiA+ID4gPiBjcmF0ZS4NCj4gPiA+ID4gDQo+
+ID4gPiA+IFRoaXMgY2hhbmdlIHdvdWxkIGltcHJvdmUgdGhlIHJldXNhYmlsaXR5IG9mIHRoZSBz
+YWZlIGFic3RyYWN0aW9ucyBmb3INCj4gPiA+ID4gb3RoZXIgcHJvamVjdHMsIGFuZCBhbHNvIG1h
+a2UgaXQgZWFzaWVyIGZvciB0aGlyZCBwYXJ0aWVzIHRvIGZpbmQgb3VyDQo+ID4gPiA+IGltcGxl
+bWVudGF0aW9uLg0KPiA+ID4gDQo+ID4gPiBZb3UgbWF5IHdhbnQgdG8gaGF2ZSBhIGxvb2sgYXQg
+dGhlIGtlcm5lbC9zcmMvdnRwbS9tc3RwbS93cmFwcGVyLnJzIGFzIA0KPiA+ID4gaXQgd291bGQN
+Cj4gPiA+IHJlcXVpcmUgc29tZSBzdnNtL2tlcm5lbCBmdW5jdGlvbnMgdG8gYmUgdmlzaWJsZSB0
+byB0aGUgbGlibXN0cG0tc3lzLg0KPiA+IA0KPiA+IFRvIGJlIGhvbmVzdCBJJ20gbm90IHN1cmUg
+d2h5IHRob3NlIHdyYXBwZXJzIGFyZSBpbXBsZW1lbnRlZCBpbiB0ZXJtcyBvZg0KPiA+IG9mIHRo
+ZXNlIG1lbV9hbGxvY2F0ZSgpLCBtZW1fcmVhbGxvY2F0ZSgpLCBldGMuIGZ1bmN0aW9ucy4gQXMg
+ZmFyIGFzIEkNCj4gPiBjYW4gdGVsbCB3ZSBjYW4gc2ltcGx5IHVzZSB0aGUgZnVuY3Rpb25zIGlu
+IHRoZSBhbGxvYyBjcmF0ZSB0aGF0IGNhbGwNCj4gPiBpbnRvIHRoZSBnbG9iYWwgYWxsb2NhdG9y
+IChhbGxvYzo6YWxsb2M6OmFsbG9jKCksIHJlYWxsb2MoKSwgZXRjLikuIFRoZQ0KPiA+IGRvd25z
+dHJlYW0gdXNlciB3b3VsZCBqdXN0IG5lZWQgdG8gaGF2ZSBhIGdsb2JhbCBhbGxvY2F0b3IuDQo+
+IEp1c3QgcmVhbGl6ZWQgdGhlIHVzZSBvZiB0aGUgbGF5b3V0IGZ1bmN0aW9ucy4NCg0KDQo+ICBJ
+IGd1ZXNzIHdlIGNvdWxkIGRlY2xhcmUNCj4gdGhlIG5lZWRlZCBmdW5jdGlvbnMgKG1hbGxvYywg
+ZnJlZSwgZXRjLikgYXMgZXh0ZXJuIGFuZCBoYXZlIGRvd25zdHJlYW0NCj4gdXNlcnMgaW1wbGVt
+ZW50IHRoZW0/IE5vdCBzdXJlIGlmIHRoYXQgd291bGQgd29yay4NCj4gDQoNCkkgdGhpbmsgdGhh
+dCBzaG91bGQgd29yay4gV2UgY291bGQga2VlcCB0aGUgd3JhcHBlci5ycyBpbiB0aGUgU1ZTTSBr
+ZXJuZWwgb3INCmNyZWF0ZSBhIG5ldyB3b3Jrc3BhY2UgbWVtYmVyL3JlcG9zaXRvcnkgZm9yIGl0
+LiBNYXliZSB0aGUgbGF0dGVyIGlzIGJldHRlciwgSQ0KcmVtZW1iZXIgdGhhdCB0aGUgc29sdXRp
+b24gSSBmb3VuZCB0byBwcmV2ZW50IGl0IGZyb20gYmVpbmcgY29tcGlsZWQgaW4gZm9yIHRlc3QN
+CmFuZCBkb2MtdGVzdCBtYXkgbm90IGJlIGlkZWFsLg0KDQpCZXN0LA0KQ2xhdWRpbw0KDQo+IC0t
+IA0KPiBDYXJsb3MgTMOzcGV6DQo+IFNlY3VyaXR5IEVuZ2luZWVyDQo+IFNVU0UgU29mdHdhcmUg
+U29sdXRpb25zDQoNCg==
