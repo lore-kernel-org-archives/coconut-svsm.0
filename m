@@ -1,35 +1,25 @@
-Return-Path: <cclaudio@ibm.com>
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <bp@alien8.de>
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id C2A561C7C41
- for <svsm-devel@coconut-svsm.dev>; Fri, 19 Apr 2024 15:51:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : subject :
- date : message-id : references : in-reply-to : content-type : content-id :
- content-transfer-encoding : mime-version; s=pp1;
- bh=FNqPBbbFPXZJWqhY/0G0WCr41vywZB5szCqXTwmvqN0=;
- b=ZK+pV5wmxup6eJTrjaK+g8w3x/K5g7uBvC9xsqg65v06iiGdi0lDaa8MEnP2W+F1w98t
- deLNWHcvwkQcdwio/5h+vttglneYDpvFNxODbWmN11YSEwpVkro+guXPXZJsH6Txp1Mf
- Z7KP3eLIscJZAlNq+dLSpzhdcJs5y37VFYMrXSzdl5kvxIqVsPxn1wtrWdrlonM2j3VD
- QgZH8PnwThbYQNrvWtAZv5sWw/Qn3rGhEKbqKGn8097YsqeteELKoWE4i3Tdq60vHeDx
- voH+KlIQyBCUeRztqGuVHzSJGepcFvYTX0Ys+PekUMwXnjnJeccwjOOnaC4VPDQ4u7lE jA== 
-From: Claudio Siqueira de Carvalho <cclaudio@ibm.com>
-Date: Fri, 19 Apr 2024 13:51:25 +0000
-Message-ID: <aa89a700469f6acc4d4a5a0de05dc8a0828778e1.camel@ibm.com>
-References: <1cef0323-1881-408b-8883-db3f3445c29e@suse.de>
- <81c35d2e7d280d5e6069a1651611834d754286d1.camel@ibm.com>
- <59a4efd5-b3ae-4b75-b634-d788f613dc12@suse.de>
- <efaff480-7221-463f-b67f-d9e721f7632a@suse.de>
-In-Reply-To: <efaff480-7221-463f-b67f-d9e721f7632a@suse.de>
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A5C7629E101BBD4181B6797CEAA17D3B@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ by mail.8bytes.org (Postfix) with ESMTPS id 7B3291C8852
+ for <svsm-devel@coconut-svsm.dev>; Sun, 21 Apr 2024 09:12:42 +0200 (CEST)
+Date: Sun, 21 Apr 2024 09:12:22 +0200
+From: Borislav Petkov <bp@alien8.de>
+Message-ID: <20240421071126.GAZiS8HoAn5sFLShnf@fat_crate.local>
+References: <cover.1711405593.git.thomas.lendacky@amd.com>
+ <1b0d8ec8e671ad957a2ad888725ce24edeedf74a.1711405593.git.thomas.lendacky@amd.com>
+ <20240417114658.GHZh-2sk47TZgCp4Mb@fat_crate.local>
+ <505dcf34-93ff-643c-b149-8ef9ce90c023@amd.com>
+ <20240417205048.GHZiA2KGbFFTQFyTAM@fat_crate.local>
+ <36453f2f-3a2f-ae8b-215f-da9972f14d6d@amd.com>
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [RFC] moving libstpm bindings and safe
- abstractions into a separate repository
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <36453f2f-3a2f-ae8b-215f-da9972f14d6d@amd.com>
+Subject: Re: [svsm-devel] [PATCH v3 02/14] x86/sev: Make the VMPL0 checking
+ function more generic
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -38,34 +28,20 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: "clopez@suse.de" <clopez@suse.de>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-T24gRnJpLCAyMDI0LTA0LTE5IGF0IDA5OjUwICswMjAwLCBDYXJsb3MgTMOzcGV6IHdyb3RlOg0K
-PiANCj4gT24gMTkvNC8yNCA5OjM4LCBDYXJsb3MgTMOzcGV6IHdyb3RlOg0KPiA+ID4gPiBDdXJy
-ZW50bHkgd2UgZG8gaGF2ZSBhIHNlcGFyYXRlIGNyYXRlIGZvciB0aGUgcmF3IGJpbmRpbmdzIGlu
-IG91cg0KPiA+ID4gPiBldmVyLWdyb3dpbmcgbW9ub3JlcG8sIGJ1dCB0aGUgc2FmZSBhYnN0cmFj
-dGlvbnMgYXJlIGluIHRoZSBTVlNNIGtlcm5lbA0KPiA+ID4gPiBjcmF0ZS4NCj4gPiA+ID4gDQo+
-ID4gPiA+IFRoaXMgY2hhbmdlIHdvdWxkIGltcHJvdmUgdGhlIHJldXNhYmlsaXR5IG9mIHRoZSBz
-YWZlIGFic3RyYWN0aW9ucyBmb3INCj4gPiA+ID4gb3RoZXIgcHJvamVjdHMsIGFuZCBhbHNvIG1h
-a2UgaXQgZWFzaWVyIGZvciB0aGlyZCBwYXJ0aWVzIHRvIGZpbmQgb3VyDQo+ID4gPiA+IGltcGxl
-bWVudGF0aW9uLg0KPiA+ID4gDQo+ID4gPiBZb3UgbWF5IHdhbnQgdG8gaGF2ZSBhIGxvb2sgYXQg
-dGhlIGtlcm5lbC9zcmMvdnRwbS9tc3RwbS93cmFwcGVyLnJzIGFzIA0KPiA+ID4gaXQgd291bGQN
-Cj4gPiA+IHJlcXVpcmUgc29tZSBzdnNtL2tlcm5lbCBmdW5jdGlvbnMgdG8gYmUgdmlzaWJsZSB0
-byB0aGUgbGlibXN0cG0tc3lzLg0KPiA+IA0KPiA+IFRvIGJlIGhvbmVzdCBJJ20gbm90IHN1cmUg
-d2h5IHRob3NlIHdyYXBwZXJzIGFyZSBpbXBsZW1lbnRlZCBpbiB0ZXJtcyBvZg0KPiA+IG9mIHRo
-ZXNlIG1lbV9hbGxvY2F0ZSgpLCBtZW1fcmVhbGxvY2F0ZSgpLCBldGMuIGZ1bmN0aW9ucy4gQXMg
-ZmFyIGFzIEkNCj4gPiBjYW4gdGVsbCB3ZSBjYW4gc2ltcGx5IHVzZSB0aGUgZnVuY3Rpb25zIGlu
-IHRoZSBhbGxvYyBjcmF0ZSB0aGF0IGNhbGwNCj4gPiBpbnRvIHRoZSBnbG9iYWwgYWxsb2NhdG9y
-IChhbGxvYzo6YWxsb2M6OmFsbG9jKCksIHJlYWxsb2MoKSwgZXRjLikuIFRoZQ0KPiA+IGRvd25z
-dHJlYW0gdXNlciB3b3VsZCBqdXN0IG5lZWQgdG8gaGF2ZSBhIGdsb2JhbCBhbGxvY2F0b3IuDQo+
-IEp1c3QgcmVhbGl6ZWQgdGhlIHVzZSBvZiB0aGUgbGF5b3V0IGZ1bmN0aW9ucy4NCg0KDQo+ICBJ
-IGd1ZXNzIHdlIGNvdWxkIGRlY2xhcmUNCj4gdGhlIG5lZWRlZCBmdW5jdGlvbnMgKG1hbGxvYywg
-ZnJlZSwgZXRjLikgYXMgZXh0ZXJuIGFuZCBoYXZlIGRvd25zdHJlYW0NCj4gdXNlcnMgaW1wbGVt
-ZW50IHRoZW0/IE5vdCBzdXJlIGlmIHRoYXQgd291bGQgd29yay4NCj4gDQoNCkkgdGhpbmsgdGhh
-dCBzaG91bGQgd29yay4gV2UgY291bGQga2VlcCB0aGUgd3JhcHBlci5ycyBpbiB0aGUgU1ZTTSBr
-ZXJuZWwgb3INCmNyZWF0ZSBhIG5ldyB3b3Jrc3BhY2UgbWVtYmVyL3JlcG9zaXRvcnkgZm9yIGl0
-LiBNYXliZSB0aGUgbGF0dGVyIGlzIGJldHRlciwgSQ0KcmVtZW1iZXIgdGhhdCB0aGUgc29sdXRp
-b24gSSBmb3VuZCB0byBwcmV2ZW50IGl0IGZyb20gYmVpbmcgY29tcGlsZWQgaW4gZm9yIHRlc3QN
-CmFuZCBkb2MtdGVzdCBtYXkgbm90IGJlIGlkZWFsLg0KDQpCZXN0LA0KQ2xhdWRpbw0KDQo+IC0t
-IA0KPiBDYXJsb3MgTMOzcGV6DQo+IFNlY3VyaXR5IEVuZ2luZWVyDQo+IFNVU0UgU29mdHdhcmUg
-U29sdXRpb25zDQoNCg==
+On Thu, Apr 18, 2024 at 01:38:49PM -0500, Tom Lendacky wrote:
+> I think I'll just eliminate the function then and call rmpadjust directly,
+> that should make it clear.
+
+Your call.
+
+However, if we're anticipating more uses around RMPADJUST like that we
+might as well design the interface properly from the very beginning.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
