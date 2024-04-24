@@ -1,24 +1,24 @@
 Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on20611.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e88::611])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on20600.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2412::600])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 859FB1CA051
- for <svsm-devel@coconut-svsm.dev>; Wed, 24 Apr 2024 17:59:08 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id 5C0821C9F2B
+ for <svsm-devel@coconut-svsm.dev>; Wed, 24 Apr 2024 17:59:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kF5LZWyAiNqLqtvx7E6KrWBu6pECVjNrZrovtybdqYg=;
- b=HSK7HZJ/nHElEewBALuDtHDsLjfs/4RkC7b9PcRenUl3tkbpYFTJ24MHoP6s23HznW5yfSVuGL8ETtHcCnFnz5NyJKLyi6GZjGmfFNXQukqBXy5OFmZ5Sogy50kYAr121Z4BQLryJN2TpR2VIxfUJGFAQyQlJ9zKHHjkNsgHwl4=
+ bh=HlYJi1OB8n2mSK38q8l9MCV/mrF8TxZGEl/0Xxm9djU=;
+ b=ysNm+zs+fYFJHWEeP3n7iFjru3k3SkMbOFL0EvZ0HTgdh6WDWWR6m/9oVtMiAuXQ8BvZPKWTpTwbOrcoGexS9beAh7EMYyhZDCTVyHlQcaQLvy/KMyBQuoQxUiB1xDQMbL7UkP9WMtrVPTeTNzv4UyM00AoHdzm3ss7YrWiYEKQ=
 From: Tom Lendacky <thomas.lendacky@amd.com>
-Date: Wed, 24 Apr 2024 10:58:01 -0500
-Message-ID: <07266b47e749267ef9a9ccbc9e8e9df78ed54857.1713974291.git.thomas.lendacky@amd.com>
+Date: Wed, 24 Apr 2024 10:58:02 -0500
+Message-ID: <ce5f7ded87868adce2f4724415313229a8bf3eb3.1713974291.git.thomas.lendacky@amd.com>
 In-Reply-To: <cover.1713974291.git.thomas.lendacky@amd.com>
 References: <cover.1713974291.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] [PATCH v4 05/15] x86/sev: Use kernel provided SVSM
- Calling Areas
+Subject: [svsm-devel] [PATCH v4 06/15] x86/sev: Perform PVALIDATE using the
+ SVSM when not at VMPL0
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -32,324 +32,182 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borisl
  Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 Content-Type: text/plain; charset="utf-8"
 
-The SVSM Calling Area (CA) is used to communicate between Linux and the
-SVSM. Since the firmware supplied CA for the BSP is likely to be in
-reserved memory, switch off that CA to a kernel provided CA so that access
-and use of the CA is available during boot. The CA switch is done using
-the SVSM core protocol SVSM_CORE_REMAP_CA call.
+The PVALIDATE instruction can only be performed at VMPL0. An SVSM will
+be present when running at VMPL1 or a lower privilege level.
 
-An SVSM call is executed by filling out the SVSM CA and setting the proper
-register state as documented by the SVSM protocol. The SVSM is invoked by
-by requesting the hypervisor to run VMPL0.
+When an SVSM is present, use the SVSM_CORE_PVALIDATE call to perform
+memory validation instead of issuing the PVALIDATE instruction directly.
 
-Once it is safe to allocate/reserve memory, allocate a CA for each CPU.
-After allocating the new CAs, the BSP will switch from the boot CA to the
-per-CPU CA. The CA for an AP is identified to the SVSM when creating the
-VMSA in preparation for booting the AP.
+The validation of a single 4K page is now explicitly identified as such
+in the function name, pvalidate_4k_page(). The pvalidate_pages() function
+is used for validating 1 or more pages at either 4K or 2M in size. Each
+function, however, determines whether it can issue the PVALIDATE directly
+or whether the SVSM needs to be invoked.
 
 Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 ---
- arch/x86/include/asm/sev-common.h |  13 ++
- arch/x86/include/asm/sev.h        |  32 +++++
- arch/x86/include/uapi/asm/svm.h   |   1 +
- arch/x86/kernel/sev-shared.c      |  94 +++++++++++++-
- arch/x86/kernel/sev.c             | 207 +++++++++++++++++++++++++-----
- arch/x86/mm/mem_encrypt_amd.c     |   8 +-
- 6 files changed, 320 insertions(+), 35 deletions(-)
+ arch/x86/boot/compressed/sev.c |  45 ++++++++-
+ arch/x86/include/asm/sev.h     |  22 ++++
+ arch/x86/kernel/sev-shared.c   | 179 ++++++++++++++++++++++++++++++++-
+ arch/x86/kernel/sev.c          |  25 +++--
+ 4 files changed, 253 insertions(+), 18 deletions(-)
 
-diff --git a/arch/x86/include/asm/sev-common.h b/arch/x86/include/asm/sev-common.h
-index 1225744a069b..4cc716660d4b 100644
---- a/arch/x86/include/asm/sev-common.h
-+++ b/arch/x86/include/asm/sev-common.h
-@@ -96,6 +96,19 @@ enum psc_op {
- 	/* GHCBData[63:32] */				\
- 	(((u64)(val) & GENMASK_ULL(63, 32)) >> 32)
- 
-+/* GHCB Run at VMPL Request/Response */
-+#define GHCB_MSR_VMPL_REQ		0x016
-+#define GHCB_MSR_VMPL_REQ_LEVEL(v)			\
-+	/* GHCBData[39:32] */				\
-+	(((u64)(v) & GENMASK_ULL(7, 0) << 32) |		\
-+	/* GHCBDdata[11:0] */				\
-+	GHCB_MSR_VMPL_REQ)
-+
-+#define GHCB_MSR_VMPL_RESP		0x017
-+#define GHCB_MSR_VMPL_RESP_VAL(v)			\
-+	/* GHCBData[63:32] */				\
-+	(((u64)(v) & GENMASK_ULL(63, 32)) >> 32)
-+
- /* GHCB Hypervisor Feature Request/Response */
- #define GHCB_MSR_HV_FT_REQ		0x080
- #define GHCB_MSR_HV_FT_RESP		0x081
-diff --git a/arch/x86/include/asm/sev.h b/arch/x86/include/asm/sev.h
-index 56f7d843f7a4..8f180fd3cbf0 100644
---- a/arch/x86/include/asm/sev.h
-+++ b/arch/x86/include/asm/sev.h
-@@ -178,6 +178,36 @@ struct svsm_ca {
- 	u8 svsm_buffer[PAGE_SIZE - 8];
- };
- 
-+#define SVSM_SUCCESS				0
-+#define SVSM_ERR_INCOMPLETE			0x80000000
-+#define SVSM_ERR_UNSUPPORTED_PROTOCOL		0x80000001
-+#define SVSM_ERR_UNSUPPORTED_CALL		0x80000002
-+#define SVSM_ERR_INVALID_ADDRESS		0x80000003
-+#define SVSM_ERR_INVALID_FORMAT			0x80000004
-+#define SVSM_ERR_INVALID_PARAMETER		0x80000005
-+#define SVSM_ERR_INVALID_REQUEST		0x80000006
-+#define SVSM_ERR_BUSY				0x80000007
-+
-+/*
-+ * SVSM protocol structure
-+ */
-+struct svsm_call {
-+	struct svsm_ca *caa;
-+	u64 rax;
-+	u64 rcx;
-+	u64 rdx;
-+	u64 r8;
-+	u64 r9;
-+	u64 rax_out;
-+	u64 rcx_out;
-+	u64 rdx_out;
-+	u64 r8_out;
-+	u64 r9_out;
-+};
-+
-+#define SVSM_CORE_CALL(x)		((0ULL << 32) | (x))
-+#define SVSM_CORE_REMAP_CA		0
-+
- #ifdef CONFIG_AMD_MEM_ENCRYPT
- extern void __sev_es_ist_enter(struct pt_regs *regs);
- extern void __sev_es_ist_exit(void);
-@@ -252,6 +282,7 @@ void snp_accept_memory(phys_addr_t start, phys_addr_t end);
- u64 snp_get_unsupported_features(u64 status);
- u64 sev_get_status(void);
- void sev_show_status(void);
-+void snp_remap_svsm_ca(void);
- #else
- static inline void sev_es_ist_enter(struct pt_regs *regs) { }
- static inline void sev_es_ist_exit(void) { }
-@@ -281,6 +312,7 @@ static inline void snp_accept_memory(phys_addr_t start, phys_addr_t end) { }
- static inline u64 snp_get_unsupported_features(u64 status) { return 0; }
- static inline u64 sev_get_status(void) { return 0; }
- static inline void sev_show_status(void) { }
-+static inline void snp_remap_svsm_ca(void) { }
- #endif
- 
- #ifdef CONFIG_KVM_AMD_SEV
-diff --git a/arch/x86/include/uapi/asm/svm.h b/arch/x86/include/uapi/asm/svm.h
-index 80e1df482337..1814b413fd57 100644
---- a/arch/x86/include/uapi/asm/svm.h
-+++ b/arch/x86/include/uapi/asm/svm.h
-@@ -115,6 +115,7 @@
- #define SVM_VMGEXIT_AP_CREATE_ON_INIT		0
- #define SVM_VMGEXIT_AP_CREATE			1
- #define SVM_VMGEXIT_AP_DESTROY			2
-+#define SVM_VMGEXIT_SNP_RUN_VMPL		0x80000018
- #define SVM_VMGEXIT_HV_FEATURES			0x8000fffd
- #define SVM_VMGEXIT_TERM_REQUEST		0x8000fffe
- #define SVM_VMGEXIT_TERM_REASON(reason_set, reason_code)	\
-diff --git a/arch/x86/kernel/sev-shared.c b/arch/x86/kernel/sev-shared.c
-index 46ea4e5e118a..6f57eb804e70 100644
---- a/arch/x86/kernel/sev-shared.c
-+++ b/arch/x86/kernel/sev-shared.c
-@@ -18,9 +18,11 @@
- #define sev_printk_rtl(fmt, ...)	printk_ratelimited(fmt, ##__VA_ARGS__)
- #else
- #undef WARN
--#define WARN(condition, format...) (!!(condition))
-+#define WARN(condition, format...)	(!!(condition))
- #define sev_printk(fmt, ...)
- #define sev_printk_rtl(fmt, ...)
-+#undef vc_forward_exception
-+#define vc_forward_exception(c)		panic("SNP: Hypervisor requested exception\n")
- #endif
- 
- /*
-@@ -244,6 +246,96 @@ static enum es_result verify_exception_info(struct ghcb *ghcb, struct es_em_ctxt
- 	return ES_VMM_ERROR;
- }
- 
-+static __always_inline void issue_svsm_call(struct svsm_call *call, u8 *pending)
-+{
-+	/*
-+	 * Issue the VMGEXIT to run the SVSM:
-+	 *   - Load the SVSM register state (RAX, RCX, RDX, R8 and R9)
-+	 *   - Set the CA call pending field to 1
-+	 *   - Issue VMGEXIT
-+	 *   - Save the SVSM return register state (RAX, RCX, RDX, R8 and R9)
-+	 *   - Perform atomic exchange of the CA call pending field
-+	 */
-+	asm volatile("mov %9, %%r8\n\t"
-+		     "mov %10, %%r9\n\t"
-+		     "movb $1, %11\n\t"
-+		     "rep; vmmcall\n\t"
-+		     "mov %%r8, %3\n\t"
-+		     "mov %%r9, %4\n\t"
-+		     "xchgb %5, %11\n\t"
-+		     : "=a" (call->rax_out), "=c" (call->rcx_out), "=d" (call->rdx_out),
-+		       "=m" (call->r8_out), "=m" (call->r9_out),
-+		       "+r" (*pending)
-+		     : "a" (call->rax), "c" (call->rcx), "d" (call->rdx),
-+		       "r" (call->r8), "r" (call->r9),
-+		       "m" (call->caa->call_pending)
-+		     : "r8", "r9", "memory");
-+}
-+
-+static int __svsm_msr_protocol(struct svsm_call *call)
-+{
-+	u64 val, resp;
-+	u8 pending;
-+
-+	val = sev_es_rd_ghcb_msr();
-+
-+	sev_es_wr_ghcb_msr(GHCB_MSR_VMPL_REQ_LEVEL(0));
-+
-+	pending = 0;
-+	issue_svsm_call(call, &pending);
-+
-+	resp = sev_es_rd_ghcb_msr();
-+
-+	sev_es_wr_ghcb_msr(val);
-+
-+	if (pending)
-+		return -EINVAL;
-+
-+	if (GHCB_RESP_CODE(resp) != GHCB_MSR_VMPL_RESP)
-+		return -EINVAL;
-+
-+	if (GHCB_MSR_VMPL_RESP_VAL(resp) != 0)
-+		return -EINVAL;
-+
-+	return call->rax_out;
-+}
-+
-+static int __svsm_ghcb_protocol(struct ghcb *ghcb, struct svsm_call *call)
-+{
-+	struct es_em_ctxt ctxt;
-+	u8 pending;
-+
-+	vc_ghcb_invalidate(ghcb);
-+
-+	/* Fill in protocol and format specifiers */
-+	ghcb->protocol_version = ghcb_version;
-+	ghcb->ghcb_usage       = GHCB_DEFAULT_USAGE;
-+
-+	ghcb_set_sw_exit_code(ghcb, SVM_VMGEXIT_SNP_RUN_VMPL);
-+	ghcb_set_sw_exit_info_1(ghcb, 0);
-+	ghcb_set_sw_exit_info_2(ghcb, 0);
-+
-+	sev_es_wr_ghcb_msr(__pa(ghcb));
-+
-+	pending = 0;
-+	issue_svsm_call(call, &pending);
-+
-+	if (pending)
-+		return -EINVAL;
-+
-+	switch (verify_exception_info(ghcb, &ctxt)) {
-+	case ES_OK:
-+		break;
-+	case ES_EXCEPTION:
-+		vc_forward_exception(&ctxt);
-+		fallthrough;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return call->rax_out;
-+}
-+
- static enum es_result sev_es_ghcb_hv_call(struct ghcb *ghcb,
- 					  struct es_em_ctxt *ctxt,
- 					  u64 exit_code, u64 exit_info_1,
-diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
-index a500df807e79..21f3cc40d662 100644
---- a/arch/x86/kernel/sev.c
-+++ b/arch/x86/kernel/sev.c
-@@ -133,8 +133,13 @@ struct ghcb_state {
- 	struct ghcb *ghcb;
- };
- 
-+/* For early boot SVSM communication */
-+static struct svsm_ca boot_svsm_ca_page __aligned(PAGE_SIZE);
-+
- static DEFINE_PER_CPU(struct sev_es_runtime_data*, runtime_data);
- static DEFINE_PER_CPU(struct sev_es_save_area *, sev_vmsa);
-+static DEFINE_PER_CPU(struct svsm_ca *, svsm_caa);
-+static DEFINE_PER_CPU(u64, svsm_caa_pa);
- 
- struct sev_config {
- 	__u64 debug		: 1,
-@@ -150,6 +155,15 @@ struct sev_config {
- 	       */
- 	      ghcbs_initialized	: 1,
- 
-+	      /*
-+	       * A flag used to indicate when the per-CPU SVSM CA is to be
-+	       * used instead of the boot SVSM CA.
-+	       *
-+	       * For APs, the per-CPU SVSM CA is created as part of the AP
-+	       * bringup, so this flag can be used globally for the BSP and APs.
-+	       */
-+	      cas_initialized	: 1,
-+
- 	      __reserved	: 62;
- };
- 
-@@ -572,9 +586,42 @@ static enum es_result vc_ioio_check(struct es_em_ctxt *ctxt, u16 port, size_t si
- 	return ES_EXCEPTION;
- }
- 
-+static __always_inline void vc_forward_exception(struct es_em_ctxt *ctxt)
-+{
-+	long error_code = ctxt->fi.error_code;
-+	int trapnr = ctxt->fi.vector;
-+
-+	ctxt->regs->orig_ax = ctxt->fi.error_code;
-+
-+	switch (trapnr) {
-+	case X86_TRAP_GP:
-+		exc_general_protection(ctxt->regs, error_code);
-+		break;
-+	case X86_TRAP_UD:
-+		exc_invalid_op(ctxt->regs);
-+		break;
-+	case X86_TRAP_PF:
-+		write_cr2(ctxt->fi.cr2);
-+		exc_page_fault(ctxt->regs, error_code);
-+		break;
-+	case X86_TRAP_AC:
-+		exc_alignment_check(ctxt->regs, error_code);
-+		break;
-+	default:
-+		pr_emerg("Unsupported exception in #VC instruction emulation - can't continue\n");
-+		BUG();
-+	}
-+}
-+
- /* Include code shared with pre-decompression boot stage */
- #include "sev-shared.c"
+diff --git a/arch/x86/boot/compressed/sev.c b/arch/x86/boot/compressed/sev.c
+index cb771b380a6b..32a1e98ffaa9 100644
+--- a/arch/x86/boot/compressed/sev.c
++++ b/arch/x86/boot/compressed/sev.c
+@@ -130,6 +130,34 @@ static bool fault_in_kernel_space(unsigned long address)
+ /* Include code for early handlers */
+ #include "../../kernel/sev-shared.c"
  
 +static struct svsm_ca *__svsm_get_caa(void)
 +{
-+	return sev_cfg.cas_initialized ? this_cpu_read(svsm_caa)
-+				       : boot_svsm_caa;
++	return boot_svsm_caa;
 +}
 +
- static noinstr void __sev_put_ghcb(struct ghcb_state *state)
++static u64 __svsm_get_caa_pa(void)
++{
++	return boot_svsm_caa_pa;
++}
++
++static int svsm_protocol(struct svsm_call *call)
++{
++	struct ghcb *ghcb;
++	int ret;
++
++	if (boot_ghcb)
++		ghcb = boot_ghcb;
++	else
++		ghcb = NULL;
++
++	do {
++		ret = ghcb ? __svsm_ghcb_protocol(ghcb, call)
++			   : __svsm_msr_protocol(call);
++	} while (ret == SVSM_ERR_BUSY);
++
++	return ret;
++}
++
+ bool sev_snp_enabled(void)
  {
- 	struct sev_es_runtime_data *data;
-@@ -600,6 +647,42 @@ static noinstr void __sev_put_ghcb(struct ghcb_state *state)
+ 	return sev_status & MSR_AMD64_SEV_SNP_ENABLED;
+@@ -146,8 +174,8 @@ static void __page_state_change(unsigned long paddr, enum psc_op op)
+ 	 * If private -> shared then invalidate the page before requesting the
+ 	 * state change in the RMP table.
+ 	 */
+-	if (op == SNP_PAGE_STATE_SHARED && pvalidate(paddr, RMP_PG_SIZE_4K, 0))
+-		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_PVALIDATE);
++	if (op == SNP_PAGE_STATE_SHARED)
++		pvalidate_4k_page(paddr, paddr, 0);
+ 
+ 	/* Issue VMGEXIT to change the page state in RMP table. */
+ 	sev_es_wr_ghcb_msr(GHCB_MSR_PSC_REQ_GFN(paddr >> PAGE_SHIFT, op));
+@@ -162,8 +190,8 @@ static void __page_state_change(unsigned long paddr, enum psc_op op)
+ 	 * Now that page state is changed in the RMP table, validate it so that it is
+ 	 * consistent with the RMP entry.
+ 	 */
+-	if (op == SNP_PAGE_STATE_PRIVATE && pvalidate(paddr, RMP_PG_SIZE_4K, 1))
+-		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_PVALIDATE);
++	if (op == SNP_PAGE_STATE_PRIVATE)
++		pvalidate_4k_page(paddr, paddr, 1);
+ }
+ 
+ void snp_set_page_private(unsigned long paddr)
+@@ -256,6 +284,15 @@ void sev_es_shutdown_ghcb(void)
+ 	if (!sev_es_check_cpu_features())
+ 		error("SEV-ES CPU Features missing.");
+ 
++	/*
++	 * The boot_ghcb value is used to determine whether to use the GHCB MSR
++	 * protocol or the GHCB shared page to perform a GHCB request. Since the
++	 * GHCB page is being changed to encrypted, it can't be used to perform
++	 * GHCB requests. Clear the boot_ghcb variable so that the GHCB MSR
++	 * protocol is used to change the GHCB page over to an encrypted page.
++	 */
++	boot_ghcb = NULL;
++
+ 	/*
+ 	 * GHCB Page must be flushed from the cache and mapped encrypted again.
+ 	 * Otherwise the running kernel will see strange cache effects when
+diff --git a/arch/x86/include/asm/sev.h b/arch/x86/include/asm/sev.h
+index 8f180fd3cbf0..e6f1ed3f6ce3 100644
+--- a/arch/x86/include/asm/sev.h
++++ b/arch/x86/include/asm/sev.h
+@@ -187,6 +187,27 @@ struct svsm_ca {
+ #define SVSM_ERR_INVALID_PARAMETER		0x80000005
+ #define SVSM_ERR_INVALID_REQUEST		0x80000006
+ #define SVSM_ERR_BUSY				0x80000007
++#define SVSM_PVALIDATE_FAIL_SIZEMISMATCH	0x80001006
++
++/*
++ * The SVSM PVALIDATE related structures
++ */
++struct svsm_pvalidate_entry {
++	u64 page_size		: 2,
++	    action		: 1,
++	    ignore_cf		: 1,
++	    rsvd		: 8,
++	    pfn			: 52;
++};
++
++struct svsm_pvalidate_call {
++	u16 entries;
++	u16 next;
++
++	u8 rsvd1[4];
++
++	struct svsm_pvalidate_entry entry[];
++};
+ 
+ /*
+  * SVSM protocol structure
+@@ -207,6 +228,7 @@ struct svsm_call {
+ 
+ #define SVSM_CORE_CALL(x)		((0ULL << 32) | (x))
+ #define SVSM_CORE_REMAP_CA		0
++#define SVSM_CORE_PVALIDATE		1
+ 
+ #ifdef CONFIG_AMD_MEM_ENCRYPT
+ extern void __sev_es_ist_enter(struct pt_regs *regs);
+diff --git a/arch/x86/kernel/sev-shared.c b/arch/x86/kernel/sev-shared.c
+index 6f57eb804e70..b415b10a0823 100644
+--- a/arch/x86/kernel/sev-shared.c
++++ b/arch/x86/kernel/sev-shared.c
+@@ -40,6 +40,9 @@ static u8 vmpl __ro_after_init;
+ static struct svsm_ca *boot_svsm_caa __ro_after_init;
+ static u64 boot_svsm_caa_pa __ro_after_init;
+ 
++static struct svsm_ca *__svsm_get_caa(void);
++static u64 __svsm_get_caa_pa(void);
++
+ /* I/O parameters for CPUID-related helpers */
+ struct cpuid_leaf {
+ 	u32 fn;
+@@ -102,6 +105,8 @@ static u32 cpuid_std_range_max __ro_after_init;
+ static u32 cpuid_hyp_range_max __ro_after_init;
+ static u32 cpuid_ext_range_max __ro_after_init;
+ 
++static int svsm_protocol(struct svsm_call *call);
++
+ static bool __init sev_es_check_cpu_features(void)
+ {
+ 	if (!has_cpuflag(X86_FEATURE_RDRAND)) {
+@@ -1186,7 +1191,65 @@ static void __head setup_cpuid_table(const struct cc_blob_sev_info *cc_info)
  	}
  }
  
-+static int svsm_protocol(struct svsm_call *call)
+-static void pvalidate_pages(struct snp_psc_desc *desc)
++static int base_pvalidate_4k_page(unsigned long vaddr, bool validate)
 +{
-+	struct ghcb_state state;
++	return pvalidate(vaddr, RMP_PG_SIZE_4K, validate);
++}
++
++static int svsm_pvalidate_4k_page(unsigned long paddr, bool validate)
++{
++	struct svsm_pvalidate_call *pvalidate_call;
++	struct svsm_call call = {};
++	u64 pvalidate_call_pa;
 +	unsigned long flags;
-+	struct ghcb *ghcb;
 +	int ret;
 +
 +	/*
@@ -360,20 +218,23 @@ index a500df807e79..21f3cc40d662 100644
 +	if (flags & X86_EFLAGS_IF)
 +		native_irq_disable();
 +
-+	if (sev_cfg.ghcbs_initialized)
-+		ghcb = __sev_get_ghcb(&state);
-+	else if (boot_ghcb)
-+		ghcb = boot_ghcb;
-+	else
-+		ghcb = NULL;
++	call.caa = __svsm_get_caa();
 +
-+	do {
-+		ret = ghcb ? __svsm_ghcb_protocol(ghcb, call)
-+			   : __svsm_msr_protocol(call);
-+	} while (ret == SVSM_ERR_BUSY);
++	pvalidate_call = (struct svsm_pvalidate_call *)call.caa->svsm_buffer;
++	pvalidate_call_pa = __svsm_get_caa_pa() + offsetof(struct svsm_ca, svsm_buffer);
 +
-+	if (sev_cfg.ghcbs_initialized)
-+		__sev_put_ghcb(&state);
++	pvalidate_call->entries = 1;
++	pvalidate_call->next    = 0;
++	pvalidate_call->entry[0].page_size = RMP_PG_SIZE_4K;
++	pvalidate_call->entry[0].action    = validate;
++	pvalidate_call->entry[0].ignore_cf = 0;
++	pvalidate_call->entry[0].pfn       = paddr >> PAGE_SHIFT;
++
++	/* Protocol 0, Call ID 1 */
++	call.rax = SVSM_CORE_CALL(SVSM_CORE_PVALIDATE);
++	call.rcx = pvalidate_call_pa;
++
++	ret = svsm_protocol(&call);
 +
 +	if (flags & X86_EFLAGS_IF)
 +		native_irq_enable();
@@ -381,198 +242,201 @@ index a500df807e79..21f3cc40d662 100644
 +	return ret;
 +}
 +
- void noinstr __sev_es_nmi_complete(void)
- {
- 	struct ghcb_state state;
-@@ -1346,6 +1429,18 @@ static void __init alloc_runtime_data(int cpu)
- 		panic("Can't allocate SEV-ES runtime data");
- 
- 	per_cpu(runtime_data, cpu) = data;
-+
-+	if (vmpl) {
-+		struct svsm_ca *caa;
-+
-+		/* Allocate the SVSM CA page if an SVSM is present */
-+		caa = memblock_alloc(sizeof(*caa), PAGE_SIZE);
-+		if (!caa)
-+			panic("Can't allocate SVSM CA page\n");
-+
-+		per_cpu(svsm_caa, cpu) = caa;
-+		per_cpu(svsm_caa_pa, cpu) = __pa(caa);
-+	}
- }
- 
- static void __init init_ghcb(int cpu)
-@@ -1395,6 +1490,31 @@ void __init sev_es_init_vc_handling(void)
- 		init_ghcb(cpu);
- 	}
- 
-+	/* If running under an SVSM, switch to the per-cpu CA */
-+	if (vmpl) {
-+		struct svsm_call call = {};
-+		unsigned long flags;
-+		int ret;
-+
-+		local_irq_save(flags);
-+
-+		/*
-+		 * SVSM_CORE_REMAP_CA call:
-+		 *   RAX = 0 (Protocol=0, CallID=0)
-+		 *   RCX = New CA GPA
-+		 */
-+		call.caa = __svsm_get_caa();
-+		call.rax = SVSM_CORE_CALL(SVSM_CORE_REMAP_CA);
-+		call.rcx = this_cpu_read(svsm_caa_pa);
-+		ret = svsm_protocol(&call);
-+		if (ret != SVSM_SUCCESS)
-+			panic("Can't remap the SVSM CA, ret=%#x (%d)\n", ret, ret);
-+
-+		sev_cfg.cas_initialized = true;
-+
-+		local_irq_restore(flags);
-+	}
-+
- 	sev_es_setup_play_dead();
- 
- 	/* Secondary CPUs use the runtime #VC handler */
-@@ -1819,33 +1939,6 @@ static enum es_result vc_handle_exitcode(struct es_em_ctxt *ctxt,
- 	return result;
- }
- 
--static __always_inline void vc_forward_exception(struct es_em_ctxt *ctxt)
--{
--	long error_code = ctxt->fi.error_code;
--	int trapnr = ctxt->fi.vector;
--
--	ctxt->regs->orig_ax = ctxt->fi.error_code;
--
--	switch (trapnr) {
--	case X86_TRAP_GP:
--		exc_general_protection(ctxt->regs, error_code);
--		break;
--	case X86_TRAP_UD:
--		exc_invalid_op(ctxt->regs);
--		break;
--	case X86_TRAP_PF:
--		write_cr2(ctxt->fi.cr2);
--		exc_page_fault(ctxt->regs, error_code);
--		break;
--	case X86_TRAP_AC:
--		exc_alignment_check(ctxt->regs, error_code);
--		break;
--	default:
--		pr_emerg("Unsupported exception in #VC instruction emulation - can't continue\n");
--		BUG();
--	}
--}
--
- static __always_inline bool is_vc2_stack(unsigned long sp)
- {
- 	return (sp >= __this_cpu_ist_bottom_va(VC2) && sp < __this_cpu_ist_top_va(VC2));
-@@ -2095,6 +2188,50 @@ static __head struct cc_blob_sev_info *find_cc_blob(struct boot_params *bp)
- 	return cc_info;
- }
- 
-+static __head void setup_svsm(struct cc_blob_sev_info *cc_info)
++static void pvalidate_4k_page(unsigned long vaddr, unsigned long paddr, bool validate)
 +{
-+	struct svsm_call call = {};
 +	int ret;
-+	u64 pa;
 +
-+	/*
-+	 * Record the SVSM Calling Area address (CAA) if the guest is not
-+	 * running at VMPL0. The CA will be used to communicate with the
-+	 * SVSM to perform the SVSM services.
-+	 */
-+	setup_svsm_ca(cc_info);
++	ret = vmpl ? svsm_pvalidate_4k_page(paddr, validate)
++		   : base_pvalidate_4k_page(vaddr, validate);
 +
-+	/* Nothing to do if not running under an SVSM. */
-+	if (!vmpl)
-+		return;
-+
-+	/*
-+	 * It is very early in the boot and the kernel is running identity
-+	 * mapped but without having adjusted the pagetables to where the
-+	 * kernel was loaded (physbase), so the get the CA address using
-+	 * RIP-relative addressing.
-+	 */
-+	pa = (u64)&RIP_REL_REF(boot_svsm_ca_page);
-+
-+	/*
-+	 * Switch over to the boot SVSM CA while the current CA is still
-+	 * addressable. There is no GHCB at this point so use the MSR protocol.
-+	 *
-+	 * SVSM_CORE_REMAP_CA call:
-+	 *   RAX = 0 (Protocol=0, CallID=0)
-+	 *   RCX = New CA GPA
-+	 */
-+	call.caa = __svsm_get_caa();
-+	call.rax = SVSM_CORE_CALL(SVSM_CORE_REMAP_CA);
-+	call.rcx = pa;
-+	ret = svsm_protocol(&call);
-+	if (ret != SVSM_SUCCESS)
-+		panic("Can't remap the SVSM CA, ret=%#x (%d)\n", ret, ret);
-+
-+	boot_svsm_caa = (struct svsm_ca *)pa;
-+	boot_svsm_caa_pa = pa;
++	if (ret) {
++		WARN(1, "Failed to validate address 0x%lx ret %d", vaddr, ret);
++		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_PVALIDATE);
++	}
 +}
 +
- bool __head snp_init(struct boot_params *bp)
++static void base_pvalidate_pages(struct snp_psc_desc *desc)
  {
- 	struct cc_blob_sev_info *cc_info;
-@@ -2108,12 +2245,7 @@ bool __head snp_init(struct boot_params *bp)
- 
- 	setup_cpuid_table(cc_info);
- 
--	/*
--	 * Record the SVSM Calling Area address (CAA) if the guest is not
--	 * running at VMPL0. The CA will be used to communicate with the
--	 * SVSM to perform the SVSM services.
--	 */
--	setup_svsm_ca(cc_info);
-+	setup_svsm(cc_info);
- 
- 	/*
- 	 * The CC blob will be used later to access the secrets page. Cache
-@@ -2306,3 +2438,12 @@ void sev_show_status(void)
+ 	struct psc_entry *e;
+ 	unsigned long vaddr;
+@@ -1220,6 +1283,120 @@ static void pvalidate_pages(struct snp_psc_desc *desc)
  	}
- 	pr_cont("\n");
  }
-+
-+void __init snp_remap_svsm_ca(void)
+ 
++static void svsm_pvalidate_pages(struct snp_psc_desc *desc)
 +{
-+	if (!vmpl)
-+		return;
-+
-+	/* Update the CAA to a proper kernel address */
-+	boot_svsm_caa = &boot_svsm_ca_page;
-+}
-diff --git a/arch/x86/mm/mem_encrypt_amd.c b/arch/x86/mm/mem_encrypt_amd.c
-index 422602f6039b..6155020e4d2d 100644
---- a/arch/x86/mm/mem_encrypt_amd.c
-+++ b/arch/x86/mm/mem_encrypt_amd.c
-@@ -2,7 +2,7 @@
- /*
-  * AMD Memory Encryption Support
-  *
-- * Copyright (C) 2016 Advanced Micro Devices, Inc.
-+ * Copyright (C) 2016-2024 Advanced Micro Devices, Inc.
-  *
-  * Author: Tom Lendacky <thomas.lendacky@amd.com>
-  */
-@@ -510,6 +510,12 @@ void __init sme_early_init(void)
- 		 */
- 		x86_init.resources.dmi_setup = snp_dmi_setup;
- 	}
++	struct svsm_pvalidate_call *pvalidate_call;
++	struct svsm_pvalidate_entry *pe;
++	unsigned int call_count, i;
++	struct svsm_call call = {};
++	u64 pvalidate_call_pa;
++	struct psc_entry *e;
++	unsigned long flags;
++	unsigned long vaddr;
++	bool action;
++	int ret;
 +
 +	/*
-+	 * Switch the SVSM CA mapping (if active) from identity mapped to
-+	 * kernel mapped.
++	 * This can be called very early in the boot, use native functions in
++	 * order to avoid paravirt issues.
 +	 */
-+	snp_remap_svsm_ca();
++	flags = native_save_fl();
++	if (flags & X86_EFLAGS_IF)
++		native_irq_disable();
++
++	call.caa = __svsm_get_caa();
++
++	pvalidate_call = (struct svsm_pvalidate_call *)call.caa->svsm_buffer;
++	pvalidate_call_pa = __svsm_get_caa_pa() + offsetof(struct svsm_ca, svsm_buffer);
++
++	/* Calculate how many entries the CA buffer can hold */
++	call_count = sizeof(call.caa->svsm_buffer);
++	call_count -= offsetof(struct svsm_pvalidate_call, entry);
++	call_count /= sizeof(pvalidate_call->entry[0]);
++
++	/* Protocol 0, Call ID 1 */
++	call.rax = SVSM_CORE_CALL(SVSM_CORE_PVALIDATE);
++	call.rcx = pvalidate_call_pa;
++
++	pvalidate_call->entries = 0;
++	pvalidate_call->next    = 0;
++
++	for (i = 0; i <= desc->hdr.end_entry; i++) {
++		e = &desc->entries[i];
++		pe = &pvalidate_call->entry[pvalidate_call->entries];
++
++		pe->page_size = e->pagesize ? RMP_PG_SIZE_2M : RMP_PG_SIZE_4K;
++		pe->action    = e->operation == SNP_PAGE_STATE_PRIVATE;
++		pe->ignore_cf = 0;
++		pe->pfn       = e->gfn;
++
++		pvalidate_call->entries++;
++		if (pvalidate_call->entries < call_count && i != desc->hdr.end_entry)
++			continue;
++
++		ret = svsm_protocol(&call);
++		if (ret == SVSM_PVALIDATE_FAIL_SIZEMISMATCH &&
++		    pvalidate_call->entry[pvalidate_call->next].page_size == RMP_PG_SIZE_2M) {
++			u64 pfn, pfn_end;
++
++			/*
++			 * The "next" field is the index of the failed entry. Calculate the
++			 * index of the entry after the failed entry before the fields are
++			 * cleared so that processing can continue on from that point (take
++			 * into account the for loop adding 1 to the entry).
++			 */
++			i -= pvalidate_call->entries - pvalidate_call->next;
++			i += 1;
++
++			action = pvalidate_call->entry[pvalidate_call->next].action;
++			pfn = pvalidate_call->entry[pvalidate_call->next].pfn;
++			pfn_end = pfn + 511;
++
++			pvalidate_call->entries = 0;
++			pvalidate_call->next    = 0;
++			for (; pfn <= pfn_end; pfn++) {
++				pe = &pvalidate_call->entry[pvalidate_call->entries];
++
++				pe->page_size = RMP_PG_SIZE_4K;
++				pe->action    = action;
++				pe->ignore_cf = 0;
++				pe->pfn       = pfn;
++
++				pvalidate_call->entries++;
++				if (pvalidate_call->entries < call_count && pfn != pfn_end)
++					continue;
++
++				ret = svsm_protocol(&call);
++				if (ret != SVSM_SUCCESS)
++					break;
++
++				pvalidate_call->entries = 0;
++				pvalidate_call->next    = 0;
++			}
++		}
++
++		if (ret != SVSM_SUCCESS) {
++			pe = &pvalidate_call->entry[pvalidate_call->next];
++			vaddr = (unsigned long)pfn_to_kaddr(pe->pfn);
++
++			WARN(1, "Failed to validate address %lx ret=%#x (%d)", vaddr, ret, ret);
++			sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_PVALIDATE);
++		}
++
++		pvalidate_call->entries = 0;
++		pvalidate_call->next    = 0;
++	}
++
++	if (flags & X86_EFLAGS_IF)
++		native_irq_enable();
++}
++
++static void pvalidate_pages(struct snp_psc_desc *desc)
++{
++	vmpl ? svsm_pvalidate_pages(desc)
++	     : base_pvalidate_pages(desc);
++}
++
+ static int vmgexit_psc(struct ghcb *ghcb, struct snp_psc_desc *desc)
+ {
+ 	int cur_entry, end_entry, ret = 0;
+diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
+index 21f3cc40d662..49cf4a6f1f31 100644
+--- a/arch/x86/kernel/sev.c
++++ b/arch/x86/kernel/sev.c
+@@ -622,6 +622,12 @@ static struct svsm_ca *__svsm_get_caa(void)
+ 				       : boot_svsm_caa;
  }
  
- void __init mem_encrypt_free_decrypted_mem(void)
++static u64 __svsm_get_caa_pa(void)
++{
++	return sev_cfg.cas_initialized ? this_cpu_read(svsm_caa_pa)
++				       : boot_svsm_caa_pa;
++}
++
+ static noinstr void __sev_put_ghcb(struct ghcb_state *state)
+ {
+ 	struct sev_es_runtime_data *data;
+@@ -792,7 +798,6 @@ early_set_pages_state(unsigned long vaddr, unsigned long paddr,
+ {
+ 	unsigned long paddr_end;
+ 	u64 val;
+-	int ret;
+ 
+ 	vaddr = vaddr & PAGE_MASK;
+ 
+@@ -800,12 +805,9 @@ early_set_pages_state(unsigned long vaddr, unsigned long paddr,
+ 	paddr_end = paddr + (npages << PAGE_SHIFT);
+ 
+ 	while (paddr < paddr_end) {
+-		if (op == SNP_PAGE_STATE_SHARED) {
+-			/* Page validation must be rescinded before changing to shared */
+-			ret = pvalidate(vaddr, RMP_PG_SIZE_4K, false);
+-			if (WARN(ret, "Failed to validate address 0x%lx ret %d", paddr, ret))
+-				goto e_term;
+-		}
++		/* Page validation must be rescinded before changing to shared */
++		if (op == SNP_PAGE_STATE_SHARED)
++			pvalidate_4k_page(vaddr, paddr, false);
+ 
+ 		/*
+ 		 * Use the MSR protocol because this function can be called before
+@@ -827,12 +829,9 @@ early_set_pages_state(unsigned long vaddr, unsigned long paddr,
+ 			 paddr, GHCB_MSR_PSC_RESP_VAL(val)))
+ 			goto e_term;
+ 
+-		if (op == SNP_PAGE_STATE_PRIVATE) {
+-			/* Page validation must be performed after changing to private */
+-			ret = pvalidate(vaddr, RMP_PG_SIZE_4K, true);
+-			if (WARN(ret, "Failed to validate address 0x%lx ret %d", paddr, ret))
+-				goto e_term;
+-		}
++		/* Page validation must be performed after changing to private */
++		if (op == SNP_PAGE_STATE_PRIVATE)
++			pvalidate_4k_page(vaddr, paddr, true);
+ 
+ 		vaddr += PAGE_SIZE;
+ 		paddr += PAGE_SIZE;
 -- 
 2.43.2
 
