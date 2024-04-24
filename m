@@ -1,21 +1,22 @@
-Return-Path: <joro@8bytes.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1713887564;
- bh=OWW7MjJWEQCbbWZesM7QRxgaYgogV/i66VqnLeu8RZA=;
- h=Date:From:To:Subject:From;
- b=zpScNNoxDPHL8n0b3JtEPRB+nj11DZrDnE267kzv3oCkGJdhuGeLgU7de0QyC5U9c
- ZDRxwV36Aw45G2m/Tbrn77J0CRX0uxMjgy3M0sFrY0hsYedNsQhYU/+cFb5xIM6JOY
- tQAJZyW4aXPCDlqVKz3PwqaJcna+smgh01tcAzbw9aic0JRevI209hWgekD/Bz4K1C
- UDJ5RzEqMgv+Jsy1krt6IparXeWtx/zKk4q5SFB33pom1Oj2GBK5+ESbREOnVngfEX
- FilABrwh7TABDiHtwb87YdSpQlKQZF8oMzyOwtjjsOkEau8A0kACGWxgzCkEx5aeUG
- 3OyUsgWj3HZuA==
-Date: Tue, 23 Apr 2024 17:52:43 +0200
-From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <ZifZS6_Rx8bTbceb@8bytes.org>
+Return-Path: <Thomas.Lendacky@amd.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on20600.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2415::600])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPS id 715851C9FAC
+ for <svsm-devel@coconut-svsm.dev>; Wed, 24 Apr 2024 17:58:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S3+IC27TH5ORa8Zf4SF9NM2mgUInEyfUneTApO+k518=;
+ b=qk37VZM+gPXSi94cGTeyiEnZctibyLRqPdSUDZFIurRys6JI2XVa9HhMpGKv1OHLEV1SnYQTrWRoXICdxMjYlHO0gfoqV2SkojSm4Mz5tu3MSu6vmiCVR5BwunfVMUs3mBGRypD1AjJjNP+YHsXUlJvyo5Vz+3Z1MNsWWOC9fSY=
+From: Tom Lendacky <thomas.lendacky@amd.com>
+Date: Wed, 24 Apr 2024 10:57:56 -0500
+Message-ID: <cover.1713974291.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] SVSM Development Call April 24th, 2024
+Subject: [svsm-devel] [PATCH v4 00/15] Provide SEV-SNP support for running
+ under an SVSM
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -24,25 +25,120 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
+To: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter
+ Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="utf-8"
 
-Hi,
+This series adds SEV-SNP support for running Linux under an Secure VM
+Service Module (SVSM) at a less privileged VM Privilege Level (VMPL).
+By running at a less priviledged VMPL, the SVSM can be used to provide
+services, e.g. a virtual TPM, for Linux within the SEV-SNP confidential
+VM (CVM) rather than trust such services from the hypervisor.
 
-Here is the usual call for agenda items for this weeks SVSM development
-call. I have one item so far:
+Currently, a Linux guest expects to run at the highest VMPL, VMPL0, and
+there are certain SNP related operations that require that VMPL level.
+Specifically, the PVALIDATE instruction and the RMPADJUST instruction
+when setting the VMSA attribute of a page (used when starting APs).
 
-	* User-mode PR status
+If Linux is to run at a less privileged VMPL, e.g. VMPL2, then it must
+use an SVSM (which is running at VMPL0) to perform the operations that
+it is no longer able to perform.
 
-Details of the meeting (GMeet and Calendar links, meeting time) can be
-found in our governance repository at:
+How Linux interacts with and uses the SVSM is documented in the SVSM
+specification [1] and the GHCB specification [2].
 
-	https://github.com/coconut-svsm/governance
+This series introduces support to run Linux under an SVSM. It consists
+of:
+  - Detecting the presence of an SVSM
+  - When not running at VMPL0, invoking the SVSM for page validation and
+    VMSA page creation/deletion
+  - Adding a sysfs entry that specifies the Linux VMPL
+  - Modifying the sev-guest driver to use the VMPCK key associated with
+    the Linux VMPL
+  - Expanding the config-fs TSM support to request attestation reports
+    from the SVSM and allowing attributes to be hidden
+  - Detecting and allowing Linux to run in a VMPL other than 0 when an
+    SVSM is present
 
-The meeting will be recorded and the recording eventually published.
+The series is based off of and tested against the tip tree:
+  https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git master
 
-See you all there.
+  4e2b6e891aae ("Merge branch into tip/master: 'x86/shstk'")
 
-Regards,
+[1] https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/specifications/58019.pdf
+[2] https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/specifications/56421.pdf
 
-	Jörg
+Cc: Joel Becker <jlbec@evilplan.org>
+Cc: Christoph Hellwig <hch@lst.de>
+
+---
+
+Changes in v4:
+- Add a pre-patch to rename the struct snp_secrets_page_layout to just
+  snp_secrets_page.
+- Move the config-fs visibility support to be group based and referenced
+  by an index. Remove the macro changes that set the visibility function
+  for an entry.
+- Make the TSM visibility support vendor specific via an ops callback.
+- Use the rmpadjust() function directly and remove the enforce_vmpl0()
+  function.
+- Consolidate common variables into arch/x86/kernel/sev-shared.c.
+
+Changes in v3:
+- Rename decompresor snp_setup() to early_snp_setup() to better indicate
+  when it is called.
+- Rename the "svsm" config-fs attribute into the more generic
+  "service_provider" attribute that takes a name as input.
+- Change config-fs visibility function to be a simple bool return type
+  instead of returning the mode.
+- Switch to using new RIP_REL_REF() macro and __head notation where
+  appropriate.
+
+Changes in v2:
+- Define X86_FEATURE_SVSM_PRESENT and set the bit in the CPUID table,
+  removing the need to set the CPUID bit in the #VC handler.
+- Rename the TSM service_version attribute to service_manifest_version.
+- Add support to config-fs to hide attributes and hide the SVSM attributes
+  when an SVSM is not present.
+
+
+Tom Lendacky (15):
+  x86/sev: Shorten snp_secrets_page_layout to snp_secrets_page
+  x86/sev: Rename snp_init() in the boot/compressed/sev.c file
+  x86/sev: Make the VMPL0 checking more straight forward
+  x86/sev: Check for the presence of an SVSM in the SNP Secrets page
+  x86/sev: Use kernel provided SVSM Calling Areas
+  x86/sev: Perform PVALIDATE using the SVSM when not at VMPL0
+  x86/sev: Use the SVSM to create a vCPU when not in VMPL0
+  x86/sev: Provide SVSM discovery support
+  x86/sev: Provide guest VMPL level to userspace
+  virt: sev-guest: Choose the VMPCK key based on executing VMPL
+  configfs-tsm: Allow the privlevel_floor attribute to be updated
+  fs/configfs: Add a callback to determine attribute visibility
+  x86/sev: Take advantage of configfs visibility support in TSM
+  x86/sev: Extend the config-fs attestation support for an SVSM
+  x86/sev: Allow non-VMPL0 execution when an SVSM is present
+
+ Documentation/ABI/testing/configfs-tsm        |  63 +++
+ .../arch/x86/amd-memory-encryption.rst        |  22 +
+ arch/x86/boot/compressed/sev.c                | 258 ++++++-----
+ arch/x86/include/asm/cpufeatures.h            |   1 +
+ arch/x86/include/asm/msr-index.h              |   2 +
+ arch/x86/include/asm/sev-common.h             |  18 +
+ arch/x86/include/asm/sev.h                    | 116 ++++-
+ arch/x86/include/uapi/asm/svm.h               |   1 +
+ arch/x86/kernel/sev-shared.c                  | 354 ++++++++++++++-
+ arch/x86/kernel/sev.c                         | 421 +++++++++++++++---
+ arch/x86/mm/mem_encrypt_amd.c                 |   8 +-
+ drivers/virt/coco/sev-guest/sev-guest.c       | 210 ++++++++-
+ drivers/virt/coco/tdx-guest/tdx-guest.c       |  29 +-
+ drivers/virt/coco/tsm.c                       | 173 +++++--
+ fs/configfs/dir.c                             |  20 +
+ include/linux/configfs.h                      |   3 +
+ include/linux/tsm.h                           |  62 ++-
+ 17 files changed, 1533 insertions(+), 228 deletions(-)
+
+-- 
+2.43.2
+
