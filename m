@@ -1,24 +1,24 @@
 Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on20600.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2414::600])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on20602.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e88::602])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id B2BA21CA04D
- for <svsm-devel@coconut-svsm.dev>; Wed, 24 Apr 2024 17:58:46 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id 7210F1CA04D
+ for <svsm-devel@coconut-svsm.dev>; Wed, 24 Apr 2024 17:58:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=15ew4f9ZgZLu4/xHtI+LHBBQOnr2HhxMiiEK/WZoX5s=;
- b=umVpiWhr/DYllRDBrFIb0VsItuVNbsLGz3RbM3/F+AH/aGhbabAY2b45dG1Z3UX8ZYPFqo9/TOiGxv2Pafmfbhy1RiQvo7xKOw85TtjCfxSbmrZyWi5VQiK8vBcoxMOlVZv7nXWWwu/PL0bY5sQaJbaPfOSvYMEUL3B0evHqGsA=
+ bh=bf6ndJ/A4gb88kzQ8k9yLqu7IKvmb6aKaA2Sh//c/u0=;
+ b=cGy6T1fCCJ6pXGsOzTLg3a2YDIuifVqw/Ailutzro70NZ192TEox4rm3R5JGrFevTktqIcPWCYBkRJglbOW5nUTWNg2j9BU5xKslewIvYBkkHQZkWZmEpoQdS6BlxI/l3SC3O0z63nntUUv5uzYZwIL+iPIfaSavGU3XoCcP1kA=
 From: Tom Lendacky <thomas.lendacky@amd.com>
-Date: Wed, 24 Apr 2024 10:57:58 -0500
-Message-ID: <afda29585c2724b9698003f24cefa77eb35f4ffb.1713974291.git.thomas.lendacky@amd.com>
+Date: Wed, 24 Apr 2024 10:57:59 -0500
+Message-ID: <ed01ddf04bfb475596b24b634fd26cffaa85173a.1713974291.git.thomas.lendacky@amd.com>
 In-Reply-To: <cover.1713974291.git.thomas.lendacky@amd.com>
 References: <cover.1713974291.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] [PATCH v4 02/15] x86/sev: Rename snp_init() in the
- boot/compressed/sev.c file
+Subject: [svsm-devel] [PATCH v4 03/15] x86/sev: Make the VMPL0 checking more
+ straight forward
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -32,215 +32,73 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borisl
  Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 Content-Type: text/plain; charset="utf-8"
 
-The snp_init() function in boot/compressed/sev.c is local to that file, is
-not called from outside of the file and is independent of the snp_init()
-function in kernel/sev.c. Change the name to better differentiate when
-each function is used.
+Currently, the enforce_vmpl0() function uses a set argument when modifying
+the VMPL1 permissions used to test for VMPL0. If the guest is not running
+at VMPL0, the guest self-terminates.
 
-Move the renamed snp_init() and related functions up in the file to avoid
-having to add a forward declaration and make the function static.
+The function is just a wrapper for a fixed RMPADJUST function. Eliminate
+the function and perform the RMPADJUST directly.
 
 No functional change.
 
 Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 ---
- arch/x86/boot/compressed/sev.c | 162 ++++++++++++++++-----------------
- 1 file changed, 81 insertions(+), 81 deletions(-)
+ arch/x86/boot/compressed/sev.c | 35 ++++++++++++++--------------------
+ 1 file changed, 14 insertions(+), 21 deletions(-)
 
 diff --git a/arch/x86/boot/compressed/sev.c b/arch/x86/boot/compressed/sev.c
-index ec71846d28c9..5ad0ff4664f1 100644
+index 5ad0ff4664f1..0457a9d7e515 100644
 --- a/arch/x86/boot/compressed/sev.c
 +++ b/arch/x86/boot/compressed/sev.c
-@@ -413,6 +413,85 @@ void snp_check_features(void)
- 	}
+@@ -335,26 +335,6 @@ void do_boot_stage2_vc(struct pt_regs *regs, unsigned long exit_code)
+ 		sev_es_terminate(SEV_TERM_SET_GEN, GHCB_SEV_ES_GEN_REQ);
  }
  
-+/* Search for Confidential Computing blob in the EFI config table. */
-+static struct cc_blob_sev_info *find_cc_blob_efi(struct boot_params *bp)
-+{
-+	unsigned long cfg_table_pa;
-+	unsigned int cfg_table_len;
-+	int ret;
-+
-+	ret = efi_get_conf_table(bp, &cfg_table_pa, &cfg_table_len);
-+	if (ret)
-+		return NULL;
-+
-+	return (struct cc_blob_sev_info *)efi_find_vendor_table(bp, cfg_table_pa,
-+								cfg_table_len,
-+								EFI_CC_BLOB_GUID);
-+}
-+
-+/*
-+ * Initial set up of SNP relies on information provided by the
-+ * Confidential Computing blob, which can be passed to the boot kernel
-+ * by firmware/bootloader in the following ways:
-+ *
-+ * - via an entry in the EFI config table
-+ * - via a setup_data structure, as defined by the Linux Boot Protocol
-+ *
-+ * Scan for the blob in that order.
-+ */
-+static struct cc_blob_sev_info *find_cc_blob(struct boot_params *bp)
-+{
-+	struct cc_blob_sev_info *cc_info;
-+
-+	cc_info = find_cc_blob_efi(bp);
-+	if (cc_info)
-+		goto found_cc_info;
-+
-+	cc_info = find_cc_blob_setup_data(bp);
-+	if (!cc_info)
-+		return NULL;
-+
-+found_cc_info:
-+	if (cc_info->magic != CC_BLOB_SEV_HDR_MAGIC)
-+		sev_es_terminate(SEV_TERM_SET_GEN, GHCB_SNP_UNSUPPORTED);
-+
-+	return cc_info;
-+}
-+
-+/*
-+ * Indicate SNP based on presence of SNP-specific CC blob. Subsequent checks
-+ * will verify the SNP CPUID/MSR bits.
-+ */
-+static bool early_snp_init(struct boot_params *bp)
-+{
-+	struct cc_blob_sev_info *cc_info;
-+
-+	if (!bp)
-+		return false;
-+
-+	cc_info = find_cc_blob(bp);
-+	if (!cc_info)
-+		return false;
-+
-+	/*
-+	 * If a SNP-specific Confidential Computing blob is present, then
-+	 * firmware/bootloader have indicated SNP support. Verifying this
-+	 * involves CPUID checks which will be more reliable if the SNP
-+	 * CPUID table is used. See comments over snp_setup_cpuid_table() for
-+	 * more details.
-+	 */
-+	setup_cpuid_table(cc_info);
-+
-+	/*
-+	 * Pass run-time kernel a pointer to CC info via boot_params so EFI
-+	 * config table doesn't need to be searched again during early startup
-+	 * phase.
-+	 */
-+	bp->cc_blob_address = (u32)(unsigned long)cc_info;
-+
-+	return true;
-+}
-+
+-static void enforce_vmpl0(void)
+-{
+-	u64 attrs;
+-	int err;
+-
+-	/*
+-	 * RMPADJUST modifies RMP permissions of a lesser-privileged (numerically
+-	 * higher) privilege level. Here, clear the VMPL1 permission mask of the
+-	 * GHCB page. If the guest is not running at VMPL0, this will fail.
+-	 *
+-	 * If the guest is running at VMPL0, it will succeed. Even if that operation
+-	 * modifies permission bits, it is still ok to do so currently because Linux
+-	 * SNP guests are supported only on VMPL0 so VMPL1 or higher permission masks
+-	 * changing is a don't-care.
+-	 */
+-	attrs = 1;
+-	if (rmpadjust((unsigned long)&boot_ghcb_page, RMP_PG_SIZE_4K, attrs))
+-		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_NOT_VMPL0);
+-}
+-
  /*
-  * sev_check_cpu_support - Check for SEV support in the CPU capabilities
-  *
-@@ -463,7 +542,7 @@ void sev_enable(struct boot_params *bp)
- 		bp->cc_blob_address = 0;
+  * SNP_FEATURES_IMPL_REQ is the mask of SNP features that will need
+  * guest side implementation for proper functioning of the guest. If any
+@@ -588,7 +568,20 @@ void sev_enable(struct boot_params *bp)
+ 		if (!(get_hv_features() & GHCB_HV_FT_SNP))
+ 			sev_es_terminate(SEV_TERM_SET_GEN, GHCB_SNP_UNSUPPORTED);
  
- 	/*
--	 * Do an initial SEV capability check before snp_init() which
-+	 * Do an initial SEV capability check before early_snp_init() which
- 	 * loads the CPUID page and the same checks afterwards are done
- 	 * without the hypervisor and are trustworthy.
- 	 *
-@@ -478,7 +557,7 @@ void sev_enable(struct boot_params *bp)
- 	 * Setup/preliminary detection of SNP. This will be sanity-checked
- 	 * against CPUID/MSR values later.
- 	 */
--	snp = snp_init(bp);
-+	snp = early_snp_init(bp);
+-		enforce_vmpl0();
++		/*
++		 * Enforce running at VMPL0.
++		 *
++		 * RMPADJUST modifies RMP permissions of a lesser-privileged (numerically
++		 * higher) privilege level. Here, clear the VMPL1 permission mask of the
++		 * GHCB page. If the guest is not running at VMPL0, this will fail.
++		 *
++		 * If the guest is running at VMPL0, it will succeed. Even if that operation
++		 * modifies permission bits, it is still ok to do so currently because Linux
++		 * SNP guests running at VMPL0 only run at VMPL0, so VMPL1 or higher
++		 * permission mask changes are a don't-care.
++		 */
++		if (rmpadjust((unsigned long)&boot_ghcb_page, RMP_PG_SIZE_4K, 1))
++			sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_NOT_VMPL0);
+ 	}
  
- 	/* Now repeat the checks with the SNP CPUID table. */
- 
-@@ -535,85 +614,6 @@ u64 sev_get_status(void)
- 	return m.q;
- }
- 
--/* Search for Confidential Computing blob in the EFI config table. */
--static struct cc_blob_sev_info *find_cc_blob_efi(struct boot_params *bp)
--{
--	unsigned long cfg_table_pa;
--	unsigned int cfg_table_len;
--	int ret;
--
--	ret = efi_get_conf_table(bp, &cfg_table_pa, &cfg_table_len);
--	if (ret)
--		return NULL;
--
--	return (struct cc_blob_sev_info *)efi_find_vendor_table(bp, cfg_table_pa,
--								cfg_table_len,
--								EFI_CC_BLOB_GUID);
--}
--
--/*
-- * Initial set up of SNP relies on information provided by the
-- * Confidential Computing blob, which can be passed to the boot kernel
-- * by firmware/bootloader in the following ways:
-- *
-- * - via an entry in the EFI config table
-- * - via a setup_data structure, as defined by the Linux Boot Protocol
-- *
-- * Scan for the blob in that order.
-- */
--static struct cc_blob_sev_info *find_cc_blob(struct boot_params *bp)
--{
--	struct cc_blob_sev_info *cc_info;
--
--	cc_info = find_cc_blob_efi(bp);
--	if (cc_info)
--		goto found_cc_info;
--
--	cc_info = find_cc_blob_setup_data(bp);
--	if (!cc_info)
--		return NULL;
--
--found_cc_info:
--	if (cc_info->magic != CC_BLOB_SEV_HDR_MAGIC)
--		sev_es_terminate(SEV_TERM_SET_GEN, GHCB_SNP_UNSUPPORTED);
--
--	return cc_info;
--}
--
--/*
-- * Indicate SNP based on presence of SNP-specific CC blob. Subsequent checks
-- * will verify the SNP CPUID/MSR bits.
-- */
--bool snp_init(struct boot_params *bp)
--{
--	struct cc_blob_sev_info *cc_info;
--
--	if (!bp)
--		return false;
--
--	cc_info = find_cc_blob(bp);
--	if (!cc_info)
--		return false;
--
--	/*
--	 * If a SNP-specific Confidential Computing blob is present, then
--	 * firmware/bootloader have indicated SNP support. Verifying this
--	 * involves CPUID checks which will be more reliable if the SNP
--	 * CPUID table is used. See comments over snp_setup_cpuid_table() for
--	 * more details.
--	 */
--	setup_cpuid_table(cc_info);
--
--	/*
--	 * Pass run-time kernel a pointer to CC info via boot_params so EFI
--	 * config table doesn't need to be searched again during early startup
--	 * phase.
--	 */
--	bp->cc_blob_address = (u32)(unsigned long)cc_info;
--
--	return true;
--}
--
- void sev_prep_identity_maps(unsigned long top_level_pgt)
- {
- 	/*
+ 	if (snp && !(sev_status & MSR_AMD64_SEV_SNP_ENABLED))
 -- 
 2.43.2
 
