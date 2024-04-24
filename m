@@ -1,24 +1,24 @@
 Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on20601.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2417::601])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on20600.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2416::600])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id BC2211CA05D
- for <svsm-devel@coconut-svsm.dev>; Wed, 24 Apr 2024 17:59:33 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id AA6041CA05D
+ for <svsm-devel@coconut-svsm.dev>; Wed, 24 Apr 2024 17:59:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xjytLRT56OtsSgL9H3V29yrzuL7VwCpbjwgjYJY+6Ts=;
- b=bOGiU8hTBiXM7uyaLwpV2v3jlRSDSuHDSvqz77OKEuN6ap/ghYTCAc46QHgY8nSQccCedMlz8d5rLQe0u8IcRoMFyHcPA7L/Ro6XKpA6yyyj6lN4/lyhl/vjgb/Yq0lSZWJGl0zzxbgyNrpMfwbZ4R51S/t+O3Eo+0YwTiY3wyo=
+ bh=tJrOw01MQaT9tkIKTDOXvm9NDgY/m/tu/OEjNakftDE=;
+ b=Y9oLYYoW18uz4sP7ls7kLGwGOg4WyAyXGCWw8tugMM3pba0z74EmMxOSx0xi7vfvizvqgPG5rrbywMWkhSg3odCv+5i8ed71NDku7y9NonsEQlTfugYO5ehdMTbYymw9Lb67ZnsKwg+sbLr+sy1N+cL3b5/Dm37mwqVGBVv7mwY=
 From: Tom Lendacky <thomas.lendacky@amd.com>
-Date: Wed, 24 Apr 2024 10:58:05 -0500
-Message-ID: <435f78e07c76e25d2d857138724098bc2a729b0a.1713974291.git.thomas.lendacky@amd.com>
+Date: Wed, 24 Apr 2024 10:58:06 -0500
+Message-ID: <b8508f57712e3194484aa8695494eea26abe1b73.1713974291.git.thomas.lendacky@amd.com>
 In-Reply-To: <cover.1713974291.git.thomas.lendacky@amd.com>
 References: <cover.1713974291.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] [PATCH v4 09/15] x86/sev: Provide guest VMPL level to
- userspace
+Subject: [svsm-devel] [PATCH v4 10/15] virt: sev-guest: Choose the VMPCK key
+ based on executing VMPL
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -32,66 +32,91 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borisl
  Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 Content-Type: text/plain; charset="utf-8"
 
-Requesting an attestation report from userspace involves providing the
-VMPL level for the report. Currently any value from 0-3 is valid because
-Linux enforces running at VMPL0.
-
-When an SVSM is present, though, Linux will not be running at VMPL0 and
-only VMPL values starting at the VMPL level Linux is running at to 3 are
-valid. In order to allow userspace to determine the minimum VMPL value
-that can be supplied to an attestation report, create a sysfs entry that
-can be used to retrieve the current VMPL level of Linux.
+Currently, the sev-guest driver uses the vmpck-0 key by default. When an
+SVSM is present the kernel is running at a VMPL other than 0 and the
+vmpck-0 key is no longer available. If a specific vmpck key has not be
+requested by the user via the vmpck_id module parameter, choose the vmpck
+key based on the active VMPL level.
 
 Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 ---
- arch/x86/kernel/sev.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ arch/x86/include/asm/sev.h              |  2 ++
+ arch/x86/kernel/sev.c                   |  6 ++++++
+ drivers/virt/coco/sev-guest/sev-guest.c | 10 +++++++---
+ 3 files changed, 15 insertions(+), 3 deletions(-)
 
+diff --git a/arch/x86/include/asm/sev.h b/arch/x86/include/asm/sev.h
+index a7312b936d16..64fcadd6d602 100644
+--- a/arch/x86/include/asm/sev.h
++++ b/arch/x86/include/asm/sev.h
+@@ -307,6 +307,7 @@ u64 snp_get_unsupported_features(u64 status);
+ u64 sev_get_status(void);
+ void sev_show_status(void);
+ void snp_remap_svsm_ca(void);
++int snp_get_vmpl(void);
+ #else
+ static inline void sev_es_ist_enter(struct pt_regs *regs) { }
+ static inline void sev_es_ist_exit(void) { }
+@@ -337,6 +338,7 @@ static inline u64 snp_get_unsupported_features(u64 status) { return 0; }
+ static inline u64 sev_get_status(void) { return 0; }
+ static inline void sev_show_status(void) { }
+ static inline void snp_remap_svsm_ca(void) { }
++static inline int snp_get_vmpl(void) { return 0; }
+ #endif
+ 
+ #ifdef CONFIG_KVM_AMD_SEV
 diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
-index 69a756781d90..8edf7362136b 100644
+index 8edf7362136b..75f11da867a3 100644
 --- a/arch/x86/kernel/sev.c
 +++ b/arch/x86/kernel/sev.c
-@@ -2507,3 +2507,40 @@ void __init snp_remap_svsm_ca(void)
- 	/* Update the CAA to a proper kernel address */
- 	boot_svsm_caa = &boot_svsm_ca_page;
+@@ -2454,6 +2454,12 @@ int snp_issue_guest_request(u64 exit_code, struct snp_req_data *input, struct sn
  }
-+
-+static ssize_t vmpl_show(struct kobject *kobj,
-+			 struct kobj_attribute *attr, char *buf)
+ EXPORT_SYMBOL_GPL(snp_issue_guest_request);
+ 
++int snp_get_vmpl(void)
 +{
-+	return sysfs_emit(buf, "%d\n", vmpl);
++	return vmpl;
 +}
++EXPORT_SYMBOL_GPL(snp_get_vmpl);
 +
-+static struct kobj_attribute vmpl_attr = __ATTR_RO(vmpl);
+ static struct platform_device sev_guest_device = {
+ 	.name		= "sev-guest",
+ 	.id		= -1,
+diff --git a/drivers/virt/coco/sev-guest/sev-guest.c b/drivers/virt/coco/sev-guest/sev-guest.c
+index 04a7bd1e4314..e7dd7df86427 100644
+--- a/drivers/virt/coco/sev-guest/sev-guest.c
++++ b/drivers/virt/coco/sev-guest/sev-guest.c
+@@ -2,7 +2,7 @@
+ /*
+  * AMD Secure Encrypted Virtualization (SEV) guest driver interface
+  *
+- * Copyright (C) 2021 Advanced Micro Devices, Inc.
++ * Copyright (C) 2021-2024 Advanced Micro Devices, Inc.
+  *
+  * Author: Brijesh Singh <brijesh.singh@amd.com>
+  */
+@@ -70,8 +70,8 @@ struct snp_guest_dev {
+ 	u8 *vmpck;
+ };
+ 
+-static u32 vmpck_id;
+-module_param(vmpck_id, uint, 0444);
++static int vmpck_id = -1;
++module_param(vmpck_id, int, 0444);
+ MODULE_PARM_DESC(vmpck_id, "The VMPCK ID to use when communicating with the PSP.");
+ 
+ /* Mutex to serialize the shared buffer access and command handling. */
+@@ -923,6 +923,10 @@ static int __init sev_guest_probe(struct platform_device *pdev)
+ 	if (!snp_dev)
+ 		goto e_unmap;
+ 
++	/* Adjust the default VMPCK key based on the executing VMPL level */
++	if (vmpck_id == -1)
++		vmpck_id = snp_get_vmpl();
 +
-+static struct attribute *vmpl_attrs[] = {
-+	&vmpl_attr.attr,
-+	NULL
-+};
-+
-+static struct attribute_group sev_attr_group = {
-+	.attrs = vmpl_attrs,
-+};
-+
-+static int __init sev_sysfs_init(void)
-+{
-+	struct kobject *sev_kobj;
-+	int ret;
-+
-+	if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP))
-+		return -ENODEV;
-+
-+	sev_kobj = kobject_create_and_add("sev", kernel_kobj);
-+	if (!sev_kobj)
-+		return -ENOMEM;
-+
-+	ret = sysfs_create_group(sev_kobj, &sev_attr_group);
-+	if (ret)
-+		kobject_put(sev_kobj);
-+
-+	return ret;
-+}
-+arch_initcall(sev_sysfs_init);
+ 	ret = -EINVAL;
+ 	snp_dev->vmpck = get_vmpck(vmpck_id, layout, &snp_dev->os_area_msg_seqno);
+ 	if (!snp_dev->vmpck) {
 -- 
 2.43.2
 
