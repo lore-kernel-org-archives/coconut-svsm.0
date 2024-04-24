@@ -1,22 +1,24 @@
 Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on20600.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2415::600])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on20601.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2409::601])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 715851C9FAC
- for <svsm-devel@coconut-svsm.dev>; Wed, 24 Apr 2024 17:58:34 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id AD3CB1CA04E
+ for <svsm-devel@coconut-svsm.dev>; Wed, 24 Apr 2024 17:58:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S3+IC27TH5ORa8Zf4SF9NM2mgUInEyfUneTApO+k518=;
- b=qk37VZM+gPXSi94cGTeyiEnZctibyLRqPdSUDZFIurRys6JI2XVa9HhMpGKv1OHLEV1SnYQTrWRoXICdxMjYlHO0gfoqV2SkojSm4Mz5tu3MSu6vmiCVR5BwunfVMUs3mBGRypD1AjJjNP+YHsXUlJvyo5Vz+3Z1MNsWWOC9fSY=
+ bh=/fvoIpw98EGryWgKZZYrMRJWz18TwCVHQc7OK/87QBM=;
+ b=hY4JBgVWQ16yKsutxpLix2aTc/R+6xn27ZOoGZLzdQjVEEsTdXQGI6vDKkEKEBJi1Gl6nbhD4YWLWpJDaLxTWwxk4OFEPh/b3E9RymlFxrN5pbV3L19fYYnSgRsuw7ZNoU+4GNbggFKp6IlU3iqPKqne4Jrxyk57sXIA1XU/ro4=
 From: Tom Lendacky <thomas.lendacky@amd.com>
-Date: Wed, 24 Apr 2024 10:57:56 -0500
-Message-ID: <cover.1713974291.git.thomas.lendacky@amd.com>
+Date: Wed, 24 Apr 2024 10:57:57 -0500
+Message-ID: <bc8d58302c6ab66c3beeab50cce3ec2c6bd72d6c.1713974291.git.thomas.lendacky@amd.com>
+In-Reply-To: <cover.1713974291.git.thomas.lendacky@amd.com>
+References: <cover.1713974291.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] [PATCH v4 00/15] Provide SEV-SNP support for running
- under an SVSM
+Subject: [svsm-devel] [PATCH v4 01/15] x86/sev: Shorten
+ snp_secrets_page_layout to snp_secrets_page
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -27,118 +29,88 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev
 Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>
+ Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 Content-Type: text/plain; charset="utf-8"
 
-This series adds SEV-SNP support for running Linux under an Secure VM
-Service Module (SVSM) at a less privileged VM Privilege Level (VMPL).
-By running at a less priviledged VMPL, the SVSM can be used to provide
-services, e.g. a virtual TPM, for Linux within the SEV-SNP confidential
-VM (CVM) rather than trust such services from the hypervisor.
+Ending a struct name with "layout" is a little redundant, so shorten the
+snp_secrets_page_layout name to just snp_secrets_page.
 
-Currently, a Linux guest expects to run at the highest VMPL, VMPL0, and
-there are certain SNP related operations that require that VMPL level.
-Specifically, the PVALIDATE instruction and the RMPADJUST instruction
-when setting the VMSA attribute of a page (used when starting APs).
+No functional change.
 
-If Linux is to run at a less privileged VMPL, e.g. VMPL2, then it must
-use an SVSM (which is running at VMPL0) to perform the operations that
-it is no longer able to perform.
-
-How Linux interacts with and uses the SVSM is documented in the SVSM
-specification [1] and the GHCB specification [2].
-
-This series introduces support to run Linux under an SVSM. It consists
-of:
-  - Detecting the presence of an SVSM
-  - When not running at VMPL0, invoking the SVSM for page validation and
-    VMSA page creation/deletion
-  - Adding a sysfs entry that specifies the Linux VMPL
-  - Modifying the sev-guest driver to use the VMPCK key associated with
-    the Linux VMPL
-  - Expanding the config-fs TSM support to request attestation reports
-    from the SVSM and allowing attributes to be hidden
-  - Detecting and allowing Linux to run in a VMPL other than 0 when an
-    SVSM is present
-
-The series is based off of and tested against the tip tree:
-  https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git master
-
-  4e2b6e891aae ("Merge branch into tip/master: 'x86/shstk'")
-
-[1] https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/specifications/58019.pdf
-[2] https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/specifications/56421.pdf
-
-Cc: Joel Becker <jlbec@evilplan.org>
-Cc: Christoph Hellwig <hch@lst.de>
-
+Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 ---
+ arch/x86/include/asm/sev.h              | 2 +-
+ arch/x86/kernel/sev.c                   | 4 ++--
+ drivers/virt/coco/sev-guest/sev-guest.c | 6 +++---
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-Changes in v4:
-- Add a pre-patch to rename the struct snp_secrets_page_layout to just
-  snp_secrets_page.
-- Move the config-fs visibility support to be group based and referenced
-  by an index. Remove the macro changes that set the visibility function
-  for an entry.
-- Make the TSM visibility support vendor specific via an ops callback.
-- Use the rmpadjust() function directly and remove the enforce_vmpl0()
-  function.
-- Consolidate common variables into arch/x86/kernel/sev-shared.c.
-
-Changes in v3:
-- Rename decompresor snp_setup() to early_snp_setup() to better indicate
-  when it is called.
-- Rename the "svsm" config-fs attribute into the more generic
-  "service_provider" attribute that takes a name as input.
-- Change config-fs visibility function to be a simple bool return type
-  instead of returning the mode.
-- Switch to using new RIP_REL_REF() macro and __head notation where
-  appropriate.
-
-Changes in v2:
-- Define X86_FEATURE_SVSM_PRESENT and set the bit in the CPUID table,
-  removing the need to set the CPUID bit in the #VC handler.
-- Rename the TSM service_version attribute to service_manifest_version.
-- Add support to config-fs to hide attributes and hide the SVSM attributes
-  when an SVSM is not present.
-
-
-Tom Lendacky (15):
-  x86/sev: Shorten snp_secrets_page_layout to snp_secrets_page
-  x86/sev: Rename snp_init() in the boot/compressed/sev.c file
-  x86/sev: Make the VMPL0 checking more straight forward
-  x86/sev: Check for the presence of an SVSM in the SNP Secrets page
-  x86/sev: Use kernel provided SVSM Calling Areas
-  x86/sev: Perform PVALIDATE using the SVSM when not at VMPL0
-  x86/sev: Use the SVSM to create a vCPU when not in VMPL0
-  x86/sev: Provide SVSM discovery support
-  x86/sev: Provide guest VMPL level to userspace
-  virt: sev-guest: Choose the VMPCK key based on executing VMPL
-  configfs-tsm: Allow the privlevel_floor attribute to be updated
-  fs/configfs: Add a callback to determine attribute visibility
-  x86/sev: Take advantage of configfs visibility support in TSM
-  x86/sev: Extend the config-fs attestation support for an SVSM
-  x86/sev: Allow non-VMPL0 execution when an SVSM is present
-
- Documentation/ABI/testing/configfs-tsm        |  63 +++
- .../arch/x86/amd-memory-encryption.rst        |  22 +
- arch/x86/boot/compressed/sev.c                | 258 ++++++-----
- arch/x86/include/asm/cpufeatures.h            |   1 +
- arch/x86/include/asm/msr-index.h              |   2 +
- arch/x86/include/asm/sev-common.h             |  18 +
- arch/x86/include/asm/sev.h                    | 116 ++++-
- arch/x86/include/uapi/asm/svm.h               |   1 +
- arch/x86/kernel/sev-shared.c                  | 354 ++++++++++++++-
- arch/x86/kernel/sev.c                         | 421 +++++++++++++++---
- arch/x86/mm/mem_encrypt_amd.c                 |   8 +-
- drivers/virt/coco/sev-guest/sev-guest.c       | 210 ++++++++-
- drivers/virt/coco/tdx-guest/tdx-guest.c       |  29 +-
- drivers/virt/coco/tsm.c                       | 173 +++++--
- fs/configfs/dir.c                             |  20 +
- include/linux/configfs.h                      |   3 +
- include/linux/tsm.h                           |  62 ++-
- 17 files changed, 1533 insertions(+), 228 deletions(-)
-
+diff --git a/arch/x86/include/asm/sev.h b/arch/x86/include/asm/sev.h
+index 7f57382afee4..48bc397db649 100644
+--- a/arch/x86/include/asm/sev.h
++++ b/arch/x86/include/asm/sev.h
+@@ -140,7 +140,7 @@ struct secrets_os_area {
+ #define VMPCK_KEY_LEN		32
+ 
+ /* See the SNP spec version 0.9 for secrets page format */
+-struct snp_secrets_page_layout {
++struct snp_secrets_page {
+ 	u32 version;
+ 	u32 imien	: 1,
+ 	    rsvd1	: 31;
+diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
+index 995f94467101..6949fbccec40 100644
+--- a/arch/x86/kernel/sev.c
++++ b/arch/x86/kernel/sev.c
+@@ -648,7 +648,7 @@ static u64 __init get_secrets_page(void)
+ 
+ static u64 __init get_snp_jump_table_addr(void)
+ {
+-	struct snp_secrets_page_layout *layout;
++	struct snp_secrets_page *layout;
+ 	void __iomem *mem;
+ 	u64 pa, addr;
+ 
+@@ -662,7 +662,7 @@ static u64 __init get_snp_jump_table_addr(void)
+ 		return 0;
+ 	}
+ 
+-	layout = (__force struct snp_secrets_page_layout *)mem;
++	layout = (__force struct snp_secrets_page *)mem;
+ 
+ 	addr = layout->os_area.ap_jump_table_pa;
+ 	iounmap(mem);
+diff --git a/drivers/virt/coco/sev-guest/sev-guest.c b/drivers/virt/coco/sev-guest/sev-guest.c
+index 87f241825bc3..04a7bd1e4314 100644
+--- a/drivers/virt/coco/sev-guest/sev-guest.c
++++ b/drivers/virt/coco/sev-guest/sev-guest.c
+@@ -59,7 +59,7 @@ struct snp_guest_dev {
+ 	 */
+ 	struct snp_guest_msg secret_request, secret_response;
+ 
+-	struct snp_secrets_page_layout *layout;
++	struct snp_secrets_page *layout;
+ 	struct snp_req_data input;
+ 	union {
+ 		struct snp_report_req report;
+@@ -743,7 +743,7 @@ static const struct file_operations snp_guest_fops = {
+ 	.unlocked_ioctl = snp_guest_ioctl,
+ };
+ 
+-static u8 *get_vmpck(int id, struct snp_secrets_page_layout *layout, u32 **seqno)
++static u8 *get_vmpck(int id, struct snp_secrets_page *layout, u32 **seqno)
+ {
+ 	u8 *key = NULL;
+ 
+@@ -897,8 +897,8 @@ static void unregister_sev_tsm(void *data)
+ 
+ static int __init sev_guest_probe(struct platform_device *pdev)
+ {
+-	struct snp_secrets_page_layout *layout;
+ 	struct sev_guest_platform_data *data;
++	struct snp_secrets_page *layout;
+ 	struct device *dev = &pdev->dev;
+ 	struct snp_guest_dev *snp_dev;
+ 	struct miscdevice *misc;
 -- 
 2.43.2
 
