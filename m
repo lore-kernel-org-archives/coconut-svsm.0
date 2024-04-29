@@ -1,28 +1,28 @@
 Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on20600.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2416::600])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on20601.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:200a::601])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 9D8C41C9400
- for <svsm-devel@coconut-svsm.dev>; Mon, 29 Apr 2024 15:26:56 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id 304001C9400
+ for <svsm-devel@coconut-svsm.dev>; Mon, 29 Apr 2024 15:35:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lLo8u6qlPWvt0gyKFhT0873gJzWXpBMD9y2XQjtldxw=;
- b=4jaUHWoKF6HEplvzYEMNCNVhCv0P9fBaRvilQPw6BZiybZK1NdARXX3iw/Lgi7YIuY2lSKgXvyDrc/QrQSiWgVpqidQ06o/M+By1z/zoGb7LMEKa2zEF6vDO/idodqsv+IlCGgKm6o8cFaGwo1mcaPzcSypxeTHCZCL4Ti4GsaI=
-Message-ID: <4fd88c1c-6100-254e-ceec-98a4bcfa015c@amd.com>
-Date: Mon, 29 Apr 2024 08:26:49 -0500
-References: <cover.1713974291.git.thomas.lendacky@amd.com>
- <53e67e416fb4da085f32d8a3626c5c6e656554f9.1713974291.git.thomas.lendacky@amd.com>
- <662c2147c4fa3_b6e02948d@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+ bh=2RlhPCvrEO5WUIKVceaovdKVZO2/HDwAV1pF2cQGqfM=;
+ b=wLQBpLu34CesXTK77XPK05hZsFfDUxX3xbpZIo3hKUnQFyId+asbOPs64cXYm+GAGuhmyVmEot6J93vTgKucHIHDnVU6CXHSbqbcYU9Rzc42ib2m/WPihY+c+BDIGXhvnNmaLgfNLkv92zBQqz4uACDaDT3xgCPtinUGLu3YVpk=
+Message-ID: <f6af3a35-7ddd-7f56-d7d9-34c77647614d@amd.com>
+Date: Mon, 29 Apr 2024 08:35:39 -0500
 Content-Language: en-US
+References: <cover.1713974291.git.thomas.lendacky@amd.com>
+ <e3143c1f3d0b26fcd8884c6f75644b634a7138e8.1713974291.git.thomas.lendacky@amd.com>
+ <662c239680842_b6e02944b@dwillia2-mobl3.amr.corp.intel.com.notmuch>
 From: Tom Lendacky <thomas.lendacky@amd.com>
-In-Reply-To: <662c2147c4fa3_b6e02948d@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+In-Reply-To: <662c239680842_b6e02944b@dwillia2-mobl3.amr.corp.intel.com.notmuch>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [PATCH v4 12/15] fs/configfs: Add a callback to
- determine attribute visibility
+Subject: Re: [svsm-devel] [PATCH v4 13/15] x86/sev: Take advantage of
+ configfs visibility support in TSM
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -32,101 +32,82 @@ List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-On 4/26/24 16:48, Dan Williams wrote:
+On 4/26/24 16:58, Dan Williams wrote:
 > Tom Lendacky wrote:
->> In order to support dynamic decisions as to whether an attribute should be
->> created, add a callback that returns a bool to indicate whether the
->> attribute should be displayed. If no callback is registered, the attribute
->> is displayed by default.
+>> The TSM attestation report support provides multiple configfs attribute
+>> types (both for standard and binary attributes) to allow for additional
+>> attributes to be displayed for SNP as compared to TDX. With the ability
+>> to hide attributes via configfs, consoldate the multiple attribute groups
+>> into a single standard attribute group and a single binary attribute
+>> group. Modify the TDX support to hide the attributes that were previously
+>> "hidden" as a result of registering the selective attribute groups.
 >>
->> Cc: Joel Becker <jlbec@evilplan.org>
->> Cc: Christoph Hellwig <hch@lst.de>
 >> Co-developed-by: Dan Williams <dan.j.williams@intel.com>
 >> Signed-off-by: Dan Williams <dan.j.williams@intel.com>
 >> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 >> ---
->>   fs/configfs/dir.c        | 20 ++++++++++++++++++++
->>   include/linux/configfs.h |  3 +++
->>   2 files changed, 23 insertions(+)
->>
->> diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
->> index 18677cd4e62f..463e66258507 100644
->> --- a/fs/configfs/dir.c
->> +++ b/fs/configfs/dir.c
->> @@ -580,6 +580,7 @@ static void detach_attrs(struct config_item * item)
->>   static int populate_attrs(struct config_item *item)
->>   {
->>   	const struct config_item_type *t = item->ci_type;
->> +	struct configfs_group_operations *ops;
->>   	struct configfs_attribute *attr;
->>   	struct configfs_bin_attribute *bin_attr;
->>   	int error = 0;
->> @@ -587,14 +588,33 @@ static int populate_attrs(struct config_item *item)
+>>   drivers/virt/coco/sev-guest/sev-guest.c |  3 +-
+>>   drivers/virt/coco/tdx-guest/tdx-guest.c | 29 ++++++++-
+>>   drivers/virt/coco/tsm.c                 | 82 ++++++++++++-------------
+>>   include/linux/tsm.h                     | 41 ++++++++++---
+>>   4 files changed, 102 insertions(+), 53 deletions(-)
+> [..]
+>> diff --git a/drivers/virt/coco/tdx-guest/tdx-guest.c b/drivers/virt/coco/tdx-guest/tdx-guest.c
+>> index 1253bf76b570..964af57f345c 100644
+>> --- a/drivers/virt/coco/tdx-guest/tdx-guest.c
+>> +++ b/drivers/virt/coco/tdx-guest/tdx-guest.c
+> [..]
+>> @@ -249,6 +250,30 @@ static int tdx_report_new(struct tsm_report *report, void *data)
+>>   	return ret;
+>>   }
 >>   
->>   	if (!t)
->>   		return -EINVAL;
+>> +static bool tdx_report_attr_visible(struct config_item *item,
+>> +				    struct configfs_attribute *attr, int n)
+>> +{
+>> +	switch (n) {
+>> +	case TSM_REPORT_GENERATION:
+>> +	case TSM_REPORT_PROVIDER:
+>> +		return true;
+>> +	}
 >> +
->> +	ops = t->ct_group_ops;
->> +	if (!ops) {
->> +		struct config_group *g = item->ci_group;
+>> +	return false;
+>> +}
 >> +
->> +		/*
->> +		 * No item specific group operations, check if the item's group
->> +		 * has group operations.
->> +		 */
->> +		if (g && g->cg_item.ci_type)
->> +			ops = g->cg_item.ci_type->ct_group_ops;
+>> +static bool tdx_report_bin_attr_visible(struct config_item *item,
+>> +					struct configfs_bin_attribute *attr, int n)
+>> +{
+>> +	switch (n) {
+>> +	case TSM_REPORT_INBLOB:
+>> +	case TSM_REPORT_OUTBLOB:
+>> +		return true;
+>> +	}
+>> +
+>> +	return false;
+>> +}
 > 
-> Oh, I would not have expected to need to consider any alternate group
-> ops for attribute visibility beyond t->ct_group_ops. However in my RFC
-> example I made this mistake:
+> Why do these callbacks need @item and @attr?
 
-Right, that's the question. Do you use the default group ops that are 
-created for TSM report or do you require the ops be part of the 
-attributes. It is definitely easy to do the latter.
+It is a generic callback from configfs, so outside of TSM, an 
+implementation may find it useful to have these. But, with the code 
+change to require the callback at the attribute level, now, these can be 
+eliminated.
 
 > 
->    static struct configfs_group_operations tsm_report_group_ops = {
->           .make_item = tsm_report_make_item,
-> +        .is_visible = tsm_report_attr_visible,
-> +        .is_bin_visible = tsm_report_bin_attr_visible,
->    };
->   
-> Which in retrospect is the wrong level, and I suspect only reachable if
-> you do the the above awkward indirection ("ops =
-> g->cg_item.ci_type->ct_group_ops"). Instead, I was expecting symmetry
-> with sysfs where the object that carries ->attrs also carries
-> ->is_visible, so something like this:
+> [..]
+>> +static bool tsm_report_is_visible(struct config_item *item,
+>> +				  struct configfs_attribute *attr, int n)
 > 
-> + static struct configfs_group_operations tsm_report_attr_group_ops = {
-> +         .is_visible = tsm_report_attr_visible,
-> +         .is_bin_visible = tsm_report_bin_attr_visible,
-> + };
-> 
->    const struct config_item_type tsm_report_type = {
->            .ct_owner = THIS_MODULE,
->            .ct_bin_attrs = tsm_report_bin_attrs,
->            .ct_attrs = tsm_report_attrs,
->            .ct_item_ops = &tsm_report_item_ops,
-> +         .ct_group_ops = &tsm_report_attr_group_ops
->    };
->    EXPORT_SYMBOL_GPL(tsm_report_default_type);
-> 
-> ..because is_visible() at the g->cg_item.ci_type->ct_group_ops level
-> would seem to mean parent directory visibility which is mismatched.
-> 
-> However as I stare at this a bit more it sinks in that configfs "group"
-> != sysfs "group". So I am open to the suggestion that ci_item_ops is the
-> right place to house item attribute visibility callbacks, or even a new
-> "ci_attr_ops" expressly for this purpose. Either way my expectation is
-> that config_item_type can get to the visibilty callbacks for its
-> attributes without needing to traverse any other groups or items.
+> Per the comment on where to find the is_visible() callbacks for a given
+> item type, I expect the need to pass @item here goes away when this can
+> assume that there is only one way to have is_visible() invoked for
+> @attr, right?
 
-I'll update the patchset to do that.
+Yes.
 
 Thanks,
 Tom
 
 > 
+> Other than that, this conversion looks good to me.
