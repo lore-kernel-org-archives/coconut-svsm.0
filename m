@@ -1,28 +1,66 @@
-Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on20601.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:200a::601])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <tleroy@suse.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id D95421C75D1
- for <svsm-devel@coconut-svsm.dev>; Mon, 29 Apr 2024 16:28:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qowei5uThCsh+f0MlB4N5K1mPCTsTQmdzJHy4sHaxds=;
- b=ixXLpb9U7J1DrzCTnJMHZ3UVzZSXTHaBZcwrs2SDfbmt4qExrQJo9zpSAxQk8OOZFLxZdgrnyqsyFqcOpI6B0Y/km7PaXYDj1OzfL4H1njVYgXokPfQJfNk6UJyWseyDmxQ0m7qFbvZ2PysEfBGKiEnw8lJStbJyxfMD+lusLQc=
-Message-ID: <33620512-a456-aa87-25d3-e15f2d3d256f@amd.com>
-Date: Mon, 29 Apr 2024 09:28:22 -0500
-Content-Language: en-US
-From: Tom Lendacky <thomas.lendacky@amd.com>
-References: <cover.1713974291.git.thomas.lendacky@amd.com>
- <e3143c1f3d0b26fcd8884c6f75644b634a7138e8.1713974291.git.thomas.lendacky@amd.com>
- <662c239680842_b6e02944b@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <f6af3a35-7ddd-7f56-d7d9-34c77647614d@amd.com>
-In-Reply-To: <f6af3a35-7ddd-7f56-d7d9-34c77647614d@amd.com>
-Content-Transfer-Encoding: 8bit
+ by mail.8bytes.org (Postfix) with ESMTPS id E7CBB1C9974
+ for <svsm-devel@coconut-svsm.dev>; Tue, 30 Apr 2024 11:56:14 +0200 (CEST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 329E833F3E
+ for <svsm-devel@coconut-svsm.dev>; Tue, 30 Apr 2024 09:56:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1714470974; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
+ bh=HrCCAVI4ypRQjmhHxHvEPLo1UMUviNL2E88HLkxPy+4=;
+ b=K4MOu5ce8TxOUIElG6vWvw2GPQCOvch1cigs0TWlFTfxOM6puDW82QDdZf0Yn0XPW3mZw5
+ 5HAHraaJ32go27tze5hEs/5XpmUKuH5/6dPOPif6hUV/NVtJ3afG8mi3xLKVq+t4kZ0AGd
+ EfxvDyqUA4qEdyB4uJPXFtXJGzgtz9w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1714470974;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
+ bh=HrCCAVI4ypRQjmhHxHvEPLo1UMUviNL2E88HLkxPy+4=;
+ b=Oscy6EnP1xSczgFpQid5o0Dd+824AplE2rSxv+dcZq5nq6cz/61jotBuc651dF2ghnJzVj
+ 5YiO6SBMGKTOwJAQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1714470974; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
+ bh=HrCCAVI4ypRQjmhHxHvEPLo1UMUviNL2E88HLkxPy+4=;
+ b=K4MOu5ce8TxOUIElG6vWvw2GPQCOvch1cigs0TWlFTfxOM6puDW82QDdZf0Yn0XPW3mZw5
+ 5HAHraaJ32go27tze5hEs/5XpmUKuH5/6dPOPif6hUV/NVtJ3afG8mi3xLKVq+t4kZ0AGd
+ EfxvDyqUA4qEdyB4uJPXFtXJGzgtz9w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1714470974;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
+ bh=HrCCAVI4ypRQjmhHxHvEPLo1UMUviNL2E88HLkxPy+4=;
+ b=Oscy6EnP1xSczgFpQid5o0Dd+824AplE2rSxv+dcZq5nq6cz/61jotBuc651dF2ghnJzVj
+ 5YiO6SBMGKTOwJAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1E38D133A7
+ for <svsm-devel@coconut-svsm.dev>; Tue, 30 Apr 2024 09:56:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id fb6CBT7AMGYwaAAAD6G6ig
+ (envelope-from <tleroy@suse.de>)
+ for <svsm-devel@coconut-svsm.dev>; Tue, 30 Apr 2024 09:56:14 +0000
+Message-ID: <443d86bb-4915-44b0-8cef-93f1619cee2e@suse.de>
+Date: Tue, 30 Apr 2024 11:56:09 +0200
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [PATCH v4 13/15] x86/sev: Take advantage of
- configfs visibility support in TSM
+Content-Language: en-US
+From: Thomas Leroy <tleroy@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Subject: [svsm-devel] x86 decoder further steps
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -31,99 +69,58 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+To: svsm-devel@coconut-svsm.dev
 
-On 4/29/24 08:35, Tom Lendacky wrote:
-> On 4/26/24 16:58, Dan Williams wrote:
->> Tom Lendacky wrote:
->>> The TSM attestation report support provides multiple configfs attribute
->>> types (both for standard and binary attributes) to allow for additional
->>> attributes to be displayed for SNP as compared to TDX. With the ability
->>> to hide attributes via configfs, consoldate the multiple attribute 
->>> groups
->>> into a single standard attribute group and a single binary attribute
->>> group. Modify the TDX support to hide the attributes that were 
->>> previously
->>> "hidden" as a result of registering the selective attribute groups.
->>>
->>> Co-developed-by: Dan Williams <dan.j.williams@intel.com>
->>> Signed-off-by: Dan Williams <dan.j.williams@intel.com>
->>> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
->>> ---
->>>   drivers/virt/coco/sev-guest/sev-guest.c |  3 +-
->>>   drivers/virt/coco/tdx-guest/tdx-guest.c | 29 ++++++++-
->>>   drivers/virt/coco/tsm.c                 | 82 ++++++++++++-------------
->>>   include/linux/tsm.h                     | 41 ++++++++++---
->>>   4 files changed, 102 insertions(+), 53 deletions(-)
->> [..]
->>> diff --git a/drivers/virt/coco/tdx-guest/tdx-guest.c 
->>> b/drivers/virt/coco/tdx-guest/tdx-guest.c
->>> index 1253bf76b570..964af57f345c 100644
->>> --- a/drivers/virt/coco/tdx-guest/tdx-guest.c
->>> +++ b/drivers/virt/coco/tdx-guest/tdx-guest.c
->> [..]
->>> @@ -249,6 +250,30 @@ static int tdx_report_new(struct tsm_report 
->>> *report, void *data)
->>>       return ret;
->>>   }
->>> +static bool tdx_report_attr_visible(struct config_item *item,
->>> +                    struct configfs_attribute *attr, int n)
->>> +{
->>> +    switch (n) {
->>> +    case TSM_REPORT_GENERATION:
->>> +    case TSM_REPORT_PROVIDER:
->>> +        return true;
->>> +    }
->>> +
->>> +    return false;
->>> +}
->>> +
->>> +static bool tdx_report_bin_attr_visible(struct config_item *item,
->>> +                    struct configfs_bin_attribute *attr, int n)
->>> +{
->>> +    switch (n) {
->>> +    case TSM_REPORT_INBLOB:
->>> +    case TSM_REPORT_OUTBLOB:
->>> +        return true;
->>> +    }
->>> +
->>> +    return false;
->>> +}
->>
->> Why do these callbacks need @item and @attr?
-> 
-> It is a generic callback from configfs, so outside of TSM, an 
-> implementation may find it useful to have these. But, with the code 
-> change to require the callback at the attribute level, now, these can be 
-> eliminated.
-> 
->>
->> [..]
->>> +static bool tsm_report_is_visible(struct config_item *item,
->>> +                  struct configfs_attribute *attr, int n)
->>
->> Per the comment on where to find the is_visible() callbacks for a given
->> item type, I expect the need to pass @item here goes away when this can
->> assume that there is only one way to have is_visible() invoked for
->> @attr, right?
-> 
-> Yes.
+Hi everyone,
 
-But as I look closer, there is only a single ops callback pair 
-(is_visible() and is_bin_visible()), so as long there is never another 
-group / subdir defined under the TSM report, this works. But if another 
-group is added, then the item parameter would likely be needed or the 
-ops callback would have to be updated to differentiate for the vendor 
-(SNP/TDX).
+As you may know, the current #VC handler uses a naive x86 instruction
+decoder
+that is used to find the appropriate NAE event handler to call.
 
-Thanks,
-Tom
+As I said, the current decoder is very naive and does only byte matching to
+identify cpuid, in/out{bwl}, rdmsr/wrmsr, and rdtsc{p} instructions [0].
+Since we currently don't support all NAE events in the #VC handler, we have
+to find a clean way to decode the remaining NAEs.
 
-> 
-> Thanks,
-> Tom
-> 
->>
->> Other than that, this conversion looks good to me.
+If the decoder's only use is for the #VC handler, I guess we can stick
+to what
+we currently do. It shouldn't be too hard to match the remaining NAE
+instructions
+in the decoder. However, if we need a complete instruction decoder
+somewhere,
+we'll have to decide if we write our own or if we use an existing one.
+I'm not aware of the full SVSM development plan, so I don't really know the
+possible other uses of the decoder.
+
+As you may also noticed, the instruction decoder is an attack surface
+since it
+deals with untrusted raw bytes. For this reason, we should make it as small
+(and secure of course) as possible. So if we finally need a complete
+decoder,
+we'll have to choose between write our own, which will be time consuming and
+could introduce security bugs (especially when #VC exceptions will be raised
+from a less privileged context), or rely on a third-party one (that we
+shouldn't consider prefect security-wise).
+
+What's your opinion between these solutions?
+
+I recently discovered the iced-x86 [1] crate looks easy to incorporate
+to the
+SVSM project, and supports no_std, so I think it would be a candidate.
+Finally, if we go for a third-party one, a security audit of the chosen
+decoder would be needed, at least a fuzzing campaign (I could take care
+of it).
+
+Cheers,
+Thomas
+
+[0]
+https://github.com/coconut-svsm/svsm/blob/104ca723cdd6a272f40c31548dd6c05010494c84/kernel/src/cpu/insn.rs#L110
+
+[1] https://docs.rs/iced-x86/latest/iced_x86/
+
+-- 
+Thomas Leroy
+Security Engineer
+SUSE Software Solutions
+
