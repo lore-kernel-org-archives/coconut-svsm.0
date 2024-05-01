@@ -1,27 +1,35 @@
-Return-Path: <jlange@microsoft.com>
-Received: from SA9PR02CU001.outbound.protection.outlook.com
- (mail-southcentralusazlp170110001.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:c102::1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <sathyanarayanan.nkuppuswamy@gmail.com>
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id BD8591C9C6D
- for <svsm-devel@coconut-svsm.dev>; Tue, 30 Apr 2024 19:01:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=am0y1cOoK58788qfo/GGCHy83JMQPNimLYBCsppVeAg=;
- b=PIgaPwXt8H6G5UEkxgBmcswonR7AgXfvmuPWvhJIwpR2Zi0xvPZVNTGsJkTB6Ye2I8xxZnypJDeoNMcnn5t0NZj5+C5lCBoSCSiFkBZ9NiHo77GkHd2/854jxwRwghckb5OGQ71FSLgpcYc7c1GPH8r0g07ogb2Tj21E5eUsR8o=
-From: Jon Lange <jlange@microsoft.com>
-Date: Tue, 30 Apr 2024 17:01:14 +0000
-Message-ID: <DS7PR21MB35244CC4F41EEEA0240F5E13CA1A2@DS7PR21MB3524.namprd21.prod.outlook.com>
-References: <443d86bb-4915-44b0-8cef-93f1619cee2e@suse.de>
- <9693cc9c-80a6-45f4-9c4d-4bcc15ced56b@suse.de>
-In-Reply-To: <9693cc9c-80a6-45f4-9c4d-4bcc15ced56b@suse.de>
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ by mail.8bytes.org (Postfix) with ESMTPS id 90C881C9F5F
+ for <svsm-devel@coconut-svsm.dev>; Wed,  1 May 2024 07:18:58 +0200 (CEST)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-56e56ee8d5cso8285719a12.2
+ for <svsm-devel@coconut-svsm.dev>; Tue, 30 Apr 2024 22:18:58 -0700 (PDT)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com.
+ [209.85.218.49]) by smtp.gmail.com with ESMTPSA id
+ lg26-20020a170906f89a00b00a58f3ae5bc2sm4196169ejb.154.2024.04.30.22.18.55
+ for <svsm-devel@coconut-svsm.dev>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Apr 2024 22:18:55 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-a55ab922260so847050366b.3
+ for <svsm-devel@coconut-svsm.dev>; Tue, 30 Apr 2024 22:18:55 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [EXTERNAL] Re:  x86 decoder further steps
+References: <cover.1713974291.git.thomas.lendacky@amd.com>
+ <e3143c1f3d0b26fcd8884c6f75644b634a7138e8.1713974291.git.thomas.lendacky@amd.com>
+In-Reply-To: <e3143c1f3d0b26fcd8884c6f75644b634a7138e8.1713974291.git.thomas.lendacky@amd.com>
+Reply-To: sathyanarayanan.kuppuswamy@linux.intel.com
+From: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Date: Tue, 30 Apr 2024 22:18:43 -0700
+Message-ID: <CAC41dw-g2=jKkevGOJUqnzYTpxQ8+Z_JxnNNuoLR+CM_yqfRzA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [svsm-devel] [PATCH v4 13/15] x86/sev: Take advantage of
+ configfs visibility support in TSM
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -30,114 +38,378 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: =?iso-8859-1?Q?Carlos_L=F3pez?= <clopez@suse.de>, Thomas Leroy <tleroy@suse.de>
-Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-As COCONUT-SVSM grows into additional configurations, it will become necess=
-ary for the SVSM to emulate MMIO instructions on behalf of the guest OS.  T=
-his will require instruction emulation as well.  It would seem a poor choic=
-e to have two different instruction emulators for handling #VC and guest in=
-struction emulation.  At the same time, it would be a poor choice to incorp=
-orate a fully functional instruction emulator both because it would be big =
-(which has impact both on resources and attack surface) and because it woul=
-d be excessively flexible (which dramatically increases the possibility of =
-exploitation).  I expect the best strategy would be to continue to expand t=
-he existing instruction emulator so it can handle decode of the common MMIO=
--handling instructions, such as moves (including 16-byte moves), common ALU=
- operations (especially bitwise operations like AND/OR/XOR/BTS/BTR as well =
-as TEST, plus their atomic equivalents), and others that may be determined =
-through experimentation.  Limiting the scope of emulator capabilities in th=
-is way by expanding the existing emulator should strike an appropriate bala=
-nce between functionality and safety.
-
--Jon
-
------Original Message-----
-From: Svsm-devel <svsm-devel-bounces@coconut-svsm.dev> On Behalf Of Carlos =
-L=F3pez
-Sent: Tuesday, April 30, 2024 7:39 AM
-To: Thomas Leroy <tleroy@suse.de>
-Cc: svsm-devel@coconut-svsm.dev
-Subject: [EXTERNAL] Re: [svsm-devel] x86 decoder further steps
-
-[Some people who received this message don't often get email from clopez@su=
-se.de. Learn why this is important at https://aka.ms/LearnAboutSenderIdenti=
-fication ]
-
-Hi,
-
-On 30/4/24 11:56, Thomas Leroy wrote:
-> Hi everyone,
+On Wed, Apr 24, 2024 at 9:00=E2=80=AFAM Tom Lendacky <thomas.lendacky@amd.c=
+om> wrote:
 >
-> As you may know, the current #VC handler uses a naive x86 instruction
-> decoder
-> that is used to find the appropriate NAE event handler to call.
+> The TSM attestation report support provides multiple configfs attribute
+> types (both for standard and binary attributes) to allow for additional
+> attributes to be displayed for SNP as compared to TDX. With the ability
+> to hide attributes via configfs, consoldate the multiple attribute groups
+> into a single standard attribute group and a single binary attribute
+> group. Modify the TDX support to hide the attributes that were previously
+> "hidden" as a result of registering the selective attribute groups.
 >
-> As I said, the current decoder is very naive and does only byte matching =
-to
-> identify cpuid, in/out{bwl}, rdmsr/wrmsr, and rdtsc{p} instructions [0].
-> Since we currently don't support all NAE events in the #VC handler, we ha=
-ve
-> to find a clean way to decode the remaining NAEs.
+> Co-developed-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> ---
+>  drivers/virt/coco/sev-guest/sev-guest.c |  3 +-
+>  drivers/virt/coco/tdx-guest/tdx-guest.c | 29 ++++++++-
+>  drivers/virt/coco/tsm.c                 | 82 ++++++++++++-------------
+>  include/linux/tsm.h                     | 41 ++++++++++---
+>  4 files changed, 102 insertions(+), 53 deletions(-)
+>
+> diff --git a/drivers/virt/coco/sev-guest/sev-guest.c b/drivers/virt/coco/=
+sev-guest/sev-guest.c
+> index 2abb51bd034f..ec3d894cfe31 100644
+> --- a/drivers/virt/coco/sev-guest/sev-guest.c
+> +++ b/drivers/virt/coco/sev-guest/sev-guest.c
+> @@ -23,6 +23,7 @@
+>  #include <linux/sockptr.h>
+>  #include <linux/cleanup.h>
+>  #include <linux/uuid.h>
+> +#include <linux/configfs.h>
+>  #include <uapi/linux/sev-guest.h>
+>  #include <uapi/linux/psp-sev.h>
+>
+> @@ -975,7 +976,7 @@ static int __init sev_guest_probe(struct platform_dev=
+ice *pdev)
+>         /* Set the privlevel_floor attribute based on the vmpck_id */
+>         sev_tsm_ops.privlevel_floor =3D vmpck_id;
+>
+> -       ret =3D tsm_register(&sev_tsm_ops, snp_dev, &tsm_report_extra_typ=
+e);
+> +       ret =3D tsm_register(&sev_tsm_ops, snp_dev);
+>         if (ret)
+>                 goto e_free_cert_data;
+>
+> diff --git a/drivers/virt/coco/tdx-guest/tdx-guest.c b/drivers/virt/coco/=
+tdx-guest/tdx-guest.c
+> index 1253bf76b570..964af57f345c 100644
+> --- a/drivers/virt/coco/tdx-guest/tdx-guest.c
+> +++ b/drivers/virt/coco/tdx-guest/tdx-guest.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/tsm.h>
+>  #include <linux/sizes.h>
+> +#include <linux/configfs.h>
+>
+>  #include <uapi/linux/tdx-guest.h>
+>
+> @@ -249,6 +250,30 @@ static int tdx_report_new(struct tsm_report *report,=
+ void *data)
+>         return ret;
+>  }
+>
+> +static bool tdx_report_attr_visible(struct config_item *item,
+> +                                   struct configfs_attribute *attr, int =
+n)
+> +{
+> +       switch (n) {
+> +       case TSM_REPORT_GENERATION:
+> +       case TSM_REPORT_PROVIDER:
+> +               return true;
+> +       }
+> +
+> +       return false;
+> +}
+> +
+> +static bool tdx_report_bin_attr_visible(struct config_item *item,
+> +                                       struct configfs_bin_attribute *at=
+tr, int n)
+> +{
+> +       switch (n) {
+> +       case TSM_REPORT_INBLOB:
+> +       case TSM_REPORT_OUTBLOB:
+> +               return true;
+> +       }
+> +
+> +       return false;
+> +}
+> +
+>  static long tdx_guest_ioctl(struct file *file, unsigned int cmd,
+>                             unsigned long arg)
+>  {
+> @@ -281,6 +306,8 @@ MODULE_DEVICE_TABLE(x86cpu, tdx_guest_ids);
+>  static const struct tsm_ops tdx_tsm_ops =3D {
+>         .name =3D KBUILD_MODNAME,
+>         .report_new =3D tdx_report_new,
+> +       .report_attr_visible =3D tdx_report_attr_visible,
+> +       .report_bin_attr_visible =3D tdx_report_bin_attr_visible,
+>  };
+>
+>  static int __init tdx_guest_init(void)
+> @@ -301,7 +328,7 @@ static int __init tdx_guest_init(void)
+>                 goto free_misc;
+>         }
+>
+> -       ret =3D tsm_register(&tdx_tsm_ops, NULL, NULL);
+> +       ret =3D tsm_register(&tdx_tsm_ops, NULL);
+>         if (ret)
+>                 goto free_quote;
+>
+> diff --git a/drivers/virt/coco/tsm.c b/drivers/virt/coco/tsm.c
+> index d1c2db83a8ca..dedb4f582630 100644
+> --- a/drivers/virt/coco/tsm.c
+> +++ b/drivers/virt/coco/tsm.c
+> @@ -14,7 +14,6 @@
+>
+>  static struct tsm_provider {
+>         const struct tsm_ops *ops;
+> -       const struct config_item_type *type;
+>         void *data;
+>  } provider;
+>  static DECLARE_RWSEM(tsm_rwsem);
+> @@ -252,34 +251,18 @@ static ssize_t tsm_report_auxblob_read(struct confi=
+g_item *cfg, void *buf,
+>  }
+>  CONFIGFS_BIN_ATTR_RO(tsm_report_, auxblob, NULL, TSM_OUTBLOB_MAX);
+>
+> -#define TSM_DEFAULT_ATTRS() \
+> -       &tsm_report_attr_generation, \
+> -       &tsm_report_attr_provider
+> -
+>  static struct configfs_attribute *tsm_report_attrs[] =3D {
+> -       TSM_DEFAULT_ATTRS(),
+> +       [TSM_REPORT_GENERATION] =3D &tsm_report_attr_generation,
+> +       [TSM_REPORT_PROVIDER] =3D &tsm_report_attr_provider,
+> +       [TSM_REPORT_PRIVLEVEL] =3D &tsm_report_attr_privlevel,
+> +       [TSM_REPORT_PRIVLEVEL_FLOOR] =3D &tsm_report_attr_privlevel_floor=
+,
+>         NULL,
+>  };
+>
+> -static struct configfs_attribute *tsm_report_extra_attrs[] =3D {
+> -       TSM_DEFAULT_ATTRS(),
+> -       &tsm_report_attr_privlevel,
+> -       &tsm_report_attr_privlevel_floor,
+> -       NULL,
+> -};
+> -
+> -#define TSM_DEFAULT_BIN_ATTRS() \
+> -       &tsm_report_attr_inblob, \
+> -       &tsm_report_attr_outblob
+> -
+>  static struct configfs_bin_attribute *tsm_report_bin_attrs[] =3D {
+> -       TSM_DEFAULT_BIN_ATTRS(),
+> -       NULL,
+> -};
+> -
+> -static struct configfs_bin_attribute *tsm_report_bin_extra_attrs[] =3D {
+> -       TSM_DEFAULT_BIN_ATTRS(),
+> -       &tsm_report_attr_auxblob,
+> +       [TSM_REPORT_INBLOB] =3D &tsm_report_attr_inblob,
+> +       [TSM_REPORT_OUTBLOB] =3D &tsm_report_attr_outblob,
+> +       [TSM_REPORT_AUXBLOB] =3D &tsm_report_attr_auxblob,
+>         NULL,
+>  };
+>
+> @@ -297,21 +280,12 @@ static struct configfs_item_operations tsm_report_i=
+tem_ops =3D {
+>         .release =3D tsm_report_item_release,
+>  };
+>
+> -const struct config_item_type tsm_report_default_type =3D {
+> +static const struct config_item_type tsm_report_type =3D {
+>         .ct_owner =3D THIS_MODULE,
+>         .ct_bin_attrs =3D tsm_report_bin_attrs,
+>         .ct_attrs =3D tsm_report_attrs,
+>         .ct_item_ops =3D &tsm_report_item_ops,
+>  };
+> -EXPORT_SYMBOL_GPL(tsm_report_default_type);
+> -
+> -const struct config_item_type tsm_report_extra_type =3D {
+> -       .ct_owner =3D THIS_MODULE,
+> -       .ct_bin_attrs =3D tsm_report_bin_extra_attrs,
+> -       .ct_attrs =3D tsm_report_extra_attrs,
+> -       .ct_item_ops =3D &tsm_report_item_ops,
+> -};
+> -EXPORT_SYMBOL_GPL(tsm_report_extra_type);
+>
+>  static struct config_item *tsm_report_make_item(struct config_group *gro=
+up,
+>                                                 const char *name)
+> @@ -326,12 +300,40 @@ static struct config_item *tsm_report_make_item(str=
+uct config_group *group,
+>         if (!state)
+>                 return ERR_PTR(-ENOMEM);
+>
+> -       config_item_init_type_name(&state->cfg, name, provider.type);
+> +       config_item_init_type_name(&state->cfg, name, &tsm_report_type);
+>         return &state->cfg;
+>  }
+>
+> +static bool tsm_report_is_visible(struct config_item *item,
+> +                                 struct configfs_attribute *attr, int n)
+> +{
+> +       guard(rwsem_read)(&tsm_rwsem);
+> +       if (!provider.ops)
+> +               return false;
+> +
+> +       if (!provider.ops->report_attr_visible)
+> +               return true;
+> +
+> +       return provider.ops->report_attr_visible(item, attr, n);
+> +}
+> +
+> +static bool tsm_report_is_bin_visible(struct config_item *item,
+> +                                     struct configfs_bin_attribute *attr=
+, int n)
+> +{
+> +       guard(rwsem_read)(&tsm_rwsem);
+> +       if (!provider.ops)
+> +               return false;
+> +
+> +       if (!provider.ops->report_bin_attr_visible)
+> +               return true;
+> +
+> +       return provider.ops->report_bin_attr_visible(item, attr, n);
+> +}
+> +
+>  static struct configfs_group_operations tsm_report_group_ops =3D {
+>         .make_item =3D tsm_report_make_item,
+> +       .is_visible =3D tsm_report_is_visible,
+> +       .is_bin_visible =3D tsm_report_is_bin_visible,
+>  };
+>
+>  static const struct config_item_type tsm_reports_type =3D {
+> @@ -353,16 +355,10 @@ static struct configfs_subsystem tsm_configfs =3D {
+>         .su_mutex =3D __MUTEX_INITIALIZER(tsm_configfs.su_mutex),
+>  };
+>
+> -int tsm_register(const struct tsm_ops *ops, void *priv,
+> -                const struct config_item_type *type)
+> +int tsm_register(const struct tsm_ops *ops, void *priv)
+>  {
+>         const struct tsm_ops *conflict;
+>
+> -       if (!type)
+> -               type =3D &tsm_report_default_type;
+> -       if (!(type =3D=3D &tsm_report_default_type || type =3D=3D &tsm_re=
+port_extra_type))
+> -               return -EINVAL;
+> -
+>         guard(rwsem_write)(&tsm_rwsem);
+>         conflict =3D provider.ops;
+>         if (conflict) {
+> @@ -372,7 +368,6 @@ int tsm_register(const struct tsm_ops *ops, void *pri=
+v,
+>
+>         provider.ops =3D ops;
+>         provider.data =3D priv;
+> -       provider.type =3D type;
+>         return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(tsm_register);
+> @@ -384,7 +379,6 @@ int tsm_unregister(const struct tsm_ops *ops)
+>                 return -EBUSY;
+>         provider.ops =3D NULL;
+>         provider.data =3D NULL;
+> -       provider.type =3D NULL;
+>         return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(tsm_unregister);
+> diff --git a/include/linux/tsm.h b/include/linux/tsm.h
+> index 50c5769657d8..fa19291a9854 100644
+> --- a/include/linux/tsm.h
+> +++ b/include/linux/tsm.h
+> @@ -4,6 +4,7 @@
+>
+>  #include <linux/sizes.h>
+>  #include <linux/types.h>
+> +#include <linux/configfs.h>
+>
+>  #define TSM_INBLOB_MAX 64
+>  #define TSM_OUTBLOB_MAX SZ_32K
+> @@ -42,12 +43,40 @@ struct tsm_report {
+>         u8 *auxblob;
+>  };
+>
+> +/**
+> + * enum tsm_attr_index - index used to reference report attributes
+> + * @TSM_REPORT_GENERATION: index of the report generation number attribu=
+te
+> + * @TSM_REPORT_PROVIDER: index of the provider name attribute
+> + * @TSM_REPORT_PRIVLEVEL: index of the desired privilege level attribute
+> + * @TSM_REPORT_PRIVLEVEL_FLOOR: index of the minimum allowed privileg le=
+vel attribute
 
-Yes, it will require at least a small rework to handle instruction
-prefixes (namely REP).
+/s/privleg/privlege
 
-> If the decoder's only use is for the #VC handler, I guess we can stick
-> to what
-> we currently do. It shouldn't be too hard to match the remaining NAE
-> instructions
-> in the decoder. However, if we need a complete instruction decoder
-> somewhere,
-> we'll have to decide if we write our own or if we use an existing one.
-> I'm not aware of the full SVSM development plan, so I don't really know t=
-he
-> possible other uses of the decoder.
->
-> As you may also noticed, the instruction decoder is an attack surface
-> since it
-> deals with untrusted raw bytes. For this reason, we should make it as sma=
-ll
-> (and secure of course) as possible. So if we finally need a complete
-> decoder,
-> we'll have to choose between write our own, which will be time consuming =
-and
-> could introduce security bugs (especially when #VC exceptions will be rai=
-sed
-> from a less privileged context), or rely on a third-party one (that we
-> shouldn't consider prefect security-wise).
->
-> What's your opinion between these solutions?
->
-> I recently discovered the iced-x86 [1] crate looks easy to incorporate
-> to the
-> SVSM project, and supports no_std, so I think it would be a candidate.
-> Finally, if we go for a third-party one, a security audit of the chosen
-> decoder would be needed, at least a fuzzing campaign (I could take care
-> of it).
+> + */
+> +enum tsm_attr_index {
+> +       TSM_REPORT_GENERATION,
 
-I haven't attempted to the decode the remaining instructions, but other
-than the prefix issue I mentioned above I don't think we need much more.
-On the other hand, iced-x86 has a lot of features that can be disabled,
-since we only want instruction decoding, so we wouldn't be importing
-that much code. The project also already has fuzzing, so I assume it's
-well tested overall.
+Do we need an index for the generation attribute ? Since it is a core
+function, we can allow it by default.
 
-> Cheers,
-> Thomas
->
-> [0]
-> https://github.com/coconut-svsm/svsm/blob/104ca723cdd6a272f40c31548dd6c05=
-010494c84/kernel/src/cpu/insn.rs#L110
->
-> [1] https://docs.rs/iced-x86/latest/iced_x86/
->
+> +       TSM_REPORT_PROVIDER,
 
---
-Carlos L=F3pez
-Security Engineer
-SUSE Software Solutions
---
-Svsm-devel mailing list
-Svsm-devel@coconut-svsm.dev
-https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel
+Same as above.
+
+> +       TSM_REPORT_PRIVLEVEL,
+> +       TSM_REPORT_PRIVLEVEL_FLOOR,
+> +};
+> +
+> +/**
+> + * enum tsm_bin_attr_index - index used to reference binary report attri=
+butes
+> + * @TSM_REPORT_INBLOB: index of the binary report input attribute
+> + * @TSM_REPORT_OUTBLOB: index of the binary report output attribute
+> + * @TSM_REPORT_AUXBLOB: index of the binary auxiliary data attribute
+> + */
+> +enum tsm_bin_attr_index {
+> +       TSM_REPORT_INBLOB,
+> +       TSM_REPORT_OUTBLOB,
+> +       TSM_REPORT_AUXBLOB,
+> +};
+
+Why differentiate between bin attr and regular attr? Why not use the same e=
+num?
+
+> +
+>  /**
+>   * struct tsm_ops - attributes and operations for tsm instances
+>   * @name: tsm id reflected in /sys/kernel/config/tsm/report/$report/prov=
+ider
+>   * @privlevel_floor: convey base privlevel for nested scenarios
+>   * @report_new: Populate @report with the report blob and auxblob
+>   * (optional), return 0 on successful population, or -errno otherwise
+> + * @report_attr_visible: show or hide a report attribute entry
+> + * @report_bin_attr_visible: show or hide a report binary attribute entr=
+y
+>   *
+>   * Implementation specific ops, only one is expected to be registered at
+>   * a time i.e. only one of "sev-guest", "tdx-guest", etc.
+> @@ -56,14 +85,12 @@ struct tsm_ops {
+>         const char *name;
+>         unsigned int privlevel_floor;
+>         int (*report_new)(struct tsm_report *report, void *data);
+> +       bool (*report_attr_visible)(struct config_item *item,
+> +                                   struct configfs_attribute *attr, int =
+n);
+> +       bool (*report_bin_attr_visible)(struct config_item *item,
+> +                                       struct configfs_bin_attribute *at=
+tr, int n);
+
+I think we can use a single callback . We don't really gain anything
+with bin attr differentiation.
+
+>  };
+>
+> -extern const struct config_item_type tsm_report_default_type;
+> -
+> -/* publish @privlevel, @privlevel_floor, and @auxblob attributes */
+> -extern const struct config_item_type tsm_report_extra_type;
+> -
+> -int tsm_register(const struct tsm_ops *ops, void *priv,
+> -                const struct config_item_type *type);
+> +int tsm_register(const struct tsm_ops *ops, void *priv);
+>  int tsm_unregister(const struct tsm_ops *ops);
+>  #endif /* __TSM_H */
+> --
+> 2.43.2
+>
