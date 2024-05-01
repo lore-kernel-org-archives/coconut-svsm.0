@@ -1,34 +1,37 @@
-Return-Path: <dan.j.williams@intel.com>
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <jacobhxu@google.com>
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 2245B1CA2E7
- for <svsm-devel@coconut-svsm.dev>; Wed,  1 May 2024 22:15:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714594558; x=1746130558;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=W67N1bupqopF4OdecuAxktFdND1r0HiFL7dPtxhiR64=;
- b=Vgj/nBN3xdSCI6/hnHdxOXBL7vgCRbgubCr9//GoPz5pjCeSgzgX0mRc
- yn88TC3aVxAEgkB779ydFC5w5HaEe5bpUbOaSEV/+ZJTbv4p6k0dmZQQR
- s1vv5vbE7MxEJaHBhuHTtSxvHNT9bmukE1WH4m9ZMZJcGBCKTgc9IZKd5
- fFki8Cl3ifmiLj8hFX8PnLiZPSD/EhtoWYi0BIFHtcA2p/2jrMZNXFBof
- sx7+jvU3Q51MSjHF5kIWbJh2nnkIGR3JRslYulyaUGaRvz1htBVngmKRt
- rqtupf6Ri+0MK8UBi2sbwDCqoX4RgsBtJ7EGKSoEyCyHZnLex/Xz4lcAA Q==;
-Date: Wed, 1 May 2024 13:15:28 -0700
-From: Dan Williams <dan.j.williams@intel.com>
-Message-ID: <6632a2e0738d_1384629442@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-References: <cover.1713974291.git.thomas.lendacky@amd.com>
- <e3143c1f3d0b26fcd8884c6f75644b634a7138e8.1713974291.git.thomas.lendacky@amd.com>
- <CAC41dw-g2=jKkevGOJUqnzYTpxQ8+Z_JxnNNuoLR+CM_yqfRzA@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAC41dw-g2=jKkevGOJUqnzYTpxQ8+Z_JxnNNuoLR+CM_yqfRzA@mail.gmail.com>
+ by mail.8bytes.org (Postfix) with ESMTPS id 965C61CA29D
+ for <svsm-devel@coconut-svsm.dev>; Thu,  2 May 2024 01:57:44 +0200 (CEST)
+Received: by mail-pl1-x636.google.com with SMTP id
+ d9443c01a7336-1ec76185c0fso40255ad.1
+ for <svsm-devel@coconut-svsm.dev>; Wed, 01 May 2024 16:57:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1714607863; x=1715212663; darn=coconut-svsm.dev;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y3N9K9XYaKMGZdcDbk8zOnlfG31gz7F53PkNSPj7AWg=;
+ b=qjRb5zQDTP56ubb6GACLWzb0llJckPZ1vQDbnrNHX/ibmVZptE7NhrV60I2BzLp5Py
+ 1uvJrMuTKUIaBxui4sHS4g4mN0U647lBbI2x0VC1klRmeFdYSihfflCPPa0cnrD2ZdXK
+ 63OREwwbkzUQyr/T0nvnO+utGjURj691LOtij436AKB7IqZuaZSWNr0ExHZoKgXu4gXx
+ rorELcsBmGVsWgjKENFTtl3Bcp4eaoxD0oopNwBbozOKh7dVzqlJKeqecP9fVdj9mJOB
+ 2IDkkiT2hmFKbT36Mmo9W5Uyygtkv7h1hTZPSfT+5UXj2RQeJAaXhu15mr1j76Y5CGql
+ 2nMQ==
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [PATCH v4 13/15] x86/sev: Take advantage of
- configfs visibility support in TSM
+References: <cover.1713974291.git.thomas.lendacky@amd.com>
+ <b8508f57712e3194484aa8695494eea26abe1b73.1713974291.git.thomas.lendacky@amd.com>
+In-Reply-To: <b8508f57712e3194484aa8695494eea26abe1b73.1713974291.git.thomas.lendacky@amd.com>
+From: Jacob Xu <jacobhxu@google.com>
+Date: Wed, 1 May 2024 16:57:31 -0700
+Message-ID: <CAJ5mJ6gEd4SXtbhRhBowqVNgqqDspvtSC-NLPzNcoE=xHkZ6YQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [svsm-devel] [PATCH v4 10/15] virt: sev-guest: Choose the VMPCK
+ key based on executing VMPL
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -37,114 +40,114 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>, Tom Lendacky <thomas.lendacky@amd.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Peter Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>, Dan Williams <dan.j.williams@intel.com>
 
-Kuppuswamy Sathyanarayanan wrote:
-> On Wed, Apr 24, 2024 at 9:00 AM Tom Lendacky <thomas.lendacky@amd.com> wrote:
-> >
-> > The TSM attestation report support provides multiple configfs attribute
-> > types (both for standard and binary attributes) to allow for additional
-> > attributes to be displayed for SNP as compared to TDX. With the ability
-> > to hide attributes via configfs, consoldate the multiple attribute groups
-> > into a single standard attribute group and a single binary attribute
-> > group. Modify the TDX support to hide the attributes that were previously
-> > "hidden" as a result of registering the selective attribute groups.
-> >
-> > Co-developed-by: Dan Williams <dan.j.williams@intel.com>
-> > Signed-off-by: Dan Williams <dan.j.williams@intel.com>
-> > Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
-[..]
-> > + */
-> > +enum tsm_attr_index {
-> > +       TSM_REPORT_GENERATION,
-> 
-> Do we need an index for the generation attribute ? Since it is a core
-> function, we can allow it by default.
+General question on VMPCKs: the secrets page defines them listed all
+together one at a time, does that mean any guest at any VMPL can
+observe all the VMPCKs? Or is SVSM running at VMPL0 supposed to clear
+VMPCK0 before it hands off control to edk2?
 
-That is up to the is_visible() callback to decide the declaration of
-which index corresponds to which attribute is just static information.
 
-> 
-> > +       TSM_REPORT_PROVIDER,
-> 
-> Same as above.
-
-These numbers need to match the array indices of tsm_report_attrs.
-
-Your suggestion makes the declaration of tsm_report_attrs more
-difficult:
-
- static struct configfs_attribute *tsm_report_attrs[] = {
-    [TSM_REPORT_GENERATION] = &tsm_report_attr_generation,
-    [TSM_REPORT_PROVIDER] = &tsm_report_attr_provider,
-    [TSM_REPORT_PRIVLEVEL] = &tsm_report_attr_privlevel,
-    [TSM_REPORT_PRIVLEVEL_FLOOR] = &tsm_report_attr_privlevel_floor,
-    NULL,
- };
-
-...because then the definition of TSM_REPORT_PRIVLEVEL would need to
-know how many attributes precede it in the array. So, defining it this
-way makes it more robust against future changes that want to
-add/delete/reorder attributes in the array.
-
-> 
-> > +       TSM_REPORT_PRIVLEVEL,
-> > +       TSM_REPORT_PRIVLEVEL_FLOOR,
-> > +};
-> > +
-> > +/**
-> > + * enum tsm_bin_attr_index - index used to reference binary report attributes
-> > + * @TSM_REPORT_INBLOB: index of the binary report input attribute
-> > + * @TSM_REPORT_OUTBLOB: index of the binary report output attribute
-> > + * @TSM_REPORT_AUXBLOB: index of the binary auxiliary data attribute
-> > + */
-> > +enum tsm_bin_attr_index {
-> > +       TSM_REPORT_INBLOB,
-> > +       TSM_REPORT_OUTBLOB,
-> > +       TSM_REPORT_AUXBLOB,
-> > +};
-> 
-> Why differentiate between bin attr and regular attr? Why not use the same enum?
-
-I do not understand your suggestion. There are two arrays:
-
- static struct configfs_bin_attribute *tsm_report_bin_attrs[] = {
-       [TSM_REPORT_INBLOB] = &tsm_report_attr_inblob,
-       [TSM_REPORT_OUTBLOB] = &tsm_report_attr_outblob,
-       [TSM_REPORT_AUXBLOB] = &tsm_report_attr_auxblob,
-       NULL,
- };
-
-...so there are 2 sets of indices. If only one enum is used then one of
-those arrays becomes sparsely populated causing the NULL array
-terminator to pop up in unexpected indices.
-
-> > +
-> >  /**
-> >   * struct tsm_ops - attributes and operations for tsm instances
-> >   * @name: tsm id reflected in /sys/kernel/config/tsm/report/$report/provider
-> >   * @privlevel_floor: convey base privlevel for nested scenarios
-> >   * @report_new: Populate @report with the report blob and auxblob
-> >   * (optional), return 0 on successful population, or -errno otherwise
-> > + * @report_attr_visible: show or hide a report attribute entry
-> > + * @report_bin_attr_visible: show or hide a report binary attribute entry
-> >   *
-> >   * Implementation specific ops, only one is expected to be registered at
-> >   * a time i.e. only one of "sev-guest", "tdx-guest", etc.
-> > @@ -56,14 +85,12 @@ struct tsm_ops {
-> >         const char *name;
-> >         unsigned int privlevel_floor;
-> >         int (*report_new)(struct tsm_report *report, void *data);
-> > +       bool (*report_attr_visible)(struct config_item *item,
-> > +                                   struct configfs_attribute *attr, int n);
-> > +       bool (*report_bin_attr_visible)(struct config_item *item,
-> > +                                       struct configfs_bin_attribute *attr, int n);
-> 
-> I think we can use a single callback . We don't really gain anything
-> with bin attr differentiation.
-
-No, the goal here is symmetry with sysfs, and the arrays are separate so
-the @n argument is a different index space. It also loses some type
-safety for making sure that bin_attr callbacks can safely assume that
-they were not passed a text attribute by mistake.
+On Wed, Apr 24, 2024 at 8:59=E2=80=AFAM Tom Lendacky <thomas.lendacky@amd.c=
+om> wrote:
+>
+> Currently, the sev-guest driver uses the vmpck-0 key by default. When an
+> SVSM is present the kernel is running at a VMPL other than 0 and the
+> vmpck-0 key is no longer available. If a specific vmpck key has not be
+> requested by the user via the vmpck_id module parameter, choose the vmpck
+> key based on the active VMPL level.
+>
+> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> ---
+>  arch/x86/include/asm/sev.h              |  2 ++
+>  arch/x86/kernel/sev.c                   |  6 ++++++
+>  drivers/virt/coco/sev-guest/sev-guest.c | 10 +++++++---
+>  3 files changed, 15 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/x86/include/asm/sev.h b/arch/x86/include/asm/sev.h
+> index a7312b936d16..64fcadd6d602 100644
+> --- a/arch/x86/include/asm/sev.h
+> +++ b/arch/x86/include/asm/sev.h
+> @@ -307,6 +307,7 @@ u64 snp_get_unsupported_features(u64 status);
+>  u64 sev_get_status(void);
+>  void sev_show_status(void);
+>  void snp_remap_svsm_ca(void);
+> +int snp_get_vmpl(void);
+>  #else
+>  static inline void sev_es_ist_enter(struct pt_regs *regs) { }
+>  static inline void sev_es_ist_exit(void) { }
+> @@ -337,6 +338,7 @@ static inline u64 snp_get_unsupported_features(u64 st=
+atus) { return 0; }
+>  static inline u64 sev_get_status(void) { return 0; }
+>  static inline void sev_show_status(void) { }
+>  static inline void snp_remap_svsm_ca(void) { }
+> +static inline int snp_get_vmpl(void) { return 0; }
+>  #endif
+>
+>  #ifdef CONFIG_KVM_AMD_SEV
+> diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
+> index 8edf7362136b..75f11da867a3 100644
+> --- a/arch/x86/kernel/sev.c
+> +++ b/arch/x86/kernel/sev.c
+> @@ -2454,6 +2454,12 @@ int snp_issue_guest_request(u64 exit_code, struct =
+snp_req_data *input, struct sn
+>  }
+>  EXPORT_SYMBOL_GPL(snp_issue_guest_request);
+>
+> +int snp_get_vmpl(void)
+> +{
+> +       return vmpl;
+> +}
+> +EXPORT_SYMBOL_GPL(snp_get_vmpl);
+> +
+>  static struct platform_device sev_guest_device =3D {
+>         .name           =3D "sev-guest",
+>         .id             =3D -1,
+> diff --git a/drivers/virt/coco/sev-guest/sev-guest.c b/drivers/virt/coco/=
+sev-guest/sev-guest.c
+> index 04a7bd1e4314..e7dd7df86427 100644
+> --- a/drivers/virt/coco/sev-guest/sev-guest.c
+> +++ b/drivers/virt/coco/sev-guest/sev-guest.c
+> @@ -2,7 +2,7 @@
+>  /*
+>   * AMD Secure Encrypted Virtualization (SEV) guest driver interface
+>   *
+> - * Copyright (C) 2021 Advanced Micro Devices, Inc.
+> + * Copyright (C) 2021-2024 Advanced Micro Devices, Inc.
+>   *
+>   * Author: Brijesh Singh <brijesh.singh@amd.com>
+>   */
+> @@ -70,8 +70,8 @@ struct snp_guest_dev {
+>         u8 *vmpck;
+>  };
+>
+> -static u32 vmpck_id;
+> -module_param(vmpck_id, uint, 0444);
+> +static int vmpck_id =3D -1;
+> +module_param(vmpck_id, int, 0444);
+>  MODULE_PARM_DESC(vmpck_id, "The VMPCK ID to use when communicating with =
+the PSP.");
+>
+>  /* Mutex to serialize the shared buffer access and command handling. */
+> @@ -923,6 +923,10 @@ static int __init sev_guest_probe(struct platform_de=
+vice *pdev)
+>         if (!snp_dev)
+>                 goto e_unmap;
+>
+> +       /* Adjust the default VMPCK key based on the executing VMPL level=
+ */
+> +       if (vmpck_id =3D=3D -1)
+> +               vmpck_id =3D snp_get_vmpl();
+> +
+>         ret =3D -EINVAL;
+>         snp_dev->vmpck =3D get_vmpck(vmpck_id, layout, &snp_dev->os_area_=
+msg_seqno);
+>         if (!snp_dev->vmpck) {
+> --
+> 2.43.2
+>
+> --
+> Svsm-devel mailing list
+> Svsm-devel@coconut-svsm.dev
+> https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel
