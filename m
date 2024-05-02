@@ -1,37 +1,37 @@
-Return-Path: <jacobhxu@google.com>
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
+Return-Path: <sathyanarayanan.nkuppuswamy@gmail.com>
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 965C61CA29D
- for <svsm-devel@coconut-svsm.dev>; Thu,  2 May 2024 01:57:44 +0200 (CEST)
-Received: by mail-pl1-x636.google.com with SMTP id
- d9443c01a7336-1ec76185c0fso40255ad.1
- for <svsm-devel@coconut-svsm.dev>; Wed, 01 May 2024 16:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1714607863; x=1715212663; darn=coconut-svsm.dev;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=y3N9K9XYaKMGZdcDbk8zOnlfG31gz7F53PkNSPj7AWg=;
- b=qjRb5zQDTP56ubb6GACLWzb0llJckPZ1vQDbnrNHX/ibmVZptE7NhrV60I2BzLp5Py
- 1uvJrMuTKUIaBxui4sHS4g4mN0U647lBbI2x0VC1klRmeFdYSihfflCPPa0cnrD2ZdXK
- 63OREwwbkzUQyr/T0nvnO+utGjURj691LOtij436AKB7IqZuaZSWNr0ExHZoKgXu4gXx
- rorELcsBmGVsWgjKENFTtl3Bcp4eaoxD0oopNwBbozOKh7dVzqlJKeqecP9fVdj9mJOB
- 2IDkkiT2hmFKbT36Mmo9W5Uyygtkv7h1hTZPSfT+5UXj2RQeJAaXhu15mr1j76Y5CGql
- 2nMQ==
+ by mail.8bytes.org (Postfix) with ESMTPS id 93BBC1CA3CF
+ for <svsm-devel@coconut-svsm.dev>; Thu,  2 May 2024 05:40:57 +0200 (CEST)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-57230faeb81so4513117a12.0
+ for <svsm-devel@coconut-svsm.dev>; Wed, 01 May 2024 20:40:57 -0700 (PDT)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com.
+ [209.85.208.53]) by smtp.gmail.com with ESMTPSA id
+ g6-20020a056402428600b0057266474cd2sm31358edc.15.2024.05.01.20.40.55
+ for <svsm-devel@coconut-svsm.dev>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 May 2024 20:40:55 -0700 (PDT)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-56e6affdd21so2864209a12.3
+ for <svsm-devel@coconut-svsm.dev>; Wed, 01 May 2024 20:40:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1713974291.git.thomas.lendacky@amd.com>
- <b8508f57712e3194484aa8695494eea26abe1b73.1713974291.git.thomas.lendacky@amd.com>
-In-Reply-To: <b8508f57712e3194484aa8695494eea26abe1b73.1713974291.git.thomas.lendacky@amd.com>
-From: Jacob Xu <jacobhxu@google.com>
-Date: Wed, 1 May 2024 16:57:31 -0700
-Message-ID: <CAJ5mJ6gEd4SXtbhRhBowqVNgqqDspvtSC-NLPzNcoE=xHkZ6YQ@mail.gmail.com>
+ <e3143c1f3d0b26fcd8884c6f75644b634a7138e8.1713974291.git.thomas.lendacky@amd.com>
+ <CAC41dw-g2=jKkevGOJUqnzYTpxQ8+Z_JxnNNuoLR+CM_yqfRzA@mail.gmail.com>
+ <6632a2e0738d_1384629442@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+In-Reply-To: <6632a2e0738d_1384629442@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+Reply-To: sathyanarayanan.kuppuswamy@linux.intel.com
+From: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Date: Wed, 1 May 2024 20:40:43 -0700
+Message-ID: <CAC41dw_Dnm=suyue+jFx2z8f+YT1K_aWfQEijrU=WH4OLWpOqQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [svsm-devel] [PATCH v4 10/15] virt: sev-guest: Choose the VMPCK
- key based on executing VMPL
+Subject: Re: [svsm-devel] [PATCH v4 13/15] x86/sev: Take advantage of
+ configfs visibility support in TSM
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -40,114 +40,66 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Peter Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>, Dan Williams <dan.j.williams@intel.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-General question on VMPCKs: the secrets page defines them listed all
-together one at a time, does that mean any guest at any VMPL can
-observe all the VMPCKs? Or is SVSM running at VMPL0 supposed to clear
-VMPCK0 before it hands off control to edk2?
-
-
-On Wed, Apr 24, 2024 at 8:59=E2=80=AFAM Tom Lendacky <thomas.lendacky@amd.c=
+On Wed, May 1, 2024 at 1:15=E2=80=AFPM Dan Williams <dan.j.williams@intel.c=
 om> wrote:
 >
-> Currently, the sev-guest driver uses the vmpck-0 key by default. When an
-> SVSM is present the kernel is running at a VMPL other than 0 and the
-> vmpck-0 key is no longer available. If a specific vmpck key has not be
-> requested by the user via the vmpck_id module parameter, choose the vmpck
-> key based on the active VMPL level.
+> Kuppuswamy Sathyanarayanan wrote:
+> > On Wed, Apr 24, 2024 at 9:00=E2=80=AFAM Tom Lendacky <thomas.lendacky@a=
+md.com> wrote:
+> > >
+> > > The TSM attestation report support provides multiple configfs attribu=
+te
+> > > types (both for standard and binary attributes) to allow for addition=
+al
+> > > attributes to be displayed for SNP as compared to TDX. With the abili=
+ty
+> > > to hide attributes via configfs, consoldate the multiple attribute gr=
+oups
+> > > into a single standard attribute group and a single binary attribute
+> > > group. Modify the TDX support to hide the attributes that were previo=
+usly
+> > > "hidden" as a result of registering the selective attribute groups.
+> > >
+> > > Co-developed-by: Dan Williams <dan.j.williams@intel.com>
+> > > Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+> > > Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> [..]
+> > > + */
+> > > +enum tsm_attr_index {
+> > > +       TSM_REPORT_GENERATION,
+> >
+> > Do we need an index for the generation attribute ? Since it is a core
+> > function, we can allow it by default.
 >
-> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
-> ---
->  arch/x86/include/asm/sev.h              |  2 ++
->  arch/x86/kernel/sev.c                   |  6 ++++++
->  drivers/virt/coco/sev-guest/sev-guest.c | 10 +++++++---
->  3 files changed, 15 insertions(+), 3 deletions(-)
+> That is up to the is_visible() callback to decide the declaration of
+> which index corresponds to which attribute is just static information.
 >
-> diff --git a/arch/x86/include/asm/sev.h b/arch/x86/include/asm/sev.h
-> index a7312b936d16..64fcadd6d602 100644
-> --- a/arch/x86/include/asm/sev.h
-> +++ b/arch/x86/include/asm/sev.h
-> @@ -307,6 +307,7 @@ u64 snp_get_unsupported_features(u64 status);
->  u64 sev_get_status(void);
->  void sev_show_status(void);
->  void snp_remap_svsm_ca(void);
-> +int snp_get_vmpl(void);
->  #else
->  static inline void sev_es_ist_enter(struct pt_regs *regs) { }
->  static inline void sev_es_ist_exit(void) { }
-> @@ -337,6 +338,7 @@ static inline u64 snp_get_unsupported_features(u64 st=
-atus) { return 0; }
->  static inline u64 sev_get_status(void) { return 0; }
->  static inline void sev_show_status(void) { }
->  static inline void snp_remap_svsm_ca(void) { }
-> +static inline int snp_get_vmpl(void) { return 0; }
->  #endif
+> >
+> > > +       TSM_REPORT_PROVIDER,
+> >
+> > Same as above.
 >
->  #ifdef CONFIG_KVM_AMD_SEV
-> diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
-> index 8edf7362136b..75f11da867a3 100644
-> --- a/arch/x86/kernel/sev.c
-> +++ b/arch/x86/kernel/sev.c
-> @@ -2454,6 +2454,12 @@ int snp_issue_guest_request(u64 exit_code, struct =
-snp_req_data *input, struct sn
->  }
->  EXPORT_SYMBOL_GPL(snp_issue_guest_request);
+> These numbers need to match the array indices of tsm_report_attrs.
 >
-> +int snp_get_vmpl(void)
-> +{
-> +       return vmpl;
-> +}
-> +EXPORT_SYMBOL_GPL(snp_get_vmpl);
-> +
->  static struct platform_device sev_guest_device =3D {
->         .name           =3D "sev-guest",
->         .id             =3D -1,
-> diff --git a/drivers/virt/coco/sev-guest/sev-guest.c b/drivers/virt/coco/=
-sev-guest/sev-guest.c
-> index 04a7bd1e4314..e7dd7df86427 100644
-> --- a/drivers/virt/coco/sev-guest/sev-guest.c
-> +++ b/drivers/virt/coco/sev-guest/sev-guest.c
-> @@ -2,7 +2,7 @@
->  /*
->   * AMD Secure Encrypted Virtualization (SEV) guest driver interface
->   *
-> - * Copyright (C) 2021 Advanced Micro Devices, Inc.
-> + * Copyright (C) 2021-2024 Advanced Micro Devices, Inc.
->   *
->   * Author: Brijesh Singh <brijesh.singh@amd.com>
->   */
-> @@ -70,8 +70,8 @@ struct snp_guest_dev {
->         u8 *vmpck;
+> Your suggestion makes the declaration of tsm_report_attrs more
+> difficult:
+>
+>  static struct configfs_attribute *tsm_report_attrs[] =3D {
+>     [TSM_REPORT_GENERATION] =3D &tsm_report_attr_generation,
+>     [TSM_REPORT_PROVIDER] =3D &tsm_report_attr_provider,
+>     [TSM_REPORT_PRIVLEVEL] =3D &tsm_report_attr_privlevel,
+>     [TSM_REPORT_PRIVLEVEL_FLOOR] =3D &tsm_report_attr_privlevel_floor,
+>     NULL,
 >  };
 >
-> -static u32 vmpck_id;
-> -module_param(vmpck_id, uint, 0444);
-> +static int vmpck_id =3D -1;
-> +module_param(vmpck_id, int, 0444);
->  MODULE_PARM_DESC(vmpck_id, "The VMPCK ID to use when communicating with =
-the PSP.");
->
->  /* Mutex to serialize the shared buffer access and command handling. */
-> @@ -923,6 +923,10 @@ static int __init sev_guest_probe(struct platform_de=
-vice *pdev)
->         if (!snp_dev)
->                 goto e_unmap;
->
-> +       /* Adjust the default VMPCK key based on the executing VMPL level=
- */
-> +       if (vmpck_id =3D=3D -1)
-> +               vmpck_id =3D snp_get_vmpl();
-> +
->         ret =3D -EINVAL;
->         snp_dev->vmpck =3D get_vmpck(vmpck_id, layout, &snp_dev->os_area_=
-msg_seqno);
->         if (!snp_dev->vmpck) {
-> --
-> 2.43.2
->
-> --
-> Svsm-devel mailing list
-> Svsm-devel@coconut-svsm.dev
-> https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel
+> ...because then the definition of TSM_REPORT_PRIVLEVEL would need to
+> know how many attributes precede it in the array. So, defining it this
+> way makes it more robust against future changes that want to
+> add/delete/reorder attributes in the array.
+
+Got it. Makes sense. It is simpler to do it this way. I am just
+worried that the vendor driver might mistakenly disable some core
+attributes like inblob, outblob, provider and generation.
