@@ -1,27 +1,58 @@
-Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on20601.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:200a::601])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <tleroy@suse.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 5A3E51C0B5F
- for <svsm-devel@coconut-svsm.dev>; Thu,  2 May 2024 15:17:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2q0+xtbNDJli4JekY5bDyAcujxuoONlicjHDZ0LhzCI=;
- b=kcoQC4lCQte7Ff/BAFvChklPkEw8RpVUXsHTklnaJ5BAOVOVC1L14BvwZupf2K8qXBRbs/FocFOCulOxP7oSjlNcY6beBEgLuIS9ULpp/FNBbJjvEzz8P9rNvX1cJg6vDSLmSOTW6iFq81eeM7MJ+v4oP0PZBncOVr6AFwjYHdI=
-Message-ID: <36973db8-30c3-60e7-b2f4-505c76bf01c4@amd.com>
-Date: Thu, 2 May 2024 08:17:46 -0500
-References: <cover.1713974291.git.thomas.lendacky@amd.com>
- <b8508f57712e3194484aa8695494eea26abe1b73.1713974291.git.thomas.lendacky@amd.com>
- <CAJ5mJ6gEd4SXtbhRhBowqVNgqqDspvtSC-NLPzNcoE=xHkZ6YQ@mail.gmail.com>
-Content-Language: en-US
-From: Tom Lendacky <thomas.lendacky@amd.com>
-In-Reply-To: <CAJ5mJ6gEd4SXtbhRhBowqVNgqqDspvtSC-NLPzNcoE=xHkZ6YQ@mail.gmail.com>
-Content-Transfer-Encoding: 8bit
+ by mail.8bytes.org (Postfix) with ESMTPS id 30DE71C003D
+ for <svsm-devel@coconut-svsm.dev>; Thu,  2 May 2024 15:34:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1714656853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Srw0//Tg+TA29g1R/n8tPhHTil6r0slWRBH8lNcdF+k=;
+ b=ufW1JhlL8ab5jjcSJEkNNjWtjCWGbs9/6ztm2nED2vs4vaTm1Zl1/NL9Cwm/yBu0rSL02p
+ H0K3U5vAd8RBstHUyW/+TSaT+a4rWeynVJljKQ5rjBO1H3JyUUw2RN6b9klaf+ayiSfgWg
+ NgCQn3KwagFHoQMp01FzaHjwmR/sB0g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1714656853;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Srw0//Tg+TA29g1R/n8tPhHTil6r0slWRBH8lNcdF+k=;
+ b=Rzf1f17+8Tfs2td23KLin5IS6adprVjdIfCC0vSsibJjDqe19z5SF1J0MkBhGpwowC6rMa
+ M/kJhBXRaFR8isBw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1714656853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Srw0//Tg+TA29g1R/n8tPhHTil6r0slWRBH8lNcdF+k=;
+ b=ufW1JhlL8ab5jjcSJEkNNjWtjCWGbs9/6ztm2nED2vs4vaTm1Zl1/NL9Cwm/yBu0rSL02p
+ H0K3U5vAd8RBstHUyW/+TSaT+a4rWeynVJljKQ5rjBO1H3JyUUw2RN6b9klaf+ayiSfgWg
+ NgCQn3KwagFHoQMp01FzaHjwmR/sB0g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1714656853;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Srw0//Tg+TA29g1R/n8tPhHTil6r0slWRBH8lNcdF+k=;
+ b=Rzf1f17+8Tfs2td23KLin5IS6adprVjdIfCC0vSsibJjDqe19z5SF1J0MkBhGpwowC6rMa
+ M/kJhBXRaFR8isBw==
+Message-ID: <4f398d58-830f-405f-bca1-4a424bbe6d60@suse.de>
+Date: Thu, 2 May 2024 15:34:12 +0200
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [PATCH v4 10/15] virt: sev-guest: Choose the VMPCK
- key based on executing VMPL
+References: <443d86bb-4915-44b0-8cef-93f1619cee2e@suse.de>
+ <9693cc9c-80a6-45f4-9c4d-4bcc15ced56b@suse.de>
+ <DS7PR21MB35244CC4F41EEEA0240F5E13CA1A2@DS7PR21MB3524.namprd21.prod.outlook.com>
+Content-Language: en-US
+From: Thomas Leroy <tleroy@suse.de>
+In-Reply-To: <DS7PR21MB35244CC4F41EEEA0240F5E13CA1A2@DS7PR21MB3524.namprd21.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [svsm-devel] [EXTERNAL] Re:  x86 decoder further steps
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -30,115 +61,44 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Jacob Xu <jacobhxu@google.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Peter Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>, Dan Williams <dan.j.williams@intel.com>
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+To: Jon Lange <jlange@microsoft.com>, =?UTF-8?Q?Carlos_L=C3=B3pez?= <clopez@suse.de>
+Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
-On 5/1/24 18:57, Jacob Xu wrote:
-> General question on VMPCKs: the secrets page defines them listed all
-> together one at a time, does that mean any guest at any VMPL can
-> observe all the VMPCKs? Or is SVSM running at VMPL0 supposed to clear
-> VMPCK0 before it hands off control to edk2?
 
-The SVSM should clear VMPCK0 in the copy of the secrets page provided to 
-the guest BIOS/OS.
 
-Thanks,
-Tom
+On 4/30/24 19:01, Jon Lange wrote:
+> As COCONUT-SVSM grows into additional configurations, it will become ne=
+cessary for the SVSM to emulate MMIO instructions on behalf of the guest =
+OS.  This will require instruction emulation as well.  It would seem a po=
+or choice to have two different instruction emulators for handling #VC an=
+d guest instruction emulation.  At the same time, it would be a poor choi=
+ce to incorporate a fully functional instruction emulator both because it=
+ would be big (which has impact both on resources and attack surface) and=
+ because it would be excessively flexible (which dramatically increases t=
+he possibility of exploitation).  I expect the best strategy would be to =
+continue to expand the existing instruction emulator so it can handle dec=
+ode of the common MMIO-handling instructions, such as moves (including 16=
+-byte moves), common ALU operations (especially bitwise operations like A=
+ND/OR/XOR/BTS/BTR as well as TEST, plus their atomic equivalents), and ot=
+hers that may be determined through experimentation.  Limiting the scope =
+of emulator capabilities in this way by expanding the existing emulator s=
+hould strike an appropriate balance between functionality and safety.
+I first thought that we could replace our naive decoder by a more
+complete one, using a third-party crate to save time. As said Carlos, we
+could have only picked the decoder part of the iced-x86 crate to reduce
+the amount of code to import, leaving the emulation part to us.
+However, if we'll never need a much more complete decoder, I agree with
+you that it's better to add the missing NAE events instructions decoding
++ emulation to our existent #VC handling code.
 
-> 
-> 
-> On Wed, Apr 24, 2024 at 8:59 AM Tom Lendacky <thomas.lendacky@amd.com> wrote:
->>
->> Currently, the sev-guest driver uses the vmpck-0 key by default. When an
->> SVSM is present the kernel is running at a VMPL other than 0 and the
->> vmpck-0 key is no longer available. If a specific vmpck key has not be
->> requested by the user via the vmpck_id module parameter, choose the vmpck
->> key based on the active VMPL level.
->>
->> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
->> ---
->>   arch/x86/include/asm/sev.h              |  2 ++
->>   arch/x86/kernel/sev.c                   |  6 ++++++
->>   drivers/virt/coco/sev-guest/sev-guest.c | 10 +++++++---
->>   3 files changed, 15 insertions(+), 3 deletions(-)
->>
->> diff --git a/arch/x86/include/asm/sev.h b/arch/x86/include/asm/sev.h
->> index a7312b936d16..64fcadd6d602 100644
->> --- a/arch/x86/include/asm/sev.h
->> +++ b/arch/x86/include/asm/sev.h
->> @@ -307,6 +307,7 @@ u64 snp_get_unsupported_features(u64 status);
->>   u64 sev_get_status(void);
->>   void sev_show_status(void);
->>   void snp_remap_svsm_ca(void);
->> +int snp_get_vmpl(void);
->>   #else
->>   static inline void sev_es_ist_enter(struct pt_regs *regs) { }
->>   static inline void sev_es_ist_exit(void) { }
->> @@ -337,6 +338,7 @@ static inline u64 snp_get_unsupported_features(u64 status) { return 0; }
->>   static inline u64 sev_get_status(void) { return 0; }
->>   static inline void sev_show_status(void) { }
->>   static inline void snp_remap_svsm_ca(void) { }
->> +static inline int snp_get_vmpl(void) { return 0; }
->>   #endif
->>
->>   #ifdef CONFIG_KVM_AMD_SEV
->> diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
->> index 8edf7362136b..75f11da867a3 100644
->> --- a/arch/x86/kernel/sev.c
->> +++ b/arch/x86/kernel/sev.c
->> @@ -2454,6 +2454,12 @@ int snp_issue_guest_request(u64 exit_code, struct snp_req_data *input, struct sn
->>   }
->>   EXPORT_SYMBOL_GPL(snp_issue_guest_request);
->>
->> +int snp_get_vmpl(void)
->> +{
->> +       return vmpl;
->> +}
->> +EXPORT_SYMBOL_GPL(snp_get_vmpl);
->> +
->>   static struct platform_device sev_guest_device = {
->>          .name           = "sev-guest",
->>          .id             = -1,
->> diff --git a/drivers/virt/coco/sev-guest/sev-guest.c b/drivers/virt/coco/sev-guest/sev-guest.c
->> index 04a7bd1e4314..e7dd7df86427 100644
->> --- a/drivers/virt/coco/sev-guest/sev-guest.c
->> +++ b/drivers/virt/coco/sev-guest/sev-guest.c
->> @@ -2,7 +2,7 @@
->>   /*
->>    * AMD Secure Encrypted Virtualization (SEV) guest driver interface
->>    *
->> - * Copyright (C) 2021 Advanced Micro Devices, Inc.
->> + * Copyright (C) 2021-2024 Advanced Micro Devices, Inc.
->>    *
->>    * Author: Brijesh Singh <brijesh.singh@amd.com>
->>    */
->> @@ -70,8 +70,8 @@ struct snp_guest_dev {
->>          u8 *vmpck;
->>   };
->>
->> -static u32 vmpck_id;
->> -module_param(vmpck_id, uint, 0444);
->> +static int vmpck_id = -1;
->> +module_param(vmpck_id, int, 0444);
->>   MODULE_PARM_DESC(vmpck_id, "The VMPCK ID to use when communicating with the PSP.");
->>
->>   /* Mutex to serialize the shared buffer access and command handling. */
->> @@ -923,6 +923,10 @@ static int __init sev_guest_probe(struct platform_device *pdev)
->>          if (!snp_dev)
->>                  goto e_unmap;
->>
->> +       /* Adjust the default VMPCK key based on the executing VMPL level */
->> +       if (vmpck_id == -1)
->> +               vmpck_id = snp_get_vmpl();
->> +
->>          ret = -EINVAL;
->>          snp_dev->vmpck = get_vmpck(vmpck_id, layout, &snp_dev->os_area_msg_seqno);
->>          if (!snp_dev->vmpck) {
->> --
->> 2.43.2
->>
->> --
->> Svsm-devel mailing list
->> Svsm-devel@coconut-svsm.dev
->> https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel
+I'm not aware of any potential future needs for a complete decoder (not
+emulator), but maybe some people here do. That was another purpose of my
+first email. :)
+
+Thomas
+
+--=20
+Thomas Leroy
+Security Engineer
+SUSE Software Solutions
+
