@@ -1,37 +1,36 @@
-Return-Path: <sathyanarayanan.nkuppuswamy@gmail.com>
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Return-Path: <bp@alien8.de>
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 93BBC1CA3CF
- for <svsm-devel@coconut-svsm.dev>; Thu,  2 May 2024 05:40:57 +0200 (CEST)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-57230faeb81so4513117a12.0
- for <svsm-devel@coconut-svsm.dev>; Wed, 01 May 2024 20:40:57 -0700 (PDT)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com.
- [209.85.208.53]) by smtp.gmail.com with ESMTPSA id
- g6-20020a056402428600b0057266474cd2sm31358edc.15.2024.05.01.20.40.55
- for <svsm-devel@coconut-svsm.dev>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 May 2024 20:40:55 -0700 (PDT)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-56e6affdd21so2864209a12.3
- for <svsm-devel@coconut-svsm.dev>; Wed, 01 May 2024 20:40:55 -0700 (PDT)
-MIME-Version: 1.0
+ by mail.8bytes.org (Postfix) with ESMTPS id A89391CA4EF
+ for <svsm-devel@coconut-svsm.dev>; Thu,  2 May 2024 11:35:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+ t=1714642540; bh=dorBD1OH7eDSHdWk0QDptXqjjj2UqAFZRRg4RSaaZ9o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Hz+jF8+EfYoHwvErWGPCRIhERnG5BvJlOZrY6VPTFvBfPS9YUifvjptASlZiC9t3L
+ hX0qn5voXVVORjxOIbeXVcGgRBE0oKtgJJHv4sZ9zx4MUHXNx68Q5Q5MDq1YpilGIf
+ qukme+CoVEnUmsyFgUya0wg/7gq6G3Jw/hIAA67iKtoAfDuPgLrJOUNn0w8Bk4JSWl
+ aSQJdsYMRDLPXrO33X4ZJVkGMwCOo/udwCAVTuS63yF5gqJGif9u5BmuY2FxLF7lqf
+ t0M0yzdWj3zXDcYhD91CrLs0iwvDfAk4P8iCoi5CBYeYlzKS71b7wAGQyickL5hbhd
+ laPEANftXQzH/hfTc0T1izzzfjDtUcn+hVka2CdjD1a0/XGU0HqlkmZ+z1FGmdCM1s
+ Ndd41pngN+DB6OUYhPyS2GZ4ZVcAvx5jOL53LKFzqiozXJ+2bO6+1Q05S5dQTeXfQ5
+ kbH3YEBmZYCX1gtbtQGqCofaZAuvMXVp9YmhhEg2fbde19p3q+8c0zw0VbtnBVoJVO
+ VKnQ4Fc8a686iEPWwgTURUVkaV558dMJC1KFdl4IG1QWZQxFWAvKgBQA+sChEV5e8m
+ cz1v96CTl56vnL6SHFlFxUTavwGhlCPHBCNZbqoFAFpXvRx/J2g+8t9OIbKtBy6Fk5
+ n/Wj4rx5FIpdWcvAGjhIB50I=
+Date: Thu, 2 May 2024 11:35:20 +0200
+From: Borislav Petkov <bp@alien8.de>
+Message-ID: <20240502093520.GRZjNeWLXU5j2UMOAM@fat_crate.local>
 References: <cover.1713974291.git.thomas.lendacky@amd.com>
- <e3143c1f3d0b26fcd8884c6f75644b634a7138e8.1713974291.git.thomas.lendacky@amd.com>
- <CAC41dw-g2=jKkevGOJUqnzYTpxQ8+Z_JxnNNuoLR+CM_yqfRzA@mail.gmail.com>
- <6632a2e0738d_1384629442@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-In-Reply-To: <6632a2e0738d_1384629442@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-Reply-To: sathyanarayanan.kuppuswamy@linux.intel.com
-From: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Date: Wed, 1 May 2024 20:40:43 -0700
-Message-ID: <CAC41dw_Dnm=suyue+jFx2z8f+YT1K_aWfQEijrU=WH4OLWpOqQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ <6cf54cac47f212f4c2b59b123855d8c183989022.1713974291.git.thomas.lendacky@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <6cf54cac47f212f4c2b59b123855d8c183989022.1713974291.git.thomas.lendacky@amd.com>
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [svsm-devel] [PATCH v4 13/15] x86/sev: Take advantage of
- configfs visibility support in TSM
+Subject: Re: [svsm-devel] [PATCH v4 04/15] x86/sev: Check for the presence
+ of an SVSM in the SNP Secrets page
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -40,66 +39,324 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-On Wed, May 1, 2024 at 1:15=E2=80=AFPM Dan Williams <dan.j.williams@intel.c=
-om> wrote:
->
-> Kuppuswamy Sathyanarayanan wrote:
-> > On Wed, Apr 24, 2024 at 9:00=E2=80=AFAM Tom Lendacky <thomas.lendacky@a=
-md.com> wrote:
-> > >
-> > > The TSM attestation report support provides multiple configfs attribu=
+On Wed, Apr 24, 2024 at 10:58:00AM -0500, Tom Lendacky wrote:
+> During early boot phases, check for the presence of an SVSM when runnin=
+g
+> as an SEV-SNP guest.
+>=20
+> An SVSM is present if not running at VMPL0 and the 64-bit value at offs=
+et
+> 0x148 into the secrets page is non-zero. If an SVSM is present, save th=
+e
+> SVSM Calling Area address (CAA), located at offset 0x150 into the secre=
+ts
+> page, and set the VMPL level of the guest, which should be non-zero, to
+> indicate the presence of an SVSM.
+>=20
+> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> ---
+>  .../arch/x86/amd-memory-encryption.rst        | 22 ++++++
+>  arch/x86/boot/compressed/sev.c                |  8 +++
+>  arch/x86/include/asm/sev-common.h             |  4 ++
+>  arch/x86/include/asm/sev.h                    | 25 ++++++-
+>  arch/x86/kernel/sev-shared.c                  | 70 +++++++++++++++++++
+>  arch/x86/kernel/sev.c                         |  7 ++
+>  6 files changed, 135 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/arch/x86/amd-memory-encryption.rst b/Documen=
+tation/arch/x86/amd-memory-encryption.rst
+> index 414bc7402ae7..32737718d4a2 100644
+> --- a/Documentation/arch/x86/amd-memory-encryption.rst
+> +++ b/Documentation/arch/x86/amd-memory-encryption.rst
+> @@ -130,4 +130,26 @@ SNP feature support.
+> =20
+>  More details in AMD64 APM[1] Vol 2: 15.34.10 SEV_STATUS MSR
+> =20
+> +Secure VM Service Module (SVSM)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> +
+> +SNP provides a feature called Virtual Machine Privilege Levels (VMPL).=
+ The most
+> +privileged VMPL is 0 with numerically higher numbers having lesser pri=
+vileges.
+> +More details in AMD64 APM[1] Vol 2: 15.35.7 Virtual Machine Privilege =
+Levels.
+> +
+> +The VMPL feature provides the ability to run software services at a mo=
+re
+> +privileged level than the guest OS is running at. This provides a secu=
+re
+
+Too many "provides".
+
+> +environment for services within the guest's SNP environment, while pro=
+tecting
+> +the service from hypervisor interference. An example of a secure servi=
+ce
+> +would be a virtual TPM (vTPM). Additionally, certain operations requir=
+e the
+> +guest to be running at VMPL0 in order for them to be performed. For ex=
+ample,
+> +the PVALIDATE instruction is required to be executed at VMPL0.
+> +
+> +When a guest is not running at VMPL0, it needs to communicate with the=
+ software
+> +running at VMPL0 to perform privileged operations or to interact with =
+secure
+> +services. This software running at VMPL0 is known as a Secure VM Servi=
+ce Module
+> +(SVSM). Discovery of an SVSM and the API used to communicate with it i=
+s
+> +documented in Secure VM Service Module for SEV-SNP Guests[2].
+
+This paragraph needs to go second, not third.
+
+Somehow that text is missing "restraint" and is all over the place.
+Lemme try to restructure it:
+
+"SNP provides a feature called Virtual Machine Privilege Levels (VMPL) wh=
+ich
+defines four privilege levels at which guest software can run. The most
+privileged level is 0 and numerically higher numbers have lesser privileg=
+es.
+More details in the AMD64 APM[1] Vol 2, section "15.35.7 Virtual Machine
+Privilege Levels", docID: 24593.
+
+When using that feature, different services can run at different protecti=
+on
+levels, apart from the guest OS but still within the secure SNP environme=
+nt.
+They can provide services to the guest, like a vTPM, for example.
+
+When a guest is not running at VMPL0, it needs to communicate with the so=
+ftware
+running at VMPL0 to perform privileged operations or to interact with sec=
+ure
+services. An example fur such a privileged operation is PVALIDATE which i=
+s
+*required* to be executed at VMPL0.
+
+In this scenario, the software running at VMPL0 is usually called a Secur=
+e VM
+Service Module (SVSM). Discovery of an SVSM and the API used to communica=
 te
-> > > types (both for standard and binary attributes) to allow for addition=
-al
-> > > attributes to be displayed for SNP as compared to TDX. With the abili=
-ty
-> > > to hide attributes via configfs, consoldate the multiple attribute gr=
-oups
-> > > into a single standard attribute group and a single binary attribute
-> > > group. Modify the TDX support to hide the attributes that were previo=
-usly
-> > > "hidden" as a result of registering the selective attribute groups.
-> > >
-> > > Co-developed-by: Dan Williams <dan.j.williams@intel.com>
-> > > Signed-off-by: Dan Williams <dan.j.williams@intel.com>
-> > > Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
-> [..]
-> > > + */
-> > > +enum tsm_attr_index {
-> > > +       TSM_REPORT_GENERATION,
-> >
-> > Do we need an index for the generation attribute ? Since it is a core
-> > function, we can allow it by default.
->
-> That is up to the is_visible() callback to decide the declaration of
-> which index corresponds to which attribute is just static information.
->
-> >
-> > > +       TSM_REPORT_PROVIDER,
-> >
-> > Same as above.
->
-> These numbers need to match the array indices of tsm_report_attrs.
->
-> Your suggestion makes the declaration of tsm_report_attrs more
-> difficult:
->
->  static struct configfs_attribute *tsm_report_attrs[] =3D {
->     [TSM_REPORT_GENERATION] =3D &tsm_report_attr_generation,
->     [TSM_REPORT_PROVIDER] =3D &tsm_report_attr_provider,
->     [TSM_REPORT_PRIVLEVEL] =3D &tsm_report_attr_privlevel,
->     [TSM_REPORT_PRIVLEVEL_FLOOR] =3D &tsm_report_attr_privlevel_floor,
->     NULL,
->  };
->
-> ...because then the definition of TSM_REPORT_PRIVLEVEL would need to
-> know how many attributes precede it in the array. So, defining it this
-> way makes it more robust against future changes that want to
-> add/delete/reorder attributes in the array.
+with it is documented in "Secure VM Service Module for SEV-SNP Guests", d=
+ocID:
+58019."
 
-Got it. Makes sense. It is simpler to do it this way. I am just
-worried that the vendor driver might mistakenly disable some core
-attributes like inblob, outblob, provider and generation.
+How's that?
+
+> +
+>  [1] https://www.amd.com/content/dam/amd/en/documents/processor-tech-do=
+cs/programmer-references/24593.pdf
+> +[2] https://www.amd.com/content/dam/amd/en/documents/epyc-technical-do=
+cs/specifications/58019.pdf
+
+Yeah, about those links - they get stale pretty quickly. I think it suffi=
+ces to
+explain what the document is and what it is called so that one can find i=
+t by
+searching the web. See what I did above.
+
+> diff --git a/arch/x86/boot/compressed/sev.c b/arch/x86/boot/compressed/=
+sev.c
+> index 0457a9d7e515..cb771b380a6b 100644
+> --- a/arch/x86/boot/compressed/sev.c
+> +++ b/arch/x86/boot/compressed/sev.c
+> @@ -12,6 +12,7 @@
+>   */
+>  #include "misc.h"
+> =20
+> +#include <linux/mm.h>
+
+Please do not include a kernel-proper header into the decompresssor.
+Those things are solved by exposing the shared *minimal* functionality
+into
+
+arch/x86/include/asm/shared/
+
+There are examples there.
+
+By the looks of it:
+
+In file included from arch/x86/boot/compressed/sev.c:130:
+arch/x86/boot/compressed/../../kernel/sev-shared.c: In function =E2=80=98=
+setup_svsm_ca=E2=80=99:
+arch/x86/boot/compressed/../../kernel/sev-shared.c:1332:14: warning: impl=
+icit declaration of function =E2=80=98PAGE_ALIGNED=E2=80=99; did you mean=
+ =E2=80=98IS_ALIGNED=E2=80=99? [-Wimplicit-function-declaration]
+ 1332 |         if (!PAGE_ALIGNED(caa))
+      |              ^~~~~~~~~~~~
+      |              IS_ALIGNED
+
+it'll need PAGE_ALIGNED and IS_ALIGNED into an arch/x86/include/asm/share=
+d/mm.h
+header.
+
+>  #include <asm/bootparam.h>
+>  #include <asm/pgtable_types.h>
+>  #include <asm/sev.h>
+
+...
+
+> +static void __head setup_svsm_ca(const struct cc_blob_sev_info *cc_inf=
+o)
+> +{
+> +	struct snp_secrets_page *secrets_page;
+> +	u64 caa;
+> +
+> +	BUILD_BUG_ON(sizeof(*secrets_page) !=3D PAGE_SIZE);
+> +
+> +	/*
+> +	 * RMPADJUST modifies RMP permissions of a lesser-privileged (numeric=
+ally
+> +	 * higher) privilege level. Here, clear the VMPL1 permission mask of =
+the
+> +	 * GHCB page. If the guest is not running at VMPL0, this will fail.
+> +	 *
+> +	 * If the guest is running at VMPL0, it will succeed. Even if that op=
+eration
+> +	 * modifies permission bits, it is still ok to do so currently becaus=
+e Linux
+> +	 * SNP guests running at VMPL0 only run at VMPL0, so VMPL1 or higher
+> +	 * permission mask changes are a don't-care.
+> +	 *
+> +	 * Use __pa() since this routine is running identity mapped when call=
+ed,
+> +	 * both by the decompressor code and the early kernel code.
+> +	 */
+
+Let's not replicate that comment. Diff ontop:
+
+diff --git a/arch/x86/boot/compressed/sev.c b/arch/x86/boot/compressed/se=
+v.c
+index cb771b380a6b..cde1890c8843 100644
+--- a/arch/x86/boot/compressed/sev.c
++++ b/arch/x86/boot/compressed/sev.c
+@@ -576,18 +576,7 @@ void sev_enable(struct boot_params *bp)
+ 		if (!(get_hv_features() & GHCB_HV_FT_SNP))
+ 			sev_es_terminate(SEV_TERM_SET_GEN, GHCB_SNP_UNSUPPORTED);
+=20
+-		/*
+-		 * Enforce running at VMPL0.
+-		 *
+-		 * RMPADJUST modifies RMP permissions of a lesser-privileged (numerica=
+lly
+-		 * higher) privilege level. Here, clear the VMPL1 permission mask of t=
+he
+-		 * GHCB page. If the guest is not running at VMPL0, this will fail.
+-		 *
+-		 * If the guest is running at VMPL0, it will succeed. Even if that ope=
+ration
+-		 * modifies permission bits, it is still ok to do so currently because=
+ Linux
+-		 * SNP guests running at VMPL0 only run at VMPL0, so VMPL1 or higher
+-		 * permission mask changes are a don't-care.
+-		 */
++		/* Enforce running at VMPL0 - see comment above rmpadjust(). */
+ 		if (rmpadjust((unsigned long)&boot_ghcb_page, RMP_PG_SIZE_4K, 1))
+ 			sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_NOT_VMPL0);
+ 	}
+diff --git a/arch/x86/include/asm/sev.h b/arch/x86/include/asm/sev.h
+index 350db22e66be..b168403c07be 100644
+--- a/arch/x86/include/asm/sev.h
++++ b/arch/x86/include/asm/sev.h
+@@ -204,6 +204,17 @@ static __always_inline void sev_es_nmi_complete(void=
+)
+ extern int __init sev_es_efi_map_ghcbs(pgd_t *pgd);
+ extern void sev_enable(struct boot_params *bp);
+=20
++/*
++ * RMPADJUST modifies RMP permissions of a lesser-privileged
++ * (numerically higher) privilege level. If @attrs=3D=3D0, it will attem=
+pt
++ * to clear the VMPL1 permission mask of @vaddr. If the guest is not
++ * running at VMPL0, this will fail.
++ *
++ * If the guest is running at VMPL0, it will succeed. Even if that opera=
+tion
++ * modifies permission bits, it is still ok to do so currently because L=
+inux
++ * SNP guests running at VMPL0 only run at VMPL0, so VMPL1 or higher
++ * permission mask changes are a don't-care.
++ */
+ static inline int rmpadjust(unsigned long vaddr, bool rmp_psize, unsigne=
+d long attrs)
+ {
+ 	int rc;
+diff --git a/arch/x86/kernel/sev-shared.c b/arch/x86/kernel/sev-shared.c
+index 46ea4e5e118a..9ca54bcf0e99 100644
+--- a/arch/x86/kernel/sev-shared.c
++++ b/arch/x86/kernel/sev-shared.c
+@@ -1297,17 +1297,9 @@ static void __head setup_svsm_ca(const struct cc_b=
+lob_sev_info *cc_info)
+ 	BUILD_BUG_ON(sizeof(*secrets_page) !=3D PAGE_SIZE);
+=20
+ 	/*
+-	 * RMPADJUST modifies RMP permissions of a lesser-privileged (numerical=
+ly
+-	 * higher) privilege level. Here, clear the VMPL1 permission mask of th=
+e
+-	 * GHCB page. If the guest is not running at VMPL0, this will fail.
+-	 *
+-	 * If the guest is running at VMPL0, it will succeed. Even if that oper=
+ation
+-	 * modifies permission bits, it is still ok to do so currently because =
+Linux
+-	 * SNP guests running at VMPL0 only run at VMPL0, so VMPL1 or higher
+-	 * permission mask changes are a don't-care.
+-	 *
+-	 * Use __pa() since this routine is running identity mapped when called=
+,
+-	 * both by the decompressor code and the early kernel code.
++	 * See comment above rmpadjust() for details. Use __pa() since
++	 * this routine is running identity mapped when called both by
++	 * the decompressor code and the early kernel code.
+ 	 */
+ 	if (!rmpadjust((unsigned long)__pa(&boot_ghcb_page), RMP_PG_SIZE_4K, 1)=
+)
+ 		return;
+
+> +	if (!rmpadjust((unsigned long)__pa(&boot_ghcb_page), RMP_PG_SIZE_4K, =
+1))
+> +		return;
+> +
+> +	/*
+> +	 * Not running at VMPL0, ensure everything has been properly supplied
+> +	 * for running under an SVSM.
+> +	 */
+> +	if (!cc_info || !cc_info->secrets_phys || cc_info->secrets_len !=3D P=
+AGE_SIZE)
+> +		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_SECRETS_PAGE);
+> +
+> +	secrets_page =3D (struct snp_secrets_page *)cc_info->secrets_phys;
+> +	if (!secrets_page->svsm_size)
+> +		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_NO_SVSM);
+> +
+> +	if (!secrets_page->svsm_guest_vmpl)
+> +		sev_es_terminate(SEV_TERM_SET_LINUX, GHCB_TERM_SVSM_VMPL0);
+
+0x15C	1 byte	SVSM_GUEST_VMPL		Indicates the VMPL at which the guest is ex=
+ecuting.
+
+Do I understand it correctly that this contains the VMPL of the guest and=
+  the
+SVSM is running below it?
+
+IOW, SVSM should be at VMPL0 and the guest should be a at a level determi=
+ned by
+that value and it cannot be 0.
+
+Just making sure I'm reading it right.
+
+Thx.
+
+--=20
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
