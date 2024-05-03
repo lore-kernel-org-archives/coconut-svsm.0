@@ -1,24 +1,37 @@
-Return-Path: <joro@8bytes.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1714736304;
- bh=rBI030nnjBaGuDp119mQ6rF4+O/VVsNKdIq/NQwkRf8=;
+Return-Path: <bp@alien8.de>
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPS id 2134A1C0BE3
+ for <svsm-devel@coconut-svsm.dev>; Fri,  3 May 2024 18:04:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+ t=1714752279; bh=kgK1Sd7njMaUz6Vs0JsFM7PKN9JL8A16q9TsB9gAF+I=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=4cuJ8QfQOgGOa4WUzUJMVUE9bxrwxLie0fgcNzaEjt7JoBadWwPunovk+QEXETfZh
- bbOpG6oIKAByFvKq7eq2XgjBauhWYYNwinBbuzl3qHnhCeGW3JMDmLIwTDUB9El+Er
- HYnX+PkEsL/UVx9vpYV4M9SBf91X+pFpqn+g625CQbuKrRralVXzcUeQNK0fYdQtzG
- CQPqEJbLT5Qk4Q+KDTVadwqZeku0/zRwpgit0O/iyA+ZfbgpIq/XDKS2J1k94J8Y2U
- lesfpgcHMN71yeWJXDpt/kmMPgdvmzwXCZdBzN1ZQtD8Q22SPJ0nsPDrGvq5Fo2aWI
- DSSurMAzOMRvA==
-Date: Fri, 3 May 2024 13:38:23 +0200
-From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <ZjTMr8CAA3STRlDR@8bytes.org>
+ b=bs/uce9rl1p2FswYSj8iEK9JU5VIYnzElPuhETDzrricDQ3pQqqQYLRUGevF4Z8zS
+ HMcLKq3R2HUhGPrzQejgUqNqEnGkzY5nI2LoO8Cv7HCBJRCMVxZmd7oY3Z786HvE65
+ Q5upDmSaEEFjqnitdtIbYIpeHNWeS1QEdtwJdYmwx4pAPTw2/bevH5r7GZtV3z9p7b
+ fi7FhPleZWWI9JAyaj9uvxcQxRAvN5rCR3zyFWi4tQfsq+61+52uwX4pvqNUfZUwz/
+ khwrjMNNM5niNRo/CloD4K4aBOUML8EnrRKkMtQcZV2o8MXTv4LBOv0xBDEop0Flgo
+ LbG6PW6YmIyj2QjFC/e9kT9m5d/CwV69sqyra+8r+x1KadkpgxXvR2WD2ymWm7mzen
+ GK0oNH3djcmOSMJ8Gsuf0vEGY4tDgKjjabdqnQ5e6AwIjAL+IHEqGHqlLX2l63h0vi
+ k1DY/CFJojQ7wmX6NQhpfkLjipgBlQ6qG8pdkRZYU6MGl1CFXRBTu3UtrEGpZfV59x
+ Acyj9fs12a02CmaUapVtc0Zif8alECfRpNsRWBJckEBYX3WB36orm6l4+KUn3YlXhR
+ JRxYRECbxHGkVgI1/R4I5mvvgia0VDtTKppA3lWIT4TbmIJyzYvtLMrJHbqVA8CI5n
+ YDZL0crKE9IkLhg73GkMq5Vc=
+Date: Fri, 3 May 2024 18:04:19 +0200
+From: Borislav Petkov <bp@alien8.de>
+Message-ID: <20240503160419.GAZjULA7HhinTfCWZ6@fat_crate.local>
 References: <cover.1713974291.git.thomas.lendacky@amd.com>
+ <e377d148acac799f6905fc544fbb8bf2ed76e078.1713974291.git.thomas.lendacky@amd.com>
+ <ZjTMcC7KTP9xRAqk@8bytes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cover.1713974291.git.thomas.lendacky@amd.com>
-Subject: Re: [svsm-devel] [PATCH v4 00/15] Provide SEV-SNP support for
- running under an SVSM
+In-Reply-To: <ZjTMcC7KTP9xRAqk@8bytes.org>
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [svsm-devel] [PATCH v4 15/15] x86/sev: Allow non-VMPL0
+ execution when an SVSM is present
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -27,27 +40,19 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Peter Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Dave Hansen <dave.hansen@linux.intel.com>, Christoph Hellwig <hch@lst.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Joel Becker <jlbec@evilplan.org>, Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>, Dan Williams <dan.j.williams@intel.com>
+To: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Peter Zijlstra <peterz@infradead.org>, Michael Roth <michael.roth@amd.com>, Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>, Dan Williams <dan.j.williams@intel.com>
 
-On Wed, Apr 24, 2024 at 10:57:56AM -0500, Tom Lendacky wrote:
-> Tom Lendacky (15):
->   x86/sev: Shorten snp_secrets_page_layout to snp_secrets_page
->   x86/sev: Rename snp_init() in the boot/compressed/sev.c file
->   x86/sev: Make the VMPL0 checking more straight forward
->   x86/sev: Check for the presence of an SVSM in the SNP Secrets page
->   x86/sev: Use kernel provided SVSM Calling Areas
->   x86/sev: Perform PVALIDATE using the SVSM when not at VMPL0
->   x86/sev: Use the SVSM to create a vCPU when not in VMPL0
->   x86/sev: Provide SVSM discovery support
->   x86/sev: Provide guest VMPL level to userspace
->   virt: sev-guest: Choose the VMPCK key based on executing VMPL
->   configfs-tsm: Allow the privlevel_floor attribute to be updated
->   fs/configfs: Add a callback to determine attribute visibility
->   x86/sev: Take advantage of configfs visibility support in TSM
->   x86/sev: Extend the config-fs attestation support for an SVSM
->   x86/sev: Allow non-VMPL0 execution when an SVSM is present
+On Fri, May 03, 2024 at 01:37:20PM +0200, J=C3=B6rg R=C3=B6del wrote:
+> Nit: Can this be formated more like "SNP running at VMPL-%u"? That make=
+s
+> it easier to parse for me when looking into dmesg :)
 
-I tested these on latest COCONUT-SVSM upstream and found no issues.
+Hmm, except that all documentation is without a "-"... The APM talks
+about VMPL%d everywhere...
 
-Tested-by: Joerg Roedel <jroedel@suse.de>
+--=20
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
