@@ -1,38 +1,36 @@
-Return-Path: <bp@alien8.de>
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Return-Path: <chuanxiao.dong@intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 764131C0B68
- for <svsm-devel@coconut-svsm.dev>; Mon,  6 May 2024 16:14:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1715004886; bh=fL0jWz0y0MdKTiR0U8jxUn73zBq9bUhbVTopKlDLfd4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=G0tlY3Vz5Xk6BIUXL6VJT6blz9r12hsvfG4elX4H4AzRdPrFwRYyZUlDg1rbozuhZ
- 4UWPvtgiZY7Yu6tDYoLgrh0QYcwCFXtRN6qYq5FgrJ2/uWCN5dmYQP2QR9lKlOyaDI
- xvncVN/sbMcKtIScUkCOkJrbE1Xhgn4tufWkkfviqJNQan2qijp90xTkaEFih55Sci
- it8etOB4NTMeWG24XemazBZb024RkQAEFK+0nvhLucPqxCte55SHlURN0eMGttLsFn
- F5XWDudwGUdPNvkrbAZpWyqDKEuSeknRGIV4/Uc9UE7APc+wZHyTSxC/HiNNjIfhES
- xwnE4Z2w9TKlXNbvUVAOqTbuNLdwaxZVaQF2Unr7nGExI+kmAv9aA65MmS8xlTGa0K
- 9kHd0936W2XxOwnBjP2EebQyQaGniA1xBBpd6oI7zxoefmBOcbRUDfb/vu4TdXkCmy
- bupelxG5AOqatUKS8+x5jeCGXNg8EMZ/iQ4XUtfqU2BawEFZ0VRQbtApYU9dkATkUW
- mNO0kwRrEyRaB+alkZSCtQGD5DFsaSUm3RSKwSWHGVSt77BYOBMPn0cJ2YvgLfG6tw
- bE0USZunZvpA9d1YD9RQM6HRaafFiSHJlj8crUDXBke48o5XAeDp8SItWd83sv3+Kf
- UKJ7ZgRm/pts2Rd6t6N+Sb6E=
-Date: Mon, 6 May 2024 16:14:26 +0200
-From: Borislav Petkov <bp@alien8.de>
-Message-ID: <20240506141426.GJZjjlwuQryahOmSJS@fat_crate.local>
-References: <cover.1713974291.git.thomas.lendacky@amd.com>
- <07266b47e749267ef9a9ccbc9e8e9df78ed54857.1713974291.git.thomas.lendacky@amd.com>
- <20240503103407.GSZjS9n-XMMKi5ZOek@fat_crate.local>
- <20240506100905.GFZjisQTQwbkv2eKsh@fat_crate.local>
- <c4640af2-a791-848a-bacb-071f0bc8f9b1@amd.com>
+ by mail.8bytes.org (Postfix) with ESMTPS id D85BA1C0B67
+ for <svsm-devel@coconut-svsm.dev>; Tue,  7 May 2024 04:16:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715048184; x=1746584184;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=oObnzWYGGkNvQYZXv+NHzUj2KIzOY3HRwWOfydqiJvo=;
+ b=NnzOCYNjGb9UNeAMS91XA5hFzqNSWVJDTi8OeBPU7EhuhD7aQ9xz9VcM
+ 3gA+bHt6mOm4m7qNAFgnk+2K9DZ+Kg6ks4o9sgCVW2nsH1cXkblWCZvgC
+ hNvejRuTN9faPUGfN+73MbfOSyPVp27AniuXnqrLHfrAkUfT94nMANpsu
+ hTyVIYcCOYsMBmKFiITfs83xyxc0K6flJusAsR4Q7po+gnlkCa3bhRd/O
+ Xm2vS0+RSw/Tq2oqUdI9PgkWrfaTCxJK4qsh83HzNGj2mizZSroVxXPc0
+ 1cLbm5SE2vqbVOsfAOyUF48VzHI/aqD9nmfG2Z+dqqWxu9t9UkWCVd2nO Q==;
+From: "Dong, Chuanxiao" <chuanxiao.dong@intel.com>
+Date: Tue, 7 May 2024 02:16:07 +0000
+Message-ID: <BL3PR11MB6458DDC4C9D6D3DD2D7E06F68DE42@BL3PR11MB6458.namprd11.prod.outlook.com>
+References: <443d86bb-4915-44b0-8cef-93f1619cee2e@suse.de>
+ <9693cc9c-80a6-45f4-9c4d-4bcc15ced56b@suse.de>
+ <DS7PR21MB35244CC4F41EEEA0240F5E13CA1A2@DS7PR21MB3524.namprd21.prod.outlook.com>
+ <4f398d58-830f-405f-bca1-4a424bbe6d60@suse.de>
+ <BL3PR11MB6458C36EE179B77E16D68E248D1F2@BL3PR11MB6458.namprd11.prod.outlook.com>
+ <ZjS9aMGyuO0lpn-3@8bytes.org>
+In-Reply-To: <ZjS9aMGyuO0lpn-3@8bytes.org>
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c4640af2-a791-848a-bacb-071f0bc8f9b1@amd.com>
-Subject: Re: [svsm-devel] [PATCH v4 05/15] x86/sev: Use kernel provided SVSM
- Calling Areas
+Subject: Re: [svsm-devel] [EXTERNAL] Re:  x86 decoder further steps
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -41,22 +39,47 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
+To: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
+Cc: Thomas Leroy <tleroy@suse.de>, "Lange, Jon" <jlange@microsoft.com>, =?iso-8859-1?Q?Carlos_L=F3pez?= <clopez@suse.de>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
-On Mon, May 06, 2024 at 08:14:34AM -0500, Tom Lendacky wrote:
-> This isn't quite right. The xchg has to occur between pending and
-> call->caa->call_pending.
 
-Right, you can fix that up in your next revision. :-)
+> -----Original Message-----
+> From: J=F6rg R=F6del <joro@8bytes.org>
+> Sent: Friday, May 3, 2024 6:33 PM
+> To: Dong, Chuanxiao <chuanxiao.dong@intel.com>
+> Cc: Thomas Leroy <tleroy@suse.de>; Lange, Jon <jlange@microsoft.com>; Car=
+los L=F3pez
+> <clopez@suse.de>; svsm-devel@coconut-svsm.dev
+> Subject: Re: [svsm-devel] [EXTERNAL] Re: x86 decoder further steps
+>=20
+> On Fri, May 03, 2024 at 09:23:21AM +0000, Dong, Chuanxiao wrote:
+> > We made a prototype
+> > https://github.com/intel-staging/td-partitioning-svsm/tree/svsm-tdp
+> > which extended the coconut-SVSM to support Intel TD partitioned guest.
+> > It can decode and emulate some basic MMIO and String I/O instructions
+> > used by the Linux guest. Currently it is part of TD partitioned guest
+> > specific code, but if this code is also helpful to the NAE events
+> > instruction as well, we can see how to integrate it with the existing
+> > decoder?
+>=20
+> I agree with Jon that it is best to implement our own limited instruction=
+ decoder. This has security
+> advantages as this decoder will be smaller than a more complete one we pu=
+ll in, which is especially
+> important as instruction decoding will mostly be done in the SVSM kernel =
+for performance reasons.
 
-I only wanted to show the idea of how to make this a lot more
-readable.
+As you know that, we are going to move parts of this prototype hypervisor c=
+ode from SVSM kernel to the user space. So based on this,  seems this hyper=
+visor can still decode instructions in the kernel. And completing the instr=
+uction emulation, e.g., writing back the MMIO read result (generated by the=
+ virtual device model) to the destination vcpu register or guest memory wil=
+l also be done in the kernel mode, is this a correct understanding?
 
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+> So itegrating the MMIO and String I/O emulation support from the Intel br=
+anch into our own instruction
+> decoder would be really great.
+>=20
+> Regards,
+>=20
+> 	Joerg
