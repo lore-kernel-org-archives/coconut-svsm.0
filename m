@@ -1,23 +1,21 @@
 Return-Path: <joro@8bytes.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1715677586;
- bh=/F1+7f96DUMrbLplHAlgXpAR/dHRJqwDrlFmVjt5TVI=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=ZUNku1eD1YR4LVnxWfVG8PzOjRwKnrTIgy+j6ZpvHYVXcg0VqnQGO9PZ1CX1v265H
- bN23K4oe1c0Fb7K2FOxyQsOYxzGeRYtO2Z+HH9OpTJ9u9CCPb6lCfjjlrBOqtEldUf
- TqFVLX96uBXow2FUvRfJey3TbaJKJohkdAnDAjaBlcPfWHG6ck1n5OXuvRRCrPk/VC
- LLmMdEaeS3ECDIZoZ9bdNso2F5KI033ChIo2lQiQNQWEX/9QL9xLrGfWC3e/58HbXY
- fv7eIBN5RCqid+0Ek/75meO0XIsspOrQWCZ+951s7uBn9Ckrt1h+2Mf0UDRZ/M7CQG
- vslgvKEqksdTQ==
-Date: Tue, 14 May 2024 11:06:25 +0200
+ s=default; t=1715702446;
+ bh=Hpp6fgN3L9gypjhuFx309Q4EPNU6LYjFpjyiAU0csV4=;
+ h=Date:From:To:Subject:From;
+ b=nt3ibWVhXBJV7vwdb579xXwLCxQu9gtVVrHjTQZXuz0sHIi4cVjrHTrhip+Dqkk27
+ JnmxgCUmTqvHrI9jkXWE0/E7HXnzHUD0ZqIiFCN1G6sYi0DCRRjLlZFf5fNPGySKYk
+ mHOjZ4K/p58uQRfklzHo3eRqMADdIXtzb/1Y1TH8klSeK6I6qCRqb+TM1CWslX2E3m
+ enAIROw1EmSFnPZ3QgfXdGt2AcsHWtId8m66YcEH4izbJ5ErdjxJjBJaEb5CA/l5x9
+ OJ1dMgzqboVvgJiAN3/7mxBXeJaQPfsABbGOSD34yprTmpEnxmqXsIvhWj4gVRJzH5
+ xaG3kMJg3QxIQ==
+Date: Tue, 14 May 2024 18:00:45 +0200
 From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <ZkMpkfepqUWfq1RY@8bytes.org>
-References: <Zj30Nqq3OS58DwpP@8bytes.org>
+Message-ID: <ZkOKrTyR-ohXjyYL@8bytes.org>
 MIME-Version: 1.0
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zj30Nqq3OS58DwpP@8bytes.org>
-Subject: Re: [svsm-devel] Development Plan Document
+Subject: [svsm-devel] SVSM Development Call May 15th, 2024
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -29,17 +27,22 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
 To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
 Content-Type: text/plain; charset="utf-8"
 
-On Fri, May 10, 2024 at 12:17:26PM +0200, Jörg Rödel wrote:
-> The document is on GitHub in Markdown and PDF format:
-> 
-> 	https://github.com/joergroedel/svsm-governance/blob/dev-plan/draft-development-plan.md
-> 
-> 	https://github.com/joergroedel/svsm-governance/blob/dev-plan/draft-development-plan.pdf
+Hi,
 
-FYI, I just updated the documents with a new added section about
-proposed core code work items. There are three new items there and I
-moved two over from the Sec section.
+Here is the usual call for agenda items for this weeks SVSM development
+call. There is one item already:
+
+	* Development plan Q&A and discussion
+
+Details of the meeting (GMeet and Calendar links, meeting time) can be
+found in our governance repository at:
+
+	https://github.com/coconut-svsm/governance
+
+The meeting will be recorded and the recording eventually published.
+
+See you all there.
 
 Regards,
 
-	Joerg
+	Jörg
