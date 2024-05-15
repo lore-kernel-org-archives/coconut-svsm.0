@@ -1,30 +1,56 @@
-Return-Path: <elena.reshetova@intel.com>
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <clopez@suse.de>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de
+ [IPv6:2a07:de40:b251:101:10:150:64:2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 6B23C1C2BD0
- for <svsm-devel@coconut-svsm.dev>; Wed, 15 May 2024 12:20:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715768421; x=1747304421;
- h=from:to:subject:date:message-id:references:in-reply-to:
- content-transfer-encoding:mime-version;
- bh=NENhinFFN7EsO9zqxcah6JFyyR8xKll1QBSEPl7Ls6Q=;
- b=Y9S0jlRguS1y7wUgmNh3xQM2un3mJc3pW/WIe2SD3wzzRFl5sCah4vzP
- BAwZ14JQ1+oUXZ2WiCTmzXKETydp2MW2UkdfCz1Rpilm4L2Q2XUz6heD6
- Ce7FKNGd40qOoiu84Rpkk1++tRCxOZ7WvMgZIRC65HXt9IVqE6K9aS9Oj
- AovDnADjcR32trKnU4IS4PbWYkgMwZnpgh+5xfPqbQ3Qd3ZMGhSs15KGI
- uX0QGaI3LTqJJTpsXyoQKe4jI/Zjc7n8qtsJHAbA5S+cjB9B0oxzq6T+F
- BlmxRRR+acsyNvVQM+YsUmXcr+Rq0se1LJ2Kk+w5szw9vD5CfHtu1QwOu A==;
-From: "Reshetova, Elena" <elena.reshetova@intel.com>
-Date: Wed, 15 May 2024 10:20:15 +0000
-Message-ID: <DM8PR11MB57503B95AFE00B2BC99B3F88E7EC2@DM8PR11MB5750.namprd11.prod.outlook.com>
-References: <Zj30Nqq3OS58DwpP@8bytes.org> <ZkMpkfepqUWfq1RY@8bytes.org>
-In-Reply-To: <ZkMpkfepqUWfq1RY@8bytes.org>
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ by mail.8bytes.org (Postfix) with ESMTPS id CCBB71C4481
+ for <svsm-devel@coconut-svsm.dev>; Wed, 15 May 2024 13:59:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1715774396; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6UBungeZX8wSDiohKxZCT8aQmlNmjz1V0stFg3Nyp5Q=;
+ b=I+uepwujIF1yk9SvDrneLFi89dMeOqF6OPdapeuBvZdTVRg/QQQXHZU0PVjJPQObC5jT2c
+ WMyatiOrqnR0fyH+ZMry5W0D+IqcE8iV0+8iimYPkzE11Dkd5Mm09Rey1jIldLFgdlJkk0
+ B6BGv3Y/V80vehuNCgfVwniooBSx6yg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1715774396;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6UBungeZX8wSDiohKxZCT8aQmlNmjz1V0stFg3Nyp5Q=;
+ b=gdf4cc49tzfkiH5qLjfQ/qEomrKxPPvWN64Oy58sz9YgmHqeUvWCJ2wJZnCSgoaAHnaDtT
+ wRlMQvskSnrPqeCQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1715774396; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6UBungeZX8wSDiohKxZCT8aQmlNmjz1V0stFg3Nyp5Q=;
+ b=I+uepwujIF1yk9SvDrneLFi89dMeOqF6OPdapeuBvZdTVRg/QQQXHZU0PVjJPQObC5jT2c
+ WMyatiOrqnR0fyH+ZMry5W0D+IqcE8iV0+8iimYPkzE11Dkd5Mm09Rey1jIldLFgdlJkk0
+ B6BGv3Y/V80vehuNCgfVwniooBSx6yg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1715774396;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6UBungeZX8wSDiohKxZCT8aQmlNmjz1V0stFg3Nyp5Q=;
+ b=gdf4cc49tzfkiH5qLjfQ/qEomrKxPPvWN64Oy58sz9YgmHqeUvWCJ2wJZnCSgoaAHnaDtT
+ wRlMQvskSnrPqeCQ==
+Message-ID: <d62c34bd-62c0-4f09-8612-0c20dc62ea44@suse.de>
+Date: Wed, 15 May 2024 13:59:55 +0200
 MIME-Version: 1.0
+References: <Zj30Nqq3OS58DwpP@8bytes.org> <ZkMpkfepqUWfq1RY@8bytes.org>
+ <DM8PR11MB57503B95AFE00B2BC99B3F88E7EC2@DM8PR11MB5750.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Carlos_L=C3=B3pez?= <clopez@suse.de>
+In-Reply-To: <DM8PR11MB57503B95AFE00B2BC99B3F88E7EC2@DM8PR11MB5750.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 Subject: Re: [svsm-devel] Development Plan Document
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
@@ -34,87 +60,24 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>, "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>
+To: "Reshetova, Elena" <elena.reshetova@intel.com>, =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>, "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 
-IA0KPiBPbiBGcmksIE1heSAxMCwgMjAyNCBhdCAxMjoxNzoyNlBNICswMjAwLCBKw7ZyZyBSw7Zk
-ZWwgd3JvdGU6DQo+ID4gVGhlIGRvY3VtZW50IGlzIG9uIEdpdEh1YiBpbiBNYXJrZG93biBhbmQg
-UERGIGZvcm1hdDoNCj4gPg0KPiA+IAlodHRwczovL2dpdGh1Yi5jb20vam9lcmdyb2VkZWwvc3Zz
-bS1nb3Zlcm5hbmNlL2Jsb2IvZGV2LXBsYW4vZHJhZnQtDQo+IGRldmVsb3BtZW50LXBsYW4ubWQN
-Cj4gPg0KPiA+IAlodHRwczovL2dpdGh1Yi5jb20vam9lcmdyb2VkZWwvc3ZzbS1nb3Zlcm5hbmNl
-L2Jsb2IvZGV2LXBsYW4vZHJhZnQtDQo+IGRldmVsb3BtZW50LXBsYW4ucGRmDQo+IA0KPiBGWUks
-IEkganVzdCB1cGRhdGVkIHRoZSBkb2N1bWVudHMgd2l0aCBhIG5ldyBhZGRlZCBzZWN0aW9uIGFi
-b3V0DQo+IHByb3Bvc2VkIGNvcmUgY29kZSB3b3JrIGl0ZW1zLiBUaGVyZSBhcmUgdGhyZWUgbmV3
-IGl0ZW1zIHRoZXJlIGFuZCBJDQo+IG1vdmVkIHR3byBvdmVyIGZyb20gdGhlIFNlYyBzZWN0aW9u
-Lg0KDQpIaSwgDQoNClRoYW5rIHlvdSwgdGhpcyBpcyBhIGdyZWF0IGRvY3VtZW50IHRvIGhhdmUh
-DQpTb21lIHF1ZXN0aW9ucy9jb21tZW50czoNCg0KMS4gSSB3YXMgc3VycHJpc2VkIHRvIHNlZSBh
-IFNlcnZpY2UgVk0gbW9kZSAocGFnZSA0KSwgYmVjYXVzZSBJIGhhdmVu4oCZdA0KcmVhbGl6ZWQg
-dGhpcyBpcyBiZWluZyBjb25zaWRlcmVkIGZvciBDb2NvbnV0LXN2c20uIElzIHRoZXJlIG1vcmUg
-aW5mb3JtYXRpb24NCm9uIHRoZSB1c2UgY2FzZXMgYmVoaW5kIHRoaXM/IEkgY2FuIGltYWdlIHRo
-ZXNlIHVzZWNhc2VzIG15c2VsZiwgYnV0IHdvdWxkDQpiZSBncmVhdCB0byBrbm93IHRoZSBvbmVz
-IHlvdSBhcmUgdGFyZ2V0aW5nLiANCg0KMi4gU2VjdGlvbiA5LiBDcnlwdG9ncmFwaHkgc3VwcG9y
-dC4gVGhlIHJlcXVpcmVtZW50IG9uIHRoZSBpc29sYXRpb24NCmlzIHNvbWV3aGF0IGNvbmZ1c2lu
-Zy4gSXQgcmVhZHMgbGlrZSB0aGUga2V5cyBvciBjcnlwdG9ncmFwaGljIGFzc2V0cyB3b3VsZA0K
-bmV2ZXIgbGVhdmUgdGhlIGJvcmRlciBvZiB0aGUgY3J5cHRvZ3JhcGhpYyBtb2R1bGUgKGV2ZW4g
-aW4gdGhlIA0KZW5jcnlwdGVkIGZvcm0/KSwgd2hpY2ggSSBhbSBub3Qgc3VyZSB0aGUgcmVxdWly
-ZW1lbnQgYXBwbGljYWJsZSBmb3IgYWxsDQp1c2VjYXNlcy4gSSB0aGluayBpdCB3b3VsZCBiZSBi
-ZXR0ZXIgZm9yIHRoZSBzdGFydCB0byBkZWZpbmUgdGhlICpwdXJwb3NlKg0Kb2YgdGhlIGNyeXB0
-b2dyYXBoaWMgbGF5ZXIgaW4gY29jb251dC1zdnNtOiBpcyBpdCBqdXN0IGEgc2V0IG9mIHNlY3Vy
-ZWx5IGltcGxlbWVudGVkDQphbGdvcml0aG1zIHRvIGJlIGV4cG9zZWQgZm9yIHVzZXItc3BhY2Ug
-b3IvYW5kIGtlcm5lbCBwcm9jZXNzZXMgdG8gcGVyZm9ybSBuZWVkZWQNCmNyeXB0b2dyYXBoaWMg
-ZnVuY3Rpb25zIChsaWtlIHdlIGhhdmUgY3J5cHRvIEFQSSBpbiBMaW51eCkgb3IgYSByZWFsIGNy
-eXB0b2dyYXBoaWMNCnNlcnZpY2UgaXMgZW52aXNpb25lZCB0aGF0IHdvdWxkIGJlIG1hbmFnaW5n
-IHRoZSBrZXlzIGFuZCBleHBvc2luZw0KY3J5cHRvIHNlcnZpY2VzIGJhc2VkIG9uIHRoZXNlIGtl
-eXM/IElmIGxhdHRlciwgc3VjaCBzZXJ2aWNlIHNjb3BlIG5lZWRzIHRvIGJlDQpkZWZpbmVkL3Nw
-ZWNpZmllZC4gDQoNCjMuICJJbXBsZW1lbnQgb3IgcG9ydCBhIGNyeXB0b2dyYXBoeSBsaWJyYXJ5
-IHRvIENvY29udXQtU1ZTTS4uLiAiLiANClRoaXMgaXMgZ29pbmcgdG8gYmUgdHJpY2t5IHRvIGdl
-dCByaWdodCwgZXNwZWNpYWxseSBnaXZlbiB0aGUgZnV0dXJlIGFpbSBmb3IgRklQUw0KY2VydGlm
-aWNhdGlvbi4gSW1wbGVtZW50aW5nIGNyeXB0byBmdW5jdGlvbnMgZnJvbSBzY3JhdGNoIGNvcnJl
-Y3RseQ0KaXMgcHJldHR5IGRpZmZpY3VsdCwgc28gdHlwaWNhbGx5IHdlIHRlbmQgdG8gcmVseSBv
-biBleGlzdGluZyBsaWJyYXJpZXMgdGhhdCBoYXZlDQpiZWVuIHZlcmlmaWVkIHRvIHByb3ZpZGUg
-YWRlcXVhdGUgaW1wbGVtZW50YXRpb24uIEkgd291bGQgc3VnZ2VzdCBoZXJlIHRvDQpidWlsZCBh
-IGxpc3Qgb2YgY3J5cHRvIGFsZ29yaXRobXMgdGhhdCBpcyBlbnZpc2lvbmVkIHRvIGJlIG5lZWRl
-ZCAoc21hbGxlciBsaXN0DQppcyBiZXR0ZXIgYW5kIHByZWZlcmFibHkgdGFraW5nIHBvc3QtcXVh
-bnR1bSByZXF1aXJlbWVudHMgaW4gYWNjb3VudCkgYW5kIGJhc2VkDQpvbiB0aGlzIChhbmQgb3Ro
-ZXIgcmVxdWlyZW1lbnRzKSBtYWtlIGEgc2VsZWN0aW9uLiBFdmVuIHdlbGwta25vd24gcnVzdA0K
-bGlicmFyaWVzIGxpa2UgcmluZyBsYXN0IHRpbWUgd2UgY2hlY2tlZCBkaWRu4oCZdCBkbyB0aGlu
-Z3MgbGlrZSBwcm9wZXIga2V5IHplcm96YXRpb24sIGV0Yy4gDQpBbHNvLCBhbnkgY3J5cHRvIHNv
-bHV0aW9uIHdvdWxkIG5lZWQgYSBzZWN1cmUgY3J5cHRvZ3JhcGhpYyBSTkcgd2hpY2ggaXMNCmdv
-aW5nIHRvIGJlIGEgc2VwYXJhdGUgcHJvYmxlbSBvZiBpdHMgb3duIHVubGVzcyBldmVyeW9uZSBh
-Z3JlZXMgdGhhdCB3ZSBjYW4NCmRpcmVjdGx5IHVzZSB4ODYgcGxhdGZvcm0gcHJvdmlkZWQgUk5H
-cyBvciB1c2UgdGhlaXIgaW5wdXQgdG8gc2VlZCBhDQpjcnlwdG9ncmFwaGljIENQUk5HIChMaW51
-eCB1c2VzIENoYUNoYSBidXQgd2l0aCBGSVBTIGNlcnRpZmljYXRpb24gaW4gbWluZA0KdGhlIG1l
-dGhvZHMgZGVmaW5lZCBpbiBOSVNUIFNQIDgwMC05MEEvQi9DIHNob3VsZCBiZSBjb25zaWRlcmVk
-IGluc3RlYWQpLiANCg0KNC4gU2VjdGlvbiAxMi4xLiBVc2VyLW1vZGUgc2VjdXJpdHkgRlcuIEkg
-Z3Vlc3MgdGhlIGFpbSBoZXJlIGlzIHRvIGNyZWF0ZSANCmEgTWFuZGF0b3J5IEFjY2VzcyBDb250
-cm9sIEZXLCByaWdodCAoYmFzZWQgb24gdGhlIGNvbW1lbnQgYWJvdXQgU0VMaW51eCk/IA0KVGhp
-cyBzZWVtcyB0byBnbyB0b2dldGhlciB3aXRoIHNlY3Rpb24gMTAuNCBmb3IgZmlsZXN5c3RlbSBw
-ZXJtaXNzaW9uIG1vZGVsDQp1bmxlc3MgdGhlcmUgYW4gYWRkaXRpb25hbCBEaXNjcmV0aW9uYXJ5
-IEFjY2VzcyBjb250cm9sIGlzIGVudmlzaW9uZWQgZm9yIHRoYXQuIA0KDQo1LiBTZWN0aW9uIDEy
-LjI6IGJ5IGRvdWJsZS12YWxpZGF0aW9uIHlvdSBtZWFuIHRoZSBjYXNlIHdoZW4gYSBwcml2YXRl
-IHBhZ2UNCmlzIGFkZGVkIHR3aWNlIHRvIHRoZSBDVk0gKHJlYWNjZXB0IGluIFREWCB0ZXJtcyk/
-IA0KDQo2LiBzZWN0aW9uIDguMS4gU3lzY2FsbCBpbnRlcmZhY2UuIEZvciBURFggd2UgaGFkIHRv
-IGJlIHZlcnkgY2FyZWZ1bA0Kb24gdGhpbmdzIGxpa2Ugc3lzY2FsbCBlbnRyeSBhbmQgb3RoZXIg
-Y3JpdGljYWwgcGxhY2VzIGluIExpbnV4IHRvIG1ha2Ugc3VyZQ0Kd2UgY2Fubm90IGdldCBhICNW
-RSBldmVudCAocHJvYmFibHkgdGhlIHNhbWUgZm9yICNWQyBmb3IgQU1EPykgaW4gdGhlDQptaWRk
-bGUgb2Ygc3dpdGNoaW5nIGJldHdlZW4gdGhlIHVzZXJzcGFjZSBhbmQga2VybmVsIHN0YXRlLiBU
-RFggcHJvdmlkZXMgc29tZQ0KY29udHJvbHMgdG8gZW5hYmxlIHRvIHByb3RlY3QgZnJvbSB1bndh
-bnRlZCAjVkUgd2hpY2ggcHJvYmFibHkgd2lsbCBiZQ0KdXNlZnVsIGZvciBjb2NvbnV0LXN2c20g
-YWxzbyBhcyBhIHNlY3VyaXR5IG1lYXN1cmUuICANCg0KNy4gU2VjdGlvbiA4LjIuIFRoZSBpbnN0
-cnVjdGlvbiBkZWNvZGVyIG5lZWRzIHRvIGJlIGV4cGxpY2l0bHkgc3RyZXNzLXRlc3RlZC8NCmZ1
-enplZC4gV2UgYXJlIHN0YXJ0aW5nIHRvIGxvb2sgaW50byB0aGlzIHByb2JsZW0gZm9yIExpbnV4
-IG5vdyBzaW5jZSB3ZQ0KbWlnaHQgbmVlZCB0byBhbGxvdyB1c2Vyc3BhY2UgTU1JTyBkZWNvZGlu
-ZyBpbiB0aGUgVERYIGNvZGUsIHNvIG1heWJlDQp3ZSBjYW4gcmV1c2Ugc29tZSBvZiB0aGF0IHdv
-cmsgZm9yIHRoaXMgb25lIGhlcmUuIA0KDQo4LiBPbmUgaXRlbSBJIHdvdWxkIGFkZCBpcyB0aGF0
-IGl0IHdvdWxkIGJlIGdvb2QgdG8gZG9jdW1lbnQgYW5kIGNoZWNrIA0KdGhhdCBhbGwgcmVsZXZh
-bnQgKG5vbi1keW5hbWljIGFuZCB3aXRoIHBvdGVudGlhbCBzZWN1cml0eSBpbXBsaWNhdGlvbikg
-aW5wdXRzIA0KZnJvbSB0aGUgaG9zdC9WTU0gYXJlIG1lYXN1cmVkIGJ5IHRoZSBDb2NvbnV0LVNW
-U00gY29ycmVjdGx5DQppbnRvIHBsYXRmb3JtIHNwZWNpZmljIGF0dGVzdGF0aW9uIHJlZ2lzdGVy
-cy4gVGhpcyBjbG9zZWx5IHJlbGF0ZXMgdG8gMTAuMSwgYnV0DQppdCBpcyBub3QgYWJvdXQgdGhl
-IGhpZ2hlciBsZXZlbCBhdHRlc3RhdGlvbiBzZXJ2aWNlIGJ1dCBhYm91dCBob3cgY29jb251dC1z
-dnNtDQptZWFzdXJlcyBpdHNlbGYgYW5kIGl0cyBvd24gYXNzZXRzLiBJZGVhbGx5IHRoaXMgc2hv
-dWxkIHdvcmsgd2l0aCBib3RoIHZUUE0NCnNlcnZpY2UgYXZhaWxhYmxlIGFuZCB3aXRob3V0LiAg
-DQoNCjkuIEkgcmVtZW1iZXIgaW4gcGFzdCB3ZSBkaXNjdXNzZWQgYWJvdXQgQUNQSSB0YWJsZXMg
-cGFzc3Rocm91Z2ggdmlhIGNvY29udXQNCi1TVlNNIGFuZCBnZW5lcmF0aW9uIGluIHRoZSBDb2Nv
-bnV0LXN2c20uIFNob3VsZCB0aGlzIGFsc28gYmUgbGlzdGVkIGZvciBkZWJhdGUNCnB1cnBvc2Ug
-YXMgaXQgaGFzIGl0cyBvd24gYmVuZWZpdHMgYW5kIGNoYWxsZW5nZXM/IA0KDQpCZXN0IFJlZ2Fy
-ZHMsDQpFbGVuYS4gDQo=
+
+Hi,
+
+On 15/5/24 12:20, Reshetova, Elena wrote:
+> 5. Section 12.2: by double-validation you mean the case when a private page
+> is added twice to the CVM (reaccept in TDX terms)?
+
+I am not familiar with TDX, but I think so, yes. It means that the same
+GPA is accepted twice by the guest. This opens a window for the
+hypervisor to remap the GPA to a different HPA, at least on SEV-SNP.
+
+Best,
+Carlos
+
+-- 
+Carlos López
+Security Engineer
+SUSE Software Solutions
