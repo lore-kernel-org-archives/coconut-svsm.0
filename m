@@ -1,39 +1,30 @@
-Return-Path: <bp@alien8.de>
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Return-Path: <Thomas.Lendacky@amd.com>
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on20601.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2405::601])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id B0A501C5F4B
- for <svsm-devel@coconut-svsm.dev>; Fri, 17 May 2024 21:24:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1715973842; bh=J7Crj1QNIeK8QjGNMpKjSRCjOYd0KfF9nXq4uixkpfs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Qt+77uYTuH9Iju/AJGYrr2JQWEWTgnbtg+yQ6REinUitmOS9zxjWx1jcQ2ytOTS0e
- LNGVS7d3EEt4kLnAMkac4MY9ll6nyKsa0h08GUYpryhFxCdXQIWc2cce02E/waclyg
- DebsHPsfMCan4EbeLdPMQmf9lZa/ZpfmmBoka1gIjPcj7YP2/BmledV08TtOpchUtB
- 5VNtX/G3Mab8A1BVjNKq9VXPOox8KzFgWL2pxoPRL3yD1YUMRRwc49WbRdamQQCyDZ
- fVNNHbAvn5DMZoS4MskXg7kIXZ+Rm4WpCg0/+XpFfpVEUFe9NJq6nWxjPqwCEnZO5U
- Ac/96sF2Ms0zJFJyYuPqkmhvozYMKAhsFxNMDK8Vm5mXTXTxPGqSQ+drVjxmrVrPHw
- T0y/R85jwFogGURtSsskwuvklF1RVsD+/tg2snjm/6wXeW9fgMhB+VzFPwBQefmODS
- 6BtpiKmgSTy1YeWyy3lIOa1xzEN4eQL6cdbA18AX13yGA1hAh+OrQmXpDHpaZxUt7R
- v5MOGiscTRL9O09BPmq+QeWfwmPdU4vCmvtE73foxAXyP/9xy6IaFoLfVapOIpBvn3
- ZX0ovKIWwFY+af9zxf6GLq/Sh9UspGQWqimMmKu8DZNOcXmGJVFcfq11IZ3CU7ASOC
- OASwOB+HfTsJJTQnOJ73fiuc=
-Date: Fri, 17 May 2024 21:23:41 +0200
-From: Borislav Petkov <bp@alien8.de>
-Message-ID: <20240517192341.GXZkeuvZmXug5gSbH7@fat_crate.local>
+ by mail.8bytes.org (Postfix) with ESMTPS id 0581A1C61B5
+ for <svsm-devel@coconut-svsm.dev>; Mon, 20 May 2024 15:57:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t0FFZ0t27/ssnqVjVUm8RKiTC58eC0Cn6C9xCl0K5Cg=;
+ b=JaJizE9TtoABkItEMhHOcAGQ70riR6BgcKMsQF4mWLWASn06eBSjpDBiKYZlxGNgG3EDMeaz5i5HIjbl/+o20VwLN8rSzof1ty3Jr4RelGvDcjEJuARs2TYBs4jPGRDsZU04scHB2kyxIvEGuMKn/9b2Qp85M1e57aKZKnn+62k=
+Message-ID: <f8a92b19-9090-40ea-c2cf-707005f583a5@amd.com>
+Date: Mon, 20 May 2024 08:57:43 -0500
+Content-Language: en-US
 References: <cover.1713974291.git.thomas.lendacky@amd.com>
- <07266b47e749267ef9a9ccbc9e8e9df78ed54857.1713974291.git.thomas.lendacky@amd.com>
- <20240508080509.GWZjsyNS0xBXUzKPUG@fat_crate.local>
- <22dc9ceb-4b16-be68-ed8e-c6a222619032@amd.com>
- <20240508195842.GIZjvZcpRz0bdkiPWA@fat_crate.local>
- <d3b59450-fdbd-2813-bbc0-58f9dc2ba817@amd.com>
+ <6cf54cac47f212f4c2b59b123855d8c183989022.1713974291.git.thomas.lendacky@amd.com>
+ <20240502093520.GRZjNeWLXU5j2UMOAM@fat_crate.local>
+ <66928741-aa5c-4bbb-9155-dc3a0609c50a@amd.com>
+ <20240517155858.GDZkd-wkWmYegos-eT@fat_crate.local>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+In-Reply-To: <20240517155858.GDZkd-wkWmYegos-eT@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d3b59450-fdbd-2813-bbc0-58f9dc2ba817@amd.com>
-Subject: Re: [svsm-devel] [PATCH v4 05/15] x86/sev: Use kernel provided SVSM
- Calling Areas
+Subject: Re: [svsm-devel] [PATCH v4 04/15] x86/sev: Check for the presence
+ of an SVSM in the SNP Secrets page
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -42,37 +33,41 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Tom Lendacky <thomas.lendacky@amd.com>
+To: Borislav Petkov <bp@alien8.de>
 Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-On Wed, May 08, 2024 at 03:09:02PM -0500, Tom Lendacky wrote:
-> If we're not running at VMPL0 (based on the RMPADJUST check) and if the SVSM
-> doesn't advertise a non-zero VMPL value, we will self-terminate. So those
-> values are only set if we are not running at VMPL0 and the SVSM has provided
-> a non-zero value to us.
+On 5/17/24 10:58, Borislav Petkov wrote:
+> On Thu, May 02, 2024 at 10:29:02AM -0500, Tom Lendacky wrote:
+>> PAGE_ALIGNED and IS_ALIGNED are from two separate header files (mm.h and
+>> align.h) which seems like a lot of extra changes for just one check.
 > 
-> I'm going to turn the function into a bool function so that the call
-> becomes:
+> No, pls put them in a single shared/mm.h header. And no, those are not
+> a lot of extra changes - those are changes which are moving the code in
+> the right direction and we do them sooner rather than later, otherwise
+> they'd pile up and we'll never be able to find time to do them - sev.c
+> movement attempt case-in-point.
+
+So this will be a new shared directory in the top level include 
+directory (as PAGE_ALIGNED is defined in include/linux/mm.h), not just 
+in the arch/x86/include directory like the others (io.h, msr.h and 
+tdx.h). Is that what you want?
+
+Thanks,
+Tom
+
 > 
-> 	if (!svsm_setup_caa(cc_info))
-> 		return;
-
-Sure, I guess I'm misled by the
-
-	if (bla)
-		sev_es_terminate()
-
-which is a function call but I need to read its name to realize that
-after that point we're either terminated or we have all the stuff
-required to run on a SVSM.
-
-> I do. I think you're missing the RMPADJUST check that causes the function to
-> return early if we're running at VMPL0.
-
-Yap.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+>> Not sure I agree. I'd prefer to keep the comment here because it is
+>> specific to this rmpadjust() call. See below.
+> 
+> Just don't replicate some versions of the same comment all over the
+> place. Do one big comment which explains which RMPADJUST has to do with
+> VMPL levels - perhaps over the insn - and then refer to it from the
+> other places after adding the specific explanations for them.
+> 
+>> Right. Not sure about the "cannot", more like "must not." The specification
+>> states that the guest should run at a VMPL other than 0. If an SVSM starts
+>> the guest at VMPL0, then the SVSM would not be protected from guest.
+> 
+> Yeah, well, you do terminate the guest if it is running at VMPL 0 *in*
+> the presence of a SVSM so it is a "must not". Ok.
+> 
