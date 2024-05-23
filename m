@@ -1,23 +1,25 @@
-Return-Path: <David.Kaplan@amd.com>
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on20601.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2407::601])
+Return-Path: <jlange@microsoft.com>
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazlp170100001.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:c105::1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 214A51C529B
- for <svsm-devel@coconut-svsm.dev>; Thu, 23 May 2024 19:06:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ by mail.8bytes.org (Postfix) with ESMTPS id BC6C81C6BFD
+ for <svsm-devel@coconut-svsm.dev>; Fri, 24 May 2024 00:05:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TscSDBR4efSzqnJs113VkQGZZpUPYdNrEddo5qtstFc=;
- b=aY6mMqmu6sFy8O2NhWttYtUB0bp2copqAr35fimRP2QfJCx3Z15x+3XX8Go/Q7LP0Pnjfyc3M8pLUctiiguqoCcB4pSNX85WThdBYIZBWGkwpiHGGg2Yx3fhj/UtJoOWHCG7YUyHdrKWY4CM1rn/Qj/OizPMxMrxMM/8LUmhjZ0=
-From: "Kaplan, David" <David.Kaplan@amd.com>
-Date: Thu, 23 May 2024 17:06:05 +0000
-Message-ID: <DS7PR12MB57668C5D8AE281740909574B94F42@DS7PR12MB5766.namprd12.prod.outlook.com>
+ bh=3dORH3Qao6bz0uv0NqQWCE2zf6djg4Vp1sMn4tm85Xg=;
+ b=Gc/xIJmA5YqM4Rcq1Ri4cd7uSs6dE4HZA/KS1rw6BL9K+7afJ0l7gp4I/Ok2wvnCL4lHgALqAw/aWGP+K2+cvyphfpcAIPjureSET5bRUrtR57TtOx5l4Ukf66Pw/JaMj/2WTC9KRIpVPUYs4cqMLfm/Wqle1jWX+whOLz0REms=
+From: Jon Lange <jlange@microsoft.com>
+Date: Thu, 23 May 2024 22:05:27 +0000
+Message-ID: <DS7PR21MB3524D4C48D6A51302783F0C3CAF42@DS7PR21MB3524.namprd21.prod.outlook.com>
 References: <DS7PR21MB352462BA31B209F93F296A17CAEE2@DS7PR21MB3524.namprd21.prod.outlook.com>
-In-Reply-To: <DS7PR21MB352462BA31B209F93F296A17CAEE2@DS7PR21MB3524.namprd21.prod.outlook.com>
+ <DS7PR12MB57668C5D8AE281740909574B94F42@DS7PR12MB5766.namprd12.prod.outlook.com>
+In-Reply-To: <DS7PR12MB57668C5D8AE281740909574B94F42@DS7PR12MB5766.namprd12.prod.outlook.com>
 Content-Language: en-US
 Content-Type: multipart/alternative;
- boundary="_000_DS7PR12MB57668C5D8AE281740909574B94F42DS7PR12MB5766namp_"
+ boundary="_000_DS7PR21MB3524D4C48D6A51302783F0C3CAF42DS7PR21MB3524namp_"
 MIME-Version: 1.0
 Subject: Re: [svsm-devel] RFC: Alternate Injection SVSM support
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
@@ -28,11 +30,132 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Jon Lange <jlange@microsoft.com>, "amd-sev-snp@lists.suse.com" <amd-sev-snp@lists.suse.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: "Kaplan, David" <David.Kaplan@amd.com>, "amd-sev-snp@lists.suse.com" <amd-sev-snp@lists.suse.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
---_000_DS7PR12MB57668C5D8AE281740909574B94F42DS7PR12MB5766namp_
+--_000_DS7PR21MB3524D4C48D6A51302783F0C3CAF42DS7PR21MB3524namp_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+David, thanks for your feedback!
+
+
+  *   Additionally, the term "becomes deliverable" here may not be clear.  =
+I believe your intention is that when the HV decides to deliver a guest OS =
+interrupt, it must cause the SVSM to run.
+
+Yes, this is what I meant by deliverable, and I now see why this caused con=
+fusion because the CPU defines "deliverable" to mean when the IDT dispatch =
+can occur, which is different.  I can clarify this.
+
+
+  *   p.2: "The hypervisor is expected to cause the SVSM to run any time de=
+livery of an interrupt would result in injection of #HV to the SVSM."
+  *   This is just basic Restricted Injection behavior I believe...in order=
+ to send an interrupt to the SVSM the HV must inject a #HV into the SVSM an=
+d then run it.  I don't think any of that changes with this Alternate Injec=
+tion spec (right?)
+
+This is made more complex by the presence of multiple VMPLs, where I don't =
+think we have any clear specification (including in Restricted Injection do=
+cumentation) about scheduling considerations.  The point here is that whene=
+ver the process of delivering an interrupt to a lower VMPL makes the hyperv=
+isor conclude that a notification is due to the SVSM, then the SVSM (i.e. V=
+MPL 0) must be selected to run next on that vCPU.  I'm encouraged that you =
+think this should be implicit from existing language, but that was less obv=
+ious to me.
+
+
+  *   Shouldn't this be bits 8, 9, or 10?
+
+This is an editing error from a previous draft.  Thanks for pointing it out=
+.
+
+
+  *   I would suggest considering defining names for each of these fields, =
+and including a table showing the overall layout.
+
+I agree that this should happen once this behavior is incorporated into the=
+ GHCB/SVSM specifications owned by AMD.  My aim here was to describe the be=
+havior and the standards changes required, not to create authoritative docu=
+mentation.
+
+
+  *   The statement about the SVSM having to know if the first component su=
+pports Alternate Injection is for security, correct?  That is, if the guest=
+ wants interrupt security then it'll want Alternate Injection enabled from =
+the beginning.  If that's the case, then the SVSM *must* enable Alternate I=
+njection prior to the first guest entry (not "may") true?
+
+I think this is another leftover from previous revisions.  I agree that thi=
+s must be stated more clearly.
+
+
+  *   Another idea to consider: What if you had a counter that increments w=
+hen someone requested Alternate Injection and decremented when they asked t=
+o disable it.  And the feature is enabled when the counter is > 0.  I think=
+ that would also solve your problem of guest FW not knowing if the guest OS=
+ will want the feature or not.
+
+This is a great idea and eliminates all of the Enabled/Disabled/Locked conf=
+usion that you were concerned about.  I will plan to make this change, whic=
+h I think will make your feedback about the Enabled/Disabled/Locked state m=
+achine moot.
+
+
+  *   This probably a bit unrelated to the spec itself as this is really ab=
+out the internal implementation of the SVSM.  But I think the important poi=
+nt is that the SVSM may be running (for whatever reason), the HV can send i=
+t a #HV, and then when the SVSM requests a VMPL change the HV should assume=
+ that the SVSM has processed the information from the #HV.
+
+Yes, but this fact is not necessarily obvious to someone who implements the=
+ SVSM protocol.  I thought it would be helpful to point out, but it need no=
+t be part of the text that is incorporated into the SVSM specification.  It=
+'s also helpful to underscore it here because the protocol could alternatel=
+y have been designed to state that it was the hypervisor's responsibility t=
+o prevent the VMPL switch if the #HV NoFurtherSignal bit was still set (mea=
+ning the pending interrupt had not yet been processed) - so stating the SVS=
+M's responsibility here in the document emphasizes the fact that the tradeo=
+ff has been considered and the responsibility lies with the SVSM and not th=
+e hypervisor.
+
+
+  *   I am concerned about the fact that once Disabled, Alternate Injection=
+ can't be re-enabled.  Is that really required?  For instance, what if we'r=
+e running a guest OS that doesn't understand alternate injection and then w=
+e kexec into a kernel that does.
+
+Reenabling Alternate Injection would require transferring all of the APIC s=
+tate from the hypervisor to the SVSM - not just the IRR, but the ISR and TM=
+R - so the future uses of the protocol can correctly apply to any interrupt=
+s that are already in service.  This introduces complexity that strikes me =
+as unnecessary - or at least not compelling enough to be worth it - given t=
+hat once Alternate Injection is disabled, the security state of the guest h=
+as regressed and the absolute promise of "no host interference" no longer a=
+pplies.  Once that promise is gone - i.e., once the guest accepts that it c=
+an be placed into a vulnerable posture - it's not clear to me why it's comp=
+elling to return to a more roust posture.  I would suggest proceeding witho=
+ut this capability, and if it becomes important, then it can be added in a =
+future version of the specification.
+
+
+  *   Minor clarification but I would say that this simply disables Alterna=
+te Injection but doesn't necessarily require the HV to deliver events to th=
+e guest using direct event injection.  There are other interrupt delivery m=
+echanisms too (including Secure AVIC as described in APM vol2).
+
+This spec was drafted before Secure AVIC was documented in the APM.  I take=
+ your point, though it may be more effective to accomplish the clarity in t=
+he language that is ultimately incorporated into the SVSM specficiation.
+
+-Jon
+
+From: Kaplan, David <David.Kaplan@amd.com>
+Sent: Thursday, May 23, 2024 10:06 AM
+To: Jon Lange <jlange@microsoft.com>; amd-sev-snp@lists.suse.com; svsm-deve=
+l@coconut-svsm.dev
+Subject: [EXTERNAL] RE: RFC: Alternate Injection SVSM support
+
 
 [AMD Official Use Only - AMD Internal Distribution Only]
 
@@ -148,9 +271,11 @@ I think that's all I saw for now, the actual protocol itself seemed to make=
 Thanks -David Kaplan
 
 From: AMD-SEV-SNP <amd-sev-snp-bounces+david.kaplan=3Damd.com@lists.suse.co=
-m> On Behalf Of Jon Lange
+m<mailto:amd-sev-snp-bounces+david.kaplan=3Damd.com@lists.suse.com>> On Beh=
+alf Of Jon Lange
 Sent: Thursday, May 16, 2024 11:40 PM
-To: amd-sev-snp@lists.suse.com; svsm-devel@coconut-svsm.dev
+To: amd-sev-snp@lists.suse.com<mailto:amd-sev-snp@lists.suse.com>; svsm-dev=
+el@coconut-svsm.dev<mailto:svsm-devel@coconut-svsm.dev>
 Subject: RFC: Alternate Injection SVSM support
 
 Caution: This message originated from an External Source. Use proper cautio=
@@ -176,7 +301,7 @@ er spec changes are agreed upon.
 
 
 
---_000_DS7PR12MB57668C5D8AE281740909574B94F42DS7PR12MB5766namp_
+--_000_DS7PR21MB3524D4C48D6A51302783F0C3CAF42DS7PR21MB3524namp_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -190,6 +315,9 @@ xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
 <meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
 <style><!--
 /* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
 @font-face
 	{font-family:"Cambria Math";
 	panose-1:2 4 5 3 5 4 6 3 2 4;}
@@ -206,10 +334,22 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
 	{margin:0in;
 	font-size:12.0pt;
 	font-family:"Aptos",sans-serif;}
-span.EmailStyle20
-	{mso-style-type:personal-compose;
-	font-family:"Aptos",sans-serif;
-	color:windowtext;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#467886;
+	text-decoration:underline;}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{mso-style-priority:34;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;}
+span.EmailStyle21
+	{mso-style-type:personal-reply;
+	font-family:"Georgia",serif;
+	color:blue;}
 .MsoChpDefault
 	{mso-style-type:export-only;
 	font-size:10.0pt;
@@ -219,6 +359,82 @@ span.EmailStyle20
 	margin:1.0in 1.0in 1.0in 1.0in;}
 div.WordSection1
 	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:148206641;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1511983720 -860045930 67698691 67698693 67698689 67=
+698691 67698693 67698689 67698691 67698693;}
+@list l0:level1
+	{mso-level-start-at:0;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0D8;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;
+	mso-fareast-font-family:Aptos;
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
 --></style><!--[if gte mso 9]><xml>
 <o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
 </xml><![endif]--><!--[if gte mso 9]><xml>
@@ -228,22 +444,227 @@ div.WordSection1
 </head>
 <body lang=3D"EN-US" link=3D"#467886" vlink=3D"#96607D" style=3D"word-wrap:=
 break-word">
-<p style=3D"font-family:Calibri;font-size:10pt;color:#0000FF;margin:5pt;fon=
-t-style:normal;font-weight:normal;text-decoration:none;" align=3D"Left">
-[AMD Official Use Only - AMD Internal Distribution Only]<br>
-</p>
-<br>
-<div>
 <div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">David, thanks for your feedback!<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<ul style=3D"margin-top:0in" type=3D"disc">
+<li class=3D"MsoListParagraph" style=3D"color:blue;margin-left:0in;mso-list=
+:l0 level1 lfo1">
+<span style=3D"font-size:11.0pt;color:windowtext">Additionally, the term &#=
+8220;becomes deliverable&#8221; here may not be clear.&nbsp; I believe your=
+ intention is that when the HV decides to deliver a guest OS interrupt, it =
+must cause the SVSM to run.</span><span style=3D"font-size:10.0pt;font-fami=
+ly:&quot;Georgia&quot;,serif"><o:p></o:p></span></li></ul>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">Yes, this is what I meant by deliverable, and=
+ I now see why this caused confusion because the CPU defines &#8220;deliver=
+able&#8221; to mean when the IDT dispatch can occur, which
+ is different.&nbsp; I can clarify this.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<ul style=3D"margin-top:0in" type=3D"disc">
+<li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l0 level1 =
+lfo1;text-autospace:none">
+<i><span style=3D"font-size:11.0pt">p.2: &#8220;The hypervisor is expected =
+to cause the SVSM to run any time delivery of an interrupt would result in =
+injection of #HV to the SVSM.&#8221;<o:p></o:p></span></i></li><li class=3D=
+"MsoListParagraph" style=3D"margin-left:0in;mso-list:l0 level1 lfo1"><span =
+style=3D"font-size:11.0pt">This is just basic Restricted Injection behavior=
+ I believe&#8230;in order to send an interrupt to the SVSM the HV must inje=
+ct a #HV into the SVSM and then
+ run it.&nbsp; I don&#8217;t think any of that changes with this Alternate =
+Injection spec (right?)<o:p></o:p></span></li></ul>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">This is made more complex by the presence of =
+multiple VMPLs, where I don&#8217;t think we have any clear specification (=
+including in Restricted Injection documentation) about
+ scheduling considerations.&nbsp; The point here is that whenever the proce=
+ss of delivering an interrupt to a lower VMPL makes the hypervisor conclude=
+ that a notification is due to the SVSM, then the SVSM (i.e. VMPL 0) must b=
+e selected to run next on that vCPU.&nbsp;
+ I&#8217;m encouraged that you think this should be implicit from existing =
+language, but that was less obvious to me.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<ul style=3D"margin-top:0in" type=3D"disc">
+<li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l0 level1 =
+lfo1"><span style=3D"font-size:11.0pt">Shouldn&#8217;t this be bits 8, 9, o=
+r 10?<o:p></o:p></span></li></ul>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">This is an editing error from a previous draf=
+t.&nbsp; Thanks for pointing it out.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<ul style=3D"margin-top:0in" type=3D"disc">
+<li class=3D"MsoListParagraph" style=3D"color:blue;margin-left:0in;mso-list=
+:l0 level1 lfo1">
+<span style=3D"font-size:11.0pt;color:windowtext">I would suggest consideri=
+ng defining names for each of these fields, and including a table showing t=
+he overall layout.&nbsp;</span><span style=3D"font-size:10.0pt;font-family:=
+&quot;Georgia&quot;,serif"><o:p></o:p></span></li></ul>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">I agree that this should happen once this beh=
+avior is incorporated into the GHCB/SVSM specifications owned by AMD.&nbsp;=
+ My aim here was to describe the behavior and the standards
+ changes required, not to create authoritative documentation.<o:p></o:p></s=
+pan></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<ul style=3D"margin-top:0in" type=3D"disc">
+<li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l0 level1 =
+lfo1"><span style=3D"font-size:11.0pt">The statement about the SVSM having =
+to know if the first component supports Alternate Injection is for security=
+, correct?&nbsp; That is, if the guest wants
+ interrupt security then it&#8217;ll want Alternate Injection enabled from =
+the beginning.&nbsp; If that&#8217;s the case, then the SVSM *<b>must</b>* =
+enable Alternate Injection prior to the first guest entry (not &#8220;may&#=
+8221;) true?<o:p></o:p></span></li></ul>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">I think this is another leftover from previou=
+s revisions.&nbsp; I agree that this must be stated more clearly.<o:p></o:p=
+></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<ul style=3D"margin-top:0in" type=3D"disc">
+<li class=3D"MsoListParagraph" style=3D"color:blue;margin-left:0in;mso-list=
+:l0 level1 lfo1">
+<span style=3D"font-size:11.0pt;color:windowtext">Another idea to consider:=
+ What if you had a counter that increments when someone requested Alternate=
+ Injection and decremented when they asked to disable it.&nbsp; And the fea=
+ture is enabled when the counter is &gt; 0.&nbsp;
+ I think that would also solve your problem of guest FW not knowing if the =
+guest OS will want the feature or not.</span><span style=3D"font-size:10.0p=
+t;font-family:&quot;Georgia&quot;,serif"><o:p></o:p></span></li></ul>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">This is a great idea and eliminates all of th=
+e Enabled/Disabled/Locked confusion that you were concerned about.&nbsp; I =
+will plan to make this change, which I think will make
+ your feedback about the Enabled/Disabled/Locked state machine moot.<o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<ul style=3D"margin-top:0in" type=3D"disc">
+<li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l0 level1 =
+lfo1"><span style=3D"font-size:11.0pt">This probably a bit unrelated to the=
+ spec itself as this is really about the internal implementation of the SVS=
+M.&nbsp; But I think the important point is
+ that the SVSM may be running (for whatever reason), the HV can send it a #=
+HV, and then when the SVSM requests a VMPL change the HV should assume that=
+ the SVSM has processed the information from the #HV.<o:p></o:p></span></li=
+></ul>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">Yes, but this fact is not necessarily obvious=
+ to someone who implements the SVSM protocol.&nbsp; I thought it would be h=
+elpful to point out, but it need not be part of the
+ text that is incorporated into the SVSM specification.&nbsp; It&#8217;s al=
+so helpful to underscore it here because the protocol could alternately hav=
+e been designed to state that it was the hypervisor&#8217;s responsibility =
+to prevent the VMPL switch if the #HV NoFurtherSignal
+ bit was still set (meaning the pending interrupt had not yet been processe=
+d) &#8211; so stating the SVSM&#8217;s responsibility here in the document =
+emphasizes the fact that the tradeoff has been considered and the responsib=
+ility lies with the SVSM and not the hypervisor.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<ul style=3D"margin-top:0in" type=3D"disc">
+<li class=3D"MsoListParagraph" style=3D"color:blue;margin-left:0in;mso-list=
+:l0 level1 lfo1">
+<span style=3D"font-size:11.0pt;color:windowtext">I am concerned about the =
+fact that once Disabled, Alternate Injection can&#8217;t be re-enabled.&nbs=
+p; Is that really required?&nbsp; For instance, what if we&#8217;re running=
+ a guest OS that doesn&#8217;t understand alternate injection
+ and then we kexec into a kernel that does.</span><span style=3D"font-size:=
+10.0pt;font-family:&quot;Georgia&quot;,serif"><o:p></o:p></span></li></ul>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">Reenabling Alternate Injection would require =
+transferring all of the APIC state from the hypervisor to the SVSM &#8211; =
+not just the IRR, but the ISR and TMR &#8211; so the future
+ uses of the protocol can correctly apply to any interrupts that are alread=
+y in service.&nbsp; This introduces complexity that strikes me as unnecessa=
+ry &#8211; or at least not compelling enough to be worth it &#8211; given t=
+hat once Alternate Injection is disabled, the security
+ state of the guest has regressed and the absolute promise of &#8220;no hos=
+t interference&#8221; no longer applies.&nbsp; Once that promise is gone &#=
+8211; i.e., once the guest accepts that it can be placed into a vulnerable =
+posture &#8211; it&#8217;s not clear to me why it&#8217;s compelling to ret=
+urn
+ to a more roust posture.&nbsp; I would suggest proceeding without this cap=
+ability, and if it becomes important, then it can be added in a future vers=
+ion of the specification.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<ul style=3D"margin-top:0in" type=3D"disc">
+<li class=3D"MsoListParagraph" style=3D"color:blue;margin-left:0in;mso-list=
+:l0 level1 lfo1">
+<span style=3D"font-size:11.0pt;color:windowtext">Minor clarification but I=
+ would say that this simply disables Alternate Injection but doesn&#8217;t =
+necessarily require the HV to deliver events to the guest using direct even=
+t injection.&nbsp; There are other interrupt
+ delivery mechanisms too (including Secure AVIC as described in APM vol2).<=
+/span><span style=3D"font-size:10.0pt;font-family:&quot;Georgia&quot;,serif=
+"><o:p></o:p></span></li></ul>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">This spec was drafted before Secure AVIC was =
+documented in the APM.&nbsp; I take your point, though it may be more effec=
+tive to accomplish the clarity in the language that
+ is ultimately incorporated into the SVSM specficiation.<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">-Jon<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<div>
+<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
+font-family:&quot;Calibri&quot;,sans-serif"> Kaplan, David &lt;David.Kaplan=
+@amd.com&gt;
+<br>
+<b>Sent:</b> Thursday, May 23, 2024 10:06 AM<br>
+<b>To:</b> Jon Lange &lt;jlange@microsoft.com&gt;; amd-sev-snp@lists.suse.c=
+om; svsm-devel@coconut-svsm.dev<br>
+<b>Subject:</b> [EXTERNAL] RE: RFC: Alternate Injection SVSM support<o:p></=
+o:p></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:5.0pt"><span style=3D"font-size:10.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif;color:blue">[AMD Official Use Only - AMD Internal=
+ Distribution Only]<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
 <p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Thanks Jon for writ=
 ing and sharing this!&nbsp; I have a few questions/comments on the spec:<o:=
 p></o:p></span></p>
 <p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
 span></p>
 <p class=3D"MsoNormal" style=3D"text-autospace:none"><i><span style=3D"font=
--size:11.0pt">p.1: &#8220;</span></i><i><span style=3D"font-size:11.0pt">SV=
-SM involvement is required to present interrupts to the guest OS, so when a=
- guest OS interrupt<o:p></o:p></span></i></p>
+-size:11.0pt">p.1: &#8220;SVSM involvement is required to present interrupt=
+s to the guest OS, so when a guest OS interrupt<o:p></o:p></span></i></p>
 <p class=3D"MsoNormal"><i><span style=3D"font-size:11.0pt">becomes delivera=
 ble, it is necessary to cause the SVSM to run&#8221;<o:p></o:p></span></i><=
 /p>
@@ -312,13 +733,10 @@ p>
 <p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
 span></p>
 <p class=3D"MsoNormal" style=3D"text-autospace:none"><i><span style=3D"font=
--size:11.0pt">p.4:
-</span></i><i><span style=3D"font-size:11.0pt">If the SVSM does know that t=
-he first component to execute will support the SVSM APIC Protocol, then<o:p=
-></o:p></span></i></p>
+-size:11.0pt">p.4: If the SVSM does know that the first component to execut=
+e will support the SVSM APIC Protocol, then<o:p></o:p></span></i></p>
 <p class=3D"MsoNormal"><i><span style=3D"font-size:11.0pt">it may enable Al=
-ternate Injection prior to the first guest entry;</span></i><i><span style=
-=3D"font-size:11.0pt"><o:p></o:p></span></i></p>
+ternate Injection prior to the first guest entry;<o:p></o:p></span></i></p>
 <p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
 span></p>
 <p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">The statement about=
@@ -366,9 +784,8 @@ he counter to 2.&nbsp; Then guest FW disables
 <p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
 span></p>
 <p class=3D"MsoNormal" style=3D"text-autospace:none"><i><span style=3D"font=
--size:11.0pt">p. 5: &#8220;</span></i><i><span style=3D"font-size:11.0pt">C=
-onsequently, the SVSM must be designed so that once it passes the point whe=
-re<o:p></o:p></span></i></p>
+-size:11.0pt">p. 5: &#8220;Consequently, the SVSM must be designed so that =
+once it passes the point where<o:p></o:p></span></i></p>
 <p class=3D"MsoNormal" style=3D"text-autospace:none"><i><span style=3D"font=
 -size:11.0pt">it commits to entering the lower VMPL, any delivery of #HV th=
 at indicates interrupt delivery to the<o:p></o:p></span></i></p>
@@ -376,8 +793,7 @@ at indicates interrupt delivery to the<o:p></o:p></span></i></p>
 -size:11.0pt">lower VMPL will cause it to cancel the VMGEXIT that would cau=
 se a return to the lower VMPL, so<o:p></o:p></span></i></p>
 <p class=3D"MsoNormal"><i><span style=3D"font-size:11.0pt">that it can proc=
-ess the interrupt that has been signaled.&#8221;</span></i><i><span style=
-=3D"font-size:11.0pt"><o:p></o:p></span></i></p>
+ess the interrupt that has been signaled.&#8221;<o:p></o:p></span></i></p>
 <p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
 span></p>
 <p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">This probably a bit=
@@ -420,11 +836,15 @@ span></p>
 0in 0in">
 <p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
 ;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
-font-family:&quot;Calibri&quot;,sans-serif"> AMD-SEV-SNP &lt;amd-sev-snp-bo=
-unces+david.kaplan=3Damd.com@lists.suse.com&gt;
+font-family:&quot;Calibri&quot;,sans-serif"> AMD-SEV-SNP &lt;<a href=3D"mai=
+lto:amd-sev-snp-bounces+david.kaplan=3Damd.com@lists.suse.com">amd-sev-snp-=
+bounces+david.kaplan=3Damd.com@lists.suse.com</a>&gt;
 <b>On Behalf Of </b>Jon Lange<br>
 <b>Sent:</b> Thursday, May 16, 2024 11:40 PM<br>
-<b>To:</b> amd-sev-snp@lists.suse.com; svsm-devel@coconut-svsm.dev<br>
+<b>To:</b> <a href=3D"mailto:amd-sev-snp@lists.suse.com">amd-sev-snp@lists.=
+suse.com</a>;
+<a href=3D"mailto:svsm-devel@coconut-svsm.dev">svsm-devel@coconut-svsm.dev<=
+/a><br>
 <b>Subject:</b> RFC: Alternate Injection SVSM support<o:p></o:p></span></p>
 </div>
 </div>
@@ -507,4 +927,4 @@ style=3D"font-size:10.0pt;font-family:&quot;Georgia&quot;,serif"><o:p></o:p=
 </body>
 </html>
 
---_000_DS7PR12MB57668C5D8AE281740909574B94F42DS7PR12MB5766namp_--
+--_000_DS7PR21MB3524D4C48D6A51302783F0C3CAF42DS7PR21MB3524namp_--
