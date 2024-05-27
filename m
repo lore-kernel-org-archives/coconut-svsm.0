@@ -3,35 +3,33 @@ Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 210DC1C7195
- for <svsm-devel@coconut-svsm.dev>; Mon, 27 May 2024 14:01:39 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id F30641C0DAD
+ for <svsm-devel@coconut-svsm.dev>; Mon, 27 May 2024 14:33:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1716811295; bh=kFJbAAz0Ge0oQNpUds7hPofKuWTKPhhEYoWu+CDfR7w=;
+ t=1716813224; bh=+KQ1XXPKYiyM2BBxP7vDHilnO6xgA3d3JBHZpfRVIW8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VRgtj16qkJpX3zuhQokUE9F7o0l8Z6Hduxi/hxfNla+AptmoJJGyoKSZxLyepgE+7
- udOjNmeZIHJX9vIK2yKWfTGrtDYJKLRQ8VEZh7TmKwrF5JlaVZGCyFEW+HE7wbJMAd
- MyFLBnwJrKDU1LR+29UEh/fItXxnQvagSwvk7kyS67UYuoKwsOYtH2ZuPbW6ZGXGVZ
- Payjce71JOapupgHLm3r0SVT2yzfKZxcPWGCqs/BVD7lmwvA50r7X1uUvYn1op4+CW
- 650GkjNXwQqg4dPWfs5IM8OpPhAD1b6035EEjHQZXYjI4e0A+DfGpVBQeJ2AtOUU6s
- 5NOSiSgOtU3S5ue+dHn9J5DE6W35qR/SCl9fRzTITFl9W1QtB51KmGEdh3OVx/dw9I
- 2S70fsSS6NeNX9vHknF9V0ys2dQ/9qwM4DOGdzaBC29DSrxPoQkpEGegd65QR/2s8r
- Px7OG1RwFeb97NwslBEgvU6hdgSXdwUkjU9l3gznGoIzSKeaxScIAuV4mgdbmiJGQP
- 3uvaIUiorY6yNj3Y/wkyeLVYXD4iRSFWYuCotPOf2xCIpSNBPVaUy+2XoDE+V0TrZH
- 6S0U65tOh1WantTuA5gj9DJ53tG3XdlYlomiFPeJluGqGnE+hjshSE2CoNbRQJQuMG
- Cj7CTYij63C7u8xIa5Dh3S2E=
-Date: Mon, 27 May 2024 14:01:14 +0200
+ b=MDuMiMvOnVl/o/XhDMvbOYg3o/XU5nS45zcZIu2GSiQvmybJVGnSqNbAFYSxButLQ
+ TU9EyUl57PnV3M/VbRpumxQ0PCa3PRnMbdTnjacqvtWdbdRSLWI3sb5dUzwqSNkIcO
+ XuKhmSFjvh5q76HZQmNLySdgNY995WBjukkw3DZTz2yqaZVztk0ms4sE9mrDG7xoZl
+ ELfn5bkcv+fAS4LJGJ829D7tAu9QY4txE+KNAJOubqRxTOW8Q/x32p8OAUIHjlnkpC
+ ZgPdd3ESyksr++z8T791SxoaxsjTTe0+BLVO04zqBlzMn5QbXDQp4CRTOKszNg7+lT
+ XAB/4P6u+7nd88NrKqdQmM7Ia9I40RtoHDfO/XUUr8IfXStnyyV/69I0BmnAvcaSz7
+ FfHunVX2ZgPkuy8kQDoi2jgzfk5bD8QlCS4Wk73VzLlvravgbGP2S8TR9YoZyjGwY3
+ wj3kwEgS3bAMCP19c/lqGCUXB+stXu1eHjXeRAjLCil/LCuL7AsqU0LNy1qRVZgZlE
+ 4WuXX/MU8xBfiMKqQ22vmhi4+nViNrL/u9mNmPKSE4UAm78qSzBTe3kw73u4AUDISD
+ 1xXvmldfFWufIhU8JgwUZLdEIf1USAstLpdco2YP8ScIPYRFslw3aFUy4FFrL6nRjC
+ LW9xkVjajInrdwHHrIg7nmtk=
+Date: Mon, 27 May 2024 14:33:24 +0200
 From: Borislav Petkov <bp@alien8.de>
-Message-ID: <20240527120114.GCZlR2Cpu_8rJXlMOS@fat_crate.local>
+Message-ID: <20240527123304.GBZlR9gBzBIjqEKKo6@fat_crate.local>
 References: <cover.1713974291.git.thomas.lendacky@amd.com>
- <ce5f7ded87868adce2f4724415313229a8bf3eb3.1713974291.git.thomas.lendacky@amd.com>
- <20240522182403.GAZk44Q7DalfDBk7Br@fat_crate.local>
- <408e9902-d9b1-d087-a44d-fb27342cf21f@amd.com>
+ <aa7f311d90efb49dfa6f4589854ee43c049b7b88.1713974291.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <408e9902-d9b1-d087-a44d-fb27342cf21f@amd.com>
-Subject: Re: [svsm-devel] [PATCH v4 06/15] x86/sev: Perform PVALIDATE using
- the SVSM when not at VMPL0
+In-Reply-To: <aa7f311d90efb49dfa6f4589854ee43c049b7b88.1713974291.git.thomas.lendacky@amd.com>
+Subject: Re: [svsm-devel] [PATCH v4 07/15] x86/sev: Use the SVSM to create a
+ vCPU when not in VMPL0
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -43,29 +41,100 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
 To: Tom Lendacky <thomas.lendacky@amd.com>
 Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-On Wed, May 22, 2024 at 04:14:54PM -0500, Tom Lendacky wrote:
-> Right, changing that from previous comment. But are you also asking that the
-> if / else style be used?
+On Wed, Apr 24, 2024 at 10:58:03AM -0500, Tom Lendacky wrote:
+> -static int snp_set_vmsa(void *va, bool vmsa)
+> +static int base_snp_set_vmsa(void *va, bool vmsa)
 
-Yeah, please. It is trivial and thus more readable this way.
+s/base_/__/
 
-> Sure, I'll add more comments or expand the comment above.
+The svsm_-prefixed ones are already a good enough distinction...
 
-Yes, and pls split it into helpers. Those bunch of nested loops are
-kinda begging to be separate function helpers.
+>  {
+>  	u64 attrs;
+>  
+> @@ -1013,6 +1013,40 @@ static int snp_set_vmsa(void *va, bool vmsa)
+>  	return rmpadjust((unsigned long)va, RMP_PG_SIZE_4K, attrs);
+>  }
+>  
+> +static int svsm_snp_set_vmsa(void *va, void *caa, int apic_id, bool vmsa)
+								  ^^^^^^^^^^^
 
-> That's because you can only pass a certain number of entries to the SVSM to
-> handle at one time. If the kernel is in the process of validating, say,
-> 1,000 entries, but the CA can only hold 511 at a time, then after it reaches
-> the 511th entry, the SVSM must be called. Upon return, the kernel resets the
-> CA area and builds up the entries in there again, calling the SVSM again
-> when the area is again full or we reach the last entry to be validated.
-> 
-> I'll add more detail in the comments.
+bool create_vmsa or so, to denote what this arg means.
 
-Yeah, that "portioning" must be explained there.
+> +{
+> +	struct svsm_call call = {};
+> +	unsigned long flags;
+> +	int ret;
+> +
+> +	local_irq_save(flags);
+> +
+> +	call.caa = this_cpu_read(svsm_caa);
+> +	call.rcx = __pa(va);
+> +
+> +	if (vmsa) {
+> +		/* Protocol 0, Call ID 2 */
+> +		call.rax = SVSM_CORE_CALL(SVSM_CORE_CREATE_VCPU);
+> +		call.rdx = __pa(caa);
+> +		call.r8  = apic_id;
+> +	} else {
+> +		/* Protocol 0, Call ID 3 */
+> +		call.rax = SVSM_CORE_CALL(SVSM_CORE_DELETE_VCPU);
+> +	}
+> +
+> +	ret = svsm_protocol(&call);
+> +
+> +	local_irq_restore(flags);
+> +
+> +	return ret;
+> +}
+> +
+> +static int snp_set_vmsa(void *va, void *caa, int apic_id, bool vmsa)
+> +{
+> +	return vmpl ? svsm_snp_set_vmsa(va, caa, apic_id, vmsa)
+> +		    : base_snp_set_vmsa(va, vmsa);
 
-Thx.
+Why do you even need helpers if you're not going to use them somewhere
+else? Just put the whole logic inside snp_set_vmsa().
+
+> +}
+> +
+>  #define __ATTR_BASE		(SVM_SELECTOR_P_MASK | SVM_SELECTOR_S_MASK)
+>  #define INIT_CS_ATTRIBS		(__ATTR_BASE | SVM_SELECTOR_READ_MASK | SVM_SELECTOR_CODE_MASK)
+>  #define INIT_DS_ATTRIBS		(__ATTR_BASE | SVM_SELECTOR_WRITE_MASK)
+> @@ -1044,11 +1078,11 @@ static void *snp_alloc_vmsa_page(int cpu)
+>  	return page_address(p + 1);
+>  }
+>  
+> -static void snp_cleanup_vmsa(struct sev_es_save_area *vmsa)
+> +static void snp_cleanup_vmsa(struct sev_es_save_area *vmsa, int apic_id)
+>  {
+>  	int err;
+>  
+> -	err = snp_set_vmsa(vmsa, false);
+> +	err = snp_set_vmsa(vmsa, NULL, apic_id, false);
+>  	if (err)
+>  		pr_err("clear VMSA page failed (%u), leaking page\n", err);
+>  	else
+> @@ -1059,6 +1093,7 @@ static int wakeup_cpu_via_vmgexit(u32 apic_id, unsigned long start_ip)
+>  {
+>  	struct sev_es_save_area *cur_vmsa, *vmsa;
+>  	struct ghcb_state state;
+> +	struct svsm_ca *caa;
+>  	unsigned long flags;
+>  	struct ghcb *ghcb;
+>  	u8 sipi_vector;
+> @@ -1105,6 +1140,12 @@ static int wakeup_cpu_via_vmgexit(u32 apic_id, unsigned long start_ip)
+>  	if (!vmsa)
+>  		return -ENOMEM;
+>  
+> +	/*
+> +	 * If an SVSM is present, then the SVSM CAA per-CPU variable will
+> +	 * have a value, otherwise it will be NULL.
+> +	 */
+
+	/* If an SVSM is present, the SVSM per-CPU CAA will be !NULL. */
+
+Shorter.
 
 -- 
 Regards/Gruss,
