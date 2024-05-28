@@ -1,28 +1,28 @@
 Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on20600.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2405::600])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on20629.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e88::629])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id CF9A81C0DAD
- for <svsm-devel@coconut-svsm.dev>; Tue, 28 May 2024 22:28:38 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id 38E321C0DAD
+ for <svsm-devel@coconut-svsm.dev>; Tue, 28 May 2024 22:57:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SvssJWYkgWMSEBgNBbAXLccgKpcaBAe8L+cU1d8MHkk=;
- b=UvOU6M0ni0DsUo4Itcn22zUbqE/wtPxkzrE85qq3mp96xAMl5CcX9IvQXr8cwdHjoMgQdBUWiyTWSKJYNZ9PmNMzK0X2UfeiA1BA3g68yWrbfAi5tPkuD41HY6a9eNqdWCU9uhwunseM7jtCStgXJblOMLNSEuzcMlOsvyTq8Eg=
-Message-ID: <4f704d19-088a-89d7-0515-144db61b93a5@amd.com>
-Date: Tue, 28 May 2024 15:28:28 -0500
+ bh=UiYKByk6VE8Tkr30TiNVpM2GIy8o5j+eOTSOymy04TA=;
+ b=nWvlWUB86XvETXXFNzj1mOqPFzuaP8LdopM7bP60ppWONx3+i0EZF+pzdK/EaqFtEIVYG+KGrq0og3V2rSrWL8ZotY3fQtbG/JFNWW9TaEuo1Gw/mQ5KexiB6fGHcjjrqz4juE0c3g0jdgordWAIjX4lQPVh7vsexN4IF9dPeZM=
+Message-ID: <ab9e93f0-132e-b7cc-48e0-f83463003e21@amd.com>
+Date: Tue, 28 May 2024 15:57:10 -0500
 Content-Language: en-US
 References: <cover.1713974291.git.thomas.lendacky@amd.com>
- <aa7f311d90efb49dfa6f4589854ee43c049b7b88.1713974291.git.thomas.lendacky@amd.com>
- <20240527123304.GBZlR9gBzBIjqEKKo6@fat_crate.local>
+ <0b460ba621d39fda47694332f09301b440619efc.1713974291.git.thomas.lendacky@amd.com>
+ <20240527131022.GAZlSGPm_s0FAu_BRB@fat_crate.local>
 From: Tom Lendacky <thomas.lendacky@amd.com>
-In-Reply-To: <20240527123304.GBZlR9gBzBIjqEKKo6@fat_crate.local>
+In-Reply-To: <20240527131022.GAZlSGPm_s0FAu_BRB@fat_crate.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [PATCH v4 07/15] x86/sev: Use the SVSM to create a
- vCPU when not in VMPL0
+Subject: Re: [svsm-devel] [PATCH v4 08/15] x86/sev: Provide SVSM discovery
+ support
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -34,116 +34,180 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
 To: Borislav Petkov <bp@alien8.de>
 Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-On 5/27/24 07:33, Borislav Petkov wrote:
-> On Wed, Apr 24, 2024 at 10:58:03AM -0500, Tom Lendacky wrote:
->> -static int snp_set_vmsa(void *va, bool vmsa)
->> +static int base_snp_set_vmsa(void *va, bool vmsa)
+On 5/27/24 08:10, Borislav Petkov wrote:
+> On Wed, Apr 24, 2024 at 10:58:04AM -0500, Tom Lendacky wrote:
+>> The SVSM specification documents an alternative method of discovery for
+>> the SVSM using a reserved CPUID bit and a reserved MSR.
 > 
-> s/base_/__/
+> Yes, and all your code places where you do
+> 
+> 	if (vmpl)
+> 
+> to check whether the guest is running over a SVSM should do the CPUID
+> check. We should not be hardcoding the VMPL level to mean a SVSM is
+> present.
+
+The alternative method is really meant for things like UEFI runtime 
+services (which uses the kernels #VC handler), not the kernel directly.
+
+Some of those checks have to be made very early, I'll see if it is 
+feasible to rely on the CPUID check / cpu_feature_enabled() support.
+
+We can separate out SVSM vs VMPL, but if the kernel isn't running at 
+VMPL0 then it requires that an SVSM be present.
+
+> 
+>>
+>> For the CPUID support, the SNP CPUID table is updated to set bit 28 of
+> 
+> s/is updated/update the.../
 
 Ok.
 
 > 
-> The svsm_-prefixed ones are already a good enough distinction...
+>> the EAX register of the 0x8000001f leaf when an SVSM is present. This bit
+>> has been reserved for use in this capacity.
+>>
+>> For the MSR support, a new reserved MSR 0xc001f000 has been defined. A #VC
+>> should be generated when accessing this MSR. The #VC handler is expected
+>> to ignore writes to this MSR and return the physical calling area address
+>> (CAA) on reads of this MSR.
+>>
+>> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+>> ---
+>>   arch/x86/include/asm/cpufeatures.h |  1 +
+>>   arch/x86/include/asm/msr-index.h   |  2 ++
+>>   arch/x86/kernel/sev-shared.c       | 11 +++++++++++
+>>   arch/x86/kernel/sev.c              | 17 +++++++++++++++++
+>>   4 files changed, 31 insertions(+)
+>>
+>> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+>> index 3c7434329661..a17a81b3189b 100644
+>> --- a/arch/x86/include/asm/cpufeatures.h
+>> +++ b/arch/x86/include/asm/cpufeatures.h
+>> @@ -446,6 +446,7 @@
+>>   #define X86_FEATURE_V_TSC_AUX		(19*32+ 9) /* "" Virtual TSC_AUX */
+>>   #define X86_FEATURE_SME_COHERENT	(19*32+10) /* "" AMD hardware-enforced cache coherency */
+>>   #define X86_FEATURE_DEBUG_SWAP		(19*32+14) /* AMD SEV-ES full debug state swap support */
+>> +#define X86_FEATURE_SVSM_PRESENT	(19*32+28) /* "" SNP SVSM is present */
 > 
+> X86_FEATURE_SVSM is better right?
+> 
+> And then we might even want to show it in /proc/cpuinfo here to really
+> say that we're running over a SVSM as that might be useful info. Think
+> alternate injection support for one.
+
+Yep, will do.
+
+> 
+>>   /* AMD-defined Extended Feature 2 EAX, CPUID level 0x80000021 (EAX), word 20 */
+>>   #define X86_FEATURE_NO_NESTED_DATA_BP	(20*32+ 0) /* "" No Nested Data Breakpoints */
+>> diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+>> index e022e6eb766c..45ffa27569f4 100644
+>> --- a/arch/x86/include/asm/msr-index.h
+>> +++ b/arch/x86/include/asm/msr-index.h
+>> @@ -660,6 +660,8 @@
+>>   #define MSR_AMD64_RMP_BASE		0xc0010132
+>>   #define MSR_AMD64_RMP_END		0xc0010133
+>>   
+>> +#define MSR_SVSM_CAA			0xc001f000
+>> +
+>>   /* AMD Collaborative Processor Performance Control MSRs */
+>>   #define MSR_AMD_CPPC_CAP1		0xc00102b0
+>>   #define MSR_AMD_CPPC_ENABLE		0xc00102b1
+>> diff --git a/arch/x86/kernel/sev-shared.c b/arch/x86/kernel/sev-shared.c
+>> index b415b10a0823..50db783f151e 100644
+>> --- a/arch/x86/kernel/sev-shared.c
+>> +++ b/arch/x86/kernel/sev-shared.c
+>> @@ -1561,6 +1561,8 @@ static enum es_result vc_check_opcode_bytes(struct es_em_ctxt *ctxt,
+>>   static void __head setup_svsm_ca(const struct cc_blob_sev_info *cc_info)
 >>   {
->>   	u64 attrs;
+>>   	struct snp_secrets_page *secrets_page;
+>> +	struct snp_cpuid_table *cpuid_table;
+>> +	unsigned int i;
+>>   	u64 caa;
 >>   
->> @@ -1013,6 +1013,40 @@ static int snp_set_vmsa(void *va, bool vmsa)
->>   	return rmpadjust((unsigned long)va, RMP_PG_SIZE_4K, attrs);
->>   }
->>   
->> +static int svsm_snp_set_vmsa(void *va, void *caa, int apic_id, bool vmsa)
-> 								  ^^^^^^^^^^^
-> 
-> bool create_vmsa or so, to denote what this arg means.
-
-Ok. I'll change it on the original function, too.
-
-> 
->> +{
->> +	struct svsm_call call = {};
->> +	unsigned long flags;
->> +	int ret;
+>>   	BUILD_BUG_ON(sizeof(*secrets_page) != PAGE_SIZE);
+>> @@ -1607,4 +1609,13 @@ static void __head setup_svsm_ca(const struct cc_blob_sev_info *cc_info)
+>>   	 */
+>>   	boot_svsm_caa = (struct svsm_ca *)caa;
+>>   	boot_svsm_caa_pa = caa;
 >> +
->> +	local_irq_save(flags);
+>> +	/* Advertise the SVSM presence via CPUID. */
+>> +	cpuid_table = (struct snp_cpuid_table *)snp_cpuid_get_table();
+>> +	for (i = 0; i < cpuid_table->count; i++) {
+>> +		struct snp_cpuid_fn *fn = &cpuid_table->fn[i];
 >> +
->> +	call.caa = this_cpu_read(svsm_caa);
->> +	call.rcx = __pa(va);
->> +
->> +	if (vmsa) {
->> +		/* Protocol 0, Call ID 2 */
->> +		call.rax = SVSM_CORE_CALL(SVSM_CORE_CREATE_VCPU);
->> +		call.rdx = __pa(caa);
->> +		call.r8  = apic_id;
->> +	} else {
->> +		/* Protocol 0, Call ID 3 */
->> +		call.rax = SVSM_CORE_CALL(SVSM_CORE_DELETE_VCPU);
+>> +		if (fn->eax_in == 0x8000001f)
+>> +			fn->eax |= BIT(28);
 >> +	}
->> +
->> +	ret = svsm_protocol(&call);
->> +
->> +	local_irq_restore(flags);
->> +
->> +	return ret;
->> +}
->> +
->> +static int snp_set_vmsa(void *va, void *caa, int apic_id, bool vmsa)
->> +{
->> +	return vmpl ? svsm_snp_set_vmsa(va, caa, apic_id, vmsa)
->> +		    : base_snp_set_vmsa(va, vmsa);
-> 
-> Why do you even need helpers if you're not going to use them somewhere
-> else? Just put the whole logic inside snp_set_vmsa().
-
-I just think it's easier to follow, with specific functions for the 
-situation and less indentation. But if you want, I can put it all in one 
-function.
-
-> 
->> +}
->> +
->>   #define __ATTR_BASE		(SVM_SELECTOR_P_MASK | SVM_SELECTOR_S_MASK)
->>   #define INIT_CS_ATTRIBS		(__ATTR_BASE | SVM_SELECTOR_READ_MASK | SVM_SELECTOR_CODE_MASK)
->>   #define INIT_DS_ATTRIBS		(__ATTR_BASE | SVM_SELECTOR_WRITE_MASK)
->> @@ -1044,11 +1078,11 @@ static void *snp_alloc_vmsa_page(int cpu)
->>   	return page_address(p + 1);
+>>   }
+>> diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
+>> index 3f4342b31736..69a756781d90 100644
+>> --- a/arch/x86/kernel/sev.c
+>> +++ b/arch/x86/kernel/sev.c
+>> @@ -1326,12 +1326,29 @@ int __init sev_es_efi_map_ghcbs(pgd_t *pgd)
+>>   	return 0;
 >>   }
 >>   
->> -static void snp_cleanup_vmsa(struct sev_es_save_area *vmsa)
->> +static void snp_cleanup_vmsa(struct sev_es_save_area *vmsa, int apic_id)
->>   {
->>   	int err;
->>   
->> -	err = snp_set_vmsa(vmsa, false);
->> +	err = snp_set_vmsa(vmsa, NULL, apic_id, false);
->>   	if (err)
->>   		pr_err("clear VMSA page failed (%u), leaking page\n", err);
->>   	else
->> @@ -1059,6 +1093,7 @@ static int wakeup_cpu_via_vmgexit(u32 apic_id, unsigned long start_ip)
->>   {
->>   	struct sev_es_save_area *cur_vmsa, *vmsa;
->>   	struct ghcb_state state;
->> +	struct svsm_ca *caa;
->>   	unsigned long flags;
->>   	struct ghcb *ghcb;
->>   	u8 sipi_vector;
->> @@ -1105,6 +1140,12 @@ static int wakeup_cpu_via_vmgexit(u32 apic_id, unsigned long start_ip)
->>   	if (!vmsa)
->>   		return -ENOMEM;
->>   
->> +	/*
->> +	 * If an SVSM is present, then the SVSM CAA per-CPU variable will
->> +	 * have a value, otherwise it will be NULL.
->> +	 */
+>> +static enum es_result vc_handle_svsm_caa_msr(struct es_em_ctxt *ctxt)
 > 
-> 	/* If an SVSM is present, the SVSM per-CPU CAA will be !NULL. */
-> 
-> Shorter.
+> No need for that helper. And you can reuse the exit_info_1 assignment.
+> Diff ontop:
 
-Yep.
+I'll incorporate this, but probably won't change the way exit_info_1 is 
+assigned.
 
 Thanks,
 Tom
 
+> 
+> diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
+> index 40eb547d0d6c..7a248d66227e 100644
+> --- a/arch/x86/kernel/sev.c
+> +++ b/arch/x86/kernel/sev.c
+> @@ -1326,31 +1326,25 @@ int __init sev_es_efi_map_ghcbs(pgd_t *pgd)
+>   	return 0;
+>   }
+>   
+> -static enum es_result vc_handle_svsm_caa_msr(struct es_em_ctxt *ctxt)
+> -{
+> -	struct pt_regs *regs = ctxt->regs;
+> -
+> -	/* Writes to the SVSM CAA msr are ignored */
+> -	if (ctxt->insn.opcode.bytes[1] == 0x30)
+> -		return ES_OK;
+> -
+> -	regs->ax = lower_32_bits(this_cpu_read(svsm_caa_pa));
+> -	regs->dx = upper_32_bits(this_cpu_read(svsm_caa_pa));
+> -
+> -	return ES_OK;
+> -}
+> -
+>   static enum es_result vc_handle_msr(struct ghcb *ghcb, struct es_em_ctxt *ctxt)
+>   {
+>   	struct pt_regs *regs = ctxt->regs;
+>   	enum es_result ret;
+>   	u64 exit_info_1;
+>   
+> -	if (regs->cx == MSR_SVSM_CAA)
+> -		return vc_handle_svsm_caa_msr(ctxt);
+> -
+>   	/* Is it a WRMSR? */
+> -	exit_info_1 = (ctxt->insn.opcode.bytes[1] == 0x30) ? 1 : 0;
+> +	exit_info_1 = !!(ctxt->insn.opcode.bytes[1] == 0x30);
+> +
+> +	if (regs->cx == MSR_SVSM_CAA) {
+> +		/* Writes to the SVSM CAA msr are ignored */
+> +		if (exit_info_1)
+> +			return ES_OK;
+> +
+> +		regs->ax = lower_32_bits(this_cpu_read(svsm_caa_pa));
+> +		regs->dx = upper_32_bits(this_cpu_read(svsm_caa_pa));
+> +
+> +		return ES_OK;
+> +	}
+>   
+>   	ghcb_set_rcx(ghcb, regs->cx);
+>   	if (exit_info_1) {
 > 
