@@ -1,28 +1,28 @@
 Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on20629.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e88::629])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on20600.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2415::600])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 38E321C0DAD
- for <svsm-devel@coconut-svsm.dev>; Tue, 28 May 2024 22:57:15 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id 78A241C27CC
+ for <svsm-devel@coconut-svsm.dev>; Tue, 28 May 2024 23:08:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UiYKByk6VE8Tkr30TiNVpM2GIy8o5j+eOTSOymy04TA=;
- b=nWvlWUB86XvETXXFNzj1mOqPFzuaP8LdopM7bP60ppWONx3+i0EZF+pzdK/EaqFtEIVYG+KGrq0og3V2rSrWL8ZotY3fQtbG/JFNWW9TaEuo1Gw/mQ5KexiB6fGHcjjrqz4juE0c3g0jdgordWAIjX4lQPVh7vsexN4IF9dPeZM=
-Message-ID: <ab9e93f0-132e-b7cc-48e0-f83463003e21@amd.com>
-Date: Tue, 28 May 2024 15:57:10 -0500
+ bh=O+t/iE+uMtVJibx6k6FpKgetzh5oAEDtExhsjYNv6lA=;
+ b=GQ2qDn6+X+2FNJ1c+cA9H/8sPCYq1IwdKJX/99caknugkoGv45eN2YuM5sfh6IIKrG+dCu+hQuo5O4Pr0kO+oNk4jjJt7AzAe82a1Fuefol+au0g9jTQ/MQuRvxORA1KDLZlzzrTDJ/dFgilwg5UnHQkPi4h2uVxAHcXEIpjutk=
+Message-ID: <e7c24be1-dbea-0efd-2661-b626fd655478@amd.com>
+Date: Tue, 28 May 2024 16:08:35 -0500
 Content-Language: en-US
 References: <cover.1713974291.git.thomas.lendacky@amd.com>
- <0b460ba621d39fda47694332f09301b440619efc.1713974291.git.thomas.lendacky@amd.com>
- <20240527131022.GAZlSGPm_s0FAu_BRB@fat_crate.local>
+ <435f78e07c76e25d2d857138724098bc2a729b0a.1713974291.git.thomas.lendacky@amd.com>
+ <20240527135101.GBZlSPxQ6iBSlMDefY@fat_crate.local>
 From: Tom Lendacky <thomas.lendacky@amd.com>
-In-Reply-To: <20240527131022.GAZlSGPm_s0FAu_BRB@fat_crate.local>
+In-Reply-To: <20240527135101.GBZlSPxQ6iBSlMDefY@fat_crate.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [PATCH v4 08/15] x86/sev: Provide SVSM discovery
- support
+Subject: Re: [svsm-devel] [PATCH v4 09/15] x86/sev: Provide guest VMPL level
+ to userspace
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -34,180 +34,64 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
 To: Borislav Petkov <bp@alien8.de>
 Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-On 5/27/24 08:10, Borislav Petkov wrote:
-> On Wed, Apr 24, 2024 at 10:58:04AM -0500, Tom Lendacky wrote:
->> The SVSM specification documents an alternative method of discovery for
->> the SVSM using a reserved CPUID bit and a reserved MSR.
-> 
-> Yes, and all your code places where you do
-> 
-> 	if (vmpl)
-> 
-> to check whether the guest is running over a SVSM should do the CPUID
-> check. We should not be hardcoding the VMPL level to mean a SVSM is
-> present.
-
-The alternative method is really meant for things like UEFI runtime 
-services (which uses the kernels #VC handler), not the kernel directly.
-
-Some of those checks have to be made very early, I'll see if it is 
-feasible to rely on the CPUID check / cpu_feature_enabled() support.
-
-We can separate out SVSM vs VMPL, but if the kernel isn't running at 
-VMPL0 then it requires that an SVSM be present.
-
-> 
+On 5/27/24 08:51, Borislav Petkov wrote:
+> On Wed, Apr 24, 2024 at 10:58:05AM -0500, Tom Lendacky wrote:
+>> Requesting an attestation report from userspace involves providing the
+>> VMPL level for the report. Currently any value from 0-3 is valid because
+>> Linux enforces running at VMPL0.
 >>
->> For the CPUID support, the SNP CPUID table is updated to set bit 28 of
+>> When an SVSM is present, though, Linux will not be running at VMPL0 and
+>> only VMPL values starting at the VMPL level Linux is running at to 3 are
+>> valid. In order to allow userspace to determine the minimum VMPL value
+>> that can be supplied to an attestation report, create a sysfs entry that
+>> can be used to retrieve the current VMPL level of Linux.
 > 
-> s/is updated/update the.../
+> So what is the use case here: you create the attestation report *on* the
+> running guest and as part of that, the script which does that should do
+> 
+> cat /sys/.../sev/vmpl
+> 
+> ?
+> 
+> But then sev-guest does some VMPL including into some report:
+> 
+> struct snp_report_req {
+>          /* user data that should be included in the report */
+>          __u8 user_data[SNP_REPORT_USER_DATA_SIZE];
+> 
+>          /* The vmpl level to be included in the report */
+>          __u32 vmpl;
+> 
+> Why do you need this and can't use sev-guest?
 
-Ok.
+The vmpl value is input from user-space.
 
-> 
->> the EAX register of the 0x8000001f leaf when an SVSM is present. This bit
->> has been reserved for use in this capacity.
->>
->> For the MSR support, a new reserved MSR 0xc001f000 has been defined. A #VC
->> should be generated when accessing this MSR. The #VC handler is expected
->> to ignore writes to this MSR and return the physical calling area address
->> (CAA) on reads of this MSR.
->>
->> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
->> ---
->>   arch/x86/include/asm/cpufeatures.h |  1 +
->>   arch/x86/include/asm/msr-index.h   |  2 ++
->>   arch/x86/kernel/sev-shared.c       | 11 +++++++++++
->>   arch/x86/kernel/sev.c              | 17 +++++++++++++++++
->>   4 files changed, 31 insertions(+)
->>
->> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
->> index 3c7434329661..a17a81b3189b 100644
->> --- a/arch/x86/include/asm/cpufeatures.h
->> +++ b/arch/x86/include/asm/cpufeatures.h
->> @@ -446,6 +446,7 @@
->>   #define X86_FEATURE_V_TSC_AUX		(19*32+ 9) /* "" Virtual TSC_AUX */
->>   #define X86_FEATURE_SME_COHERENT	(19*32+10) /* "" AMD hardware-enforced cache coherency */
->>   #define X86_FEATURE_DEBUG_SWAP		(19*32+14) /* AMD SEV-ES full debug state swap support */
->> +#define X86_FEATURE_SVSM_PRESENT	(19*32+28) /* "" SNP SVSM is present */
-> 
-> X86_FEATURE_SVSM is better right?
-> 
-> And then we might even want to show it in /proc/cpuinfo here to really
-> say that we're running over a SVSM as that might be useful info. Think
-> alternate injection support for one.
-
-Yep, will do.
+The SNP spec allows the VMPL that is put in the attestation report to be 
+numerically equal to or higher than the current VMPL (which is 
+determined based on the VMPCK key that is used). So this is to let 
+userspace know that it shouldn't request a value numerically smaller 
+than what is reported in sysfs in order to avoid failure of the request.
 
 > 
->>   /* AMD-defined Extended Feature 2 EAX, CPUID level 0x80000021 (EAX), word 20 */
->>   #define X86_FEATURE_NO_NESTED_DATA_BP	(20*32+ 0) /* "" No Nested Data Breakpoints */
->> diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
->> index e022e6eb766c..45ffa27569f4 100644
->> --- a/arch/x86/include/asm/msr-index.h
->> +++ b/arch/x86/include/asm/msr-index.h
->> @@ -660,6 +660,8 @@
->>   #define MSR_AMD64_RMP_BASE		0xc0010132
->>   #define MSR_AMD64_RMP_END		0xc0010133
->>   
->> +#define MSR_SVSM_CAA			0xc001f000
+>> +static int __init sev_sysfs_init(void)
+>> +{
+>> +	struct kobject *sev_kobj;
+>> +	int ret;
 >> +
->>   /* AMD Collaborative Processor Performance Control MSRs */
->>   #define MSR_AMD_CPPC_CAP1		0xc00102b0
->>   #define MSR_AMD_CPPC_ENABLE		0xc00102b1
->> diff --git a/arch/x86/kernel/sev-shared.c b/arch/x86/kernel/sev-shared.c
->> index b415b10a0823..50db783f151e 100644
->> --- a/arch/x86/kernel/sev-shared.c
->> +++ b/arch/x86/kernel/sev-shared.c
->> @@ -1561,6 +1561,8 @@ static enum es_result vc_check_opcode_bytes(struct es_em_ctxt *ctxt,
->>   static void __head setup_svsm_ca(const struct cc_blob_sev_info *cc_info)
->>   {
->>   	struct snp_secrets_page *secrets_page;
->> +	struct snp_cpuid_table *cpuid_table;
->> +	unsigned int i;
->>   	u64 caa;
->>   
->>   	BUILD_BUG_ON(sizeof(*secrets_page) != PAGE_SIZE);
->> @@ -1607,4 +1609,13 @@ static void __head setup_svsm_ca(const struct cc_blob_sev_info *cc_info)
->>   	 */
->>   	boot_svsm_caa = (struct svsm_ca *)caa;
->>   	boot_svsm_caa_pa = caa;
+>> +	if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP))
+>> +		return -ENODEV;
 >> +
->> +	/* Advertise the SVSM presence via CPUID. */
->> +	cpuid_table = (struct snp_cpuid_table *)snp_cpuid_get_table();
->> +	for (i = 0; i < cpuid_table->count; i++) {
->> +		struct snp_cpuid_fn *fn = &cpuid_table->fn[i];
->> +
->> +		if (fn->eax_in == 0x8000001f)
->> +			fn->eax |= BIT(28);
->> +	}
->>   }
->> diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
->> index 3f4342b31736..69a756781d90 100644
->> --- a/arch/x86/kernel/sev.c
->> +++ b/arch/x86/kernel/sev.c
->> @@ -1326,12 +1326,29 @@ int __init sev_es_efi_map_ghcbs(pgd_t *pgd)
->>   	return 0;
->>   }
->>   
->> +static enum es_result vc_handle_svsm_caa_msr(struct es_em_ctxt *ctxt)
+>> +	sev_kobj = kobject_create_and_add("sev", kernel_kobj);
 > 
-> No need for that helper. And you can reuse the exit_info_1 assignment.
-> Diff ontop:
+> In the main hierarchy?!
+> 
+> This is a x86 CPU thing, so if anything, it should be under
+> /sys/devices/system/cpu/
 
-I'll incorporate this, but probably won't change the way exit_info_1 is 
-assigned.
+I can move it there. Or what about creating a coco folder under 
+/sys/kernel/? This would then create /sys/kernel/coco/sev/?
 
 Thanks,
 Tom
 
-> 
-> diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
-> index 40eb547d0d6c..7a248d66227e 100644
-> --- a/arch/x86/kernel/sev.c
-> +++ b/arch/x86/kernel/sev.c
-> @@ -1326,31 +1326,25 @@ int __init sev_es_efi_map_ghcbs(pgd_t *pgd)
->   	return 0;
->   }
->   
-> -static enum es_result vc_handle_svsm_caa_msr(struct es_em_ctxt *ctxt)
-> -{
-> -	struct pt_regs *regs = ctxt->regs;
-> -
-> -	/* Writes to the SVSM CAA msr are ignored */
-> -	if (ctxt->insn.opcode.bytes[1] == 0x30)
-> -		return ES_OK;
-> -
-> -	regs->ax = lower_32_bits(this_cpu_read(svsm_caa_pa));
-> -	regs->dx = upper_32_bits(this_cpu_read(svsm_caa_pa));
-> -
-> -	return ES_OK;
-> -}
-> -
->   static enum es_result vc_handle_msr(struct ghcb *ghcb, struct es_em_ctxt *ctxt)
->   {
->   	struct pt_regs *regs = ctxt->regs;
->   	enum es_result ret;
->   	u64 exit_info_1;
->   
-> -	if (regs->cx == MSR_SVSM_CAA)
-> -		return vc_handle_svsm_caa_msr(ctxt);
-> -
->   	/* Is it a WRMSR? */
-> -	exit_info_1 = (ctxt->insn.opcode.bytes[1] == 0x30) ? 1 : 0;
-> +	exit_info_1 = !!(ctxt->insn.opcode.bytes[1] == 0x30);
-> +
-> +	if (regs->cx == MSR_SVSM_CAA) {
-> +		/* Writes to the SVSM CAA msr are ignored */
-> +		if (exit_info_1)
-> +			return ES_OK;
-> +
-> +		regs->ax = lower_32_bits(this_cpu_read(svsm_caa_pa));
-> +		regs->dx = upper_32_bits(this_cpu_read(svsm_caa_pa));
-> +
-> +		return ES_OK;
-> +	}
->   
->   	ghcb_set_rcx(ghcb, regs->cx);
->   	if (exit_info_1) {
 > 
