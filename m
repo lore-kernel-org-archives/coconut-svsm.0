@@ -1,28 +1,37 @@
-Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on20615.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2412::615])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <bp@alien8.de>
+Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 322AD1C3858
- for <svsm-devel@coconut-svsm.dev>; Fri, 31 May 2024 21:03:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ynZxi1RAMGUVvX6VYTyjov5eG1Deyazh8J/sHHG3bPo=;
- b=jAxffO6MFQNd3YpnijEiPhW2K0pAJ1vJo4/jwt/KhUGYk44Xj48/+RG3xB5q0PE70+i3Q/aLAWaxVn0YOd0hbm1wHXepq+9nZyD6gDNwx9aL4BUvCn5KkqjPdWlTKUA/uL0dhyPT+k+BGyCFaZrhy9IqHxNPu07Z6kmgcCELJdE=
-Message-ID: <f3bed7b1-0044-0962-3094-2d7ae2ac3737@amd.com>
-Date: Fri, 31 May 2024 14:03:21 -0500
-Content-Language: en-US
+ by mail.8bytes.org (Postfix) with ESMTPS id 1B31A1C3858
+ for <svsm-devel@coconut-svsm.dev>; Fri, 31 May 2024 21:04:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+ t=1717182248; bh=YW1GaQV5pIAH1uLSwH78leJY+IrB5jokOW7hJIKbxXc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kqfWhaCODgXkWjfsspGdVtLTBgaqp/loqAh7i7+IX9+30e6WMkkgycspvZNwvDyUq
+ epaXel9stfbb+BN1kG63I6flVdCfxdl37gipgcfoKDyYgW/BTp1gTr/gnXji3NqosV
+ WLf78hIYBd2D7IQtzFS6F6D/vTyuNsuxPOhMd+ni2XEJUQvQYa0zwC17O5ACP6VRph
+ 8p+1mxldzI2NOHcypHop6ByPA5WmyPvNlVRREpgIrjfPLPS3qo1fLcy4T5Q3OCzReW
+ 0u/wnOtASONA5l6KpxBSk0mmjqHlKmA1kNt48QgI6QfXt4EZtkmvecmkMckSLnsT88
+ 3INtbNS7HpK8T8z6aUvtyelbM6PhCyrc0q/Zxe4cQdVXY3+km1NKZwkoMx44Zy7Yx6
+ RgI7OEu53i9Y4ZYNzpH+za3YmrPZq0Ohn4NvEAqPbGj2SBW3F5GdepDN6y/bx9J2m9
+ QBAjoRF03mY6kTHRvSl+KYLIvWCrNnO/Yv/LRVKMxeeS+y1Q9/tD43qUZueldll1/D
+ USLsyS8pMaob5nLMJ2dHtOA8tfrAasGn4FwkO1qTGxGPyQ+tgvEDeBMQS4fH3XBWtx
+ KeaCA7Di9pRIL/lp2Q4lOk+x3hkuMT7c2CQzyFpba6B9yfSZo8+DWDmMOerTFGomZD
+ FOr/4GAd9CNu2julsqhE7c3w=
+Date: Fri, 31 May 2024 21:03:48 +0200
+From: Borislav Petkov <bp@alien8.de>
+Message-ID: <20240531190348.GKZlofFDL4ESfpOQ6O@fat_crate.local>
 References: <cover.1713974291.git.thomas.lendacky@amd.com>
- <9a4c4a16d00834c1b7ff458e25c185ac1c9bcf79.1713974291.git.thomas.lendacky@amd.com>
- <20240531131619.GKZlnNo20bj98_ILiM@fat_crate.local>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-In-Reply-To: <20240531131619.GKZlnNo20bj98_ILiM@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <b8508f57712e3194484aa8695494eea26abe1b73.1713974291.git.thomas.lendacky@amd.com>
+ <20240531125503.GEZlnIp7YobFu7g9iS@fat_crate.local>
+ <ad55da28-e5e0-a348-3cbc-d1a80d0ab2bb@amd.com>
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] [PATCH v4 14/15] x86/sev: Extend the config-fs
- attestation support for an SVSM
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ad55da28-e5e0-a348-3cbc-d1a80d0ab2bb@amd.com>
+Subject: Re: [svsm-devel] [PATCH v4 10/15] virt: sev-guest: Choose the VMPCK
+ key based on executing VMPL
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -31,136 +40,29 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Borislav Petkov <bp@alien8.de>
+To: Tom Lendacky <thomas.lendacky@amd.com>
 Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 
-On 5/31/24 08:16, Borislav Petkov wrote:
-> On Wed, Apr 24, 2024 at 10:58:10AM -0500, Tom Lendacky wrote:
->> +/*
->> + * The SVSM Attestation related structures
->> + */
->> +struct svsm_location_entry {
-> 
-> "svsm_loc" should be enough.
+On Fri, May 31, 2024 at 01:36:06PM -0500, Tom Lendacky wrote:
+> The sev-guest driver needs to access it. Given it is a driver/module, I
+> created the accessor rather than mark the variable EXPORT_SYMBOL_GPL(). Your
+> call, I'm fine with either.
 
-Ok
+Yeah, if the variable doesn't change after init, then you don't really
+need an accessor.
 
-> 
->> +	u64 pa;
->> +	u32 len;
->> +	u8 rsvd[4];
->> +};
->> +
->> +struct svsm_attestation_call {
-> 
-> Can we shorten all "attestion" to "atst" or "attest"?
+> Yes, the driver can and does figure it out. However, this module parameter
+> was added in the off chance the default VMPCK gets wiped. Then you can
+> reload the driver and use a different (less privileged) VMPCK.
 
-Will shorten to attest.
+Is that what the text over snp_disable_vmpck() is alluding to?
 
-> 
->> +	struct svsm_location_entry report_buffer;
->> +	struct svsm_location_entry nonce;
->> +	struct svsm_location_entry manifest_buffer;
->> +	struct svsm_location_entry certificates_buffer;
-> 
-> report_buf;
-> nonce;
-> manifest_buf;
-> certs_buf;
-> 
-> Please shorten all those.
+Or where are we documenting this intended use?
 
-Ok.
+Thx.
 
-> 
->> +	/* For attesting a single service */
->> +	u8 service_guid[16];
->> +	u32 service_manifest_version;
-> 
-> manifest_ver;
+-- 
+Regards/Gruss,
+    Boris.
 
-Yep.
-
-> 
->> +	u8 rsvd[4];
->> +};
->> +
->>   /*
->>    * SVSM protocol structure
-> 
-> ...
-> 
->> +static void update_attestation_input(struct svsm_call *call, struct svsm_attestation_call *input)
->> +{
->> +	/* If (new) lengths have been returned, propograte them up */
-> 
-> "propagate"
-
-Fixed.
-
-> 
->> +	if (call->rcx_out != call->rcx)
->> +		input->manifest_buffer.len = call->rcx_out;
->> +
->> +	if (call->rdx_out != call->rdx)
->> +		input->certificates_buffer.len = call->rdx_out;
->> +
->> +	if (call->r8_out != call->r8)
->> +		input->report_buffer.len = call->r8_out;
->> +}
->> +
->> +int snp_issue_svsm_attestation_request(u64 call_id, struct svsm_attestation_call *input)
-> 
-> This looks like BIOS code. The only thing that's missing is the
-> CamelCase. :-)
-> 
-> int snp_issue_svsm_attest_req(u64 call_id, struct svsm_attest_call *input_call)
-> 
-> Now that's more like it!
-
-Ok.
-
-> 
->> +{
->> +	struct svsm_attestation_call *attest_call;
-> 
-> 	struct svsm_attest_call *atst_call;
-
-Ok, I'll use 'ac'
-
-> 
->> +	struct svsm_call call = {};
->> +	unsigned long flags;
->> +	u64 attest_call_pa;
->> +	int ret;
->> +
->> +	if (!vmpl)
->> +		return -EINVAL;
->> +
-> 
-> ...
-> 
->> +static int sev_svsm_report_new(struct tsm_report *report, void *data)
->> +{
->> +	unsigned int report_len, manifest_len, certificates_len;
->> +	void *report_blob, *manifest_blob, *certificates_blob;
-> 
-> Prose. Shorter pls.
-
-Ok.
-
-Thanks,
-Tom
-
-> 
->> +	struct svsm_attestation_call attest_call = {};
->> +	struct tsm_desc *desc = &report->desc;
->> +	unsigned int retry_count;
->> +	unsigned int size;
->> +	bool try_again;
->> +	void *buffer;
->> +	u64 call_id;
->> +	int ret;
-> 
-> ...
-> 
+https://people.kernel.org/tglx/notes-about-netiquette
