@@ -1,29 +1,29 @@
-Return-Path: <jlange@microsoft.com>
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazlp170100000.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:c001::])
+Return-Path: <David.Kaplan@amd.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on20600.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2416::600])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id E13D51C790A
- for <svsm-devel@coconut-svsm.dev>; Mon,  3 Jun 2024 20:55:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
+ by mail.8bytes.org (Postfix) with ESMTPS id 7E3701C786C
+ for <svsm-devel@coconut-svsm.dev>; Mon,  3 Jun 2024 21:00:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uheW28VrEnKZwzsn6r/MvURI7VMTTzJhQwV7iK0HAoc=;
- b=GyHbSX6cQddcZ7d2USZT+HXUtg5sBkpEgHm/UEk4AQxI28oiDA4r9HDY7zVPDjennoBlOCe8Pq0E7/KJQh/5Rd2kYPKftrt1M4/c4tvl1jUC1t3IF13HZzkIoLqYMGPe+hUJdliLcVwk0+bqhf9psb+RGggSrLUhJQniF/nuIqI=
-From: Jon Lange <jlange@microsoft.com>
-Date: Mon, 3 Jun 2024 18:55:08 +0000
-Message-ID: <DS7PR21MB3524EA15795F4C668B826A88CAFF2@DS7PR21MB3524.namprd21.prod.outlook.com>
+ bh=OEW4aCfwotUughbeGQUSAeqG9GsdMvSas+kT7J0B/Co=;
+ b=X4tFigCZ58SNqTuyt0dr+kqim5NW7gMI14s/4l5d+RVb+f37E2Nu5MIpNzPqUrMdPq5c0rIqkvXOtsvbnO06URH2hnCvAm3bkDQXOpSe3LwbzqiUSbpZojAK338wjQmuEdGipqjZ9W3WFuVgCudlEQRGGXn95Ub6ZDDAN/DxOUI=
+From: "Kaplan, David" <David.Kaplan@amd.com>
+Date: Mon, 3 Jun 2024 19:00:08 +0000
+Message-ID: <DS7PR12MB57666EBE89216210FFE4851C94FF2@DS7PR12MB5766.namprd12.prod.outlook.com>
 References: <DS7PR21MB352462BA31B209F93F296A17CAEE2@DS7PR21MB3524.namprd21.prod.outlook.com>
  <DS7PR12MB57668C5D8AE281740909574B94F42@DS7PR12MB5766.namprd12.prod.outlook.com>
  <DS7PR21MB3524D4C48D6A51302783F0C3CAF42@DS7PR21MB3524.namprd21.prod.outlook.com>
  <DS7PR21MB35248BAAD184D55EB2D057B9CAFC2@DS7PR21MB3524.namprd21.prod.outlook.com>
  <DS7PR21MB352490005169B16909763C76CAFF2@DS7PR21MB3524.namprd21.prod.outlook.com>
  <DS7PR12MB5766A185764744C3DF6ADBA794FF2@DS7PR12MB5766.namprd12.prod.outlook.com>
-In-Reply-To: <DS7PR12MB5766A185764744C3DF6ADBA794FF2@DS7PR12MB5766.namprd12.prod.outlook.com>
+ <DS7PR21MB3524EA15795F4C668B826A88CAFF2@DS7PR21MB3524.namprd21.prod.outlook.com>
+In-Reply-To: <DS7PR21MB3524EA15795F4C668B826A88CAFF2@DS7PR21MB3524.namprd21.prod.outlook.com>
 Content-Language: en-US
 Content-Type: multipart/alternative;
- boundary="_000_DS7PR21MB3524EA15795F4C668B826A88CAFF2DS7PR21MB3524namp_"
+ boundary="_000_DS7PR12MB57666EBE89216210FFE4851C94FF2DS7PR12MB5766namp_"
 MIME-Version: 1.0
 Subject: Re: [svsm-devel] RFC: Alternate Injection SVSM support
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
@@ -34,11 +34,35 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: "Kaplan, David" <David.Kaplan@amd.com>, "amd-sev-snp@lists.suse.com" <amd-sev-snp@lists.suse.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: Jon Lange <jlange@microsoft.com>, "amd-sev-snp@lists.suse.com" <amd-sev-snp@lists.suse.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
---_000_DS7PR21MB3524EA15795F4C668B826A88CAFF2DS7PR21MB3524namp_
+--_000_DS7PR12MB57666EBE89216210FFE4851C94FF2DS7PR12MB5766namp_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+[AMD Official Use Only - AMD Internal Distribution Only]
+
+Ah, thanks.  That makes more sense.  I think that explanation (or even a si=
+mple flow diagram) would be very helpful.
+
+If I followed that correctly, the guest OS on the BSP would be the one to r=
+egister AlternateInjection (if at all), and OVMF on the BSP would be the on=
+e to deregister.  But every AP would issue the call to "sync" their SEV_FEA=
+TURES state with that of the overall guest.
+
+--David Kaplan
+
+From: Jon Lange <jlange@microsoft.com>
+Sent: Monday, June 3, 2024 1:55 PM
+To: Kaplan, David <David.Kaplan@amd.com>; amd-sev-snp@lists.suse.com; svsm-=
+devel@coconut-svsm.dev
+Subject: RE: RFC: Alternate Injection SVSM support
+
+
+[AMD Official Use Only - AMD Internal Distribution Only]
+
+Caution: This message originated from an External Source. Use proper cautio=
+n when opening attachments, clicking links, or responding.
 
 The registration status of Alternate Injection applies to the entire guest,=
  but the Alternate Injection SEV feature is per-VCPU.  There has to be some=
@@ -66,10 +90,11 @@ in Call 1 as you suspected.  I'll clean that up in the next revision.
 
 -Jon
 
-From: Kaplan, David <David.Kaplan@amd.com>
+From: Kaplan, David <David.Kaplan@amd.com<mailto:David.Kaplan@amd.com>>
 Sent: Monday, June 3, 2024 11:46 AM
-To: Jon Lange <jlange@microsoft.com>; amd-sev-snp@lists.suse.com; svsm-deve=
-l@coconut-svsm.dev
+To: Jon Lange <jlange@microsoft.com<mailto:jlange@microsoft.com>>; amd-sev-=
+snp@lists.suse.com<mailto:amd-sev-snp@lists.suse.com>; svsm-devel@coconut-s=
+vsm.dev<mailto:svsm-devel@coconut-svsm.dev>
 Subject: [EXTERNAL] RE: RFC: Alternate Injection SVSM support
 
 
@@ -401,7 +426,7 @@ er spec changes are agreed upon.
 
 
 
---_000_DS7PR21MB3524EA15795F4C668B826A88CAFF2DS7PR21MB3524namp_
+--_000_DS7PR12MB57666EBE89216210FFE4851C94FF2DS7PR12MB5766namp_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -448,8 +473,8 @@ p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
 	font-family:"Aptos",sans-serif;}
 span.EmailStyle22
 	{mso-style-type:personal-reply;
-	font-family:"Georgia",serif;
-	color:blue;}
+	font-family:"Aptos",sans-serif;
+	color:windowtext;}
 .MsoChpDefault
 	{mso-style-type:export-only;
 	font-size:10.0pt;
@@ -544,7 +569,75 @@ ul
 </head>
 <body lang=3D"EN-US" link=3D"#467886" vlink=3D"#96607D" style=3D"word-wrap:=
 break-word">
+<p style=3D"font-family:Calibri;font-size:10pt;color:#0000FF;margin:5pt;fon=
+t-style:normal;font-weight:normal;text-decoration:none;" align=3D"Left">
+[AMD Official Use Only - AMD Internal Distribution Only]<br>
+</p>
+<br>
+<div>
 <div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Ah, thanks.&nbsp; T=
+hat makes more sense.&nbsp; I think that explanation (or even a simple flow=
+ diagram) would be very helpful.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">If I followed that =
+correctly, the guest OS on the BSP would be the one to register AlternateIn=
+jection (if at all), and OVMF on the BSP would be the one to deregister.&nb=
+sp; But every AP would issue the call to
+ &#8220;sync&#8221; their SEV_FEATURES state with that of the overall guest=
+.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">--David Kaplan<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<div style=3D"border:none;border-left:solid blue 1.5pt;padding:0in 0in 0in =
+4.0pt">
+<div>
+<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
+font-family:&quot;Calibri&quot;,sans-serif"> Jon Lange &lt;jlange@microsoft=
+.com&gt;
+<br>
+<b>Sent:</b> Monday, June 3, 2024 1:55 PM<br>
+<b>To:</b> Kaplan, David &lt;David.Kaplan@amd.com&gt;; amd-sev-snp@lists.su=
+se.com; svsm-devel@coconut-svsm.dev<br>
+<b>Subject:</b> RE: RFC: Alternate Injection SVSM support<o:p></o:p></span>=
+</p>
+</div>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:5.0pt"><span style=3D"font-size:10.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif;color:blue">[AMD Official Use Only - AMD Internal=
+ Distribution Only]<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" align=3D"left" width=3D"100%" style=3D"width:100.0%">
+<tbody>
+<tr>
+<td style=3D"background:#FFB900;padding:5.0pt 2.0pt 5.0pt 2.0pt"></td>
+<td width=3D"100%" style=3D"width:100.0%;background:#FFF8E5;padding:5.0pt 4=
+.0pt 5.0pt 12.0pt">
+<div>
+<p class=3D"MsoNormal" style=3D"mso-element:frame;mso-element-frame-hspace:=
+2.25pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-el=
+ement-anchor-horizontal:column;mso-height-rule:exactly">
+<b><span style=3D"color:#222222">Caution:</span></b><span style=3D"color:#2=
+22222"> This message originated from an External Source. Use proper caution=
+ when opening attachments, clicking links, or responding.
+<o:p></o:p></span></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
 <p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
 orgia&quot;,serif;color:blue">The registration status of Alternate Injectio=
 n applies to the entire guest, but the Alternate Injection SEV feature is p=
@@ -586,12 +679,15 @@ orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
 0in 0in">
 <p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
 ;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
-font-family:&quot;Calibri&quot;,sans-serif"> Kaplan, David &lt;David.Kaplan=
-@amd.com&gt;
+font-family:&quot;Calibri&quot;,sans-serif"> Kaplan, David &lt;<a href=3D"m=
+ailto:David.Kaplan@amd.com">David.Kaplan@amd.com</a>&gt;
 <br>
 <b>Sent:</b> Monday, June 3, 2024 11:46 AM<br>
-<b>To:</b> Jon Lange &lt;jlange@microsoft.com&gt;; amd-sev-snp@lists.suse.c=
-om; svsm-devel@coconut-svsm.dev<br>
+<b>To:</b> Jon Lange &lt;<a href=3D"mailto:jlange@microsoft.com">jlange@mic=
+rosoft.com</a>&gt;;
+<a href=3D"mailto:amd-sev-snp@lists.suse.com">amd-sev-snp@lists.suse.com</a=
+>; <a href=3D"mailto:svsm-devel@coconut-svsm.dev">
+svsm-devel@coconut-svsm.dev</a><br>
 <b>Subject:</b> [EXTERNAL] RE: RFC: Alternate Injection SVSM support<o:p></=
 o:p></span></p>
 </div>
@@ -1258,7 +1354,11 @@ style=3D"font-size:10.0pt;font-family:&quot;Georgia&quot;,serif"><o:p></o:p=
 </div>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
 </body>
 </html>
 
---_000_DS7PR21MB3524EA15795F4C668B826A88CAFF2DS7PR21MB3524namp_--
+--_000_DS7PR12MB57666EBE89216210FFE4851C94FF2DS7PR12MB5766namp_--
