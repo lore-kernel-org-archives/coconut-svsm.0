@@ -1,27 +1,29 @@
-Return-Path: <David.Kaplan@amd.com>
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on20601.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2408::601])
+Return-Path: <jlange@microsoft.com>
+Received: from SJ2PR03CU001.outbound.protection.outlook.com
+ (mail-westusazlp170100000.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:c001::])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 228E61C78DE
- for <svsm-devel@coconut-svsm.dev>; Mon,  3 Jun 2024 20:46:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ by mail.8bytes.org (Postfix) with ESMTPS id E13D51C790A
+ for <svsm-devel@coconut-svsm.dev>; Mon,  3 Jun 2024 20:55:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qh8XqgMlULkkgq294e7ZCBGyweKISuDICxmZwkqwuAI=;
- b=4sb2HiWEcBCu8kFWry5l3vFn8Jk7UwQfBHp82DPPICyC99AHwmbQgAwVmo2xrYdMFdV+/6wz2tBP0Ksq8mYzBUqbo0xF7z4X/+QSW1vHMBJIIRmGNwJnoBmLJjYnlR7wBzGXt+OLGyn2rGpRQUuL94EcJd6X0VKhPGOictUuOPI=
-From: "Kaplan, David" <David.Kaplan@amd.com>
-Date: Mon, 3 Jun 2024 18:46:18 +0000
-Message-ID: <DS7PR12MB5766A185764744C3DF6ADBA794FF2@DS7PR12MB5766.namprd12.prod.outlook.com>
+ bh=uheW28VrEnKZwzsn6r/MvURI7VMTTzJhQwV7iK0HAoc=;
+ b=GyHbSX6cQddcZ7d2USZT+HXUtg5sBkpEgHm/UEk4AQxI28oiDA4r9HDY7zVPDjennoBlOCe8Pq0E7/KJQh/5Rd2kYPKftrt1M4/c4tvl1jUC1t3IF13HZzkIoLqYMGPe+hUJdliLcVwk0+bqhf9psb+RGggSrLUhJQniF/nuIqI=
+From: Jon Lange <jlange@microsoft.com>
+Date: Mon, 3 Jun 2024 18:55:08 +0000
+Message-ID: <DS7PR21MB3524EA15795F4C668B826A88CAFF2@DS7PR21MB3524.namprd21.prod.outlook.com>
 References: <DS7PR21MB352462BA31B209F93F296A17CAEE2@DS7PR21MB3524.namprd21.prod.outlook.com>
  <DS7PR12MB57668C5D8AE281740909574B94F42@DS7PR12MB5766.namprd12.prod.outlook.com>
  <DS7PR21MB3524D4C48D6A51302783F0C3CAF42@DS7PR21MB3524.namprd21.prod.outlook.com>
  <DS7PR21MB35248BAAD184D55EB2D057B9CAFC2@DS7PR21MB3524.namprd21.prod.outlook.com>
  <DS7PR21MB352490005169B16909763C76CAFF2@DS7PR21MB3524.namprd21.prod.outlook.com>
-In-Reply-To: <DS7PR21MB352490005169B16909763C76CAFF2@DS7PR21MB3524.namprd21.prod.outlook.com>
+ <DS7PR12MB5766A185764744C3DF6ADBA794FF2@DS7PR12MB5766.namprd12.prod.outlook.com>
+In-Reply-To: <DS7PR12MB5766A185764744C3DF6ADBA794FF2@DS7PR12MB5766.namprd12.prod.outlook.com>
 Content-Language: en-US
 Content-Type: multipart/alternative;
- boundary="_000_DS7PR12MB5766A185764744C3DF6ADBA794FF2DS7PR12MB5766namp_"
+ boundary="_000_DS7PR21MB3524EA15795F4C668B826A88CAFF2DS7PR21MB3524namp_"
 MIME-Version: 1.0
 Subject: Re: [svsm-devel] RFC: Alternate Injection SVSM support
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
@@ -32,11 +34,44 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Jon Lange <jlange@microsoft.com>, "amd-sev-snp@lists.suse.com" <amd-sev-snp@lists.suse.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: "Kaplan, David" <David.Kaplan@amd.com>, "amd-sev-snp@lists.suse.com" <amd-sev-snp@lists.suse.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
---_000_DS7PR12MB5766A185764744C3DF6ADBA794FF2DS7PR12MB5766namp_
+--_000_DS7PR21MB3524EA15795F4C668B826A88CAFF2DS7PR21MB3524namp_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+The registration status of Alternate Injection applies to the entire guest,=
+ but the Alternate Injection SEV feature is per-VCPU.  There has to be some=
+thing to tie the two together.  Consider an example where OVMF elects to de=
+register Alternate Injection during ExitBootServices because it does not kn=
+ow (and cannot know) what the loaded OS is going to do, and additionally su=
+ppose that the loaded OS in this case has not registered Alternate Injectio=
+n.  That means when OVMF deregisters as part of ExitBootServices (presumabl=
+y on the BSP), it will make the 0b01 call, which will deregister Alternate =
+Injection at a VM level (meaning it cannot be re-registered), but only the =
+BSP's VMSA will have the SEV feature bit clear.  Once OVMF deregisters Alte=
+rnate Injection, it must ensure that any AP that is already running issues =
+the 0b00 form of the call to refresh its own SEV feature to bring it into s=
+ync with the VM-wide registration state.  In this example, each AP that iss=
+ues the call will cause Alternate Injection to be removed from its VMSA.  O=
+n the other hand, if Alternate Injection were to remain registered because =
+the loaded OS chose to register it, then the 0b00 call would have no effect=
+ on each AP because Alternate Injection remains registered at the VM level.=
+  Thus this call is both safe and necessary on every AP to align each AP wi=
+th the VM-wide status.  I can try to make this more clear in the next revis=
+ion.
+
+Call 5 is erroneous and should be removed - the intended text was included =
+in Call 1 as you suspected.  I'll clean that up in the next revision.
+
+-Jon
+
+From: Kaplan, David <David.Kaplan@amd.com>
+Sent: Monday, June 3, 2024 11:46 AM
+To: Jon Lange <jlange@microsoft.com>; amd-sev-snp@lists.suse.com; svsm-deve=
+l@coconut-svsm.dev
+Subject: [EXTERNAL] RE: RFC: Alternate Injection SVSM support
+
 
 [AMD Official Use Only - AMD Internal Distribution Only]
 
@@ -57,10 +92,11 @@ ssing some text.  I'm guessing maybe that call is redundant with call 1 and=
 
 Thanks -David Kaplan
 
-From: Jon Lange <jlange@microsoft.com>
+From: Jon Lange <jlange@microsoft.com<mailto:jlange@microsoft.com>>
 Sent: Monday, June 3, 2024 12:47 PM
-To: Kaplan, David <David.Kaplan@amd.com>; amd-sev-snp@lists.suse.com; svsm-=
-devel@coconut-svsm.dev
+To: Kaplan, David <David.Kaplan@amd.com<mailto:David.Kaplan@amd.com>>; amd-=
+sev-snp@lists.suse.com<mailto:amd-sev-snp@lists.suse.com>; svsm-devel@cocon=
+ut-svsm.dev<mailto:svsm-devel@coconut-svsm.dev>
 Subject: RE: RFC: Alternate Injection SVSM support
 
 
@@ -365,7 +401,7 @@ er spec changes are agreed upon.
 
 
 
---_000_DS7PR12MB5766A185764744C3DF6ADBA794FF2DS7PR12MB5766namp_
+--_000_DS7PR21MB3524EA15795F4C668B826A88CAFF2DS7PR21MB3524namp_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -410,10 +446,10 @@ p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
 	margin-left:.5in;
 	font-size:12.0pt;
 	font-family:"Aptos",sans-serif;}
-span.EmailStyle20
+span.EmailStyle22
 	{mso-style-type:personal-reply;
-	font-family:"Aptos",sans-serif;
-	color:windowtext;}
+	font-family:"Georgia",serif;
+	color:blue;}
 .MsoChpDefault
 	{mso-style-type:export-only;
 	font-size:10.0pt;
@@ -508,13 +544,64 @@ ul
 </head>
 <body lang=3D"EN-US" link=3D"#467886" vlink=3D"#96607D" style=3D"word-wrap:=
 break-word">
-<p style=3D"font-family:Calibri;font-size:10pt;color:#0000FF;margin:5pt;fon=
-t-style:normal;font-weight:normal;text-decoration:none;" align=3D"Left">
-[AMD Official Use Only - AMD Internal Distribution Only]<br>
-</p>
-<br>
-<div>
 <div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">The registration status of Alternate Injectio=
+n applies to the entire guest, but the Alternate Injection SEV feature is p=
+er-VCPU.&nbsp; There has to be something to tie the
+ two together.&nbsp; Consider an example where OVMF elects to deregister Al=
+ternate Injection during ExitBootServices because it does not know (and can=
+not know) what the loaded OS is going to do, and additionally suppose that =
+the loaded OS in this case has not registered
+ Alternate Injection.&nbsp; That means when OVMF deregisters as part of Exi=
+tBootServices (presumably on the BSP), it will make the 0b01 call, which wi=
+ll deregister Alternate Injection at a VM level (meaning it cannot be re-re=
+gistered), but only the BSP&#8217;s VMSA will
+ have the SEV feature bit clear.&nbsp; Once OVMF deregisters Alternate Inje=
+ction, it must ensure that any AP that is already running issues the 0b00 f=
+orm of the call to refresh its own SEV feature to bring it into sync with t=
+he VM-wide registration state.&nbsp; In this
+ example, each AP that issues the call will cause Alternate Injection to be=
+ removed from its VMSA.&nbsp; On the other hand, if Alternate Injection wer=
+e to remain registered because the loaded OS chose to register it, then the=
+ 0b00 call would have no effect on each
+ AP because Alternate Injection remains registered at the VM level.&nbsp; T=
+hus this call is both safe and necessary on every AP to align each AP with =
+the VM-wide status.&nbsp; I can try to make this more clear in the next rev=
+ision.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">Call 5 is erroneous and should be removed &#8=
+211; the intended text was included in Call 1 as you suspected.&nbsp; I&#82=
+17;ll clean that up in the next revision.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">-Jon<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<div>
+<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
+font-family:&quot;Calibri&quot;,sans-serif"> Kaplan, David &lt;David.Kaplan=
+@amd.com&gt;
+<br>
+<b>Sent:</b> Monday, June 3, 2024 11:46 AM<br>
+<b>To:</b> Jon Lange &lt;jlange@microsoft.com&gt;; amd-sev-snp@lists.suse.c=
+om; svsm-devel@coconut-svsm.dev<br>
+<b>Subject:</b> [EXTERNAL] RE: RFC: Alternate Injection SVSM support<o:p></=
+o:p></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:5.0pt"><span style=3D"font-size:10.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif;color:blue">[AMD Official Use Only - AMD Internal=
+ Distribution Only]<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
 <p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Thanks Jon, I had n=
 o issues opening this version.<o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
@@ -550,12 +637,15 @@ span></p>
 0in 0in">
 <p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
 ;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
-font-family:&quot;Calibri&quot;,sans-serif"> Jon Lange &lt;jlange@microsoft=
-.com&gt;
+font-family:&quot;Calibri&quot;,sans-serif"> Jon Lange &lt;<a href=3D"mailt=
+o:jlange@microsoft.com">jlange@microsoft.com</a>&gt;
 <br>
 <b>Sent:</b> Monday, June 3, 2024 12:47 PM<br>
-<b>To:</b> Kaplan, David &lt;David.Kaplan@amd.com&gt;; amd-sev-snp@lists.su=
-se.com; svsm-devel@coconut-svsm.dev<br>
+<b>To:</b> Kaplan, David &lt;<a href=3D"mailto:David.Kaplan@amd.com">David.=
+Kaplan@amd.com</a>&gt;;
+<a href=3D"mailto:amd-sev-snp@lists.suse.com">amd-sev-snp@lists.suse.com</a=
+>; <a href=3D"mailto:svsm-devel@coconut-svsm.dev">
+svsm-devel@coconut-svsm.dev</a><br>
 <b>Subject:</b> RE: RFC: Alternate Injection SVSM support<o:p></o:p></span>=
 </p>
 </div>
@@ -1171,4 +1261,4 @@ style=3D"font-size:10.0pt;font-family:&quot;Georgia&quot;,serif"><o:p></o:p=
 </body>
 </html>
 
---_000_DS7PR12MB5766A185764744C3DF6ADBA794FF2DS7PR12MB5766namp_--
+--_000_DS7PR21MB3524EA15795F4C668B826A88CAFF2DS7PR21MB3524namp_--
