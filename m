@@ -1,24 +1,24 @@
 Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2060d.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2418::60d])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2060b.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2414::60b])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 09FD11C0BB6
- for <svsm-devel@coconut-svsm.dev>; Wed,  5 Jun 2024 17:19:36 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id A1D731C7AE9
+ for <svsm-devel@coconut-svsm.dev>; Wed,  5 Jun 2024 17:19:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+0JHmcZknA8SpOGatoihFu0Hg7yqixpdeRCy1MYwWW0=;
- b=AW9Rz+luK7GjtDwAUqbxx30FZTs4vfjfUXeHgVxMSOijU5dFiLkPrdCXcMU2I0KNSVuoJREAqX9NMMLisi6Fu1TfTsGwz+/h1XhVdViKGuoNop88P/kjlWnGHWJOHf+cQLRBD3WR9n8RpCf40bzalNvD4KGLm37yiu+sO+wN4ss=
+ bh=rGmruK5i7QuPSLHWJrChWdiBxGcDlyKcpwb55Vl5XHk=;
+ b=4lXxvP9fds30WmboLHm11yBfy7wH9vPdNXAT9puiLxIleBBa5Cp3qxQWd06+qVOgHpOoRvvNyqGlwa2q6VrEt8DDOSCFlNsbloosYuxJ28juklNB7Yupay7xSvsLMpV8cjDVpamYG0gSXkNHswDE1blRUBvXUSPhpKYfn066TQI=
 From: Tom Lendacky <thomas.lendacky@amd.com>
-Date: Wed, 5 Jun 2024 10:18:46 -0500
-Message-ID: <fa8021130bcc3bcf14d722a25548cb0cdf325456.1717600736.git.thomas.lendacky@amd.com>
+Date: Wed, 5 Jun 2024 10:18:48 -0500
+Message-ID: <bcdd95ecabe9723673b9693c7f1533a2b8f17781.1717600736.git.thomas.lendacky@amd.com>
 In-Reply-To: <cover.1717600736.git.thomas.lendacky@amd.com>
 References: <cover.1717600736.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] [PATCH v5 03/13] x86/sev: Use kernel provided SVSM
- Calling Areas
+Subject: [svsm-devel] [PATCH v5 05/13] x86/sev: Use the SVSM to create a
+ vCPU when not in VMPL0
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -32,613 +32,175 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borisl
  Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
 Content-Type: text/plain; charset="utf-8"
 
-The SVSM Calling Area (CA) is used to communicate between Linux and the
-SVSM. Since the firmware supplied CA for the BSP is likely to be in
-reserved memory, switch off that CA to a kernel provided CA so that access
-and use of the CA is available during boot. The CA switch is done using
-the SVSM core protocol SVSM_CORE_REMAP_CA call.
+Using the RMPADJUST instruction, the VSMA attribute can only be changed
+at VMPL0. An SVSM will be present when running at VMPL1 or a lower
+privilege level.
 
-An SVSM call is executed by filling out the SVSM CA and setting the proper
-register state as documented by the SVSM protocol. The SVSM is invoked by
-by requesting the hypervisor to run VMPL0.
-
-Once it is safe to allocate/reserve memory, allocate a CA for each CPU.
-After allocating the new CAs, the BSP will switch from the boot CA to the
-per-CPU CA. The CA for an AP is identified to the SVSM when creating the
-VMSA in preparation for booting the AP.
+When an SVSM is present, use the SVSM_CORE_CREATE_VCPU call or the
+SVSM_CORE_DESTROY_VCPU call to perform VMSA attribute changes. Use the
+VMPL level supplied by the SVSM for the VMSA when starting the AP.
 
 Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 ---
- arch/x86/include/asm/sev-common.h |  13 ++
- arch/x86/include/asm/sev.h        |  32 +++++
- arch/x86/include/uapi/asm/svm.h   |   1 +
- arch/x86/kernel/sev-shared.c      | 128 +++++++++++++++++-
- arch/x86/kernel/sev.c             | 217 +++++++++++++++++++++++++-----
- arch/x86/mm/mem_encrypt_amd.c     |   8 +-
- 6 files changed, 360 insertions(+), 39 deletions(-)
+ arch/x86/include/asm/sev.h |  2 +
+ arch/x86/kernel/sev.c      | 75 ++++++++++++++++++++++++++++----------
+ 2 files changed, 57 insertions(+), 20 deletions(-)
 
-diff --git a/arch/x86/include/asm/sev-common.h b/arch/x86/include/asm/sev-common.h
-index d31f2ed398f0..78a4c25119da 100644
---- a/arch/x86/include/asm/sev-common.h
-+++ b/arch/x86/include/asm/sev-common.h
-@@ -98,6 +98,19 @@ enum psc_op {
- 	/* GHCBData[63:32] */				\
- 	(((u64)(val) & GENMASK_ULL(63, 32)) >> 32)
- 
-+/* GHCB Run at VMPL Request/Response */
-+#define GHCB_MSR_VMPL_REQ		0x016
-+#define GHCB_MSR_VMPL_REQ_LEVEL(v)			\
-+	/* GHCBData[39:32] */				\
-+	(((u64)(v) & GENMASK_ULL(7, 0) << 32) |		\
-+	/* GHCBDdata[11:0] */				\
-+	GHCB_MSR_VMPL_REQ)
-+
-+#define GHCB_MSR_VMPL_RESP		0x017
-+#define GHCB_MSR_VMPL_RESP_VAL(v)			\
-+	/* GHCBData[63:32] */				\
-+	(((u64)(v) & GENMASK_ULL(63, 32)) >> 32)
-+
- /* GHCB Hypervisor Feature Request/Response */
- #define GHCB_MSR_HV_FT_REQ		0x080
- #define GHCB_MSR_HV_FT_RESP		0x081
 diff --git a/arch/x86/include/asm/sev.h b/arch/x86/include/asm/sev.h
-index 16d09c1a8ceb..3abc2d759db7 100644
+index 01e3866c4d61..36cd7aebaa9b 100644
 --- a/arch/x86/include/asm/sev.h
 +++ b/arch/x86/include/asm/sev.h
-@@ -178,6 +178,36 @@ struct svsm_ca {
- 	u8 svsm_buffer[PAGE_SIZE - 8];
- };
+@@ -233,6 +233,8 @@ struct svsm_call {
+ #define SVSM_CORE_CALL(x)		((0ULL << 32) | (x))
+ #define SVSM_CORE_REMAP_CA		0
+ #define SVSM_CORE_PVALIDATE		1
++#define SVSM_CORE_CREATE_VCPU		2
++#define SVSM_CORE_DELETE_VCPU		3
  
-+#define SVSM_SUCCESS				0
-+#define SVSM_ERR_INCOMPLETE			0x80000000
-+#define SVSM_ERR_UNSUPPORTED_PROTOCOL		0x80000001
-+#define SVSM_ERR_UNSUPPORTED_CALL		0x80000002
-+#define SVSM_ERR_INVALID_ADDRESS		0x80000003
-+#define SVSM_ERR_INVALID_FORMAT			0x80000004
-+#define SVSM_ERR_INVALID_PARAMETER		0x80000005
-+#define SVSM_ERR_INVALID_REQUEST		0x80000006
-+#define SVSM_ERR_BUSY				0x80000007
-+
-+/*
-+ * SVSM protocol structure
-+ */
-+struct svsm_call {
-+	struct svsm_ca *caa;
-+	u64 rax;
-+	u64 rcx;
-+	u64 rdx;
-+	u64 r8;
-+	u64 r9;
-+	u64 rax_out;
-+	u64 rcx_out;
-+	u64 rdx_out;
-+	u64 r8_out;
-+	u64 r9_out;
-+};
-+
-+#define SVSM_CORE_CALL(x)		((0ULL << 32) | (x))
-+#define SVSM_CORE_REMAP_CA		0
-+
  #ifdef CONFIG_AMD_MEM_ENCRYPT
  extern void __sev_es_ist_enter(struct pt_regs *regs);
- extern void __sev_es_ist_exit(void);
-@@ -261,6 +291,7 @@ void snp_accept_memory(phys_addr_t start, phys_addr_t end);
- u64 snp_get_unsupported_features(u64 status);
- u64 sev_get_status(void);
- void sev_show_status(void);
-+void snp_remap_svsm_ca(void);
- #else
- static inline void sev_es_ist_enter(struct pt_regs *regs) { }
- static inline void sev_es_ist_exit(void) { }
-@@ -290,6 +321,7 @@ static inline void snp_accept_memory(phys_addr_t start, phys_addr_t end) { }
- static inline u64 snp_get_unsupported_features(u64 status) { return 0; }
- static inline u64 sev_get_status(void) { return 0; }
- static inline void sev_show_status(void) { }
-+static inline void snp_remap_svsm_ca(void) { }
- #endif
- 
- #ifdef CONFIG_KVM_AMD_SEV
-diff --git a/arch/x86/include/uapi/asm/svm.h b/arch/x86/include/uapi/asm/svm.h
-index 80e1df482337..1814b413fd57 100644
---- a/arch/x86/include/uapi/asm/svm.h
-+++ b/arch/x86/include/uapi/asm/svm.h
-@@ -115,6 +115,7 @@
- #define SVM_VMGEXIT_AP_CREATE_ON_INIT		0
- #define SVM_VMGEXIT_AP_CREATE			1
- #define SVM_VMGEXIT_AP_DESTROY			2
-+#define SVM_VMGEXIT_SNP_RUN_VMPL		0x80000018
- #define SVM_VMGEXIT_HV_FEATURES			0x8000fffd
- #define SVM_VMGEXIT_TERM_REQUEST		0x8000fffe
- #define SVM_VMGEXIT_TERM_REASON(reason_set, reason_code)	\
-diff --git a/arch/x86/kernel/sev-shared.c b/arch/x86/kernel/sev-shared.c
-index 739362066e00..00173deefc46 100644
---- a/arch/x86/kernel/sev-shared.c
-+++ b/arch/x86/kernel/sev-shared.c
-@@ -21,6 +21,8 @@
- #define WARN(condition, format...) (!!(condition))
- #define sev_printk(fmt, ...)
- #define sev_printk_rtl(fmt, ...)
-+#undef vc_forward_exception
-+#define vc_forward_exception(c)		panic("SNP: Hypervisor requested exception\n")
- #endif
- 
- /*
-@@ -244,6 +246,126 @@ static enum es_result verify_exception_info(struct ghcb *ghcb, struct es_em_ctxt
- 	return ES_VMM_ERROR;
- }
- 
-+static int process_svsm_result_codes(struct svsm_call *call)
-+{
-+	switch (call->rax_out) {
-+	case SVSM_SUCCESS:
-+		return 0;
-+	case SVSM_ERR_INCOMPLETE:
-+	case SVSM_ERR_BUSY:
-+		return -EAGAIN;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+/*
-+ * Issue a VMGEXIT to call the SVSM:
-+ *   - Load the SVSM register state (RAX, RCX, RDX, R8 and R9)
-+ *   - Set the CA call pending field to 1
-+ *   - Issue VMGEXIT
-+ *   - Save the SVSM return register state (RAX, RCX, RDX, R8 and R9)
-+ *   - Perform atomic exchange of the CA call pending field
-+ *
-+ *   - See the "Secure VM Service Module for SEV-SNP Guests" specification for
-+ *     details on the calling convention.
-+ *     - The calling convention loosely follows the Microsoft X64 calling
-+ *       convention by putting arguments in RCX, RDX, R8 and R9.
-+ *     - RAX specifies the SVSM protocol/callid as input and the return code
-+ *       as output.
-+ */
-+static __always_inline void issue_svsm_call(struct svsm_call *call, u8 *pending)
-+{
-+	register unsigned long rax asm("rax") = call->rax;
-+	register unsigned long rcx asm("rcx") = call->rcx;
-+	register unsigned long rdx asm("rdx") = call->rdx;
-+	register unsigned long r8  asm("r8")  = call->r8;
-+	register unsigned long r9  asm("r9")  = call->r9;
-+
-+	call->caa->call_pending = 1;
-+
-+	asm volatile("rep; vmmcall\n\t"
-+		     : "+r" (rax), "+r" (rcx), "+r" (rdx), "+r" (r8), "+r" (r9)
-+		     : : "memory");
-+
-+	*pending = xchg(&call->caa->call_pending, *pending);
-+
-+	call->rax_out = rax;
-+	call->rcx_out = rcx;
-+	call->rdx_out = rdx;
-+	call->r8_out  = r8;
-+	call->r9_out  = r9;
-+}
-+
-+static int svsm_perform_msr_protocol(struct svsm_call *call)
-+{
-+	u8 pending = 0;
-+	u64 val, resp;
-+
-+	/*
-+	 * When using the MSR protocol, be sure to save and restore
-+	 * the current MSR value.
-+	 */
-+	val = sev_es_rd_ghcb_msr();
-+
-+	sev_es_wr_ghcb_msr(GHCB_MSR_VMPL_REQ_LEVEL(0));
-+
-+	issue_svsm_call(call, &pending);
-+
-+	resp = sev_es_rd_ghcb_msr();
-+
-+	sev_es_wr_ghcb_msr(val);
-+
-+	if (pending)
-+		return -EINVAL;
-+
-+	if (GHCB_RESP_CODE(resp) != GHCB_MSR_VMPL_RESP)
-+		return -EINVAL;
-+
-+	if (GHCB_MSR_VMPL_RESP_VAL(resp))
-+		return -EINVAL;
-+
-+	return process_svsm_result_codes(call);
-+}
-+
-+static int svsm_perform_ghcb_protocol(struct ghcb *ghcb, struct svsm_call *call)
-+{
-+	struct es_em_ctxt ctxt;
-+	u8 pending = 0;
-+
-+	vc_ghcb_invalidate(ghcb);
-+
-+	/*
-+	 * Fill in protocol and format specifiers. This can be called very early
-+	 * in the boot, so use rip-relative references as needed.
-+	 */
-+	ghcb->protocol_version = RIP_REL_REF(ghcb_version);
-+	ghcb->ghcb_usage       = GHCB_DEFAULT_USAGE;
-+
-+	ghcb_set_sw_exit_code(ghcb, SVM_VMGEXIT_SNP_RUN_VMPL);
-+	ghcb_set_sw_exit_info_1(ghcb, 0);
-+	ghcb_set_sw_exit_info_2(ghcb, 0);
-+
-+	sev_es_wr_ghcb_msr(__pa(ghcb));
-+
-+	issue_svsm_call(call, &pending);
-+
-+	if (pending)
-+		return -EINVAL;
-+
-+	switch (verify_exception_info(ghcb, &ctxt)) {
-+	case ES_OK:
-+		break;
-+	case ES_EXCEPTION:
-+		vc_forward_exception(&ctxt);
-+		fallthrough;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return process_svsm_result_codes(call);
-+}
-+
- static enum es_result sev_es_ghcb_hv_call(struct ghcb *ghcb,
- 					  struct es_em_ctxt *ctxt,
- 					  u64 exit_code, u64 exit_info_1,
-@@ -1289,7 +1411,7 @@ static enum es_result vc_check_opcode_bytes(struct es_em_ctxt *ctxt,
-  * Maintain the GPA of the SVSM Calling Area (CA) in order to utilize the SVSM
-  * services needed when not running in VMPL0.
-  */
--static void __head svsm_setup_ca(const struct cc_blob_sev_info *cc_info)
-+static bool __head svsm_setup_ca(const struct cc_blob_sev_info *cc_info)
- {
- 	struct snp_secrets_page *secrets_page;
- 	u64 caa;
-@@ -1311,7 +1433,7 @@ static void __head svsm_setup_ca(const struct cc_blob_sev_info *cc_info)
- 	 * code and the early kernel code.
- 	 */
- 	if (!rmpadjust((unsigned long)&RIP_REL_REF(boot_ghcb_page), RMP_PG_SIZE_4K, 1))
--		return;
-+		return false;
- 
- 	/*
- 	 * Not running at VMPL0, ensure everything has been properly supplied
-@@ -1339,4 +1461,6 @@ static void __head svsm_setup_ca(const struct cc_blob_sev_info *cc_info)
- 	 */
- 	RIP_REL_REF(boot_svsm_caa) = (struct svsm_ca *)caa;
- 	RIP_REL_REF(boot_svsm_caa_pa) = caa;
-+
-+	return true;
- }
 diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
-index 36a117a38b10..6bab3244a3b9 100644
+index b5c18ed4c572..ea4677177396 100644
 --- a/arch/x86/kernel/sev.c
 +++ b/arch/x86/kernel/sev.c
-@@ -133,16 +133,20 @@ struct ghcb_state {
- 	struct ghcb *ghcb;
- };
- 
-+/* For early boot SVSM communication */
-+static struct svsm_ca boot_svsm_ca_page __aligned(PAGE_SIZE);
-+
- static DEFINE_PER_CPU(struct sev_es_runtime_data*, runtime_data);
- static DEFINE_PER_CPU(struct sev_es_save_area *, sev_vmsa);
-+static DEFINE_PER_CPU(struct svsm_ca *, svsm_caa);
-+static DEFINE_PER_CPU(u64, svsm_caa_pa);
- 
- struct sev_config {
- 	__u64 debug		: 1,
- 
- 	      /*
--	       * A flag used by __set_pages_state() that indicates when the
--	       * per-CPU GHCB has been created and registered and thus can be
--	       * used by the BSP instead of the early boot GHCB.
-+	       * Indicates when the per-CPU GHCB has been created and registered
-+	       * and thus can be used by the BSP instead of the early boot GHCB.
- 	       *
- 	       * For APs, the per-CPU GHCB is created before they are started
- 	       * and registered upon startup, so this flag can be used globally
-@@ -150,6 +154,15 @@ struct sev_config {
- 	       */
- 	      ghcbs_initialized	: 1,
- 
-+	      /*
-+	       * Indicates when the per-CPU SVSM CA is to be used instead of the
-+	       * boot SVSM CA.
-+	       *
-+	       * For APs, the per-CPU SVSM CA is created as part of the AP
-+	       * bringup, so this flag can be used globally for the BSP and APs.
-+	       */
-+	      cas_initialized	: 1,
-+
- 	      __reserved	: 62;
- };
- 
-@@ -572,9 +585,47 @@ static enum es_result vc_ioio_check(struct es_em_ctxt *ctxt, u16 port, size_t si
- 	return ES_EXCEPTION;
+@@ -1006,22 +1006,50 @@ void snp_accept_memory(phys_addr_t start, phys_addr_t end)
+ 	set_pages_state(vaddr, npages, SNP_PAGE_STATE_PRIVATE);
  }
  
-+static __always_inline void vc_forward_exception(struct es_em_ctxt *ctxt)
-+{
-+	long error_code = ctxt->fi.error_code;
-+	int trapnr = ctxt->fi.vector;
-+
-+	ctxt->regs->orig_ax = ctxt->fi.error_code;
-+
-+	switch (trapnr) {
-+	case X86_TRAP_GP:
-+		exc_general_protection(ctxt->regs, error_code);
-+		break;
-+	case X86_TRAP_UD:
-+		exc_invalid_op(ctxt->regs);
-+		break;
-+	case X86_TRAP_PF:
-+		write_cr2(ctxt->fi.cr2);
-+		exc_page_fault(ctxt->regs, error_code);
-+		break;
-+	case X86_TRAP_AC:
-+		exc_alignment_check(ctxt->regs, error_code);
-+		break;
-+	default:
-+		pr_emerg("Unsupported exception in #VC instruction emulation - can't continue\n");
-+		BUG();
-+	}
-+}
-+
- /* Include code shared with pre-decompression boot stage */
- #include "sev-shared.c"
- 
-+static struct svsm_ca *svsm_get_caa(void)
-+{
-+	/*
-+	 * Use rip-relative references when called early in the boot. If
-+	 * cas_initialized is set, then it is late in the boot and no need
-+	 * to worry about rip-relative references.
-+	 */
-+	return RIP_REL_REF(sev_cfg).cas_initialized ? this_cpu_read(svsm_caa)
-+						    : RIP_REL_REF(boot_svsm_caa);
-+}
-+
- static noinstr void __sev_put_ghcb(struct ghcb_state *state)
+-static int snp_set_vmsa(void *va, bool vmsa)
++static int snp_set_vmsa(void *va, void *caa, int apic_id, bool make_vmsa)
  {
- 	struct sev_es_runtime_data *data;
-@@ -600,6 +651,44 @@ static noinstr void __sev_put_ghcb(struct ghcb_state *state)
- 	}
- }
- 
-+static int svsm_perform_call_protocol(struct svsm_call *call)
-+{
-+	struct ghcb_state state;
-+	unsigned long flags;
-+	struct ghcb *ghcb;
+-	u64 attrs;
 +	int ret;
-+
-+	/*
-+	 * This can be called very early in the boot, use native functions in
-+	 * order to avoid paravirt issues.
-+	 */
-+	flags = native_local_irq_save();
-+
-+	/*
-+	 * Use rip-relative references when called early in the boot. If
-+	 * ghcbs_initialized is set, then it is late in the boot and no need
-+	 * to worry about rip-relative references in called functions.
-+	 */
-+	if (RIP_REL_REF(sev_cfg).ghcbs_initialized)
-+		ghcb = __sev_get_ghcb(&state);
-+	else if (RIP_REL_REF(boot_ghcb))
-+		ghcb = RIP_REL_REF(boot_ghcb);
-+	else
-+		ghcb = NULL;
-+
-+	do {
-+		ret = ghcb ? svsm_perform_ghcb_protocol(ghcb, call)
-+			   : svsm_perform_msr_protocol(call);
-+	} while (ret == -EAGAIN);
-+
-+	if (RIP_REL_REF(sev_cfg).ghcbs_initialized)
-+		__sev_put_ghcb(&state);
-+
-+	native_local_irq_restore(flags);
-+
-+	return ret;
-+}
-+
- void noinstr __sev_es_nmi_complete(void)
- {
- 	struct ghcb_state state;
-@@ -1346,6 +1435,18 @@ static void __init alloc_runtime_data(int cpu)
- 		panic("Can't allocate SEV-ES runtime data");
  
- 	per_cpu(runtime_data, cpu) = data;
-+
-+	if (snp_vmpl) {
-+		struct svsm_ca *caa;
-+
-+		/* Allocate the SVSM CA page if an SVSM is present */
-+		caa = memblock_alloc(sizeof(*caa), PAGE_SIZE);
-+		if (!caa)
-+			panic("Can't allocate SVSM CA page\n");
-+
-+		per_cpu(svsm_caa, cpu) = caa;
-+		per_cpu(svsm_caa_pa, cpu) = __pa(caa);
-+	}
- }
- 
- static void __init init_ghcb(int cpu)
-@@ -1395,6 +1496,32 @@ void __init sev_es_init_vc_handling(void)
- 		init_ghcb(cpu);
- 	}
- 
-+	/* If running under an SVSM, switch to the per-cpu CA */
+-	/*
+-	 * Running at VMPL0 allows the kernel to change the VMSA bit for a page
+-	 * using the RMPADJUST instruction. However, for the instruction to
+-	 * succeed it must target the permissions of a lesser privileged
+-	 * (higher numbered) VMPL level, so use VMPL1 (refer to the RMPADJUST
+-	 * instruction in the AMD64 APM Volume 3).
+-	 */
+-	attrs = 1;
+-	if (vmsa)
+-		attrs |= RMPADJUST_VMSA_PAGE_BIT;
 +	if (snp_vmpl) {
 +		struct svsm_call call = {};
 +		unsigned long flags;
-+		int ret;
-+
+ 
+-	return rmpadjust((unsigned long)va, RMP_PG_SIZE_4K, attrs);
 +		local_irq_save(flags);
 +
-+		/*
-+		 * SVSM_CORE_REMAP_CA call:
-+		 *   RAX = 0 (Protocol=0, CallID=0)
-+		 *   RCX = New CA GPA
-+		 */
-+		call.caa = svsm_get_caa();
-+		call.rax = SVSM_CORE_CALL(SVSM_CORE_REMAP_CA);
-+		call.rcx = this_cpu_read(svsm_caa_pa);
-+		ret = svsm_perform_call_protocol(&call);
-+		if (ret)
-+			panic("Can't remap the SVSM CA, ret=%d, rax_out=0x%llx\n",
-+			      ret, call.rax_out);
++		call.caa = this_cpu_read(svsm_caa);
++		call.rcx = __pa(va);
 +
-+		sev_cfg.cas_initialized = true;
++		if (make_vmsa) {
++			/* Protocol 0, Call ID 2 */
++			call.rax = SVSM_CORE_CALL(SVSM_CORE_CREATE_VCPU);
++			call.rdx = __pa(caa);
++			call.r8  = apic_id;
++		} else {
++			/* Protocol 0, Call ID 3 */
++			call.rax = SVSM_CORE_CALL(SVSM_CORE_DELETE_VCPU);
++		}
++
++		ret = svsm_perform_call_protocol(&call);
 +
 +		local_irq_restore(flags);
++	} else {
++		u64 attrs;
++
++		/*
++		 * Running at VMPL0 allows the kernel to change the VMSA bit for a page
++		 * using the RMPADJUST instruction. However, for the instruction to
++		 * succeed it must target the permissions of a lesser privileged
++		 * (higher numbered) VMPL level, so use VMPL1 (refer to the RMPADJUST
++		 * instruction in the AMD64 APM Volume 3).
++		 */
++		attrs = 1;
++		if (make_vmsa)
++			attrs |= RMPADJUST_VMSA_PAGE_BIT;
++
++		ret = rmpadjust((unsigned long)va, RMP_PG_SIZE_4K, attrs);
 +	}
 +
- 	sev_es_setup_play_dead();
- 
- 	/* Secondary CPUs use the runtime #VC handler */
-@@ -1819,33 +1946,6 @@ static enum es_result vc_handle_exitcode(struct es_em_ctxt *ctxt,
- 	return result;
++	return ret;
  }
  
--static __always_inline void vc_forward_exception(struct es_em_ctxt *ctxt)
--{
--	long error_code = ctxt->fi.error_code;
--	int trapnr = ctxt->fi.vector;
--
--	ctxt->regs->orig_ax = ctxt->fi.error_code;
--
--	switch (trapnr) {
--	case X86_TRAP_GP:
--		exc_general_protection(ctxt->regs, error_code);
--		break;
--	case X86_TRAP_UD:
--		exc_invalid_op(ctxt->regs);
--		break;
--	case X86_TRAP_PF:
--		write_cr2(ctxt->fi.cr2);
--		exc_page_fault(ctxt->regs, error_code);
--		break;
--	case X86_TRAP_AC:
--		exc_alignment_check(ctxt->regs, error_code);
--		break;
--	default:
--		pr_emerg("Unsupported exception in #VC instruction emulation - can't continue\n");
--		BUG();
--	}
--}
--
- static __always_inline bool is_vc2_stack(unsigned long sp)
+ #define __ATTR_BASE		(SVM_SELECTOR_P_MASK | SVM_SELECTOR_S_MASK)
+@@ -1055,11 +1083,11 @@ static void *snp_alloc_vmsa_page(int cpu)
+ 	return page_address(p + 1);
+ }
+ 
+-static void snp_cleanup_vmsa(struct sev_es_save_area *vmsa)
++static void snp_cleanup_vmsa(struct sev_es_save_area *vmsa, int apic_id)
  {
- 	return (sp >= __this_cpu_ist_bottom_va(VC2) && sp < __this_cpu_ist_top_va(VC2));
-@@ -2095,6 +2195,47 @@ static __head struct cc_blob_sev_info *find_cc_blob(struct boot_params *bp)
- 	return cc_info;
- }
+ 	int err;
  
-+static __head void svsm_setup(struct cc_blob_sev_info *cc_info)
-+{
-+	struct svsm_call call = {};
-+	int ret;
-+	u64 pa;
-+
-+	/*
-+	 * Record the SVSM Calling Area address (CAA) if the guest is not
-+	 * running at VMPL0. The CA will be used to communicate with the
-+	 * SVSM to perform the SVSM services.
-+	 */
-+	if (!svsm_setup_ca(cc_info))
-+		return;
-+
-+	/*
-+	 * It is very early in the boot and the kernel is running identity
-+	 * mapped but without having adjusted the pagetables to where the
-+	 * kernel was loaded (physbase), so the get the CA address using
-+	 * RIP-relative addressing.
-+	 */
-+	pa = (u64)&RIP_REL_REF(boot_svsm_ca_page);
-+
-+	/*
-+	 * Switch over to the boot SVSM CA while the current CA is still
-+	 * addressable. There is no GHCB at this point so use the MSR protocol.
-+	 *
-+	 * SVSM_CORE_REMAP_CA call:
-+	 *   RAX = 0 (Protocol=0, CallID=0)
-+	 *   RCX = New CA GPA
-+	 */
-+	call.caa = svsm_get_caa();
-+	call.rax = SVSM_CORE_CALL(SVSM_CORE_REMAP_CA);
-+	call.rcx = pa;
-+	ret = svsm_perform_call_protocol(&call);
-+	if (ret)
-+		panic("Can't remap the SVSM CA, ret=%d, rax_out=0x%llx\n", ret, call.rax_out);
-+
-+	RIP_REL_REF(boot_svsm_caa) = (struct svsm_ca *)pa;
-+	RIP_REL_REF(boot_svsm_caa_pa) = pa;
-+}
-+
- bool __head snp_init(struct boot_params *bp)
+-	err = snp_set_vmsa(vmsa, false);
++	err = snp_set_vmsa(vmsa, NULL, apic_id, false);
+ 	if (err)
+ 		pr_err("clear VMSA page failed (%u), leaking page\n", err);
+ 	else
+@@ -1070,6 +1098,7 @@ static int wakeup_cpu_via_vmgexit(u32 apic_id, unsigned long start_ip)
  {
- 	struct cc_blob_sev_info *cc_info;
-@@ -2108,12 +2249,7 @@ bool __head snp_init(struct boot_params *bp)
+ 	struct sev_es_save_area *cur_vmsa, *vmsa;
+ 	struct ghcb_state state;
++	struct svsm_ca *caa;
+ 	unsigned long flags;
+ 	struct ghcb *ghcb;
+ 	u8 sipi_vector;
+@@ -1116,6 +1145,9 @@ static int wakeup_cpu_via_vmgexit(u32 apic_id, unsigned long start_ip)
+ 	if (!vmsa)
+ 		return -ENOMEM;
  
- 	setup_cpuid_table(cc_info);
++	/* If an SVSM is present, the SVSM per-CPU CAA will be !NULL */
++	caa = per_cpu(svsm_caa, cpu);
++
+ 	/* CR4 should maintain the MCE value */
+ 	cr4 = native_read_cr4() & X86_CR4_MCE;
  
--	/*
--	 * Record the SVSM Calling Area address (CAA) if the guest is not
--	 * running at VMPL0. The CA will be used to communicate with the
--	 * SVSM to perform the SVSM services.
--	 */
--	svsm_setup_ca(cc_info);
-+	svsm_setup(cc_info);
+@@ -1163,11 +1195,11 @@ static int wakeup_cpu_via_vmgexit(u32 apic_id, unsigned long start_ip)
+ 	 *   VMPL level
+ 	 *   SEV_FEATURES (matches the SEV STATUS MSR right shifted 2 bits)
+ 	 */
+-	vmsa->vmpl		= 0;
++	vmsa->vmpl		= snp_vmpl;
+ 	vmsa->sev_features	= sev_status >> 2;
  
- 	/*
- 	 * The CC blob will be used later to access the secrets page. Cache
-@@ -2306,3 +2442,12 @@ void sev_show_status(void)
+ 	/* Switch the page over to a VMSA page now that it is initialized */
+-	ret = snp_set_vmsa(vmsa, true);
++	ret = snp_set_vmsa(vmsa, caa, apic_id, true);
+ 	if (ret) {
+ 		pr_err("set VMSA page failed (%u)\n", ret);
+ 		free_page((unsigned long)vmsa);
+@@ -1183,7 +1215,10 @@ static int wakeup_cpu_via_vmgexit(u32 apic_id, unsigned long start_ip)
+ 	vc_ghcb_invalidate(ghcb);
+ 	ghcb_set_rax(ghcb, vmsa->sev_features);
+ 	ghcb_set_sw_exit_code(ghcb, SVM_VMGEXIT_AP_CREATION);
+-	ghcb_set_sw_exit_info_1(ghcb, ((u64)apic_id << 32) | SVM_VMGEXIT_AP_CREATE);
++	ghcb_set_sw_exit_info_1(ghcb,
++				((u64)apic_id << 32)	|
++				((u64)snp_vmpl << 16)	|
++				SVM_VMGEXIT_AP_CREATE);
+ 	ghcb_set_sw_exit_info_2(ghcb, __pa(vmsa));
+ 
+ 	sev_es_wr_ghcb_msr(__pa(ghcb));
+@@ -1201,13 +1236,13 @@ static int wakeup_cpu_via_vmgexit(u32 apic_id, unsigned long start_ip)
+ 
+ 	/* Perform cleanup if there was an error */
+ 	if (ret) {
+-		snp_cleanup_vmsa(vmsa);
++		snp_cleanup_vmsa(vmsa, apic_id);
+ 		vmsa = NULL;
  	}
- 	pr_cont("\n");
- }
-+
-+void __init snp_remap_svsm_ca(void)
-+{
-+	if (!snp_vmpl)
-+		return;
-+
-+	/* Update the CAA to a proper kernel address */
-+	boot_svsm_caa = &boot_svsm_ca_page;
-+}
-diff --git a/arch/x86/mm/mem_encrypt_amd.c b/arch/x86/mm/mem_encrypt_amd.c
-index 422602f6039b..6155020e4d2d 100644
---- a/arch/x86/mm/mem_encrypt_amd.c
-+++ b/arch/x86/mm/mem_encrypt_amd.c
-@@ -2,7 +2,7 @@
- /*
-  * AMD Memory Encryption Support
-  *
-- * Copyright (C) 2016 Advanced Micro Devices, Inc.
-+ * Copyright (C) 2016-2024 Advanced Micro Devices, Inc.
-  *
-  * Author: Tom Lendacky <thomas.lendacky@amd.com>
-  */
-@@ -510,6 +510,12 @@ void __init sme_early_init(void)
- 		 */
- 		x86_init.resources.dmi_setup = snp_dmi_setup;
- 	}
-+
-+	/*
-+	 * Switch the SVSM CA mapping (if active) from identity mapped to
-+	 * kernel mapped.
-+	 */
-+	snp_remap_svsm_ca();
- }
  
- void __init mem_encrypt_free_decrypted_mem(void)
+ 	/* Free up any previous VMSA page */
+ 	if (cur_vmsa)
+-		snp_cleanup_vmsa(cur_vmsa);
++		snp_cleanup_vmsa(cur_vmsa, apic_id);
+ 
+ 	/* Record the current VMSA page */
+ 	per_cpu(sev_vmsa, cpu) = vmsa;
 -- 
 2.43.2
 
