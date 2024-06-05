@@ -1,24 +1,24 @@
 Return-Path: <Thomas.Lendacky@amd.com>
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2062e.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2407::62e])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on20600.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2405::600])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id D29501C7AE9
- for <svsm-devel@coconut-svsm.dev>; Wed,  5 Jun 2024 17:20:25 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id EB1001C7AE9
+ for <svsm-devel@coconut-svsm.dev>; Wed,  5 Jun 2024 17:20:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GNID2WLx+iUMqQcZTI4bS3857lFpl+P8FdsIcsS2Mjs=;
- b=GYc0pA1fPSBjjkeSXS7j65gb4hKSyCK1J+v1P/dDcwUQnP3RFQ10pZrRDHQoaYVLdng0JusPzqy2bnik+HjHqcrCCK53amwvYf7J0WgXcn8BRX+bs6eZ+jdvP/zEkuvOM+wO/vLfGfbWGv/YViHxPrit8wOI/+VL3lCQDjHQzbI=
+ bh=VyKiZVJW0GpQotl057ZYLtvmJQ2ATScjZN/mHEK8EPY=;
+ b=NqZMzhTWj7ClS8o0Q8VdyAlOg5MTUZB4K46sRYMJIv4eB4sdBtBjQ+HCssXomRT63LvqLA00thGnXEHqKPIZhy7E72TxfVeRRvMQdZL4cZN6GXdkG7x2smsvkmKFS0dqb5lhtmQyxuIjAZi9zS9csW6AxtlmB+70j9qE04Y4h00=
 From: Tom Lendacky <thomas.lendacky@amd.com>
-Date: Wed, 5 Jun 2024 10:18:52 -0500
-Message-ID: <5a736be9384aebd98a0b7c929660f8a97cbdc366.1717600736.git.thomas.lendacky@amd.com>
+Date: Wed, 5 Jun 2024 10:18:53 -0500
+Message-ID: <e555c8740a263fab9f83b2cbb44da1af49a2813c.1717600736.git.thomas.lendacky@amd.com>
 In-Reply-To: <cover.1717600736.git.thomas.lendacky@amd.com>
 References: <cover.1717600736.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] [PATCH v5 09/13] configfs-tsm: Allow the
- privlevel_floor attribute to be updated
+Subject: [svsm-devel] [PATCH v5 10/13] fs/configfs: Add a callback to
+ determine attribute visibility
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -29,58 +29,74 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: linux-kernel@vger.kernel.org, x86@kernel.org, linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev
 Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>
+ Zijlstra <peterz@infradead.org>, Dan Williams <dan.j.williams@intel.com>, Michael Roth <michael.roth@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="utf-8"
 
-With the introduction of an SVSM, Linux will be running at a non-zero
-VMPL. Any request for an attestation report at a higher privilege VMPL
-than what Linux is currently running will result in an error. Allow for
-the privlevel_floor attribute to be updated dynamically so that the
-attribute may be set dynamically. Set the privlevel_floor attribute to
-be the value of the vmpck_id being used.
+In order to support dynamic decisions as to whether an attribute should be
+created, add a callback that returns a bool to indicate whether the
+attribute should be displayed. If no callback is registered, the attribute
+is displayed by default.
 
+Cc: Joel Becker <jlbec@evilplan.org>
+Cc: Christoph Hellwig <hch@lst.de>
+Co-developed-by: Dan Williams <dan.j.williams@intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
 Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 ---
- drivers/virt/coco/sev-guest/sev-guest.c | 5 ++++-
- include/linux/tsm.h                     | 2 +-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ fs/configfs/dir.c        | 10 ++++++++++
+ include/linux/configfs.h |  3 +++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/drivers/virt/coco/sev-guest/sev-guest.c b/drivers/virt/coco/sev-guest/sev-guest.c
-index 4597042f31e4..3560b3a8bb4d 100644
---- a/drivers/virt/coco/sev-guest/sev-guest.c
-+++ b/drivers/virt/coco/sev-guest/sev-guest.c
-@@ -892,7 +892,7 @@ static int sev_report_new(struct tsm_report *report, void *data)
- 	return 0;
- }
+diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
+index 18677cd4e62f..43d6bde1adcc 100644
+--- a/fs/configfs/dir.c
++++ b/fs/configfs/dir.c
+@@ -580,6 +580,7 @@ static void detach_attrs(struct config_item * item)
+ static int populate_attrs(struct config_item *item)
+ {
+ 	const struct config_item_type *t = item->ci_type;
++	struct configfs_group_operations *ops;
+ 	struct configfs_attribute *attr;
+ 	struct configfs_bin_attribute *bin_attr;
+ 	int error = 0;
+@@ -587,14 +588,23 @@ static int populate_attrs(struct config_item *item)
  
--static const struct tsm_ops sev_tsm_ops = {
-+static struct tsm_ops sev_tsm_ops = {
- 	.name = KBUILD_MODNAME,
- 	.report_new = sev_report_new,
- };
-@@ -979,6 +979,9 @@ static int __init sev_guest_probe(struct platform_device *pdev)
- 	snp_dev->input.resp_gpa = __pa(snp_dev->response);
- 	snp_dev->input.data_gpa = __pa(snp_dev->certs_data);
- 
-+	/* Set the privlevel_floor attribute based on the vmpck_id */
-+	sev_tsm_ops.privlevel_floor = vmpck_id;
+ 	if (!t)
+ 		return -EINVAL;
 +
- 	ret = tsm_register(&sev_tsm_ops, snp_dev, &tsm_report_extra_type);
- 	if (ret)
- 		goto e_free_cert_data;
-diff --git a/include/linux/tsm.h b/include/linux/tsm.h
-index de8324a2223c..50c5769657d8 100644
---- a/include/linux/tsm.h
-+++ b/include/linux/tsm.h
-@@ -54,7 +54,7 @@ struct tsm_report {
-  */
- struct tsm_ops {
- 	const char *name;
--	const unsigned int privlevel_floor;
-+	unsigned int privlevel_floor;
- 	int (*report_new)(struct tsm_report *report, void *data);
++	ops = t->ct_group_ops;
++
+ 	if (t->ct_attrs) {
+ 		for (i = 0; (attr = t->ct_attrs[i]) != NULL; i++) {
++			if (ops && ops->is_visible && !ops->is_visible(item, attr, i))
++				continue;
++
+ 			if ((error = configfs_create_file(item, attr)))
+ 				break;
+ 		}
+ 	}
+ 	if (t->ct_bin_attrs) {
+ 		for (i = 0; (bin_attr = t->ct_bin_attrs[i]) != NULL; i++) {
++			if (ops && ops->is_bin_visible && !ops->is_bin_visible(item, bin_attr, i))
++				continue;
++
+ 			error = configfs_create_bin_file(item, bin_attr);
+ 			if (error)
+ 				break;
+diff --git a/include/linux/configfs.h b/include/linux/configfs.h
+index 2606711adb18..c771e9d0d0b9 100644
+--- a/include/linux/configfs.h
++++ b/include/linux/configfs.h
+@@ -216,6 +216,9 @@ struct configfs_group_operations {
+ 	struct config_group *(*make_group)(struct config_group *group, const char *name);
+ 	void (*disconnect_notify)(struct config_group *group, struct config_item *item);
+ 	void (*drop_item)(struct config_group *group, struct config_item *item);
++	bool (*is_visible)(struct config_item *item, struct configfs_attribute *attr, int n);
++	bool (*is_bin_visible)(struct config_item *item, struct configfs_bin_attribute *attr,
++			       int n);
  };
  
+ struct configfs_subsystem {
 -- 
 2.43.2
 
