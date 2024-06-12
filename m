@@ -1,32 +1,31 @@
-Return-Path: <sgarzare@redhat.com>
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Return-Path: <jiewen.yao@intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 0BAE01C0BD3
- for <svsm-devel@coconut-svsm.dev>; Wed, 12 Jun 2024 12:00:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1718186446;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=41hFLxg01Htpnw796WhT3MUnPbtGNzJbrSe/6sJzzZY=;
- b=dwtdD4AhB/c6fpMHBsn/mRj0aJjXhJoPs86JuQyOFaHiFhwREllbSuyh6tml+Q58HZb8BR
- ZKEWOh4o/gUfUhKQ1ntcVrvfWIrTUP+fivTvO/LrlTJXYzWIKMyqaRvjdzLFyONAcEXNIa
- JF7E/R01+X2+6Ys6M3vcaFA0SkBcef4=
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-62ff8aff966so5451537b3.2
- for <svsm-devel@coconut-svsm.dev>; Wed, 12 Jun 2024 03:00:44 -0700 (PDT)
-MIME-Version: 1.0
+ by mail.8bytes.org (Postfix) with ESMTPS id AFFD91C63BB
+ for <svsm-devel@coconut-svsm.dev>; Wed, 12 Jun 2024 12:22:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1718187753; x=1749723753;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=FtCNH6Y4gbal4IUZMDbOH//BRH/KijUimygim7LAjks=;
+ b=Mu8RT4wbyJ0fOfXHi9ukSHFEdeh3cQMbbo6QSbKoueh1mZAjIow70GKV
+ 6G1FYBzxo0q22sYoCBC2Nt2TcNYNgEVaTjYK66mZQzJRa24rVYhvZrYDP
+ NZyuajO0/ph25rtHsfpkfUxUkW+0eu7vXOIiW1ljyaJDaqVcPxm+xxvYD
+ QtMp4kf0FyBudAUJ+BF8me2M1sWGlyzWB0iOBKT1kbFMdup4QhbmVsC3U
+ Nk53HBdzRN0z0tgdf+da9U21lPN1BzyaEkHGv2JJiVGT/jrb6ZXEhSV2F
+ wn6u/9cjR9uqoiMAIedzbWrgLRsuKuE0thBkfbT9u99DMs9qWswp1/maf w==;
+From: "Yao, Jiewen" <jiewen.yao@intel.com>
+Date: Wed, 12 Jun 2024 10:22:22 +0000
+Message-ID: <MW4PR11MB587216FC4E6CAFA22A5D56A18CC02@MW4PR11MB5872.namprd11.prod.outlook.com>
 References: <18df8b3afe39075dd9ab1211d17db83731d39cdf.camel@ibm.com>
-In-Reply-To: <18df8b3afe39075dd9ab1211d17db83731d39cdf.camel@ibm.com>
-From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Wed, 12 Jun 2024 12:00:31 +0200
-Message-ID: <CAGxU2F43hwr3pJjS-MdOjyVrZ5tQTG3W==vDTJmgd3YhPKr86Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <CAGxU2F43hwr3pJjS-MdOjyVrZ5tQTG3W==vDTJmgd3YhPKr86Q@mail.gmail.com>
+In-Reply-To: <CAGxU2F43hwr3pJjS-MdOjyVrZ5tQTG3W==vDTJmgd3YhPKr86Q@mail.gmail.com>
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 Subject: Re: [svsm-devel] SVSM Development Call - June 12th, 2024
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
@@ -36,53 +35,48 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Claudio Siqueira de Carvalho <cclaudio@ibm.com>
-Cc: "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>, "James.Bottomley@HansenPartnership.com" <James.Bottomley@hansenpartnership.com>
+To: Stefano Garzarella <sgarzare@redhat.com>, Claudio Siqueira de Carvalho <cclaudio@ibm.com>
+Cc: "James.Bottomley@HansenPartnership.com" <James.Bottomley@hansenpartnership.com>, "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
-Hi Claudio,
-
-On Tue, Jun 11, 2024 at 10:46=E2=80=AFPM Claudio Siqueira de Carvalho
-<cclaudio@ibm.com> wrote:
->
-> Hi,
->
-> I would like to add two topics to the SVSM meeting agenda:
-
-I won't be able to participate in today's call because I'm on my way
-to Brno for DevConf, so I post a few thoughts below.
-
->
-> - What does TPM locality[1] mean for the SVSM vTPM?
-
-Interesting, IIUC an example could be to use different "localities"
-for SVSM itself, edk2, kernel, etc.  right ?
-
-> - Is there any SVSM boot event that we want to record in the TPM PCRs/Eve=
-nt log?
-> E.g. a SVSM configuration, the OVMF hash, etc
-
-Talking with Daniel, it seems that now EDK2 is self-measuring itself
-in PCR0, so maybe it would be better to do this in SVSM.
-So it would be nice to have SVSM measuring itself in PCR0, SVSM
-measuring EDK2 in PCR0, and EDK2 stopping doing it.
-
-Obviously SVSM and EDK2 are already measured by the SNP attestation
-report, so it's not a blocking thing for now, since the guest OS can
-use that mechanism to measure them.
-
-Thanks for raising these topics!
-Stefano
-
->
-> [1]
-> https://trustedcomputinggroup.org/wp-content/uploads/PC-Client-Specific-P=
-latform-TPM-Profile-for-TPM-2p0-v1p05p_r14_pub.pdf
->
-> Thanks,
-> Claudio
-> --
-> Svsm-devel mailing list
-> Svsm-devel@coconut-svsm.dev
-> https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel
->
-
+Q29tbWVudCBiZWxvdzoNCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206
+IFN2c20tZGV2ZWwgPHN2c20tZGV2ZWwtYm91bmNlc0Bjb2NvbnV0LXN2c20uZGV2PiBPbiBCZWhh
+bGYgT2YNCj4gU3RlZmFubyBHYXJ6YXJlbGxhDQo+IFNlbnQ6IFdlZG5lc2RheSwgSnVuZSAxMiwg
+MjAyNCA2OjAxIFBNDQo+IFRvOiBDbGF1ZGlvIFNpcXVlaXJhIGRlIENhcnZhbGhvIDxjY2xhdWRp
+b0BpYm0uY29tPg0KPiBDYzogSmFtZXMuQm90dG9tbGV5QEhhbnNlblBhcnRuZXJzaGlwLmNvbTsg
+bGludXgtY29jb0BsaXN0cy5saW51eC5kZXY7IHN2c20tDQo+IGRldmVsQGNvY29udXQtc3ZzbS5k
+ZXYNCj4gU3ViamVjdDogUmU6IFtzdnNtLWRldmVsXSBTVlNNIERldmVsb3BtZW50IENhbGwgLSBK
+dW5lIDEydGgsIDIwMjQNCj4gDQo+IEhpIENsYXVkaW8sDQo+IA0KPiBPbiBUdWUsIEp1biAxMSwg
+MjAyNCBhdCAxMDo0NuKAr1BNIENsYXVkaW8gU2lxdWVpcmEgZGUgQ2FydmFsaG8NCj4gPGNjbGF1
+ZGlvQGlibS5jb20+IHdyb3RlOg0KPiA+DQo+ID4gSGksDQo+ID4NCj4gPiBJIHdvdWxkIGxpa2Ug
+dG8gYWRkIHR3byB0b3BpY3MgdG8gdGhlIFNWU00gbWVldGluZyBhZ2VuZGE6DQo+IA0KPiBJIHdv
+bid0IGJlIGFibGUgdG8gcGFydGljaXBhdGUgaW4gdG9kYXkncyBjYWxsIGJlY2F1c2UgSSdtIG9u
+IG15IHdheQ0KPiB0byBCcm5vIGZvciBEZXZDb25mLCBzbyBJIHBvc3QgYSBmZXcgdGhvdWdodHMg
+YmVsb3cuDQo+IA0KPiA+DQo+ID4gLSBXaGF0IGRvZXMgVFBNIGxvY2FsaXR5WzFdIG1lYW4gZm9y
+IHRoZSBTVlNNIHZUUE0/DQo+IA0KPiBJbnRlcmVzdGluZywgSUlVQyBhbiBleGFtcGxlIGNvdWxk
+IGJlIHRvIHVzZSBkaWZmZXJlbnQgImxvY2FsaXRpZXMiDQo+IGZvciBTVlNNIGl0c2VsZiwgZWRr
+Miwga2VybmVsLCBldGMuICByaWdodCA/DQoNCltKaWV3ZW5dIFRoZSBtYWluIHVzYWdlIG9mIFRQ
+TSBsb2NhbGl0eSBpcyB0byBzdXBwb3J0IERSVE0gbW9kZWwsIGJ1dCBub3QgU1JUTS4NCkkgYW0g
+bm90IHN1cmUgdGhlIHZhbHVlIHRvIHN1cHBvcnQgbG9jYWxpdHkgaWYgd2UganVzdCBhZG9wdCBT
+UlRNLg0KDQoNCg0KPiANCj4gPiAtIElzIHRoZXJlIGFueSBTVlNNIGJvb3QgZXZlbnQgdGhhdCB3
+ZSB3YW50IHRvIHJlY29yZCBpbiB0aGUgVFBNIFBDUnMvRXZlbnQNCj4gbG9nPw0KPiA+IEUuZy4g
+YSBTVlNNIGNvbmZpZ3VyYXRpb24sIHRoZSBPVk1GIGhhc2gsIGV0Yw0KPiANCj4gVGFsa2luZyB3
+aXRoIERhbmllbCwgaXQgc2VlbXMgdGhhdCBub3cgRURLMiBpcyBzZWxmLW1lYXN1cmluZyBpdHNl
+bGYNCj4gaW4gUENSMCwgc28gbWF5YmUgaXQgd291bGQgYmUgYmV0dGVyIHRvIGRvIHRoaXMgaW4g
+U1ZTTS4NCj4gU28gaXQgd291bGQgYmUgbmljZSB0byBoYXZlIFNWU00gbWVhc3VyaW5nIGl0c2Vs
+ZiBpbiBQQ1IwLCBTVlNNDQo+IG1lYXN1cmluZyBFREsyIGluIFBDUjAsIGFuZCBFREsyIHN0b3Bw
+aW5nIGRvaW5nIGl0Lg0KDQpbSmlld2VuXSBZZXMuIEludGVsIGlzIHdvcmtpbmcgb24gYSBwYXRj
+aCB0byBsZXQgU1ZTTSBtZWFzdXJlIEVESzIgT1ZNRiBkaXJlY3RseSB0byBQQ1JbMF0uDQpXaXRo
+IHRoaXMgY2hhbmdlLCB0aGUgRURLMiBPVk1GIG92ZXIgU1ZTTSB3aWxsIHNraXAgdGhlIFBDUlsw
+XSBtZWFzdXJlbWVudCBidXQgb25seSBjcmVhdGUgZXZlbnQgbG9nLg0KDQoNCg0KPiANCj4gT2J2
+aW91c2x5IFNWU00gYW5kIEVESzIgYXJlIGFscmVhZHkgbWVhc3VyZWQgYnkgdGhlIFNOUCBhdHRl
+c3RhdGlvbg0KPiByZXBvcnQsIHNvIGl0J3Mgbm90IGEgYmxvY2tpbmcgdGhpbmcgZm9yIG5vdywg
+c2luY2UgdGhlIGd1ZXN0IE9TIGNhbg0KPiB1c2UgdGhhdCBtZWNoYW5pc20gdG8gbWVhc3VyZSB0
+aGVtLg0KPiANCj4gVGhhbmtzIGZvciByYWlzaW5nIHRoZXNlIHRvcGljcyENCj4gU3RlZmFubw0K
+PiANCj4gPg0KPiA+IFsxXQ0KPiA+IGh0dHBzOi8vdHJ1c3RlZGNvbXB1dGluZ2dyb3VwLm9yZy93
+cC1jb250ZW50L3VwbG9hZHMvUEMtQ2xpZW50LVNwZWNpZmljLQ0KPiBQbGF0Zm9ybS1UUE0tUHJv
+ZmlsZS1mb3ItVFBNLTJwMC12MXAwNXBfcjE0X3B1Yi5wZGYNCj4gPg0KPiA+IFRoYW5rcywNCj4g
+PiBDbGF1ZGlvDQo+ID4gLS0NCj4gPiBTdnNtLWRldmVsIG1haWxpbmcgbGlzdA0KPiA+IFN2c20t
+ZGV2ZWxAY29jb251dC1zdnNtLmRldg0KPiA+IGh0dHBzOi8vbWFpbC44Ynl0ZXMub3JnL2NnaS1i
+aW4vbWFpbG1hbi9saXN0aW5mby9zdnNtLWRldmVsDQo+ID4NCj4gDQo+IC0tDQo+IFN2c20tZGV2
+ZWwgbWFpbGluZyBsaXN0DQo+IFN2c20tZGV2ZWxAY29jb251dC1zdnNtLmRldg0KPiBodHRwczov
+L21haWwuOGJ5dGVzLm9yZy9jZ2ktYmluL21haWxtYW4vbGlzdGluZm8vc3ZzbS1kZXZlbA0K
