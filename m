@@ -1,23 +1,21 @@
 Return-Path: <joro@8bytes.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1721726972;
- bh=qOp7JolbibUywc2GBhgea2TOpB5t2xmTTw9pw2hdLKk=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=juxVpSkypUiShX5ggkpwsa636JfjXnxCey+VeV0Uvj32mq3131kNiLrNY4e7WIXVR
- vJ5OIG07ZWOYGh6Wv9BVXmFXj5k1uSot19rM89o7ywOnytzvy8HOuU2C69PuE00L3i
- 6E8BbngOYcu+kkdXBHIqF03ezbQxfyDHjulKC4SvyNhHRxQ/GhEMC06pkmukgormF7
- UGF+jsyTeXRFszMKPT9CwuBoDd9xTn6Vznkikxg0VvA6TyGZAQs8piwRfYYJB3oVB3
- y0ZHd5xxkkX77psuE1q93t1wCH3w0D1Uaoz3DGo83XueE16HFxJn0IXzHvsgW3ZW2l
- Uklq0KAK+s7WQ==
-Date: Tue, 23 Jul 2024 11:29:30 +0200
+ s=default; t=1722353347;
+ bh=tTsbuTQ00zysgE3cSRK8WQxOxnwDtfkoCjHJIkSZWJ8=;
+ h=Date:From:To:Subject:From;
+ b=1Fp3PsCe3qMSB0fzurtkl7cy52B04yadXFgnqcDDAV7NkV3vgAomsccqw9ZVQCaoZ
+ hNXRMJUqCmlbi2Q9i8S2+hrXEYnWxsfvWsbrDSKEodk2xMQRZNN9a4qTlx6mzr0N0v
+ 8TMfmimQfM7HsqbsUYP6ZAyQooSKIg3jfpcWdYwytL+FELT4RjxEqDccn0SgSTaUFE
+ yUn5+krf8S0Ew79MqC3H8bicRsUUR3ZY7H0Lq8cJFsAhzEv/JBcIQ27p7N1fqoMnEc
+ Bf/I/nsAtmErAYZLhfJ5bz746st/m0YIOqbvmqX4UOfHA4wtoUa5O8AmYTXRE7nZE6
+ /xgpmH344gSpg==
+Date: Tue, 30 Jul 2024 17:29:06 +0200
 From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <Zp93-mMjOSP0Ndff@8bytes.org>
-References: <ZpfDsB66UnU9oodo@8bytes.org>
+Message-ID: <ZqkGwtfMx_OisW6q@8bytes.org>
 MIME-Version: 1.0
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZpfDsB66UnU9oodo@8bytes.org>
-Subject: Re: [svsm-devel] SVSM Development Call July 17th, 2024
+Subject: [svsm-devel] SVSM Development Call July 31st, 2024
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -29,13 +27,27 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
 To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
 Content-Type: text/plain; charset="utf-8"
 
-On Wed, Jul 17, 2024 at 03:14:24PM +0200, Jörg Rödel wrote:
-> The meeting will be recorded and the recording eventually published.
+Hi,
 
-PR with minutes for this call is finally posted here:
+Here is the usual call for agenda items for this weeks SVSM development
+call. Please send me any agenda items you have in mind or raise them in
+the meeting.
 
-	https://github.com/coconut-svsm/governance/pull/20
+Currently on the agenda:
+
+	* Can stage1 be removed?
+	* Pros and cons for requiring specific stable Rust versions
+	  (tied to PR #428)
+
+Details of the meeting (GMeet and Calendar links, meeting time) can be
+found in our governance repository at:
+
+	https://github.com/coconut-svsm/governance
+
+The meeting will be recorded and the recording eventually published.
+
+See you all there.
 
 Regards,
 
-	Joerg
+	Jörg
