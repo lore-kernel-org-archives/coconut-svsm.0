@@ -1,21 +1,23 @@
 Return-Path: <joro@8bytes.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1722353347;
- bh=tTsbuTQ00zysgE3cSRK8WQxOxnwDtfkoCjHJIkSZWJ8=;
- h=Date:From:To:Subject:From;
- b=1Fp3PsCe3qMSB0fzurtkl7cy52B04yadXFgnqcDDAV7NkV3vgAomsccqw9ZVQCaoZ
- hNXRMJUqCmlbi2Q9i8S2+hrXEYnWxsfvWsbrDSKEodk2xMQRZNN9a4qTlx6mzr0N0v
- 8TMfmimQfM7HsqbsUYP6ZAyQooSKIg3jfpcWdYwytL+FELT4RjxEqDccn0SgSTaUFE
- yUn5+krf8S0Ew79MqC3H8bicRsUUR3ZY7H0Lq8cJFsAhzEv/JBcIQ27p7N1fqoMnEc
- Bf/I/nsAtmErAYZLhfJ5bz746st/m0YIOqbvmqX4UOfHA4wtoUa5O8AmYTXRE7nZE6
- /xgpmH344gSpg==
-Date: Tue, 30 Jul 2024 17:29:06 +0200
+ s=default; t=1722440926;
+ bh=8MtVYQJyzMjuD2LgXZtF07C/Bqsnrcvv8Udx91o/HFI=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=eT+ie6iwguyM33hgurpNTC/3FxV0Q4PtwG9x5PrL9PgyHQE4wSMiRIYO0eD806YH/
+ HwYAhVKJdxrduTbD395iKaVGLS3DQWbOImmDDgYXcJ53eVH/Q90JLkmeRL9Xt2g3rc
+ d0eP/Sgf7Dy7j4HezMyeBudSq6qWEDCWnNHbsC56tGGlOoF2uxSQEbfc1W8omqPOSV
+ WI9+u5tryHLpctbGrZ5jGKCHw/KCdoYsi3iTomDfkRiMRTeRxRo1WTRZZOP1/TzNSg
+ F5D6YKrkAPNoyMyKd7NPHbHPMsqvRZ3C2ZptRQ72ioN8zADqZZYmXadaLOcz4AZMAV
+ a0mAcxWO5HM5Q==
+Date: Wed, 31 Jul 2024 17:48:45 +0200
 From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <ZqkGwtfMx_OisW6q@8bytes.org>
+Message-ID: <Zqpc3dbqxorynrHy@8bytes.org>
+References: <ZqkGwtfMx_OisW6q@8bytes.org>
 MIME-Version: 1.0
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] SVSM Development Call July 31st, 2024
+In-Reply-To: <ZqkGwtfMx_OisW6q@8bytes.org>
+Subject: Re: [svsm-devel] SVSM Development Call July 31st, 2024
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -27,27 +29,12 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
 To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
 Content-Type: text/plain; charset="utf-8"
 
-Hi,
+On Tue, Jul 30, 2024 at 05:29:06PM +0200, Jörg Rödel wrote:
+> 	* Can stage1 be removed?
+> 	* Pros and cons for requiring specific stable Rust versions
+> 	  (tied to PR #428)
 
-Here is the usual call for agenda items for this weeks SVSM development
-call. Please send me any agenda items you have in mind or raise them in
-the meeting.
+Two additional items:
 
-Currently on the agenda:
-
-	* Can stage1 be removed?
-	* Pros and cons for requiring specific stable Rust versions
-	  (tied to PR #428)
-
-Details of the meeting (GMeet and Calendar links, meeting time) can be
-found in our governance repository at:
-
-	https://github.com/coconut-svsm/governance
-
-The meeting will be recorded and the recording eventually published.
-
-See you all there.
-
-Regards,
-
-	Jörg
+	* SVSM BoF at LPC?
+	* Stack unwinder issues update
