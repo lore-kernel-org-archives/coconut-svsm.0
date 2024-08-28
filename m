@@ -1,21 +1,40 @@
-Return-Path: <joro@8bytes.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1724790781;
- bh=5DC8ApCS4PQtNj6gDHXl1riZo4+mA0NpscXhWCWvNGE=;
- h=Date:From:To:Subject:From;
- b=6YES2SGibQg+ybfsNuj3ff493N0H1SvB2Hbq/nC3eqaBYHb3gIciDfSai476IS7FH
- tWh60j/tJVa07Ovw2ERAth2FfLve8XYqlHT6cjwaLV3gbtyhXym+W4CiEd9EKWnNdL
- Q90LzPwGj36oMlSBcJWztb7zUeH2ZRmeMHoq2uPvWTYSSWohknUveR6zQ+sZySaDjT
- MhG41Jq1UUIaRoH8xMbTEbTebZzdmCbenH/V7Wfmr8LDprzfaI69fVLh6I7M7+o3nH
- TYcQEzZCd0F7Py59ZlDvXaJaYL64s9YmQQ2OwZtGRZdaguX9cNDdvxoYtJih+PSv1s
- oX49ohUphGMTw==
-Date: Tue, 27 Aug 2024 22:33:00 +0200
-From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <Zs43_I_cewEo6efb@8bytes.org>
+Return-Path: <thomas.leroy@suse.com>
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPS id C99E4286575
+ for <svsm-devel@coconut-svsm.dev>; Wed, 28 Aug 2024 15:37:56 +0200 (CEST)
+Received: by mail-ej1-x632.google.com with SMTP id
+ a640c23a62f3a-a83597ce5beso113783966b.1
+ for <svsm-devel@coconut-svsm.dev>; Wed, 28 Aug 2024 06:37:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1724852275; x=1725457075; darn=coconut-svsm.dev;
+ h=content-transfer-encoding:to:autocrypt:subject:from
+ :content-language:user-agent:mime-version:date:message-id:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dVxFIc0CbEcNBwWGiem5Ns5I7DfQUe5ZJUxQlSNC48M=;
+ b=IxjhwFYX55h34ci3ZnRZYUtOTL5ONDWNLj/uU5Wkfr98+VUuqC9ne3Ny9tMlNYp2NQ
+ ZqYm2414v3ntNLolKv63dEtsMhEEMsY8lhT6ovcnR88BbEG+bfabvWlQe1hEsiAEOkWh
+ bo16+USJd1fX+zetUAkWDfhsbvKrs3Wk4u+cSna32jnod7jE9GOUFcU7+zvoypP3pz1x
+ JOBAipfcCgHcBGVRDeYa6Lyh9QnJc7Qho+kbAHH6j9zGuKys/0D+8Ml+Ynkmd+VtQFc/
+ D8EW5m3st25T2TXSGk7iEd3/jLDtaQckEUoAVTE8mbKDq+DTnF/uOiXlNBpnJYxNhEE3
+ o3hw==
+Received: from [192.168.1.108] (88-177-86-171.subs.proxad.net. [88.177.86.171])
+ by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5c0bb2134c3sm2252054a12.55.2024.08.28.06.37.54
+ for <svsm-devel@coconut-svsm.dev>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Aug 2024 06:37:54 -0700 (PDT)
+Message-ID: <59a0b153-b2a5-464b-a72d-7fa7408882da@suse.com>
+Date: Wed, 28 Aug 2024 15:37:53 +0200
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] SVSM Development Call August 28th, 2024
+Content-Language: en-US
+From: Thomas Leroy <thomas.leroy@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Subject: [svsm-devel] Kernel security features
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -24,28 +43,29 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="utf-8"
+To: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
-Hi,
+Hi everyone,
 
-Here is the usual call for agenda items for this weeks SVSM development
-call. Please send me any agenda items you have in mind or raise them in
-the meeting.
+I created an issue on Github repo [0] to start tracking down the
+security features and hardening we could add to the COCONUT kernel.
 
-We have one topic to resume from last week:
+The current list currently contains:
+- KASLR
+- Read-only GDT and IDT
+- SMEP and SMAP
+- Heap hardening
+- Shadow stacks
 
-	* COCONUT Project Logo discussion
+This is still a draft list, maybe some features can't be implemented yet
+or could also be irrelevant, so please feel free to comment on this :)
 
-Details of the meeting (GMeet and Calendar links, meeting time) can be
-found in our governance repository at:
+Thomas
 
-	https://github.com/coconut-svsm/governance
+[0] https://github.com/coconut-svsm/svsm/issues/448
 
-The meeting will be recorded and the recording eventually published.
+-- 
+Thomas Leroy
+Security Engineer
+SUSE Software Solutions
 
-See you all there.
-
-Regards,
-
-	Jörg
