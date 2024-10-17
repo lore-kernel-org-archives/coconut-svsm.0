@@ -1,21 +1,23 @@
 Return-Path: <joro@8bytes.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1729007406;
- bh=X3omtTaqM7MPcUeto69H7xS6O+r+jCuV69wewPBSqww=;
- h=Date:From:To:Subject:From;
- b=dIza3KEP44ODgCy5IoKgGxMoXesl27G9YoH5CLnnsU3BoujcVScuxRBMNOx8P1WnY
- YA4ApR39/XQhb20Y6rh2V/+IIFqc2dliOCzDLzGZWPiQIRI+krWnZndNGTpV5Z5zlh
- DSe7pPJtUAhq2w99DuCaQDNn7y/hkUhYYvPYllMkIrd1G3xeZ1U8LqaJbKg6KPa+C/
- hvlW5YQNh6UfBGFj7gsM3rTrKlpVysv/oyQgyu+TYgH3aY1UcA9uTYonySX3FGxpk1
- Mt+3k+YplIsmyylnhxdPwFLEaV4VmhlM3gcU4lIcac3NnYQ7MFQCpNSCUGmBtvdOBb
- UUWD8sf2yl84Q==
-Date: Tue, 15 Oct 2024 17:50:05 +0200
+ s=default; t=1729150477;
+ bh=V/UDoVIaLrl/ycMPKq3Cb5sn+E9HgFvSmh/H0zILLg4=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=lGSfiibPkJ52cVaXb5QCeMOS3Lsd8tpSEyMte5B76pLdwYWwZiX0xGbTXJejvn7uP
+ AyA6X+IReFs60O6/U1ZLI4kTNR4OK6wCwGxBWIIwR6iPLrUXNQVmj/mWi4FeTiOfhc
+ 7SY5B66cY0lMKBCIsSEBa3ISyFaEa8SHtSb8Y3VfqCLtRIm23Bcc2iAWvqESDWTXfO
+ Il2N9HYDZzU2q2+X+SfDBh/2yQJCcrjyYw1zXf4kHQ28P3hUTVHrdCpdpkB5goPBkB
+ XxV/tvwebQKUfaplGQig/lZ2fVXIaOVbYuIS5oHcEzOB+SaeIjsmd4zCF19aUJkagh
+ WixWKHA0OFNNA==
+Date: Thu, 17 Oct 2024 09:34:35 +0200
 From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <Zw6PLUNF5hviin1s@8bytes.org>
+Message-ID: <ZxC-C0Pf96XukT4u@8bytes.org>
+References: <Zw6PLUNF5hviin1s@8bytes.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] SVSM Development Call October 16th, 2024
+In-Reply-To: <Zw6PLUNF5hviin1s@8bytes.org>
+Subject: Re: [svsm-devel] SVSM Development Call October 16th, 2024
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -25,28 +27,10 @@ List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="utf-8"
 
-Hi,
+Meeting minutes PR is now posted:
 
-Here is the usual call for agenda items for this weeks SVSM development
-call. Please send me any agenda items you have in mind or raise them in
-the meeting.
+	https://github.com/coconut-svsm/governance/pull/30
 
-Currently on my agenda:
 
-	* COCONUT related OC3 submissions
-	* Rust version bump
-
-Details of the meeting (GMeet and Calendar links, meeting time) can be
-found in our governance repository at:
-
-	https://github.com/coconut-svsm/governance
-
-The meeting will be recorded and the recording eventually published.
-
-See you all there.
-
-Regards,
-
-	Jörg
+Joerg
