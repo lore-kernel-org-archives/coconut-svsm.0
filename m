@@ -1,23 +1,21 @@
 Return-Path: <joro@8bytes.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1729150477;
- bh=V/UDoVIaLrl/ycMPKq3Cb5sn+E9HgFvSmh/H0zILLg4=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=lGSfiibPkJ52cVaXb5QCeMOS3Lsd8tpSEyMte5B76pLdwYWwZiX0xGbTXJejvn7uP
- AyA6X+IReFs60O6/U1ZLI4kTNR4OK6wCwGxBWIIwR6iPLrUXNQVmj/mWi4FeTiOfhc
- 7SY5B66cY0lMKBCIsSEBa3ISyFaEa8SHtSb8Y3VfqCLtRIm23Bcc2iAWvqESDWTXfO
- Il2N9HYDZzU2q2+X+SfDBh/2yQJCcrjyYw1zXf4kHQ28P3hUTVHrdCpdpkB5goPBkB
- XxV/tvwebQKUfaplGQig/lZ2fVXIaOVbYuIS5oHcEzOB+SaeIjsmd4zCF19aUJkagh
- WixWKHA0OFNNA==
-Date: Thu, 17 Oct 2024 09:34:35 +0200
+ s=default; t=1729660964;
+ bh=jaVX81z53p5nscHZi4FViOOFnlI7ZuqWEq2t0nMA8rs=;
+ h=Date:From:To:Cc:Subject:From;
+ b=sZ3QyFk2kEFuTPhfwHh/O0N1OmeJNILjcWZXEHxHmZ/gAtRbpv37u0Yi+FI/BhiHF
+ P4rkRnHsGTUrY2UM6dypwIhdHJVH6K91He3A95O4iu3uqe4mfQtD5HqXq7Y45al6FA
+ wh2AigoXhQWnpnEZBm7Xk6YHP9HkKMIRuDn8eNesmryQ4LC8PDkZ2SfLBbITaWFoE7
+ SxAFK8xBVJ3Xn+6+GP36rbD3FOZiV7O2iYRZznMqHUPdY/USu6HmanUKYzZBIZr57r
+ qNae5oncCE/1j8/hr4Y92yRHC51dOW9uxZdcpFiQDTxrBkpd9T0ReRJZLLOB117yng
+ rzwisSab+bUqQ==
+Date: Wed, 23 Oct 2024 07:22:43 +0200
 From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <ZxC-C0Pf96XukT4u@8bytes.org>
-References: <Zw6PLUNF5hviin1s@8bytes.org>
+Message-ID: <ZxiIIxuWHa_Vs28L@8bytes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zw6PLUNF5hviin1s@8bytes.org>
-Subject: Re: [svsm-devel] SVSM Development Call October 16th, 2024
+Content-Transfer-Encoding: 8bit
+Subject: [svsm-devel] SVSM Development Call October 23rd, 2024
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -27,10 +25,30 @@ List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
+Cc: Ziqiao Zhou <ziqiaozhou@microsoft.com>, Weidong Cui <Weidong.Cui@microsoft.com>
+Content-Type: text/plain; charset="utf-8"
 
-Meeting minutes PR is now posted:
+Hi,
 
-	https://github.com/coconut-svsm/governance/pull/30
+Here is the usual call for agenda items for this weeks SVSM development
+call. Please send me any agenda items you have in mind or raise them in
+the meeting.
 
+This week Ziqiao Zhou and Weidong Cui from Microsoft research will give
+an introduction to the Verismo formal code verification project and we
+will have a discussion how this can benefit COCONUT-SVSM:
 
-Joerg
+	- Verismo Formal Verification presentation and discussion
+
+Details of the meeting (GMeet and Calendar links, meeting time) can be
+found in our governance repository at:
+
+	https://github.com/coconut-svsm/governance
+
+The meeting will be recorded and the recording eventually published.
+
+See you all there.
+
+Regards,
+
+	Jörg
