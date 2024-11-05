@@ -1,36 +1,34 @@
-Return-Path: <dionnaglaze@google.com>
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Return-Path: <berrange@redhat.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 81B712A903D
- for <svsm-devel@coconut-svsm.dev>; Tue,  5 Nov 2024 17:20:17 +0100 (CET)
-Received: by mail-ej1-x62c.google.com with SMTP id
- a640c23a62f3a-a9a68480164so872685666b.3
- for <svsm-devel@coconut-svsm.dev>; Tue, 05 Nov 2024 08:20:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1730823617; x=1731428417; darn=coconut-svsm.dev;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=b8BN4tUu/Qidw/bmH+59iUQ0MKWL6esySzijKCablpI=;
- b=WP8JCDsdT5YtFZnGAUnWEqNxNvFX/yPBtXTvzg9wx11XzXoKU3r6/wJxN61gNytXN6
- fgTbQTqd62BHYzO3/XVQY5Z7w8bPz+2gc/I0fw+24MKl5apYGoL9QgFCJO+KKJEJJkLj
- sSty3x1QORJMB1VGZsHive2Lg1HRyoqfRTQ0fAZuD3xLGpb+H90xc+wMIB5j/Uer/RmQ
- 4JNA/mpYlRMYghtIqhERHqzor9B+2AYchNpnDCf0xC+T+ufjkzj8P5w1P84Jt3x/qTUm
- 0zH2pNr46ZS9t7FJfyQVCWIirFk4U28BWUvxXsrRoF6JsvlfNrHIgT1eeuRm1qbGcAA9
- Z0tA==
-MIME-Version: 1.0
+ by mail.8bytes.org (Postfix) with ESMTPS id 8358A2A903D
+ for <svsm-devel@coconut-svsm.dev>; Tue,  5 Nov 2024 17:26:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1730824005;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=470OQ9VwaA9F3nRqEhw17H6bA51QpLPPpc8+rRSqE0I=;
+ b=dTHeY+a7/Lg8Z0Zsmp4LsRXu6FM4oeVgE8ifSy6uKCiHd2k9US6z5d93HhiVqgLN2C8OFW
+ XA/7U5e7MaMjGzbnv7sbaV2Vg0JR+n7K6+MjhDma9whOBIOOFHhG6NfCQivzPcf5vF3Hf/
+ F3Hxv1rxHQwG2avVjG4+Wt+cEQEp9xw=
+Date: Tue, 5 Nov 2024 16:26:31 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Message-ID: <ZypHN-0o4XNBeUwI@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 References: <Zynjpg7NdAj8sePr@8bytes.org>
  <6oovlpaoy5pggj3pr4tk5fgj6ao3zjvcj4rqbvknfz4rxif4gd@rkpghtonrgn6>
- <ZypD1pGNxRXFjZxS@suse.de>
-In-Reply-To: <ZypD1pGNxRXFjZxS@suse.de>
-From: Dionna Amalie Glaze <dionnaglaze@google.com>
-Date: Tue, 5 Nov 2024 08:20:03 -0800
-Message-ID: <CAAH4kHbjYOPhUgqHtYUEx-5Z9jfH-Dd_r8xi5EaON2P9+nz6=w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <ZyoEPMNhmjWLwY7A@redhat.com> <Zyo-tSnk3agmV6KV@suse.de>
+MIME-Version: 1.0
+In-Reply-To: <Zyo-tSnk3agmV6KV@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Subject: Re: [svsm-devel] [RFC] COCONUT-SVSM Release Process
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
@@ -40,97 +38,55 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
+To: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
 Cc: Stefano Garzarella <sgarzare@redhat.com>, svsm-devel@coconut-svsm.dev
 
-On Tue, Nov 5, 2024 at 8:12=E2=80=AFAM J=C3=B6rg R=C3=B6del <jroedel@suse.d=
-e> wrote:
->
-> Hi Stefano,
->
-> On Tue, Nov 05, 2024 at 12:23:42PM +0100, Stefano Garzarella wrote:
-> > My concern is having two types of release in the same month, e.g.
-> > R2025.03 and D2025.03.
-> >
-> > How do we know which one happened sooner or later?
->
-> Stable releases are branched off at least 4 weeks before they are
-> tagged, so it is safe to assume that, given a development and stable
-> release in the same month, the development release will be based on a
-> more recent code base.
->
-> The stable and development releases also target different groups of
-> users, so I wonder why it is important to know which release happened
-> first?
->
-> > Or do we never expect to have a stable release and a development
-> > release in the same month?
->
-> Stable an development releases in the same month are allowed, I do not
-> want to forbid that.
->
-> > I'm not sure if using YYYY.NN is better, where NN is a counter shared
-> > among all release types (D or R).
->
-> I'd like to avoid sharing counters between development and stable
-> releases. This would indicate a relationship between these release types
-> that does not exist. Each release type targets a different
-> audience/use-case.
->
-> > Another option is to increase the counter only for a stable release
-> > (or use the month in this case), and for development releases, add a
-> > few digits of the SHA-1 of the commit, something like this:
-> >
-> > R2025.03
-> > D2025.03-g9ec10216
-> > D2025.03-g5f4987a1
-> > D2025.03-gbb6e9222
-> > R2025.04
->
-> This might turn version comparisions for package managers into a real
-> nightmare. If we include the sha1 of the top-commit, we still need a
-> growing number to ensure version string ordering.
->
+On Tue, Nov 05, 2024 at 04:50:13PM +0100, Jörg Rödel wrote:
+> Hi Daniel,
+> 
+> On Tue, Nov 05, 2024 at 11:40:44AM +0000, Daniel P. Berrangé wrote:
+> > At the RPM packaging level,  the "R" release will always compare as
+> > newer than the "D" release, simply because the "R" is larger than
+> > "D" in ascii.
+> 
+> Do you expect development and stable releases within the same package
+> stream? My expectation is that distributions package the stable and
+> development releases with different package names (e.g. coconut-svsm vs.
+> coconut-svsm-unstable).
 
-A scheme we use has been YYYY-MM[-DD][-profile][-rcX]
-The profile marker is to allow for different build profiles from the same t=
-runk.
-I don't think that releases from a SHA1 hash make sense, since I would
-always presume that cutting a release tag means creating a branch upon
-which to cherry-pick fixes. Cherry-picking on top of the named SHA1
-hash changes the head hash and kind of ruins it.
-If you want D to mean unstable features but are not broken outright,
-I'd say to call it the unstable profile. That way you make sure to
-track experimental/unstable additions behind features that you can
-later promote to stable.
+I can't speak for all distros, but in Fedora / RHEL we will generally
+aim to ship a single stream of software, unless there's a very compelling
+backcompat need to ship multiple *stable* versions.
 
-I wouldn't worry too much about creating multiple canonical profiles
-at this point though.
+In Fedora rawhide, we'll sometimes ship development releases, in
+situations where we expect a followup stable release to be ready,
+before the Fedora relase branches. The idea of this is that it
+gets earlier testing of the forthcoming stable release, so we can
+identify and resolve problems more quickly. This does assume that
+the upstream project in question is shipping development releases
+that are considered high quality, which may or may not the case.
 
-> But I see the problem you are trying to solve, we need a way to cope
-> with multiple development releases per month. This can be solved with
-> adding another counter to the YYYY.MM part.
->
-> Regards,
->
-> --
-> J=C3=B6rg R=C3=B6del
-> jroedel@suse.de
->
-> SUSE Software Solutions Germany GmbH
-> Frankenstra=C3=9Fe 146
-> 90461 N=C3=BCrnberg
-> Germany
-> https://www.suse.com/
->
-> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev, Andrew McDonald, Werner Knoblich
-> (HRB 36809, AG N=C3=BCrnberg)
-> --
-> Svsm-devel mailing list
-> Svsm-devel@coconut-svsm.dev
-> https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel
+
+I would flip the question around and ask why there is a need to have
+distinct version number series for development vs stable releases.
+It is very unusual - personally I can't think of examples of projects
+doing this. A single version number series is the standard practice.
+
+> > If you use a "NN" counter instead of month, then you can follow the
+> > approach that even numbers are stable releases and odd numbers are
+> > development releases. This is a simple rule to understand and has
+> > well defined version comparison behaviour
+> 
+> Okay, that is another option. I find that slightly less intuitive, but
+> since other projects do it this way I might be wrong with this and we
+> actually don't need to intensively teach users about that sheme.
 
 
 
---=20
--Dionna Glaze, PhD, CISSP, CCSP (she/her)
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
