@@ -1,28 +1,23 @@
-Return-Path: <sgarzare@redhat.com>
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id C26872C2084
- for <svsm-devel@coconut-svsm.dev>; Tue, 12 Nov 2024 09:44:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1731401081;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=FkAnOvhkJiDPAh9cGA9+RULJUq5zEzQsLcmVMPmgOJY=;
- b=TRu9kRYMzWTLG2aiP2oivUl/2a4evB0db3jwFECTvsX7J5xdPi2E17JyJ7/TI72oct+nTP
- 3OC2mgQ4c4YEFAHH3cClxTi776VbWU2v46G1TZ8WRGkPRC7RJcXEAOO9RyzhK5IpL5Ndcd
- oeUk2y26yPaQcQFJ73WL3rfbxHZ8dM4=
-Received: by mail-yb1-f199.google.com with SMTP id
- 3f1490d57ef6-e2904d0cad0so9069239276.1
- for <svsm-devel@coconut-svsm.dev>; Tue, 12 Nov 2024 00:44:39 -0800 (PST)
+Return-Path: <joro@8bytes.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+ s=default; t=1731407508;
+ bh=m5bfh4+pY3Pyhv5aZ9asF8FicDsC+vKuiWkDBHv1AiA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=J+B26PL3l6nLiyJx0Bn9MYxTHSQVytQ4m76iz/Og7CS7/BsgIRE4DW2wgiPE2zOHW
+ MnTyAZVO9N5YwFMC9RBJLa01EOW6d+BCrXc0/eErzYcjyYXobJL16vaioS8NkTO+Wr
+ KuD7XhiruXG+PT26E/CpUF4jFNxlwmUL8r/L2nakEKhtneSsDssRQbIxmWZgJU8cvV
+ 8Qhu8CwI65iEUBJ4KwxLIHPuSAgOJkujzJW51v8GzbwK0Y0ah22Y1R97KqnyQ0A/s6
+ eFNJ5EtIo6PAH8H3O+ax+mWb67fbckRJLLfUVqTQwq3g6kYmPZTHA+nfA0WjxWPTiu
+ WOqhDRBOEsJ8g==
+Date: Tue, 12 Nov 2024 11:31:47 +0100
+From: Joerg Roedel <joro@8bytes.org>
+Message-ID: <ZzMuk05R2Ie95foi@8bytes.org>
+References: <CAGxU2F4AN+3cNcDKAciLkYAMkxKe5CA5VM7YjZfzb8S4H5HboA@mail.gmail.com>
 MIME-Version: 1.0
-From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Tue, 12 Nov 2024 09:44:27 +0100
-Message-ID: <CAGxU2F4AN+3cNcDKAciLkYAMkxKe5CA5VM7YjZfzb8S4H5HboA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Subject: [svsm-devel] Coconut EDK2 fork issue with subhook module
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGxU2F4AN+3cNcDKAciLkYAMkxKe5CA5VM7YjZfzb8S4H5HboA@mail.gmail.com>
+Subject: Re: [svsm-devel] Coconut EDK2 fork issue with subhook module
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -31,18 +26,21 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Joerg Roedel <joro@8bytes.org>
+To: Stefano Garzarella <sgarzare@redhat.com>
 Cc: svsm-devel@coconut-svsm.dev
 
-Hi Joerg,
-there is an issue in our fork about initializing an EDK2 submodule.
+On Tue, Nov 12, 2024 at 09:44:27AM +0100, Stefano Garzarella wrote:
+> Hi Joerg,
+> there is an issue in our fork about initializing an EDK2 submodule.
+> 
+> So currently, our fork has problems when we initialize submodules.
+> Upstream have already fixed it and I backported the fix here:
+> https://github.com/coconut-svsm/edk2/pull/4
+> 
+> Can you merge it?
 
-So currently, our fork has problems when we initialize submodules.
-Upstream have already fixed it and I backported the fix here:
-https://github.com/coconut-svsm/edk2/pull/4
+Merged, thanks for the heads-up.
 
-Can you merge it?
+Regards,
 
-Thanks,
-Stefano
-
+	Joerg
