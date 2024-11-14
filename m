@@ -1,26 +1,28 @@
 Return-Path: <Huibo.Wang@amd.com>
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on20624.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2413::624])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on20628.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2414::628])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id E67792C0B04
- for <svsm-devel@coconut-svsm.dev>; Wed, 13 Nov 2024 21:31:53 +0100 (CET)
+ by mail.8bytes.org (Postfix) with ESMTPS id A84892C0C73
+ for <svsm-devel@coconut-svsm.dev>; Thu, 14 Nov 2024 02:42:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yQu8NzcO1zvIrqEC5vqm3/ZA6RdvlUBMOZOwqa6wqQw=;
- b=w/Hp1EPwCjTDpr58e3uCGafagwDBgLdoFwQVq03Neon49Ymdh9AwSMzSHNoaZWMxdJxxq7L+vwPehxCXaUwJkM+BLJMFn55imCh7d9o3Ip1e1bXZU6wrWCK4hdFduCpM5AS2tmKn81Svu10POoQCB4rNAKI9v3PXe5xUqMdbS4o=
+ bh=i1VTs7Qnahb81Kv8V81ikzXPV67kYsXEn8Cy+PmDjw8=;
+ b=ZjOZ/aaGShbOtrLzFaIt2LVPJ3ghmZfRy5B8LCw0zgVPFTYR0n/hYyTidlgoUX1muENHKBQCgIOT1Sm20Zmcm+DNQ+qXbcxiiEGe+GRbSUVFe0WqtEcW4yqluty83Zt2DJdHcwYHtzMeIhcuN5wfx41ZywtstrlBmonK+gX54qY=
 From: "Wang, Huibo" <Huibo.Wang@amd.com>
-Date: Wed, 13 Nov 2024 20:31:46 +0000
-Message-ID: <IA1PR12MB8285AF49FE3789017C84BF89955A2@IA1PR12MB8285.namprd12.prod.outlook.com>
+Date: Thu, 14 Nov 2024 01:42:28 +0000
+Message-ID: <IA1PR12MB82851FC1C60C25A2CA7BBC93955B2@IA1PR12MB8285.namprd12.prod.outlook.com>
 References: <mailman.137.1715929719.1000.svsm-devel@coconut-svsm.dev>
-In-Reply-To: <mailman.137.1715929719.1000.svsm-devel@coconut-svsm.dev>
+ <IA1PR12MB8285AF49FE3789017C84BF89955A2@IA1PR12MB8285.namprd12.prod.outlook.com>
+ <PH7PR21MB309362C313A66A5B72D172BBCA5B2@PH7PR21MB3093.namprd21.prod.outlook.com>
+In-Reply-To: <PH7PR21MB309362C313A66A5B72D172BBCA5B2@PH7PR21MB3093.namprd21.prod.outlook.com>
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Subject: Re: [svsm-devel] Svsm-devel Digest, Vol 10, Issue 19
+Subject: [svsm-devel] Alternate Injection spec question
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -29,8 +31,43 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: "jlange@microsoft.com" <jlange@microsoft.com>
+To: Jon Lange <jlange@microsoft.com>
 Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>, Joerg Roedel <jroedel@suse.de>, "Lendacky, Thomas" <Thomas.Lendacky@amd.com>
+
+[AMD Official Use Only - AMD Internal Distribution Only]
+
+Hi Jon,
+
+Yeah, the one I have is version of May, thank you for the update.
+
+Thanks
+Melody
+
+-----Original Message-----
+From: Jon Lange <jlange@microsoft.com>
+Sent: Wednesday, November 13, 2024 5:23 PM
+To: Wang, Huibo <Huibo.Wang@amd.com>
+Cc: svsm-devel@coconut-svsm.dev; Joerg Roedel <jroedel@suse.de>; Lendacky, =
+Thomas <Thomas.Lendacky@amd.com>
+Subject: RE: Svsm-devel Digest, Vol 10, Issue 19
+
+[AMD Official Use Only - AMD Internal Distribution Only]
+
+I think you have an old version of the spec.  The latest version (attached)=
+ has all five calls.
+
+-Jon
+
+-----Original Message-----
+From: Wang, Huibo <Huibo.Wang@amd.com>
+Sent: Wednesday, November 13, 2024 12:32 PM
+To: Jon Lange <jlange@microsoft.com>
+Cc: svsm-devel@coconut-svsm.dev; Joerg Roedel <jroedel@suse.de>; Lendacky, =
+Thomas <Thomas.Lendacky@amd.com>
+Subject: [EXTERNAL] RE: Svsm-devel Digest, Vol 10, Issue 19
+
+[You don't often get email from huibo.wang@amd.com. Learn why this is impor=
+tant at https://aka.ms/LearnAboutSenderIdentification ]
 
 [AMD Official Use Only - AMD Internal Distribution Only]
 
