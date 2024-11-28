@@ -1,32 +1,22 @@
-Return-Path: <sgarzare@redhat.com>
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 43C7F2C2DFD
- for <svsm-devel@coconut-svsm.dev>; Wed, 27 Nov 2024 09:18:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1732695481;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e8CouElbYsuFBkhUzHzZg7YHq5IHGPA3eYM6awm1J9k=;
- b=ZEz4CcRzQVT1eSTzHgaLww1oNmJUL9pR49XDiQJlm4XMNEAROubFrHackRJu6t1vg3xzAV
- zUqRfW+4p8nsF9wV3e8+qMOIuDekBnp0qZj2+wOIbixc3/28yY9sAGw6YJtBDXhV6PsHu2
- uH24Zhs4A8Toau77cl3Nnbt12FwnCI4=
-Received: by mail-yw1-f200.google.com with SMTP id
- 00721157ae682-6eea70c89cbso7235397b3.1
- for <svsm-devel@coconut-svsm.dev>; Wed, 27 Nov 2024 00:17:57 -0800 (PST)
-MIME-Version: 1.0
+Return-Path: <joro@8bytes.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+ s=default; t=1732780591;
+ bh=w4PaPCfC5zmL0vEpJWaWYvSfI0HQ+HPOj8IZtzAw59s=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=pmWLOkw75ZOGEcCES9W2cER8sH5kTLGgbq5B+ygCfsrkpyFvKCBDWo5xcZLYKS6C6
+ A9N5ZaRX00u0aBSNpp7oBFqBs9BBl3PxGzuEJxcw3/5n6naWF4FHFNgzLQmKgvv2r7
+ EyxmrGAXSB3rd3IbM3VZG5O8TxnY+lU+m1vlfAUgNMN7grAn2GHBU6UKK2VLOcoBsp
+ 0HKbS9msk+IyaH/QIfAOctvY4uerB5Op9MZVStxxrCgtbhhkXTvfIyf1pM9jHk2GGX
+ Ih0yCtIkY097pnNB1pS6R1Y6zXaUsCude5gCk3j6MFYgUJeP5DK9dwmstYR4iZcEeE
+ dAzIUwjp12s4A==
+Date: Thu, 28 Nov 2024 08:56:30 +0100
+From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
+Message-ID: <Z0giLivrUAqN8CKL@8bytes.org>
 References: <Z0X5ebN6KE05gOR9@8bytes.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <Z0X5ebN6KE05gOR9@8bytes.org>
-From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Wed, 27 Nov 2024 09:17:45 +0100
-Message-ID: <CAGxU2F7Kp64HNq2ZEne=RJfqkBmvuCKNyp31JfiO2TJX5tomwA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Subject: Re: [svsm-devel] SVSM Development Call November 27th, 2024
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
@@ -36,25 +26,14 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-Cc: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
+To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
 
-Hi J=C3=B6rg,
+Hi,
 
-On Tue, Nov 26, 2024 at 5:38=E2=80=AFPM J=C3=B6rg R=C3=B6del <joro@8bytes.o=
-rg> wrote:
->
-> Hi,
->
-> Here is the usual call for agenda items for this weeks SVSM development
-> call.  Please send me any agenda items you have in mind or raise them in
-> the meeting.
+Meeting minutes from yesterdays call are now available in the PR below:
 
-If we have time, I'd like to talk a bit about 2 topics:
+	https://github.com/coconut-svsm/governance/pull/36
 
-- status of QEMU & Linux patches
-- unsafe block documentation
+Have fun!
 
-Thanks,
-Stefano
-
+  Joerg
