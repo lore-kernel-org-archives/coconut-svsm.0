@@ -1,20 +1,19 @@
-Return-Path: <jlange@microsoft.com>
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazlp170130007.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:c105::7])
+Return-Path: <Thomas.Lendacky@amd.com>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2061c.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2414::61c])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id AFE542C2EB3
- for <svsm-devel@coconut-svsm.dev>; Fri,  6 Dec 2024 18:32:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
+ by mail.8bytes.org (Postfix) with ESMTPS id CFBE82C2EB4
+ for <svsm-devel@coconut-svsm.dev>; Fri,  6 Dec 2024 18:43:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u1Ut81+UpZkgc5aGvxy/EJcdvuiPOk2kwBEh6bMo1UU=;
- b=Ll48oreHiz/wHoTRMv3GrUur6AP5U7L5Zmdpq6TeQOpFEhbtLWLegbCRriaa+XtTfzxUo7lGRF0ZTYGumVl2MuObATuohZmrKcjuKM3oN7NTPCCD4cUY0OzzYodY/Brhscnjy5Jkhd3JUhJSpB8Gl5yj8q0/oQmN4or+eC5Yvq8=
-From: Jon Lange <jlange@microsoft.com>
-Date: Fri, 6 Dec 2024 17:32:03 +0000
-Message-ID: <SJ1PR21MB3760E03419CCD9F1B75C04ACCA312@SJ1PR21MB3760.namprd21.prod.outlook.com>
+ bh=x29VJz0vej8gGQUC0SEJLuTT/U3b/zUzFcjHHzRUAj4=;
+ b=mCik0Bi2APubvek2NsFWQ8TlnYnBUoXld73k1ZxLK71bKSJ1rGXxuYy6iroxiLbCccZ40oeXcJDG//Bd2K8dHf6LxxOMkFVP4d/G2spSrPpD5Q8wIKfnSVN/bVrHJ/Do1a79M0ILTdryAIJuf2k+9gusxWeu45+CToQw6F8uWJc=
+From: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>
+Date: Fri, 6 Dec 2024 17:43:11 +0000
+Message-ID: <DM4PR12MB50702D1044DBB8B4D45524A0EC312@DM4PR12MB5070.namprd12.prod.outlook.com>
 References: <mailman.137.1715929719.1000.svsm-devel@coconut-svsm.dev>
  <IA1PR12MB8285AF49FE3789017C84BF89955A2@IA1PR12MB8285.namprd12.prod.outlook.com>
  <PH7PR21MB309362C313A66A5B72D172BBCA5B2@PH7PR21MB3093.namprd21.prod.outlook.com>
@@ -24,10 +23,11 @@ References: <mailman.137.1715929719.1000.svsm-devel@coconut-svsm.dev>
  <IA1PR12MB8285AD865E4EFAE962C7A3FB95302@IA1PR12MB8285.namprd12.prod.outlook.com>
  <SJ1PR21MB3760B37DF5095DE05BC8A2E1CA312@SJ1PR21MB3760.namprd21.prod.outlook.com>
  <DM4PR12MB5070D3884B92BEF24C28145CEC312@DM4PR12MB5070.namprd12.prod.outlook.com>
-In-Reply-To: <DM4PR12MB5070D3884B92BEF24C28145CEC312@DM4PR12MB5070.namprd12.prod.outlook.com>
+ <SJ1PR21MB3760E03419CCD9F1B75C04ACCA312@SJ1PR21MB3760.namprd21.prod.outlook.com>
+In-Reply-To: <SJ1PR21MB3760E03419CCD9F1B75C04ACCA312@SJ1PR21MB3760.namprd21.prod.outlook.com>
 Content-Language: en-US
 Content-Type: multipart/alternative;
- boundary="_000_SJ1PR21MB3760E03419CCD9F1B75C04ACCA312SJ1PR21MB3760namp_"
+ boundary="_000_DM4PR12MB50702D1044DBB8B4D45524A0EC312DM4PR12MB5070namp_"
 MIME-Version: 1.0
 Subject: Re: [svsm-devel] Alternate Injection spec question
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
@@ -38,12 +38,38 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, "Wang, Huibo" <Huibo.Wang@amd.com>
-Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>, Joerg Roedel <jroedel@suse.de>
+To: Jon Lange <jlange@microsoft.com>, "Wang, Huibo" <Huibo.Wang@amd.com>, Joerg Roedel <jroedel@suse.de>
+Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
---_000_SJ1PR21MB3760E03419CCD9F1B75C04ACCA312SJ1PR21MB3760namp_
+--_000_DM4PR12MB50702D1044DBB8B4D45524A0EC312DM4PR12MB5070namp_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+[AMD Official Use Only - AMD Internal Distribution Only]
+
+Ah, I think I remember that discussion, now. Yeah, we don't want the hyperv=
+isor to trick the SVSM into disabling the support.
+
+I'm not too familiar with the details of IGVM, but is it reasonable to add =
+something to the IGVM file that can be placed into SVSM memory telling the =
+SVSM what it supports? Or should we rely on some form of metadata within th=
+e firmware object? In other words, we wouldn't want to enable alternate inj=
+ection if the hardware supports secure AVIC and the firmware supports both =
+alternate injection and secure AVIC. In that case, we want the firmware to =
+be using the more performant secure AVIC.
+
+Thanks,
+Tom
+
+From: Jon Lange <jlange@microsoft.com>
+Sent: Friday, December 6, 2024 11:32 AM
+To: Lendacky, Thomas <Thomas.Lendacky@amd.com>; Wang, Huibo <Huibo.Wang@amd=
+.com>
+Cc: svsm-devel@coconut-svsm.dev; Joerg Roedel <jroedel@suse.de>
+Subject: RE: Alternate Injection spec question
+
+
+[AMD Official Use Only - AMD Internal Distribution Only]
 
 The SVSM doesn't know whether the guest accesses an APIC MSR unless it acti=
 vates REFLECT_VC, and that is outside the scope of SVSM design (it's integr=
@@ -55,10 +81,13 @@ ernate Injection even if the guest OS wanted it to be enabled.
 
 -Jon
 
-From: Lendacky, Thomas <Thomas.Lendacky@amd.com>
+From: Lendacky, Thomas <Thomas.Lendacky@amd.com<mailto:Thomas.Lendacky@amd.=
+com>>
 Sent: Friday, December 6, 2024 9:25 AM
-To: Jon Lange <jlange@microsoft.com>; Wang, Huibo <Huibo.Wang@amd.com>
-Cc: svsm-devel@coconut-svsm.dev; Joerg Roedel <jroedel@suse.de>
+To: Jon Lange <jlange@microsoft.com<mailto:jlange@microsoft.com>>; Wang, Hu=
+ibo <Huibo.Wang@amd.com<mailto:Huibo.Wang@amd.com>>
+Cc: svsm-devel@coconut-svsm.dev<mailto:svsm-devel@coconut-svsm.dev>; Joerg =
+Roedel <jroedel@suse.de<mailto:jroedel@suse.de>>
 Subject: [EXTERNAL] RE: Alternate Injection spec question
 
 
@@ -410,7 +439,7 @@ https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel
 End of Svsm-devel Digest, Vol 10, Issue 19
 ******************************************
 
---_000_SJ1PR21MB3760E03419CCD9F1B75C04ACCA312SJ1PR21MB3760namp_
+--_000_DM4PR12MB50702D1044DBB8B4D45524A0EC312DM4PR12MB5070namp_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -437,14 +466,14 @@ w\:* {behavior:url(#default#VML);}
 @font-face
 	{font-family:Aptos;}
 @font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+@font-face
 	{font-family:"Segoe UI";
 	panose-1:2 11 5 2 4 2 4 2 2 3;}
 @font-face
 	{font-family:Georgia;
 	panose-1:2 4 5 2 5 4 5 2 3 3;}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
 /* Style Definitions */
 p.MsoNormal, li.MsoNormal, div.MsoNormal
 	{margin:0in;
@@ -472,8 +501,8 @@ p.xmsonormal, li.xmsonormal, div.xmsonormal
 	font-family:"Aptos",sans-serif;}
 span.EmailStyle24
 	{mso-style-type:personal-reply;
-	font-family:"Georgia",serif;
-	color:blue;}
+	font-family:"Aptos",sans-serif;
+	color:windowtext;}
 .MsoChpDefault
 	{mso-style-type:export-only;
 	font-size:10.0pt;
@@ -492,7 +521,59 @@ div.WordSection1
 </head>
 <body lang=3D"EN-US" link=3D"blue" vlink=3D"purple" style=3D"word-wrap:brea=
 k-word">
+<p style=3D"font-family:Calibri;font-size:10pt;color:#0000FF;margin:5pt;fon=
+t-style:normal;font-weight:normal;text-decoration:none;" align=3D"Left">
+[AMD Official Use Only - AMD Internal Distribution Only]<br>
+</p>
+<br>
+<div>
 <div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Ah, I think I remem=
+ber that discussion, now. Yeah, we don&#8217;t want the hypervisor to trick=
+ the SVSM into disabling the support.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">I&#8217;m not too f=
+amiliar with the details of IGVM, but is it reasonable to add something to =
+the IGVM file that can be placed into SVSM memory telling the SVSM what it =
+supports? Or should we rely on some form of
+ metadata within the firmware object? In other words, we wouldn&#8217;t wan=
+t to enable alternate injection if the hardware supports secure AVIC and th=
+e firmware supports both alternate injection and secure AVIC. In that case,=
+ we want the firmware to be using the
+ more performant secure AVIC.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Thanks,<o:p></o:p><=
+/span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Tom<o:p></o:p></spa=
+n></p>
+</div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<div>
+<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
+font-family:&quot;Calibri&quot;,sans-serif"> Jon Lange &lt;jlange@microsoft=
+.com&gt;
+<br>
+<b>Sent:</b> Friday, December 6, 2024 11:32 AM<br>
+<b>To:</b> Lendacky, Thomas &lt;Thomas.Lendacky@amd.com&gt;; Wang, Huibo &l=
+t;Huibo.Wang@amd.com&gt;<br>
+<b>Cc:</b> svsm-devel@coconut-svsm.dev; Joerg Roedel &lt;jroedel@suse.de&gt=
+;<br>
+<b>Subject:</b> RE: Alternate Injection spec question<o:p></o:p></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:5.0pt"><span style=3D"font-size:10.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif;color:blue">[AMD Official Use Only - AMD Internal=
+ Distribution Only]<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
 <p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
 orgia&quot;,serif;color:blue">The SVSM doesn&#8217;t know whether the guest=
  accesses an APIC MSR unless it activates REFLECT_VC, and that is outside t=
@@ -514,14 +595,16 @@ orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
 0in 0in">
 <p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
 ;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
-font-family:&quot;Calibri&quot;,sans-serif"> Lendacky, Thomas &lt;Thomas.Le=
-ndacky@amd.com&gt;
+font-family:&quot;Calibri&quot;,sans-serif"> Lendacky, Thomas &lt;<a href=
+=3D"mailto:Thomas.Lendacky@amd.com">Thomas.Lendacky@amd.com</a>&gt;
 <br>
 <b>Sent:</b> Friday, December 6, 2024 9:25 AM<br>
-<b>To:</b> Jon Lange &lt;jlange@microsoft.com&gt;; Wang, Huibo &lt;Huibo.Wa=
-ng@amd.com&gt;<br>
-<b>Cc:</b> svsm-devel@coconut-svsm.dev; Joerg Roedel &lt;jroedel@suse.de&gt=
-;<br>
+<b>To:</b> Jon Lange &lt;<a href=3D"mailto:jlange@microsoft.com">jlange@mic=
+rosoft.com</a>&gt;; Wang, Huibo &lt;<a href=3D"mailto:Huibo.Wang@amd.com">H=
+uibo.Wang@amd.com</a>&gt;<br>
+<b>Cc:</b> <a href=3D"mailto:svsm-devel@coconut-svsm.dev">svsm-devel@coconu=
+t-svsm.dev</a>; Joerg Roedel &lt;<a href=3D"mailto:jroedel@suse.de">jroedel=
+@suse.de</a>&gt;<br>
 <b>Subject:</b> [EXTERNAL] RE: Alternate Injection spec question<o:p></o:p>=
 </span></p>
 </div>
@@ -1095,7 +1178,9 @@ End of Svsm-devel Digest, Vol 10, Issue 19<br>
 </div>
 </div>
 </div>
+</div>
+</div>
 </body>
 </html>
 
---_000_SJ1PR21MB3760E03419CCD9F1B75C04ACCA312SJ1PR21MB3760namp_--
+--_000_DM4PR12MB50702D1044DBB8B4D45524A0EC312DM4PR12MB5070namp_--
