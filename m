@@ -1,20 +1,19 @@
-Return-Path: <jlange@microsoft.com>
-Received: from SN4PR2101CU001.outbound.protection.outlook.com
- (mail-southcentralusazlp170120001.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:c10d::1])
+Return-Path: <Huibo.Wang@amd.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2062f.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:200a::62f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id A4E2F2C2FB3
- for <svsm-devel@coconut-svsm.dev>; Sat,  7 Dec 2024 00:23:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
+ by mail.8bytes.org (Postfix) with ESMTPS id C87B52C2FBE
+ for <svsm-devel@coconut-svsm.dev>; Sat,  7 Dec 2024 01:11:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tABKrdseKZIoUBCLvmgT3ckryCvgasna+I0J052VbkE=;
- b=YZzl7jCIcSd2wkfG9Q+MkNKjXVxcnA6zcghKrEqG3Ck8yjEdzsgzc6QRwYqGAUkEA6AQa1u6/ge7JJslnhY+sByu0i9cy96baXJD1K2ZFsQYoT7NV1YSymtNMxPg7w5tw5YDF3s8EWwKGa5I1yf6qCW2vtAZQfylyliCUhMtsg8=
-From: Jon Lange <jlange@microsoft.com>
-Date: Fri, 6 Dec 2024 23:22:57 +0000
-Message-ID: <SJ1PR21MB37608730A4B0918ABC6DD223CA312@SJ1PR21MB3760.namprd21.prod.outlook.com>
+ bh=qO38ezFFqR4NPcDwnglw8yDS8VOerMkwvzvIvSqMVbs=;
+ b=UattxHkN4T85msgFNg1MamwFgQQ9RlZQdt/MI4vPTiTuX5yUCdrBSnn5k6foNkVSpECFLiWEVOs7F4+eHTzz7HuiIMKk+sHDFZXL5qGpbTYUTUAQeZ9ylWiGBDQA8Q49wkApqwzd6IkI0H5kE8zpZjgY2//DzhUy+31KYT8x/EE=
+From: "Wang, Huibo" <Huibo.Wang@amd.com>
+Date: Sat, 7 Dec 2024 00:10:57 +0000
+Message-ID: <IA1PR12MB8285AC02579EEE1CB1B9A15395322@IA1PR12MB8285.namprd12.prod.outlook.com>
 References: <mailman.137.1715929719.1000.svsm-devel@coconut-svsm.dev>
  <IA1PR12MB8285AF49FE3789017C84BF89955A2@IA1PR12MB8285.namprd12.prod.outlook.com>
  <PH7PR21MB309362C313A66A5B72D172BBCA5B2@PH7PR21MB3093.namprd21.prod.outlook.com>
@@ -24,10 +23,11 @@ References: <mailman.137.1715929719.1000.svsm-devel@coconut-svsm.dev>
  <IA1PR12MB8285AD865E4EFAE962C7A3FB95302@IA1PR12MB8285.namprd12.prod.outlook.com>
  <SJ1PR21MB3760B37DF5095DE05BC8A2E1CA312@SJ1PR21MB3760.namprd21.prod.outlook.com>
  <IA1PR12MB8285FAB2D7F332B965A459FA95312@IA1PR12MB8285.namprd12.prod.outlook.com>
-In-Reply-To: <IA1PR12MB8285FAB2D7F332B965A459FA95312@IA1PR12MB8285.namprd12.prod.outlook.com>
+ <SJ1PR21MB37608730A4B0918ABC6DD223CA312@SJ1PR21MB3760.namprd21.prod.outlook.com>
+In-Reply-To: <SJ1PR21MB37608730A4B0918ABC6DD223CA312@SJ1PR21MB3760.namprd21.prod.outlook.com>
 Content-Language: en-US
 Content-Type: multipart/alternative;
- boundary="_000_SJ1PR21MB37608730A4B0918ABC6DD223CA312SJ1PR21MB3760namp_"
+ boundary="_000_IA1PR12MB8285AC02579EEE1CB1B9A15395322IA1PR12MB8285namp_"
 MIME-Version: 1.0
 Subject: Re: [svsm-devel] Alternate Injection spec question
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
@@ -38,16 +38,40 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: "Wang, Huibo" <Huibo.Wang@amd.com>
+To: Jon Lange <jlange@microsoft.com>
 Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>, Joerg Roedel <jroedel@suse.de>, "Lendacky, Thomas" <Thomas.Lendacky@amd.com>
 
---_000_SJ1PR21MB37608730A4B0918ABC6DD223CA312SJ1PR21MB3760namp_
-Content-Type: text/plain; charset="us-ascii"
+--_000_IA1PR12MB8285AC02579EEE1CB1B9A15395322IA1PR12MB8285namp_
+Content-Type: text/plain; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
+
+[AMD Official Use Only - AMD Internal Distribution Only]
+
+Thanks for the confirmation.
+
+Thanks,
+Melody
+
+Get Outlook for iOS<https://aka.ms/o0ukef>
+________________________________
+From: Jon Lange <jlange@microsoft.com>
+Sent: Friday, December 6, 2024 3:22:57 PM
+To: Wang, Huibo <Huibo.Wang@amd.com>
+Cc: svsm-devel@coconut-svsm.dev <svsm-devel@coconut-svsm.dev>; Joerg Roedel=
+ <jroedel@suse.de>; Lendacky, Thomas <Thomas.Lendacky@amd.com>
+Subject: RE: Alternate Injection spec question
+
+
+[AMD Official Use Only - AMD Internal Distribution Only]
+
 
 Your understanding is exactly correct.
 
+
+
 -Jon
+
+
 
 From: Wang, Huibo <Huibo.Wang@amd.com>
 Sent: Friday, December 6, 2024 11:06 AM
@@ -57,9 +81,14 @@ Thomas <Thomas.Lendacky@amd.com>
 Subject: [EXTERNAL] Re: Alternate Injection spec question
 
 
+
 [AMD Official Use Only - AMD Internal Distribution Only]
 
+
+
 Hi Jon,
+
+
 
 Ok, I understand. Thank you. This is how I understand the handoff process s=
 hould take place. Can you please confirm my understanding?
@@ -79,10 +108,15 @@ he count will be reduced to 1/0, depending on if the guest OS registers or =
 not. If the guest OS registered itself, then the count would be 1, the Alte=
 rnate Injection is enabled, if the count is 0, then the SVSM will disable A=
 lternate Injection.
+
 Thanks,
+
 Melody
 
+
+
 ________________________________
+
 From: Jon Lange <jlange@microsoft.com<mailto:jlange@microsoft.com>>
 Sent: Thursday, December 5, 2024 4:40 PM
 To: Wang, Huibo <Huibo.Wang@amd.com<mailto:Huibo.Wang@amd.com>>
@@ -93,6 +127,7 @@ amd.com<mailto:Thomas.Lendacky@amd.com>>
 Subject: RE: Alternate Injection spec question
 
 
+
 The language from the spec says the following:
 
 The SVSM is required to have knowledge of whether the first component that =
@@ -100,8 +135,8 @@ executes can support the Alternate Injection protocol.
 
 
 
-I thought "required to have knowledge" would be clear.  What additional inf=
-ormation are you hoping to see in the spec?
+I thought =93required to have knowledge=94 would be clear.  What additional=
+ information are you hoping to see in the spec?
 
 
 
@@ -158,33 +193,33 @@ Melody,
 As stated in the spec, Alternate Injection can only provide strong security=
  guarantees if it is active from the first instruction of the guest firmwar=
 e.  This means that the firmware cannot negotiate the use of Alternate Inje=
-ction - it must already be active by the time firmware starts executing.  T=
-he expectation is that there is a strong coupling between the SVSM image an=
-d the firmware image - after all, the initial launch measurements always in=
-clude both, so it is reasonable to assume that the SVSM has knowledge of ho=
-w the embedded firmware is going to operate.  Therefore, the SVSM must be c=
-onfigured to configure Alternate Injection based on the design of the firmw=
-are.  If the firmware is capable of using Alternate Injection, then the SVS=
-M should configure the initial guest VMSA to enable Alternate Injection.  A=
-ny firmware image that is capable of using Alternate Injection should be sm=
-art enough to read SEV_FEATURES to detect whether it is enabled and to call=
- the SVSM to disable Alternate Injection if it doesn't want the feature ena=
-bled.  On the other hand, if the firmware is not capable of using Alternate=
- Injection, then the SVSM should create the initial guest VMSA without enab=
-ling Alternate Injection.
+ction =96 it must already be active by the time firmware starts executing. =
+ The expectation is that there is a strong coupling between the SVSM image =
+and the firmware image =96 after all, the initial launch measurements alway=
+s include both, so it is reasonable to assume that the SVSM has knowledge o=
+f how the embedded firmware is going to operate.  Therefore, the SVSM must =
+be configured to configure Alternate Injection based on the design of the f=
+irmware.  If the firmware is capable of using Alternate Injection, then the=
+ SVSM should configure the initial guest VMSA to enable Alternate Injection=
+.  Any firmware image that is capable of using Alternate Injection should b=
+e smart enough to read SEV_FEATURES to detect whether it is enabled and to =
+call the SVSM to disable Alternate Injection if it doesn=92t want the featu=
+re enabled.  On the other hand, if the firmware is not capable of using Alt=
+ernate Injection, then the SVSM should create the initial guest VMSA withou=
+t enabling Alternate Injection.
 
 
 
 To put it another way, more closely related to the spec language, the SVSM =
-is supposed to know what the "first component" is, and what that first comp=
-onent expects, and the SVSM is supposed to be built with that configuration=
- in mind.
+is supposed to know what the =93first component=94 is, and what that first =
+component expects, and the SVSM is supposed to be built with that configura=
+tion in mind.
 
 
 
-Regarding INIT/SIPI - I think you are correct; the spec is missing the word=
- "not".  INIT/SIPI should only be used by the guest if it knows that the SV=
-SM APIC supports INIT/SIPI.
+Regarding INIT/SIPI =96 I think you are correct; the spec is missing the wo=
+rd =93not=94.  INIT/SIPI should only be used by the guest if it knows that =
+the SVSM APIC supports INIT/SIPI.
 
 
 
@@ -436,199 +471,191 @@ https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel
 End of Svsm-devel Digest, Vol 10, Issue 19
 ******************************************
 
---_000_SJ1PR21MB37608730A4B0918ABC6DD223CA312SJ1PR21MB3760namp_
-Content-Type: text/html; charset="us-ascii"
+--_000_IA1PR12MB8285AC02579EEE1CB1B9A15395322IA1PR12MB8285namp_
+Content-Type: text/html; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
+<html>
 <head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<!--[if !mso]><style>v\:* {behavior:url(#default#VML);}
-o\:* {behavior:url(#default#VML);}
-w\:* {behavior:url(#default#VML);}
-.shape {behavior:url(#default#VML);}
-</style><![endif]--><style><!--
-/* Font Definitions */
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+</head>
+<body>
+<p style=3D"font-family:Calibri;font-size:10pt;color:#0000FF;margin:5pt;fon=
+t-style:normal;font-weight:normal;text-decoration:none;" align=3D"Left">
+[AMD Official Use Only - AMD Internal Distribution Only]<br>
+</p>
+<br>
+<div>
+<div>
+<div dir=3D"ltr">Thanks for the confirmation.<br>
+<div dir=3D"ltr"><br>
+</div>
+<div dir=3D"ltr">Thanks,</div>
+<div dir=3D"ltr">Melody&nbsp;</div>
+</div>
+</div>
+<div id=3D"ms-outlook-mobile-signature">
+<div><br>
+</div>
+Get <a href=3D"https://aka.ms/o0ukef">Outlook for iOS</a></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Jon Lange &lt;jlange@=
+microsoft.com&gt;<br>
+<b>Sent:</b> Friday, December 6, 2024 3:22:57 PM<br>
+<b>To:</b> Wang, Huibo &lt;Huibo.Wang@amd.com&gt;<br>
+<b>Cc:</b> svsm-devel@coconut-svsm.dev &lt;svsm-devel@coconut-svsm.dev&gt;;=
+ Joerg Roedel &lt;jroedel@suse.de&gt;; Lendacky, Thomas &lt;Thomas.Lendacky=
+@amd.com&gt;<br>
+<b>Subject:</b> RE: Alternate Injection spec question</font>
+<div>&nbsp;</div>
+</div>
+<style>
+<!--
 @font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
+	{font-family:"Cambria Math"}
 @font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
+	{font-family:Calibri}
 @font-face
-	{font-family:Aptos;}
+	{font-family:Aptos}
 @font-face
-	{font-family:Georgia;
-	panose-1:2 4 5 2 5 4 5 2 3 3;}
+	{font-family:Georgia}
 @font-face
-	{font-family:"Segoe UI";
-	panose-1:2 11 5 2 4 2 4 2 2 3;}
+	{font-family:"Segoe UI"}
 @font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{font-family:Consolas}
+p.x_MsoNormal, li.x_MsoNormal, div.x_MsoNormal
 	{margin:0in;
 	font-size:12.0pt;
-	font-family:"Aptos",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
+	font-family:"Aptos",sans-serif}
+a:link, span.x_MsoHyperlink
+	{color:blue;
+	text-decoration:underline}
 pre
-	{mso-style-priority:99;
-	mso-style-link:"HTML Preformatted Char";
-	margin:0in;
+	{margin:0in;
 	margin-bottom:.0001pt;
 	font-size:10.0pt;
-	font-family:"Courier New";}
-span.HTMLPreformattedChar
-	{mso-style-name:"HTML Preformatted Char";
-	mso-style-priority:99;
-	mso-style-link:"HTML Preformatted";
-	font-family:Consolas;}
-p.xmsonormal, li.xmsonormal, div.xmsonormal
-	{mso-style-name:x_msonormal;
-	margin:0in;
+	font-family:"Courier New"}
+span.x_HTMLPreformattedChar
+	{font-family:Consolas}
+p.x_xmsonormal, li.x_xmsonormal, div.x_xmsonormal
+	{margin:0in;
 	font-size:12.0pt;
-	font-family:"Aptos",sans-serif;}
-p.xxmsonormal, li.xxmsonormal, div.xxmsonormal
-	{mso-style-name:x_xmsonormal;
-	margin:0in;
+	font-family:"Aptos",sans-serif}
+p.x_xxmsonormal, li.x_xxmsonormal, div.x_xxmsonormal
+	{margin:0in;
 	font-size:12.0pt;
-	font-family:"Aptos",sans-serif;}
-span.EmailStyle28
-	{mso-style-type:personal-reply;
-	font-family:"Georgia",serif;
-	color:blue;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;
-	mso-ligatures:none;}
+	font-family:"Aptos",sans-serif}
+span.x_EmailStyle28
+	{font-family:"Georgia",serif;
+	color:blue}
+.x_MsoChpDefault
+	{font-size:10.0pt}
 @page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:2080250290;
-	mso-list-template-ids:-923637176;}
+	{margin:1.0in 1.0in 1.0in 1.0in}
+div.x_WordSection1
+	{}
 ol
-	{margin-bottom:0in;}
+	{margin-bottom:0in}
 ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple" style=3D"word-wrap:brea=
-k-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
-orgia&quot;,serif;color:blue">Your understanding is exactly correct.<o:p></=
-o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
-orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
-orgia&quot;,serif;color:blue">-Jon<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
-orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+	{margin-bottom:0in}
+-->
+</style>
+<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple" style=3D"word-wrap:break=
+-word">
+<p align=3D"Left" style=3D"font-family:Calibri; font-size:10pt; color:#0000=
+FF; margin:5pt; font-style:normal; font-weight:normal; text-decoration:none=
+">
+[AMD Official Use Only - AMD Internal Distribution Only]<br>
+</p>
+<br>
 <div>
-<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
-0in 0in">
-<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
-;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
-font-family:&quot;Calibri&quot;,sans-serif"> Wang, Huibo &lt;Huibo.Wang@amd=
-.com&gt;
+<div class=3D"x_WordSection1">
+<p class=3D"x_MsoNormal"><span style=3D"font-size:10.0pt; font-family:&quot=
+;Georgia&quot;,serif; color:blue">Your understanding is exactly correct.</s=
+pan></p>
+<p class=3D"x_MsoNormal"><span style=3D"font-size:10.0pt; font-family:&quot=
+;Georgia&quot;,serif; color:blue">&nbsp;</span></p>
+<p class=3D"x_MsoNormal"><span style=3D"font-size:10.0pt; font-family:&quot=
+;Georgia&quot;,serif; color:blue">-Jon</span></p>
+<p class=3D"x_MsoNormal"><span style=3D"font-size:10.0pt; font-family:&quot=
+;Georgia&quot;,serif; color:blue">&nbsp;</span></p>
+<div>
+<div style=3D"border:none; border-top:solid #E1E1E1 1.0pt; padding:3.0pt 0i=
+n 0in 0in">
+<p class=3D"x_MsoNormal"><b><span style=3D"font-size:11.0pt; font-family:&q=
+uot;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0=
+pt; font-family:&quot;Calibri&quot;,sans-serif"> Wang, Huibo &lt;Huibo.Wang=
+@amd.com&gt;
 <br>
 <b>Sent:</b> Friday, December 6, 2024 11:06 AM<br>
 <b>To:</b> Jon Lange &lt;jlange@microsoft.com&gt;<br>
 <b>Cc:</b> svsm-devel@coconut-svsm.dev; Joerg Roedel &lt;jroedel@suse.de&gt=
 ;; Lendacky, Thomas &lt;Thomas.Lendacky@amd.com&gt;<br>
-<b>Subject:</b> [EXTERNAL] Re: Alternate Injection spec question<o:p></o:p>=
-</span></p>
+<b>Subject:</b> [EXTERNAL] Re: Alternate Injection spec question</span></p>
 </div>
 </div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:5.0pt"><span style=3D"font-size:10.0pt;font-family:&quot=
-;Calibri&quot;,sans-serif;color:blue">[AMD Official Use Only - AMD Internal=
- Distribution Only]<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"x_MsoNormal">&nbsp;</p>
+<p style=3D"margin:5.0pt"><span style=3D"font-size:10.0pt; font-family:&quo=
+t;Calibri&quot;,sans-serif; color:blue">[AMD Official Use Only - AMD Intern=
+al Distribution Only]</span></p>
+<p class=3D"x_MsoNormal">&nbsp;</p>
 <div>
 <div>
-<p class=3D"MsoNormal"><span style=3D"color:black">Hi Jon,<o:p></o:p></span=
-></p>
+<p class=3D"x_MsoNormal"><span style=3D"color:black">Hi Jon,</span></p>
 </div>
 <div>
-<p class=3D"MsoNormal"><span style=3D"color:black"><o:p>&nbsp;</o:p></span>=
-</p>
+<p class=3D"x_MsoNormal"><span style=3D"color:black">&nbsp;</span></p>
 </div>
 <div>
-<p class=3D"MsoNormal"><span style=3D"color:black">Ok, I understand. Thank =
-you. This is how I understand the handoff process should take place. Can yo=
-u please confirm my understanding?<o:p></o:p></span></p>
+<p class=3D"x_MsoNormal"><span style=3D"color:black">Ok, I understand. Than=
+k you. This is how I understand the handoff process should take place. Can =
+you please confirm my understanding?</span></p>
 </div>
 <div>
 <ol start=3D"1" type=3D"1">
-<li class=3D"MsoNormal" style=3D"color:black;mso-margin-top-alt:auto;mso-ma=
-rgin-bottom-alt:auto;mso-list:l0 level1 lfo1">
-The SVSM will start with the Alternate Injection enabled or not by having t=
-he knowledge from firmware, if it is enabled, then the registration count b=
-ecomes 1, otherwise Alternate&nbsp;Injection will not be enabled.<o:p></o:p=
-></li></ol>
+<li class=3D"x_MsoNormal" style=3D"color:black">The SVSM will start with th=
+e Alternate Injection enabled or not by having the knowledge from firmware,=
+ if it is enabled, then the registration count becomes 1, otherwise Alterna=
+te&nbsp;Injection will not be enabled.</li></ol>
 </div>
 <div>
 <ol start=3D"2" type=3D"1">
-<li class=3D"MsoNormal" style=3D"color:black;mso-margin-top-alt:auto;mso-ma=
-rgin-bottom-alt:auto;mso-list:l0 level1 lfo1">
-Prior to the executing exit_boot_services, the guest OS will detect if the =
-Alternate Injection is enabled or not, then if it is enabled, the guest OS =
-will determine if it wants to enable Alternate Injection, if it does, it wi=
-ll register, thus the count will
- increment, otherwise, it will not&nbsp;register.&nbsp;<o:p></o:p></li></ol=
->
+<li class=3D"x_MsoNormal" style=3D"color:black">Prior to the executing exit=
+_boot_services, the guest OS will detect if the Alternate Injection is enab=
+led or not, then if it is enabled, the guest OS will determine if it wants =
+to enable Alternate Injection, if it
+ does, it will register, thus the count will increment, otherwise, it will =
+not&nbsp;register.&nbsp;</li></ol>
 </div>
 <div>
 <ol start=3D"3" type=3D"1">
-<li class=3D"MsoNormal" style=3D"color:black;mso-margin-top-alt:auto;mso-ma=
-rgin-bottom-alt:auto;mso-list:l0 level1 lfo1">
-The firmware will deregister itself during exit_boot_services, here the cou=
-nt will be reduced to 1/0, depending&nbsp;on if the guest OS registers or n=
-ot. If the guest OS registered itself, then the count would be 1, the Alter=
-nate Injection is enabled, if the count
- is 0, then the SVSM will disable Alternate Injection.&nbsp;<o:p></o:p></li=
-></ol>
+<li class=3D"x_MsoNormal" style=3D"color:black">The firmware will deregiste=
+r itself during exit_boot_services, here the count will be reduced to 1/0, =
+depending&nbsp;on if the guest OS registers or not. If the guest OS registe=
+red itself, then the count would be 1, the
+ Alternate Injection is enabled, if the count is 0, then the SVSM will disa=
+ble Alternate Injection.&nbsp;</li></ol>
 </div>
 <div>
-<p class=3D"MsoNormal"><span style=3D"color:black">Thanks,<o:p></o:p></span=
-></p>
+<p class=3D"x_MsoNormal"><span style=3D"color:black">Thanks,</span></p>
 </div>
 <div>
-<p class=3D"MsoNormal"><span style=3D"color:black">Melody<o:p></o:p></span>=
-</p>
+<p class=3D"x_MsoNormal"><span style=3D"color:black">Melody</span></p>
 </div>
 <div>
-<p class=3D"MsoNormal"><span style=3D"color:black"><o:p>&nbsp;</o:p></span>=
-</p>
+<p class=3D"x_MsoNormal"><span style=3D"color:black">&nbsp;</span></p>
 </div>
-<div class=3D"MsoNormal" align=3D"center" style=3D"text-align:center">
+<div class=3D"x_MsoNormal" align=3D"center" style=3D"text-align:center">
 <hr size=3D"2" width=3D"98%" align=3D"center">
 </div>
-<div id=3D"divRplyFwdMsg">
-<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
-;Calibri&quot;,sans-serif;color:black">From:</span></b><span style=3D"font-=
-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif;color:black"> Jon La=
-nge &lt;<a href=3D"mailto:jlange@microsoft.com">jlange@microsoft.com</a>&gt=
-;<br>
+<div id=3D"x_divRplyFwdMsg">
+<p class=3D"x_MsoNormal"><b><span style=3D"font-size:11.0pt; font-family:&q=
+uot;Calibri&quot;,sans-serif; color:black">From:</span></b><span style=3D"f=
+ont-size:11.0pt; font-family:&quot;Calibri&quot;,sans-serif; color:black"> =
+Jon Lange &lt;<a href=3D"mailto:jlange@microsoft.com">jlange@microsoft.com<=
+/a>&gt;<br>
 <b>Sent:</b> Thursday, December 5, 2024 4:40 PM<br>
 <b>To:</b> Wang, Huibo &lt;<a href=3D"mailto:Huibo.Wang@amd.com">Huibo.Wang=
 @amd.com</a>&gt;<br>
@@ -637,39 +664,38 @@ t-svsm.dev</a> &lt;<a href=3D"mailto:svsm-devel@coconut-svsm.dev">svsm-deve=
 l@coconut-svsm.dev</a>&gt;; Joerg Roedel &lt;<a href=3D"mailto:jroedel@suse=
 .de">jroedel@suse.de</a>&gt;; Lendacky, Thomas &lt;<a href=3D"mailto:Thomas=
 .Lendacky@amd.com">Thomas.Lendacky@amd.com</a>&gt;<br>
-<b>Subject:</b> RE: Alternate Injection spec question</span> <o:p></o:p></p=
->
+<b>Subject:</b> RE: Alternate Injection spec question</span> </p>
 <div>
-<p class=3D"MsoNormal">&nbsp;<o:p></o:p></p>
+<p class=3D"x_MsoNormal">&nbsp;</p>
 </div>
 </div>
 <div>
 <div>
-<p class=3D"xmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;G=
-eorgia&quot;,serif;color:blue">The language from the spec says the followin=
-g:</span><o:p></o:p></p>
-<p class=3D"xmsonormal"><span style=3D"color:black">The SVSM is required to=
- have knowledge of whether the first component that executes can support th=
-e Alternate Injection protocol.</span><o:p></o:p></p>
-<p class=3D"xmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;G=
-eorgia&quot;,serif;color:blue">&nbsp;</span><o:p></o:p></p>
-<p class=3D"xmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;G=
-eorgia&quot;,serif;color:blue">I thought &#8220;required to have knowledge&=
-#8221; would be clear.&nbsp; What additional information are you hoping to =
-see in the spec?</span><o:p></o:p></p>
-<p class=3D"xmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;G=
-eorgia&quot;,serif;color:blue">&nbsp;</span><o:p></o:p></p>
-<p class=3D"xmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;G=
-eorgia&quot;,serif;color:blue">-Jon</span><o:p></o:p></p>
-<p class=3D"xmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;G=
-eorgia&quot;,serif;color:blue">&nbsp;</span><o:p></o:p></p>
+<p class=3D"x_xmsonormal"><span style=3D"font-size:10.0pt; font-family:&quo=
+t;Georgia&quot;,serif; color:blue">The language from the spec says the foll=
+owing:</span></p>
+<p class=3D"x_xmsonormal"><span style=3D"color:black">The SVSM is required =
+to have knowledge of whether the first component that executes can support =
+the Alternate Injection protocol.</span></p>
+<p class=3D"x_xmsonormal"><span style=3D"font-size:10.0pt; font-family:&quo=
+t;Georgia&quot;,serif; color:blue">&nbsp;</span></p>
+<p class=3D"x_xmsonormal"><span style=3D"font-size:10.0pt; font-family:&quo=
+t;Georgia&quot;,serif; color:blue">I thought =93required to have knowledge=
+=94 would be clear.&nbsp; What additional information are you hoping to see=
+ in the spec?</span></p>
+<p class=3D"x_xmsonormal"><span style=3D"font-size:10.0pt; font-family:&quo=
+t;Georgia&quot;,serif; color:blue">&nbsp;</span></p>
+<p class=3D"x_xmsonormal"><span style=3D"font-size:10.0pt; font-family:&quo=
+t;Georgia&quot;,serif; color:blue">-Jon</span></p>
+<p class=3D"x_xmsonormal"><span style=3D"font-size:10.0pt; font-family:&quo=
+t;Georgia&quot;,serif; color:blue">&nbsp;</span></p>
 <div>
-<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
-0in 0in">
-<p class=3D"xmsonormal"><b><span style=3D"font-size:11.0pt;font-family:&quo=
-t;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt=
-;font-family:&quot;Calibri&quot;,sans-serif"> Wang, Huibo &lt;<a href=3D"ma=
-ilto:Huibo.Wang@amd.com">Huibo.Wang@amd.com</a>&gt;
+<div style=3D"border:none; border-top:solid #E1E1E1 1.0pt; padding:3.0pt 0i=
+n 0in 0in">
+<p class=3D"x_xmsonormal"><b><span style=3D"font-size:11.0pt; font-family:&=
+quot;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.=
+0pt; font-family:&quot;Calibri&quot;,sans-serif"> Wang, Huibo &lt;<a href=
+=3D"mailto:Huibo.Wang@amd.com">Huibo.Wang@amd.com</a>&gt;
 <br>
 <b>Sent:</b> Thursday, December 5, 2024 1:20 PM<br>
 <b>To:</b> Jon Lange &lt;<a href=3D"mailto:jlange@microsoft.com">jlange@mic=
@@ -678,49 +704,42 @@ rosoft.com</a>&gt;<br>
 t-svsm.dev</a>; Joerg Roedel &lt;<a href=3D"mailto:jroedel@suse.de">jroedel=
 @suse.de</a>&gt;; Lendacky, Thomas &lt;<a href=3D"mailto:Thomas.Lendacky@am=
 d.com">Thomas.Lendacky@amd.com</a>&gt;<br>
-<b>Subject:</b> [EXTERNAL] Re: Alternate Injection spec question</span><o:p=
-></o:p></p>
+<b>Subject:</b> [EXTERNAL] Re: Alternate Injection spec question</span></p>
 </div>
 </div>
-<p class=3D"xmsonormal">&nbsp;<o:p></o:p></p>
+<p class=3D"x_xmsonormal">&nbsp;</p>
 <div>
-<p class=3D"xmsonormal"><span style=3D"color:black">Hi Jon,</span><o:p></o:=
-p></p>
+<p class=3D"x_xmsonormal"><span style=3D"color:black">Hi Jon,</span></p>
 </div>
 <div>
-<p class=3D"xmsonormal"><span style=3D"color:black">&nbsp;</span><o:p></o:p=
-></p>
+<p class=3D"x_xmsonormal"><span style=3D"color:black">&nbsp;</span></p>
 </div>
 <div>
-<p class=3D"xmsonormal"><span style=3D"color:black">Thanks a lot, perhaps t=
-he spec should be extended with that info as it is not obvious at the momen=
-t.&nbsp;</span><o:p></o:p></p>
+<p class=3D"x_xmsonormal"><span style=3D"color:black">Thanks a lot, perhaps=
+ the spec should be extended with that info as it is not obvious at the mom=
+ent.&nbsp;</span></p>
 </div>
 <div>
-<p class=3D"xmsonormal"><span style=3D"color:black">&nbsp;</span><o:p></o:p=
-></p>
+<p class=3D"x_xmsonormal"><span style=3D"color:black">&nbsp;</span></p>
 </div>
 <div>
-<p class=3D"xmsonormal"><span style=3D"color:black">Thanks,</span><o:p></o:=
-p></p>
+<p class=3D"x_xmsonormal"><span style=3D"color:black">Thanks,</span></p>
 </div>
 <div>
-<p class=3D"xmsonormal"><span style=3D"color:black">Melody</span><o:p></o:p=
-></p>
+<p class=3D"x_xmsonormal"><span style=3D"color:black">Melody</span></p>
 </div>
 <div>
-<p class=3D"xmsonormal"><span style=3D"color:black">&nbsp;</span><o:p></o:p=
-></p>
+<p class=3D"x_xmsonormal"><span style=3D"color:black">&nbsp;</span></p>
 </div>
-<div class=3D"MsoNormal" align=3D"center" style=3D"text-align:center">
+<div class=3D"x_MsoNormal" align=3D"center" style=3D"text-align:center">
 <hr size=3D"2" width=3D"98%" align=3D"center">
 </div>
-<div id=3D"x_divRplyFwdMsg">
-<p class=3D"xmsonormal"><b><span style=3D"font-size:11.0pt;font-family:&quo=
-t;Calibri&quot;,sans-serif;color:black">From:</span></b><span style=3D"font=
--size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif;color:black"> Jon L=
-ange &lt;<a href=3D"mailto:jlange@microsoft.com">jlange@microsoft.com</a>&g=
-t;<br>
+<div id=3D"x_x_divRplyFwdMsg">
+<p class=3D"x_xmsonormal"><b><span style=3D"font-size:11.0pt; font-family:&=
+quot;Calibri&quot;,sans-serif; color:black">From:</span></b><span style=3D"=
+font-size:11.0pt; font-family:&quot;Calibri&quot;,sans-serif; color:black">=
+ Jon Lange &lt;<a href=3D"mailto:jlange@microsoft.com">jlange@microsoft.com=
+</a>&gt;<br>
 <b>Sent:</b> Wednesday, December 4, 2024 9:01 PM<br>
 <b>To:</b> Wang, Huibo &lt;<a href=3D"mailto:Huibo.Wang@amd.com">Huibo.Wang=
 @amd.com</a>&gt;<br>
@@ -729,31 +748,30 @@ t-svsm.dev</a> &lt;<a href=3D"mailto:svsm-devel@coconut-svsm.dev">svsm-deve=
 l@coconut-svsm.dev</a>&gt;; Joerg Roedel &lt;<a href=3D"mailto:jroedel@suse=
 .de">jroedel@suse.de</a>&gt;; Lendacky, Thomas &lt;<a href=3D"mailto:Thomas=
 .Lendacky@amd.com">Thomas.Lendacky@amd.com</a>&gt;<br>
-<b>Subject:</b> RE: Alternate Injection spec question</span> <o:p></o:p></p=
->
+<b>Subject:</b> RE: Alternate Injection spec question</span> </p>
 <div>
-<p class=3D"xmsonormal">&nbsp;<o:p></o:p></p>
+<p class=3D"x_xmsonormal">&nbsp;</p>
 </div>
 </div>
 <div>
-<p style=3D"margin:5.0pt"><span style=3D"font-size:10.0pt;font-family:&quot=
-;Calibri&quot;,sans-serif;color:blue">[AMD Official Use Only - AMD Internal=
- Distribution Only]</span><o:p></o:p></p>
-<p class=3D"xmsonormal">&nbsp;<o:p></o:p></p>
+<p style=3D"margin:5.0pt"><span style=3D"font-size:10.0pt; font-family:&quo=
+t;Calibri&quot;,sans-serif; color:blue">[AMD Official Use Only - AMD Intern=
+al Distribution Only]</span></p>
+<p class=3D"x_xmsonormal">&nbsp;</p>
 <div>
 <div>
-<p class=3D"xxmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;=
-Georgia&quot;,serif;color:blue">Melody,</span><o:p></o:p></p>
-<p class=3D"xxmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;=
-Georgia&quot;,serif;color:blue">&nbsp;</span><o:p></o:p></p>
-<p class=3D"xxmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;=
-Georgia&quot;,serif;color:blue">As stated in the spec, Alternate Injection =
-can only provide strong security guarantees if it is active from the first =
-instruction of the guest firmware.&nbsp; This means
- that the firmware cannot negotiate the use of Alternate Injection &#8211; =
-it must already be active by the time firmware starts executing.&nbsp; The =
-expectation is that there is a strong coupling between the SVSM image and t=
-he firmware image &#8211; after all, the initial
+<p class=3D"x_xxmsonormal"><span style=3D"font-size:10.0pt; font-family:&qu=
+ot;Georgia&quot;,serif; color:blue">Melody,</span></p>
+<p class=3D"x_xxmsonormal"><span style=3D"font-size:10.0pt; font-family:&qu=
+ot;Georgia&quot;,serif; color:blue">&nbsp;</span></p>
+<p class=3D"x_xxmsonormal"><span style=3D"font-size:10.0pt; font-family:&qu=
+ot;Georgia&quot;,serif; color:blue">As stated in the spec, Alternate Inject=
+ion can only provide strong security guarantees if it is active from the fi=
+rst instruction of the guest firmware.&nbsp; This means
+ that the firmware cannot negotiate the use of Alternate Injection =96 it m=
+ust already be active by the time firmware starts executing.&nbsp; The expe=
+ctation is that there is a strong coupling between the SVSM image and the f=
+irmware image =96 after all, the initial
  launch measurements always include both, so it is reasonable to assume tha=
 t the SVSM has knowledge of how the embedded firmware is going to operate.&=
 nbsp; Therefore, the SVSM must be configured to configure Alternate Injecti=
@@ -763,38 +781,38 @@ uld configure the initial guest VMSA to enable Alternate Injection.&nbsp; A=
 ny firmware image that is capable of using Alternate Injection should be sm=
 art enough to read SEV_FEATURES to detect
  whether it is enabled and to call the SVSM to disable Alternate Injection =
-if it doesn&#8217;t want the feature enabled.&nbsp; On the other hand, if t=
-he firmware is not capable of using Alternate Injection, then the SVSM shou=
-ld create the initial guest VMSA without enabling
- Alternate Injection.</span><o:p></o:p></p>
-<p class=3D"xxmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;=
-Georgia&quot;,serif;color:blue">&nbsp;</span><o:p></o:p></p>
-<p class=3D"xxmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;=
-Georgia&quot;,serif;color:blue">To put it another way, more closely related=
- to the spec language, the SVSM is supposed to know what the &#8220;first c=
-omponent&#8221; is, and what that first component expects,
+if it doesn=92t want the feature enabled.&nbsp; On the other hand, if the f=
+irmware is not capable of using Alternate Injection, then the SVSM should c=
+reate the initial guest VMSA without enabling
+ Alternate Injection.</span></p>
+<p class=3D"x_xxmsonormal"><span style=3D"font-size:10.0pt; font-family:&qu=
+ot;Georgia&quot;,serif; color:blue">&nbsp;</span></p>
+<p class=3D"x_xxmsonormal"><span style=3D"font-size:10.0pt; font-family:&qu=
+ot;Georgia&quot;,serif; color:blue">To put it another way, more closely rel=
+ated to the spec language, the SVSM is supposed to know what the =93first c=
+omponent=94 is, and what that first component expects,
  and the SVSM is supposed to be built with that configuration in mind.</spa=
-n><o:p></o:p></p>
-<p class=3D"xxmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;=
-Georgia&quot;,serif;color:blue">&nbsp;</span><o:p></o:p></p>
-<p class=3D"xxmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;=
-Georgia&quot;,serif;color:blue">Regarding INIT/SIPI &#8211; I think you are=
- correct; the spec is missing the word &#8220;not&#8221;.&nbsp; INIT/SIPI s=
-hould only be used by the guest if it knows that the SVSM APIC supports
- INIT/SIPI.</span><o:p></o:p></p>
-<p class=3D"xxmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;=
-Georgia&quot;,serif;color:blue">&nbsp;</span><o:p></o:p></p>
-<p class=3D"xxmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;=
-Georgia&quot;,serif;color:blue">-Jon</span><o:p></o:p></p>
-<p class=3D"xxmsonormal"><span style=3D"font-size:10.0pt;font-family:&quot;=
-Georgia&quot;,serif;color:blue">&nbsp;</span><o:p></o:p></p>
+n></p>
+<p class=3D"x_xxmsonormal"><span style=3D"font-size:10.0pt; font-family:&qu=
+ot;Georgia&quot;,serif; color:blue">&nbsp;</span></p>
+<p class=3D"x_xxmsonormal"><span style=3D"font-size:10.0pt; font-family:&qu=
+ot;Georgia&quot;,serif; color:blue">Regarding INIT/SIPI =96 I think you are=
+ correct; the spec is missing the word =93not=94.&nbsp; INIT/SIPI should on=
+ly be used by the guest if it knows that the SVSM APIC supports
+ INIT/SIPI.</span></p>
+<p class=3D"x_xxmsonormal"><span style=3D"font-size:10.0pt; font-family:&qu=
+ot;Georgia&quot;,serif; color:blue">&nbsp;</span></p>
+<p class=3D"x_xxmsonormal"><span style=3D"font-size:10.0pt; font-family:&qu=
+ot;Georgia&quot;,serif; color:blue">-Jon</span></p>
+<p class=3D"x_xxmsonormal"><span style=3D"font-size:10.0pt; font-family:&qu=
+ot;Georgia&quot;,serif; color:blue">&nbsp;</span></p>
 <div>
-<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
-0in 0in">
-<p class=3D"xxmsonormal"><b><span style=3D"font-size:11.0pt;font-family:&qu=
-ot;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0p=
-t;font-family:&quot;Calibri&quot;,sans-serif"> Wang, Huibo &lt;<a href=3D"m=
-ailto:Huibo.Wang@amd.com">Huibo.Wang@amd.com</a>&gt;
+<div style=3D"border:none; border-top:solid #E1E1E1 1.0pt; padding:3.0pt 0i=
+n 0in 0in">
+<p class=3D"x_xxmsonormal"><b><span style=3D"font-size:11.0pt; font-family:=
+&quot;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11=
+.0pt; font-family:&quot;Calibri&quot;,sans-serif"> Wang, Huibo &lt;<a href=
+=3D"mailto:Huibo.Wang@amd.com">Huibo.Wang@amd.com</a>&gt;
 <br>
 <b>Sent:</b> Tuesday, December 3, 2024 10:20 PM<br>
 <b>To:</b> Jon Lange &lt;<a href=3D"mailto:jlange@microsoft.com">jlange@mic=
@@ -803,86 +821,81 @@ rosoft.com</a>&gt;<br>
 t-svsm.dev</a>; Joerg Roedel &lt;<a href=3D"mailto:jroedel@suse.de">jroedel=
 @suse.de</a>&gt;; Lendacky, Thomas &lt;<a href=3D"mailto:Thomas.Lendacky@am=
 d.com">Thomas.Lendacky@amd.com</a>&gt;<br>
-<b>Subject:</b> [EXTERNAL] Re: Alternate Injection spec question</span><o:p=
-></o:p></p>
+<b>Subject:</b> [EXTERNAL] Re: Alternate Injection spec question</span></p>
 </div>
 </div>
-<p class=3D"xxmsonormal">&nbsp;<o:p></o:p></p>
-<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
-=3D"0" align=3D"left" width=3D"100%" style=3D"width:100.0%">
+<p class=3D"x_xxmsonormal">&nbsp;</p>
+<table class=3D"x_MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpaddin=
+g=3D"0" align=3D"left" width=3D"100%" style=3D"width:100.0%">
 <tbody>
 <tr>
-<td width=3D"0" style=3D"width:.3pt;background:#A6A6A6;padding:5.25pt 1.5pt=
- 5.25pt 1.5pt">
+<td width=3D"0" style=3D"width:.3pt; background:#A6A6A6; padding:5.25pt 1.5=
+pt 5.25pt 1.5pt">
 </td>
-<td width=3D"100%" style=3D"width:100.0%;background:#EAEAEA;padding:5.25pt =
-3.75pt 5.25pt 11.25pt;background:revert!important;border:revert!important;b=
-ottom:revert!important;color:revert!important;direction:revert!important;di=
-splay:revert!important;font-size:revert!important;height:revert!important;l=
-etter-spacing:revert!important;line-height:revert!important;margin:revert!i=
-mportant;opacity:revert!important;order:revert!important;outline:revert!imp=
-ortant;overflow:revert!important;padding:revert!important;position:revert!i=
-mportant;tab-size:revert!important;table-layout:revert!important;text-align=
-:revert!important;text-indent:revert!important;text-orientation:revert!impo=
-rtant;text-overflow:revert!important;text-transform:revert!important;top:re=
-vert!important;vertical-align:revert!important;visibility:revert!important;=
-white-space:revert!important;width:revert!important;word-break:revert!impor=
-tant;word-spacing:revert!important;writing-mode:revert!important;zoom:rever=
-t!important">
+<td width=3D"100%" style=3D"width:100.0%; background:#EAEAEA; padding:5.25p=
+t 3.75pt 5.25pt 11.25pt; background:revert!important; border:revert!importa=
+nt; bottom:revert!important; color:revert!important; direction:revert!impor=
+tant; display:revert!important; font-size:revert!important; height:revert!i=
+mportant; letter-spacing:revert!important; line-height:revert!important; ma=
+rgin:revert!important; opacity:revert!important; order:revert!important; ou=
+tline:revert!important; overflow:revert!important; padding:revert!important=
+; position:revert!important; tab-size:revert!important; table-layout:revert=
+!important; text-align:revert!important; text-indent:revert!important; text=
+-orientation:revert!important; text-overflow:revert!important; text-transfo=
+rm:revert!important; top:revert!important; vertical-align:revert!important;=
+ visibility:revert!important; white-space:revert!important; width:revert!im=
+portant; word-break:revert!important; word-spacing:revert!important; writin=
+g-mode:revert!important; zoom:revert!important">
 <div>
-<p class=3D"xxmsonormal" style=3D"mso-element:frame;mso-element-frame-hspac=
-e:2.25pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-=
-element-anchor-horizontal:column;mso-height-rule:exactly">
-<span style=3D"font-size:9.0pt;font-family:&quot;Segoe UI&quot;,sans-serif;=
-color:#212121">You don't often get email from
+<p class=3D"x_xxmsonormal" style=3D""><span style=3D"font-size:9.0pt; font-=
+family:&quot;Segoe UI&quot;,sans-serif; color:#212121">You don't often get =
+email from
 <a href=3D"mailto:huibo.wang@amd.com">huibo.wang@amd.com</a>. <a href=3D"ht=
 tps://aka.ms/LearnAboutSenderIdentification">
-Learn why this is important</a> </span><o:p></o:p></p>
+Learn why this is important</a> </span></p>
 </div>
 </td>
-<td width=3D"75" style=3D"width:56.25pt;background:#EAEAEA;padding:5.25pt 3=
-.75pt 5.25pt 3.75pt;background:revert!important;border:revert!important;bot=
-tom:revert!important;color:revert!important;direction:revert!important;disp=
-lay:revert!important;font-size:revert!important;height:revert!important;let=
-ter-spacing:revert!important;line-height:revert!important;margin:revert!imp=
-ortant;opacity:revert!important;order:revert!important;outline:revert!impor=
-tant;overflow:revert!important;padding:revert!important;position:revert!imp=
-ortant;tab-size:revert!important;table-layout:revert!important;text-align:r=
-evert!important;text-indent:revert!important;text-orientation:revert!import=
-ant;text-overflow:revert!important;text-transform:revert!important;top:reve=
-rt!important;vertical-align:revert!important;visibility:revert!important;wh=
-ite-space:revert!important;width:revert!important;word-break:revert!importa=
-nt;word-spacing:revert!important;writing-mode:revert!important;zoom:revert!=
-important">
+<td width=3D"75" style=3D"width:56.25pt; background:#EAEAEA; padding:5.25pt=
+ 3.75pt 5.25pt 3.75pt; background:revert!important; border:revert!important=
+; bottom:revert!important; color:revert!important; direction:revert!importa=
+nt; display:revert!important; font-size:revert!important; height:revert!imp=
+ortant; letter-spacing:revert!important; line-height:revert!important; marg=
+in:revert!important; opacity:revert!important; order:revert!important; outl=
+ine:revert!important; overflow:revert!important; padding:revert!important; =
+position:revert!important; tab-size:revert!important; table-layout:revert!i=
+mportant; text-align:revert!important; text-indent:revert!important; text-o=
+rientation:revert!important; text-overflow:revert!important; text-transform=
+:revert!important; top:revert!important; vertical-align:revert!important; v=
+isibility:revert!important; white-space:revert!important; width:revert!impo=
+rtant; word-break:revert!important; word-spacing:revert!important; writing-=
+mode:revert!important; zoom:revert!important">
 </td>
 </tr>
 </tbody>
 </table>
 <div>
-<p style=3D"margin:5.0pt"><span style=3D"font-size:10.0pt;font-family:&quot=
-;Calibri&quot;,sans-serif;color:blue">[AMD Official Use Only - AMD Internal=
- Distribution Only]</span><o:p></o:p></p>
-<p class=3D"xxmsonormal">&nbsp;<o:p></o:p></p>
+<p style=3D"margin:5.0pt"><span style=3D"font-size:10.0pt; font-family:&quo=
+t;Calibri&quot;,sans-serif; color:blue">[AMD Official Use Only - AMD Intern=
+al Distribution Only]</span></p>
+<p class=3D"x_xxmsonormal">&nbsp;</p>
 <div>
 <div>
-<p class=3D"xxmsonormal"><span style=3D"color:black">Hi Jon,&nbsp;</span><o=
-:p></o:p></p>
+<p class=3D"x_xxmsonormal"><span style=3D"color:black">Hi Jon,&nbsp;</span>=
+</p>
 </div>
 <div>
-<p class=3D"xxmsonormal"><span style=3D"color:black">&nbsp;</span><o:p></o:=
-p></p>
+<p class=3D"x_xxmsonormal"><span style=3D"color:black">&nbsp;</span></p>
 </div>
 <div>
-<p class=3D"xxmsonormal"><span style=3D"color:black">I have a couple questi=
-ons about&nbsp;the spec.&nbsp;</span><o:p></o:p></p>
+<p class=3D"x_xxmsonormal"><span style=3D"color:black">I have a couple ques=
+tions about&nbsp;the spec.&nbsp;</span></p>
 </div>
 <div>
-<p class=3D"xxmsonormal"><span style=3D"color:black">&nbsp;</span><o:p></o:=
-p></p>
+<p class=3D"x_xxmsonormal"><span style=3D"color:black">&nbsp;</span></p>
 </div>
 <div>
-<p class=3D"xxmsonormal"><span style=3D"color:black">1. &nbsp;For the mecha=
-nism transferring control from guest firmware to guest OS,&nbsp;<br>
+<p class=3D"x_xxmsonormal"><span style=3D"color:black">1. &nbsp;For the mec=
+hanism transferring control from guest firmware to guest OS,&nbsp;<br>
 &nbsp; &nbsp;from the flow I read, I wonder how the firmware (first compone=
 nt) can<br>
 &nbsp; &nbsp;register the use of Alternate Injection.<br>
@@ -948,36 +961,33 @@ alling Area<br>
 &nbsp; &nbsp;address for each vCPU can be configured correctly.&quot;<br>
 <br>
 Is it possible that the marked here means &quot;may not use&quot; instead o=
-f &quot;may use&quot;?</span><o:p></o:p></p>
+f &quot;may use&quot;?</span></p>
 </div>
 <div>
-<p class=3D"xxmsonormal"><span style=3D"color:black">&nbsp;</span><o:p></o:=
-p></p>
+<p class=3D"x_xxmsonormal"><span style=3D"color:black">&nbsp;</span></p>
 </div>
 <div>
-<pre><span style=3D"font-size:12.0pt;font-family:&quot;Aptos&quot;,sans-ser=
-if;color:black">Thanks,</span><o:p></o:p></pre>
+<pre><span style=3D"font-size:12.0pt; font-family:&quot;Aptos&quot;,sans-se=
+rif; color:black">Thanks,</span></pre>
 </div>
 <div>
-<pre><span style=3D"font-size:12.0pt;font-family:&quot;Aptos&quot;,sans-ser=
-if;color:black">Melody</span><o:p></o:p></pre>
+<pre><span style=3D"font-size:12.0pt; font-family:&quot;Aptos&quot;,sans-se=
+rif; color:black">Melody</span></pre>
 </div>
 <div>
-<p class=3D"xxmsonormal"><span style=3D"color:black">&nbsp;</span><o:p></o:=
-p></p>
+<p class=3D"x_xxmsonormal"><span style=3D"color:black">&nbsp;</span></p>
 </div>
 <div>
-<p class=3D"xxmsonormal"><span style=3D"color:black">&nbsp;</span><o:p></o:=
-p></p>
+<p class=3D"x_xxmsonormal"><span style=3D"color:black">&nbsp;</span></p>
 </div>
-<div class=3D"MsoNormal" align=3D"center" style=3D"text-align:center">
+<div class=3D"x_MsoNormal" align=3D"center" style=3D"text-align:center">
 <hr size=3D"2" width=3D"98%" align=3D"center">
 </div>
-<div id=3D"x_x_x_divRplyFwdMsg">
-<p class=3D"xxmsonormal"><b><span style=3D"font-size:11.0pt;font-family:&qu=
-ot;Calibri&quot;,sans-serif;color:black">From:</span></b><span style=3D"fon=
-t-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif;color:black">&nbsp=
-;Wang, Huibo<br>
+<div id=3D"x_x_x_x_divRplyFwdMsg">
+<p class=3D"x_xxmsonormal"><b><span style=3D"font-size:11.0pt; font-family:=
+&quot;Calibri&quot;,sans-serif; color:black">From:</span></b><span style=3D=
+"font-size:11.0pt; font-family:&quot;Calibri&quot;,sans-serif; color:black"=
+>&nbsp;Wang, Huibo<br>
 <b>Sent:</b>&nbsp;Wednesday, November 13, 2024 5:42 PM<br>
 <b>To:</b>&nbsp;Jon Lange &lt;<a href=3D"mailto:jlange@microsoft.com">jlang=
 e@microsoft.com</a>&gt;<br>
@@ -986,14 +996,13 @@ oconut-svsm.dev</a> &lt;<a href=3D"mailto:svsm-devel@coconut-svsm.dev">svsm=
 -devel@coconut-svsm.dev</a>&gt;; Joerg Roedel &lt;<a href=3D"mailto:jroedel=
 @suse.de">jroedel@suse.de</a>&gt;; Lendacky, Thomas &lt;<a href=3D"mailto:T=
 homas.Lendacky@amd.com">Thomas.Lendacky@amd.com</a>&gt;<br>
-<b>Subject:</b>&nbsp;Alternate Injection spec question</span> <o:p></o:p></=
-p>
+<b>Subject:</b>&nbsp;Alternate Injection spec question</span> </p>
 <div>
-<p class=3D"xxmsonormal">&nbsp;<o:p></o:p></p>
+<p class=3D"x_xxmsonormal">&nbsp;</p>
 </div>
 </div>
 <div>
-<p class=3D"xxmsonormal"><span style=3D"font-size:11.0pt">Hi Jon,<br>
+<p class=3D"x_xxmsonormal"><span style=3D"font-size:11.0pt">Hi Jon,<br>
 <br>
 Yeah, the one I have is version of May, thank you for the update.<br>
 <br>
@@ -1155,7 +1164,10 @@ ps://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel</a><br>
 ------------------------------<br>
 <br>
 End of Svsm-devel Digest, Vol 10, Issue 19<br>
-******************************************</span><o:p></o:p></p>
+******************************************</span></p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1169,4 +1181,4 @@ End of Svsm-devel Digest, Vol 10, Issue 19<br>
 </body>
 </html>
 
---_000_SJ1PR21MB37608730A4B0918ABC6DD223CA312SJ1PR21MB3760namp_--
+--_000_IA1PR12MB8285AC02579EEE1CB1B9A15395322IA1PR12MB8285namp_--
