@@ -1,21 +1,33 @@
-Return-Path: <joro@8bytes.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1734459027;
- bh=bqiW3Tp60+aakrswDODifRSSL7zrqN/wwmNjZqLBg78=;
- h=Date:From:To:Subject:From;
- b=OFlQ8PstVWkliNDGDkb3GSeIJVhxC4ejEeX+eHiAF0tIPJ3BjIkIcObSUywm/HBN5
- 6aRl2tjzw5eFXW7UNt0BpOr0eQz5GE61A2TOliqXxwbtg556irHaHCdl1HRySjQ9oS
- M/W797xS2CDitHbjF5LYhqbveQDzni02piU4vRiIb11vqFsBvpiBuUL+UWdPZpw4ht
- 39yUVDHKFlj4w87kVIsHgU2qx2P1mCrjzHip2I9KhqxY153w3oVESvzoX9TGJ9jVps
- 8o3o7/cuMCfahLa/b6t0zY11PAisVu8mHUB1nJQ2qYxcSTPDNxUVLiTxKkmbVRzoel
- XyN5kNxDIqAtQ==
-Date: Tue, 17 Dec 2024 19:10:26 +0100
-From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <Z2G-knjoWeL2hLyt@8bytes.org>
+Return-Path: <sgarzare@redhat.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPS id 0C3AF2C1F80
+ for <svsm-devel@coconut-svsm.dev>; Wed, 18 Dec 2024 12:09:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1734520171;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a6CfvnQFp46ctuXc9NRjYt/8BQ0UXVGaoOtwZmPuVN4=;
+ b=hWK8bejGVX0mmif2iBWgQFiFBWl2h2udSrXDaO7yZKM2l/Pp8VjyprlSfxzcxg/P9IJYBO
+ xJ6kfoNltkjuTSMC0SvfX9DCP3g6wbjTYOIgYfaNCjiRzUt1DdD/Km81j06ETam2ioa4/5
+ nBXzm3S8GIvEbw9UpgFNQ7P8eLf+Q7c=
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-6eff377fdc1so72716377b3.2
+ for <svsm-devel@coconut-svsm.dev>; Wed, 18 Dec 2024 03:09:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] SVSM Development Call December 18th, 2024
+References: <Z2GlkOf63fGpsks2@8bytes.org>
+In-Reply-To: <Z2GlkOf63fGpsks2@8bytes.org>
+From: Stefano Garzarella <sgarzare@redhat.com>
+Date: Wed, 18 Dec 2024 12:09:17 +0100
+Message-ID: <CAGxU2F53byEE4gp6VTos_eS-=1tnLE2mvMk=wHO7FsXWMysSVg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [svsm-devel] Linux and QEMU branches updated
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -24,24 +36,110 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="utf-8"
+To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
+Cc: svsm-devel@coconut-svsm.dev, Oliver Steffen <osteffen@redhat.com>
 
-Hi,
+Hi J=C3=B6rg,
 
-Here is the usual call for agenda items for this weeks SVSM development
-call.  Please send me any agenda items you have in mind or raise them in
-the meeting.
+On Tue, Dec 17, 2024 at 5:24=E2=80=AFPM J=C3=B6rg R=C3=B6del <joro@8bytes.o=
+rg> wrote:
+>
+> Hi everyone,
+>
+> A few weeks ago we discussed the plan to update the Linux and QEMU
+> development branches for the SVSM to the versions Roy provided.
+>
+> Today I made this change and updated the `svsm` branches in both
+> repositories. I also updated the SVSM tree to work with the new KVM
+> base, which includes updated documentation, launch script, and disabling
+> one of the unit-tests[1].
+>
+> So hereby I ask everyone to update their development/test environments
+> to use the latest Linux, QEMU and SVSM branches from the project.
+>
+> Why is this important?
+>
+> There is a PR pending for the SVSM which introduces the use of the TPR
+> for managing IRQ priorities. This is part of the ongoing work to enable
+> IRQs in the SVSM and add the ability to send IPIs, which is required to
+> enable other platforms besides AMD SEV-SNP.
+>
+> With the old 6.8-based kernel the TPR was shared across VMPLs, which
+> made the SVSM observe values set by the Linux kernel. This breaks the
+> SVSM as soon as Linux initialized the local APIC.
+>
+> Going forward, when the SVSM TPR PR gets merged, the SVSM will no longer
+> work on the 6.8 kernel, so please everyone make sure to update your
+> development/test environments and let me know in case you run into any
+> problems.
 
-Details of the meeting (GMeet and Calendar links, meeting time) can be
-found in our governance repository at:
+I tested all components, I can boot the guest OS and use the vTPM, but
+PCRs were strange:
 
-	https://github.com/coconut-svsm/governance
+# tpm2_pcrread
+  sha1:
+  sha256:
+    0 : 0x0000000000000000000000000000000000000000000000000000000000000000
+    1 : 0x0000000000000000000000000000000000000000000000000000000000000000
+    2 : 0x0000000000000000000000000000000000000000000000000000000000000000
+    3 : 0x0000000000000000000000000000000000000000000000000000000000000000
+    4 : 0x0000000000000000000000000000000000000000000000000000000000000000
+    5 : 0x0000000000000000000000000000000000000000000000000000000000000000
+    6 : 0x0000000000000000000000000000000000000000000000000000000000000000
+    7 : 0x0000000000000000000000000000000000000000000000000000000000000000
+    8 : 0x0000000000000000000000000000000000000000000000000000000000000000
+    9 : 0x0000000000000000000000000000000000000000000000000000000000000000
+    10: 0xBF0D858E3904704B36740BC2DDCF4820B93A9323C1098338B7C38E338735257B
+    11: 0x0000000000000000000000000000000000000000000000000000000000000000
+    12: 0x0000000000000000000000000000000000000000000000000000000000000000
+    13: 0x0000000000000000000000000000000000000000000000000000000000000000
+    14: 0x0000000000000000000000000000000000000000000000000000000000000000
+    15: 0x0000000000000000000000000000000000000000000000000000000000000000
+    16: 0x0000000000000000000000000000000000000000000000000000000000000000
+    17: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    18: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    19: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    20: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    21: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    22: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    23: 0x0000000000000000000000000000000000000000000000000000000000000000
 
-The meeting will be recorded and the recording eventually published.
+I noticed that in the svsm branch of edk2 the TPM driver is no longer
+there, so I tried the PR [1] that Oliver opened upstream, and it seems
+to be working:
 
-See you all there.
+# tpm2_pcrread
+  sha1:
+  sha256:
+    0 : 0xEE32461432E54C50E78118642B66B770AEDE2DDBE86256AD39BF6C1E3A0C2270
+    1 : 0x3E56433CCE1C5ADE10DFBEB087645E4E4CE1440D9623F9106841B660812B9E95
+    2 : 0x3D458CFE55CC03EA1F443F1562BEEC8DF51C75E14A9FCF9A7234A13F198E7969
+    3 : 0x3D458CFE55CC03EA1F443F1562BEEC8DF51C75E14A9FCF9A7234A13F198E7969
+    4 : 0xE202304E038D4985F817949AC2BEC2A6E969B81BA893AFC2E92C5158292C587E
+    5 : 0x5CD9240D9D327C6907507075091BAF761CB81D95571C8A49F72B317B2A1A3F31
+    6 : 0x3D458CFE55CC03EA1F443F1562BEEC8DF51C75E14A9FCF9A7234A13F198E7969
+    7 : 0x127C18EBA2300E30767FAFE71F4E5975776F665D22C7CA9017C7C24846B96FA1
+    8 : 0x5AD47B20CE56F0ED9985BA9E338D833C2E7C29981B158C1BCD15B616579D5555
+    9 : 0x9269DA5E4B8F2CA44BE308734FC233C9603F090EADFB4C2E5CBF30331AFB0BC3
+    10: 0x32A87359AFD16F31B3C13BE34054D16C11562A4B2FEC0837B8E24CD2374E3F44
+    11: 0x0000000000000000000000000000000000000000000000000000000000000000
+    12: 0x0000000000000000000000000000000000000000000000000000000000000000
+    13: 0x0000000000000000000000000000000000000000000000000000000000000000
+    14: 0x17CDEFD9548F4383B67A37A901673BF3C8DED6F619D36C8007562DE1D93C81CC
+    15: 0x0000000000000000000000000000000000000000000000000000000000000000
+    16: 0x0000000000000000000000000000000000000000000000000000000000000000
+    17: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    18: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    19: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    20: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    21: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    22: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    23: 0x0000000000000000000000000000000000000000000000000000000000000000
 
-Regards,
+Should we include that PR in our fork?
 
-	Jörg
+Thanks,
+Stefano
+
+[1] https://github.com/tianocore/edk2/pull/6527
+
