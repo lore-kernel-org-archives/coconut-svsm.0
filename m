@@ -1,26 +1,23 @@
 Return-Path: <joro@8bytes.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1734523206;
- bh=Jt0V4uGccPqR66Vn709yWvMAW59rwNrMIPTqPdRLr3A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mXFZhlC0ZvYjGBozhsDzQmKvUo3lqOF+0sCR7xq/Crv0Km1k40kAdo464/TMj8Fb7
- 8IkDBepl+5HGKD1AqTn/P1DaQjrUmtkISu+QQIneb3JptOcsucfvJzGdKiY0gSYMEQ
- 8p9xUWOcjRQkJz8vpayvCbuFua+FGsgii7sTCIQWuHD3j68VJh1aYjSa6oEjSVC1lH
- yc9rv1vpSp1hU8YzPD0zCSQxVPPaXwC67Yvl+Gphs2vEujhk49SqZtP90v71BIiwTi
- fzncFAFRgdpfMUoPMtY5fiVtR984Je+OEYWgsukt9JzPD1rvhvUqmtS7RMWBPsSvKh
- 2L3uyjzLmFonw==
-Date: Wed, 18 Dec 2024 13:00:04 +0100
+ s=default; t=1734597976;
+ bh=XoLIb7hLRqdqYo8MCdlPVhFRsCNawojHT5B5ZbmUlB4=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=fij/6N0TLkm5/Lv5RZb43jvx6bs6AU+BJqE7ttNfntkv3oNWC14NQMprjH9zN7C81
+ QvkkMk2jB+KsBG4hPgSfXcEpcLW9w3OXQIPlHVuGLrUfAF6hFXrm+XFxPAogaE50dv
+ 36SLZAz1uextFeDV73H0QddZ34zPX9fuMtOvcv3TrSUs+N6YmSo7IJToB4gmN96jRc
+ w/qyWoHEVWk4QOQKHwvt3ghKCsSfDyv/kWgumWYHisL0afVlRprvvwFFRKnm2QTP1w
+ mPrgUjLwKnQK0mMH96Na0yWuddHzHX0m7fMBwok4Veo5ipsS3/e/eYhVA07yEorfzG
+ nlz/13DD59cSw==
+Date: Thu, 19 Dec 2024 09:46:15 +0100
 From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <Z2K5RLis7OTv82e2@8bytes.org>
-References: <Z2GlkOf63fGpsks2@8bytes.org>
- <CAGxU2F53byEE4gp6VTos_eS-=1tnLE2mvMk=wHO7FsXWMysSVg@mail.gmail.com>
- <Z2KvKpdviLiSQ-4b@8bytes.org>
- <CA+bRGFr7SibkGrOSqEvTKrnc4+aWN3BpNMxwC174bauGxvwYhQ@mail.gmail.com>
+Message-ID: <Z2PdV_5WRhTNXGdq@8bytes.org>
+References: <Z2G-knjoWeL2hLyt@8bytes.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+bRGFr7SibkGrOSqEvTKrnc4+aWN3BpNMxwC174bauGxvwYhQ@mail.gmail.com>
-Subject: Re: [svsm-devel] Linux and QEMU branches updated
+In-Reply-To: <Z2G-knjoWeL2hLyt@8bytes.org>
+Subject: Re: [svsm-devel] SVSM Development Call December 18th, 2024
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -29,11 +26,12 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Oliver Steffen <osteffen@redhat.com>
-Cc: Stefano Garzarella <sgarzare@redhat.com>, svsm-devel@coconut-svsm.dev
-Content-Type: text/plain; charset="utf-8"
+To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
 
-On Wed, Dec 18, 2024 at 12:40:41PM +0100, Oliver Steffen wrote:
-> -> https://github.com/coconut-svsm/edk2/pull/5
+Meeting minutes are now available in this PR:
 
-Thanks, merged now.
+	https://github.com/coconut-svsm/governance/pull/39
+
+Regards,
+
+	Joerg
