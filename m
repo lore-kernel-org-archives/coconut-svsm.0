@@ -1,23 +1,21 @@
 Return-Path: <joro@8bytes.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1734597976;
- bh=XoLIb7hLRqdqYo8MCdlPVhFRsCNawojHT5B5ZbmUlB4=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=fij/6N0TLkm5/Lv5RZb43jvx6bs6AU+BJqE7ttNfntkv3oNWC14NQMprjH9zN7C81
- QvkkMk2jB+KsBG4hPgSfXcEpcLW9w3OXQIPlHVuGLrUfAF6hFXrm+XFxPAogaE50dv
- 36SLZAz1uextFeDV73H0QddZ34zPX9fuMtOvcv3TrSUs+N6YmSo7IJToB4gmN96jRc
- w/qyWoHEVWk4QOQKHwvt3ghKCsSfDyv/kWgumWYHisL0afVlRprvvwFFRKnm2QTP1w
- mPrgUjLwKnQK0mMH96Na0yWuddHzHX0m7fMBwok4Veo5ipsS3/e/eYhVA07yEorfzG
- nlz/13DD59cSw==
-Date: Thu, 19 Dec 2024 09:46:15 +0100
+ s=default; t=1736265313;
+ bh=X9q4em3x5WTw+abS6vep81x+TH6agoksM7fOc+NqwdA=;
+ h=Date:From:To:Subject:From;
+ b=nX2xj+SBONb6Wap+aVWGOV+PZB1IUZdKKgTOQ5HIGJT2LAjudPQYqMLbY8RDjlN+g
+ rwia3oJbmI08Wq4stqvRA6S8UU5xe7Gs09jh5V3nlyUqucMliBMn1qNsYxpPJ4d+4w
+ zHQMAZuirj690Av/wj/Sv+fyuPzP2Rs17MaT2UsccuHZyrJ0ZYsUp07oOJXb0i7HY/
+ 2zTruJSUnzUzZUkDqaI1q6b3DCzOqR7ZF90AAfp0dclSn0KAMd1FLFLH1HbFa8viqO
+ n7fWC1asS8jlBzg475vyjvUYpNn7UKUXfW5gDO999WOS71ZKxEHBilBoVWuZ/GoXwP
+ mOKiBum6Edm8A==
+Date: Tue, 7 Jan 2025 16:55:12 +0100
 From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <Z2PdV_5WRhTNXGdq@8bytes.org>
-References: <Z2G-knjoWeL2hLyt@8bytes.org>
+Message-ID: <Z31OYDtmN3DRe3oN@8bytes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z2G-knjoWeL2hLyt@8bytes.org>
-Subject: Re: [svsm-devel] SVSM Development Call December 18th, 2024
+Content-Transfer-Encoding: 8bit
+Subject: [svsm-devel] SVSM Development Call January 8th, 2025
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -27,11 +25,29 @@ List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
 
-Meeting minutes are now available in this PR:
+Hi,
 
-	https://github.com/coconut-svsm/governance/pull/39
+Happy new year everyone!
+
+Here is the usual call for agenda items for the first SVSM development
+call in 2025.  Please send me any agenda items you have in mind or raise
+them in the meeting.
+
+I have one item on the agenda so far:
+
+	* IGVM support for QEMU.
+
+Details of the meeting (GMeet and Calendar links, meeting time) can be
+found in our governance repository at:
+
+	https://github.com/coconut-svsm/governance
+
+The meeting will be recorded and the recording eventually published.
+
+See you all there.
 
 Regards,
 
-	Joerg
+	Jörg
