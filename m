@@ -1,21 +1,21 @@
 Return-Path: <joro@8bytes.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1739291326;
- bh=HpMgsmYmsp7YzjV1SnDY9CliB1CGj4Kn6fZ1unPZ0Iw=;
+ s=default; t=1739433813;
+ bh=d3ZARNFUE1EJF5tV72E5wWXFW50wieJoAQnTX57wi3E=;
  h=Date:From:To:Subject:From;
- b=UzN8+ljJOpSBhT9ZXazAHl4ec3YUlvwPv4WRHh3/3orqch49k/m3Is0ouaFgxGVE8
- 6zdtKC1uepzm7Z+Uk7Cnw+o59LkrSABBstB1jHFHClhOUbImAGLxKXAaRWI0uykF5c
- ZOKLWpKdJjBFiw37zzDdoJPo4iJAYVNoqABLpMxcWS6DYWMz21upElZ7remhLbalWN
- Cnym8IYLZJtfaUdNF0xsDqZuO689f3DhGk5ptTolFE5KS9/+sOtoXmKt2/zGcAiMy+
- 626o/impcVYy2tytaE7UJEdqgLEwswgDdRpzJYOKUHevw9/HQbHi4mtAR7t+hd7iQl
- QOrAv2iwDfaSg==
-Date: Tue, 11 Feb 2025 17:28:45 +0100
+ b=DLPCk3L0zbxLx883WfiypuFS0a1Bfkfd4Dc8zAKWsYrVafQk10UF4MGE7H5Jl+j8c
+ 57CZAPHf/Nd56QLdWxkFcvY3BYiCuPxFkbvxlrX75jHH2HWC266Yfj5vtb3gjZyST7
+ d9iW2FbCquo3oSegBTpc8Xv5bCzdgZONSp1lvs8OXGgbnuctuVX+LDZdp+luOyC9Wa
+ 4yfK7qMwBfG/229tBkx1mkBvDAURPzVyqDxm9FRAxssiIR3liGLaclOOsQ5TF61xEy
+ yuyb9cAipIb46pfcquzjO/XLBDLB6dH/OQYOAh+n9phg1SO3kBYkBRmLBEdV2Y+coA
+ suUQSqhvlkM/Q==
+Date: Thu, 13 Feb 2025 09:03:32 +0100
 From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <Z6t6vQDVr9xYTlqx@8bytes.org>
+Message-ID: <Z62nVBlbA_9Rnht-@8bytes.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] SVSM Development Call February 12th, 2025
+Subject: [svsm-devel] CCC Kernel SIG Meeting February 13th, 9am PST
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -25,23 +25,20 @@ List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="utf-8"
 
 Hi,
 
-Here is the usual call for agenda items for the this weeks SVSM
-development call.  Please send me any agenda items you have in mind or
-raise them in the meeting.
+As discussed in yesterdays SVSM call, there is a meeting of the CCC
+Kernel SIG today at 9am PST/6pm CET. On the agenda is a discussion about
+an architecture agnostic approach for Guest/SVSM communication.
 
-Details of the meeting (GMeet and Calendar links, meeting time) can be
-found in our governance repository at:
+The meeting details (Zoom link, ...) can be found in the CCC Calendar:
 
-	https://github.com/coconut-svsm/governance
+	https://zoom-lfx.platform.linuxfoundation.org/meetings/ccc?view=week
 
-The meeting will be recorded and the recording eventually published.
-
-See you all there.
+Anyone who is interested in this discussion is invited to join.
 
 Regards,
 
-	Jörg
+	Joerg
+
