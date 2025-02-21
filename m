@@ -1,40 +1,33 @@
-Return-Path: <geoffrey.ndu@hpe.com>
-Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com
- [148.163.147.86])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <dionnaglaze@google.com>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 19FA540F84
- for <svsm-devel@coconut-svsm.dev>; Fri, 21 Feb 2025 14:04:13 +0100 (CET)
-Received: from pps.filterd (m0134421.ppops.net [127.0.0.1])
- by mx0b-002e3701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51LD2uBU020478
- for <svsm-devel@coconut-svsm.dev>; Fri, 21 Feb 2025 13:04:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=
- content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=pps0720; bh=iVHZlQEr6EUUh1kXiy+e0R8w8h
- cjQ1F20h1UimyAd0Q=; b=YFbMT0aHiC+EhkV87S/PBkr4SpZd4jv2mQ9PcFPxsc
- V9Fk53sLuQ45dDzmV8ywXFXiM+dkl3+ZsVqkf9ZbPuAzzT0gzp30aC1TZaaeCPNs
- XSGWSrJ9qGQe25UgxHn0TaEFzP7UuYzjPGQa6Ze0k8RO7OD5klxBHfbA9Ec18R3u
- 4k00xAwj/1IHRdL3+ydlsLRvbLrEiu+WD9FZecWMKghB5g45cnA9z12BAjGGr834
- u50Vewi601/FZkNKQ2DGmcB7huqH6UUKu8HWowmtjH6gpr0h95EAW/ku2IA0fmlb
- 1fkBG61HH5zcPDtOkGYsCtI5RY2hxXxs3kD4kQoSgGOA==
-Received: from p1lg14880.it.hpe.com ([16.230.97.201])
- by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 44xpaya5q0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <svsm-devel@coconut-svsm.dev>; Fri, 21 Feb 2025 13:04:11 +0000 (GMT)
-Received: from p1wg14924.americas.hpqcorp.net (unknown [10.119.18.113])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by p1lg14880.it.hpe.com (Postfix) with ESMTPS id 3D035801AD9
- for <svsm-devel@coconut-svsm.dev>; Fri, 21 Feb 2025 13:04:11 +0000 (UTC)
-From: "Ndu, Geoffrey" <geoffrey.ndu@hpe.com>
-Date: Fri, 21 Feb 2025 13:03:46 +0000
-Message-ID: <PH7PR84MB1814CEC0178DB41D763E837A9AC72@PH7PR84MB1814.NAMPRD84.PROD.OUTLOOK.COM>
-References: <mailman.1.1740135602.3721519.svsm-devel@coconut-svsm.dev>
-In-Reply-To: <mailman.1.1740135602.3721519.svsm-devel@coconut-svsm.dev>
-Content-Language: en-US
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature";
- micalg=SHA1; boundary="----=_NextPart_000_0021_01DB8461.09925240"
+ by mail.8bytes.org (Postfix) with ESMTPS id BBC46430F6
+ for <svsm-devel@coconut-svsm.dev>; Fri, 21 Feb 2025 17:33:46 +0100 (CET)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-5e095d47a25so4438041a12.0
+ for <svsm-devel@coconut-svsm.dev>; Fri, 21 Feb 2025 08:33:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1740155626; x=1740760426; darn=coconut-svsm.dev;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vh4XfVxzJcy4SZHrsUs0+Lf+o/mjW9x/b+kRf3z1jH8=;
+ b=MrTCtRwUpbijK2DUs0C/wFTCtkmeJu+YlXwiMD0o/bUikXGUgZjjvvsyn3PQFYkIKV
+ TvEK0/C4RRq0xQO5cXQIVa4JMrIQdeSq8wCzAix1lj1r6lkvx0Z23yQpLX5HPrwBSI7t
+ WZBEw/q1oVc7OcV8+vkP1eOiaUPqbPtsJc/fw3A3a8cOddWM/QjMX2ZKhT9AbikV5bx3
+ nss/GITWLwZtQs/JLj7RL017YtGFMPhfBdnHo877EItkelaNpOkHRNSp/xTySOJplu07
+ wxYNj9LdNK2Ex19Vc8OzbBQM7Ry0TiCQXGYJEuqLKRypVr9a2pu29tajGR1zYkOQHfje
+ Wmvw==
 MIME-Version: 1.0
+References: <CAAH4kHZg_f--LJhw0zu9bYe87ozQX1jgxhQwJS+-=g0-u0DZTQ@mail.gmail.com>
+ <447a8b1cdf7ede36a14fd9c0bf061885adf868b3.camel@HansenPartnership.com>
+In-Reply-To: <447a8b1cdf7ede36a14fd9c0bf061885adf868b3.camel@HansenPartnership.com>
+From: Dionna Amalie Glaze <dionnaglaze@google.com>
+Date: Fri, 21 Feb 2025 08:33:33 -0800
+Message-ID: <CAAH4kHYrCLoT3x50MN+STaFapEPysDNH2udttr0snYJTVjkdaw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Subject: Re: [svsm-devel] vTPM service attestation format update
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
@@ -44,153 +37,20 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc: svsm-devel@coconut-svsm.dev, "Lendacky, Thomas" <Thomas.Lendacky@amd.com>
 
-------=_NextPart_000_0021_01DB8461.09925240
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+> However, the last sentence about make/activate credential makes me
+> think you're being too traditional about this.
 
-I'm not sure how the TPM_ALG approach would work for default EK templates
-that use the same algorithm. 
-For example, Template L-1: RSA 2048 (Storage) and Template H-1: RSA 2048
-(Storage).
+If instead we use TPM2_CreatePrimary with a public key template that
+has its bit 18 set in objectAttributes and use the EK handle for
+TPM2_Quote, then there's a great deal to change in user space.
+tpm2_createek doesn't give this as an option for example. Is adding a
+--non-anonymous-ak (or some such) to the TSS for EK creation part of
+your plan?
 
-Geoffrey
 
------Original Message-----
-From: Svsm-devel <svsm-devel-bounces@coconut-svsm.dev> On Behalf Of
-svsm-devel-request@coconut-svsm.dev
-Sent: 21 February 2025 11:00
-Date: Thu, 20 Feb 2025 17:17:48 -0800
-From: Dionna Amalie Glaze <dionnaglaze@google.com>
-To: svsm-devel@coconut-svsm.dev
-Cc: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,  James Bottomley
-	<James.Bottomley@hansenpartnership.com>
-Subject: [svsm-devel] vTPM service attestation format update
-Message-ID:
-	<CAAH4kHZg_f--LJhw0zu9bYe87ozQX1jgxhQwJS+-=g0-u0DZTQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
 
-I'd like to propose a new version to the vTPM protocol that is clearer about
-its EK information.
-It's possible to create multiple primary endorsement keys with different
-algorithms.
-
-For manifest version 1, we have a list of created primary keys in TPM_ALG
-enum order, not creation order.
-
-0x000 uint32 Number of primary endorsement keys
-0x004 Variable Number-many TPMT_PUBLIC structures
-
-I don't want to try to load a lot into this change request. For reducing
-pain with make/activatecredential, there's more to discuss.
 --
 -Dionna Glaze, PhD, CISSP, CCSP (she/her)
-
-
-------=_NextPart_000_0021_01DB8461.09925240
-Content-Type: application/pkcs7-signature;
-	name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-
-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
-BHoweDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElEUm9v
-dEcyLmNybDA6oDigNoY0aHR0cDovL2NybDQuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElE
-Um9vdEcyLmNybDCB0wYDVR0gBIHLMIHIMIHFBglghkgBhv1sBQIwgbcwKAYIKwYBBQUHAgEWHGh0
-dHBzOi8vd3d3LmRpZ2ljZXJ0LmNvbS9DUFMwgYoGCCsGAQUFBwICMH4MfEFueSB1c2Ugb2YgdGhp
-cyBDZXJ0aWZpY2F0ZSBjb25zdGl0dXRlcyBhY2NlcHRhbmNlIG9mIHRoZSBSZWx5aW5nIFBhcnR5
-IEFncmVlbWVudCBsb2NhdGVkIGF0IGh0dHBzOi8vd3d3LmRpZ2ljZXJ0LmNvbS9ycGEtdWEwJwYD
-VR0RBCAwHqQcMBoxGDAWBgNVBAMTD0RpZ2lDZXJ0UEtJLTMtMTANBgkqhkiG9w0BAQsFAAOCAQEA
-X1nerrl1BXZsFMZla3hsjfUbITS1JJqv5VqARgBjdinDquRgauGZl7dCwqe2mTmspri0g9ZkYI9u
-Rcc2Bxp62VIBFVPjQmRFidTi8bDGPzdwmfuQR11UPAvlZCT6D73oWWTusfIkadA6TBJVIGCXEWnM
-ZqEySr9tLb+NGjwVe9I1Q8NArPScqUWM/8MM+W+sfMoqeP21Fl6J4LU9PHGrOKCEc4aHMS/cXVZU
-9c5BVCh8Eu3Vctn+5QcK3CXxXWd35tieYmZjLYenwzJD/hGbdFHONQt3Wl97VkZAIviJ4av+IZbu
-/cDa6hgVKY5c93X58/z1K1uc6n8Ltpe6dG9myDCCByIwggYKoAMCAQICECoRIk2d5L1nlPbcAJmN
-qtMwDQYJKoZIhvcNAQELBQAwgasxCzAJBgNVBAYTAlVTMSswKQYDVQQKEyJIZXdsZXR0IFBhY2th
-cmQgRW50ZXJwcmlzZSBDb21wYW55MTUwMwYDVQQLEyxDbGFzcyAyIE1hbmFnZWQgUEtJIEluZGl2
-aWR1YWwgU3Vic2NyaWJlciBDQTE4MDYGA1UEAxMvSGV3bGV0dCBQYWNrYXJkIEVudGVycHJpc2Ug
-Q29sbGFib3JhdGlvbiBDQSBHMjEwHhcNMjQwMTEwMDAwMDAwWhcNMjYwMTA5MjM1OTU5WjCBhTEs
-MCoGA1UECgwjSGV3bGV0dCBQYWNrYXJkIEVudGVycHJpc2UgQ29tcGFueS4xFTATBgNVBAMMDEdl
-b2ZmcmV5IE5kdTEjMCEGCSqGSIb3DQEJARYUZ2VvZmZyZXkubmR1QGhwZS5jb20xGTAXBgNVBGET
-EE5UUlVTK0RFLTU2OTkyNjUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCmdL/+2hQ2
-Zu+KgXu2YCSlA9jQActRBQOf4BMzoRflx01AGU4xN/hRrCg5FD+B0O2+r44PA4T/jE3Ioz8RkMe9
-cH53ZPzcfB8vp+IumcsshuD/xr/8i5NzUawwOlSvf8d54wnELTKpVjsO0FITCcjtybNVXMhu6aPO
-iw+BIu4n7YCr7UE0irduFMig5T4n9o6NzM+LNgFhlNcP6BHsi5JFtqnH/TL1sDD3vmGBejxqKKp8
-JPtw0jhQgvUiG8vzwH6gMQ/+U1xD03pQJl01I5to4Zn6YPbdCeDtiJ3kD5wsXUwqL/5NJnvse2aW
-A9qNH+DOJFOZwZsFl9rzGla/ELh9AgMBAAGjggNkMIIDYDAMBgNVHRMBAf8EAjAAMA4GA1UdDwEB
-/wQEAwIFoDAWBgNVHSUBAf8EDDAKBggrBgEFBQcDBDAdBgNVHQ4EFgQUeksoCSCHOKnX1tKnr3dz
-WlG/foYwHwYDVR0RBBgwFoEUZ2VvZmZyZXkubmR1QGhwZS5jb20wgZQGCCsGAQUFBwEBBIGHMIGE
-MCgGCCsGAQUFBzABhhxodHRwOi8vcGtpLW9jc3AuZGlnaWNlcnQuY29tMFgGCCsGAQUFBzAChkxo
-dHRwOi8vY2FjZXIuc3ltYXV0aC5jb20vbXBraS9IZXdsZXR0UGFja2FyZEVudGVycHJpc2VDb2xs
-YWJvcmF0aW9uQ0FHMjEuY3J0MIIBIAYDVR0gBIIBFzCCARMwggEPBgdngQwBBQMBMIIBAjAoBggr
-BgEFBQcCARYcaHR0cHM6Ly93d3cuZGlnaWNlcnQuY29tL0NQUzCB1QYIKwYBBQUHAgIwgcgMgcVB
-bnkgdXNlIG9mIHRoaXMgQ2VydGlmaWNhdGUgY29uc3RpdHV0ZXMgYWNjZXB0YW5jZSBvZiB0aGUg
-RGlnaUNlcnQgQ1AvQ1BTIGFuZCBSZWx5aW5nIFBhcnR5IEFncmVlbWVudCB3aGljaCBsaW1pdCBs
-aWFiaWxpdHkgYW5kIGFyZSBpbmNvcnBvcmF0ZWQgaGVyZWluIGJ5IHJlZmVyZW5jZS4gaHR0cHM6
-Ly93d3cuZGlnaWNlcnQuY29tL3JwYS11YTBdBgNVHR8EVjBUMFKgUKBOhkxodHRwOi8vcGtpLWNy
-bC5zeW1hdXRoLmNvbS9jYV84ZmRlNTZiZmRkMTAyY2UwMzAyNjg2NzYyNWQwM2IxZi9MYXRlc3RD
-UkwuY3JsMB8GA1UdIwQYMBaAFBSZUpIJYdDRlDMRKD58rXO9zE5xMEIGCSqGSIb3DQEJDwQ1MDMw
-CgYIKoZIhvcNAwcwCwYJYIZIAWUDBAECMAsGCWCGSAFlAwQBFjALBglghkgBZQMEASowLgYKYIZI
-AYb4RQEQAwQgMB4GE2CGSAGG+EUBEAECAgEBgt7rlkUWBzEwNjA0NTYwOQYKYIZIAYb4RQEQBQQr
-MCkCAQAWJGFIUjBjSE02THk5d2Eya3RjbUV1YzNsdFlYVjBhQzVqYjIwPTANBgkqhkiG9w0BAQsF
-AAOCAQEAGz6mnxnnQ36V0clYsqYDzEufAUi6e+C6PkO3c+OoiZIBikyjs+lrNu8uONBlAaXOdW1e
-UU1FulD+8dUujMeAuoKvkLrAylrktroSc2vETbwiDIiEEhyuz/aTNAM4oYB6/F0q7AFzS5/OdQBs
-rjNxAQyITsczxzEA3pRmvikKoIyReEWhrTU85Y6HE+6Aeo1pVfl8TiHFJER05T65vzhnS80LVfuP
-jmh7+bJsV/W2dfiMfbHJB33btSRuDgqy81aohROdfPgHYhFQvIl9owax4cJAcHR6Y3FT14AeCq9I
-p13uoZcmKv6hVjB3B9kXJLID9kbNM9cLQIm0b93Pro2sYTGCBIkwggSFAgEBMIHAMIGrMQswCQYD
-VQQGEwJVUzErMCkGA1UEChMiSGV3bGV0dCBQYWNrYXJkIEVudGVycHJpc2UgQ29tcGFueTE1MDMG
-A1UECxMsQ2xhc3MgMiBNYW5hZ2VkIFBLSSBJbmRpdmlkdWFsIFN1YnNjcmliZXIgQ0ExODA2BgNV
-BAMTL0hld2xldHQgUGFja2FyZCBFbnRlcnByaXNlIENvbGxhYm9yYXRpb24gQ0EgRzIxAhAqESJN
-neS9Z5T23ACZjarTMAkGBSsOAwIaBQCgggKdMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJ
-KoZIhvcNAQkFMQ8XDTI1MDIyMTEzMDM0NFowIwYJKoZIhvcNAQkEMRYEFBZo0gAk7G2TPYrg6ZvW
-9Wlhl5dJMIGTBgkqhkiG9w0BCQ8xgYUwgYIwCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQBFjAKBggq
-hkiG9w0DBzALBglghkgBZQMEAQIwDgYIKoZIhvcNAwICAgCAMA0GCCqGSIb3DQMCAgFAMAcGBSsO
-AwIaMAsGCWCGSAFlAwQCAzALBglghkgBZQMEAgIwCwYJYIZIAWUDBAIBMIHRBgkrBgEEAYI3EAQx
-gcMwgcAwgasxCzAJBgNVBAYTAlVTMSswKQYDVQQKEyJIZXdsZXR0IFBhY2thcmQgRW50ZXJwcmlz
-ZSBDb21wYW55MTUwMwYDVQQLEyxDbGFzcyAyIE1hbmFnZWQgUEtJIEluZGl2aWR1YWwgU3Vic2Ny
-aWJlciBDQTE4MDYGA1UEAxMvSGV3bGV0dCBQYWNrYXJkIEVudGVycHJpc2UgQ29sbGFib3JhdGlv
-biBDQSBHMjECECoRIk2d5L1nlPbcAJmNqtMwgdMGCyqGSIb3DQEJEAILMYHDoIHAMIGrMQswCQYD
-VQQGEwJVUzErMCkGA1UEChMiSGV3bGV0dCBQYWNrYXJkIEVudGVycHJpc2UgQ29tcGFueTE1MDMG
-A1UECxMsQ2xhc3MgMiBNYW5hZ2VkIFBLSSBJbmRpdmlkdWFsIFN1YnNjcmliZXIgQ0ExODA2BgNV
-BAMTL0hld2xldHQgUGFja2FyZCBFbnRlcnByaXNlIENvbGxhYm9yYXRpb24gQ0EgRzIxAhAqESJN
-neS9Z5T23ACZjarTMA0GCSqGSIb3DQEBAQUABIIBAFTkyCzu3+tSgepV7uBHpFHpqc9DfZK7t/gF
-WIRfuXeYxNxnor76M+lr7dveN53JOePGPdqifsqb0PGULaEfoonPNORIJf5mb+2+qqZkWV2QsWz2
-3dwUA9sqSWUz2G/W4TJYbjBNBoL6TRc3sDPcBUjGBbrrIsJKKDITYWnWoKDZI0wY0W9o5H+DsVCh
-V/szd77TCpbK3BopSO+6oeyvAp9/GuwDK05tWkSDOM/XDQ/37LDQp9UuVJlRCjP5H//4TTPEMQae
-ozqWErY1QrFRBcaCGHRK0pmYr7JgqcC8Nue35VuC31hg9N6TJTAKyQYw0LGIUMefP9xqZ1JDKxgW
-VU8AAAAAAAA=
-
-------=_NextPart_000_0021_01DB8461.09925240--
