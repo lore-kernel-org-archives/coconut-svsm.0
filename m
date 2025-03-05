@@ -1,31 +1,36 @@
-Return-Path: <cclaudio@ibm.com>
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Return-Path: <dionnaglaze@google.com>
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 88ADD44184
- for <svsm-devel@coconut-svsm.dev>; Wed,  5 Mar 2025 16:29:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
- content-id:content-transfer-encoding:content-type:date:from
- :in-reply-to:message-id:mime-version:references:subject:to; s=
- pp1; bh=z6CIRbhi8Daasn+j9wL6AtV1q05ACX8m+AorZokehlc=; b=tfDH9QUc
- /QjgwEGgzCKS4hNJeN8hBqJ77VFHBLFfedqxOMC/qwg3S+EjpXuBjTVSNj0j5HcF
- sgH5B6ogqcA1TsOwdy9PCE6ZsmIOWIJF8bikBnSwc7iRvgsG73nQ6UAnWobV9ZJv
- ARKsoAo9npKg35zXJpElZOm5PCxQxxzK6hve7SHk53fX8enyudXV7141pRaEUlKe
- MS+fc6plIZlYpH+wSM9U8YcWaLJ1G2Cjx993d8M7YeCzghxU5uoT2KbEVNcIkthT
- yzmHrfSacXqOza8SByIgdMTJBZDpIsyHTa/+iNSX8YWqM8bBHagyfrWYdVOM4YkF
- cpratik4ddk6oQ==
-From: Claudio Siqueira de Carvalho <cclaudio@ibm.com>
-Date: Wed, 5 Mar 2025 15:29:38 +0000
-Message-ID: <9f2236e99150814f64f444aff2d3edee495483a8.camel@ibm.com>
+ by mail.8bytes.org (Postfix) with ESMTPS id A23F2445F1
+ for <svsm-devel@coconut-svsm.dev>; Wed,  5 Mar 2025 17:17:31 +0100 (CET)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-abbb12bea54so1257578166b.0
+ for <svsm-devel@coconut-svsm.dev>; Wed, 05 Mar 2025 08:17:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1741191451; x=1741796251; darn=coconut-svsm.dev;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=svUJdy6Qtz/d1W5IrVEl0YDaIYR5Xzf8vzqjibvAgfA=;
+ b=qenLxfjc8Dzcr6g/ZRlycgq0N4H7om8gGPfNZRM3t9XfIq9AsWWeSlS3VVwDIUESnv
+ 1orcTonEFRhwMYiiarAO+eiQWnZwqB4l/fOiAyBzuzlAGdbDA7thuOItgZsB39aPrua2
+ sCpcKLzPPK3GuJDZPQdUAvC6z4MdbiLcjwOsBELF5izkPHnsK1yeVkLH/ww8+r0aJk2q
+ qjgPqX9vMVaAVRp2Q8OygPtQdOKZVT1Nrar1TOhRCInD4awT1v8lkm+mYqgRWSM2KsbD
+ FgpPaChs018gmg0+MItKCckByIkERm9+dOd6+18DIqVaNQNWTXs7gz0vf7OJ0prNO9Lc
+ 6qKg==
+MIME-Version: 1.0
 References: <CAAH4kHZg_f--LJhw0zu9bYe87ozQX1jgxhQwJS+-=g0-u0DZTQ@mail.gmail.com>
  <447a8b1cdf7ede36a14fd9c0bf061885adf868b3.camel@HansenPartnership.com>
-In-Reply-To: <447a8b1cdf7ede36a14fd9c0bf061885adf868b3.camel@HansenPartnership.com>
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2BD10C3637777B489EB9F6BB60742D37@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
+ <9f2236e99150814f64f444aff2d3edee495483a8.camel@ibm.com>
+In-Reply-To: <9f2236e99150814f64f444aff2d3edee495483a8.camel@ibm.com>
+From: Dionna Amalie Glaze <dionnaglaze@google.com>
+Date: Wed, 5 Mar 2025 08:17:19 -0800
+Message-ID: <CAAH4kHaP6n-n=X=zDxonqhv2tZRjycS3R0XBX-FZv6tS7xn_hQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Subject: Re: [svsm-devel] vTPM service attestation format update
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
@@ -35,48 +40,116 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: "dionnaglaze@google.com" <dionnaglaze@google.com>, "James.Bottomley@HansenPartnership.com" <James.Bottomley@HansenPartnership.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: Claudio Siqueira de Carvalho <cclaudio@ibm.com>
+Cc: "James.Bottomley@HansenPartnership.com" <James.Bottomley@hansenpartnership.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
-T24gRnJpLCAyMDI1LTAyLTIxIGF0IDA4OjMxIC0wNTAwLCBKYW1lcyBCb3R0b21sZXkgd3JvdGU6
-DQo+IE9uIFRodSwgMjAyNS0wMi0yMCBhdCAxNzoxNyAtMDgwMCwgRGlvbm5hIEFtYWxpZSBHbGF6
-ZSB3cm90ZToNCj4gPiBJJ2QgbGlrZSB0byBwcm9wb3NlIGEgbmV3IHZlcnNpb24gdG8gdGhlIHZU
-UE0gcHJvdG9jb2wgdGhhdCBpcw0KPiA+IGNsZWFyZXINCj4gPiBhYm91dCBpdHMgRUsgaW5mb3Jt
-YXRpb24uDQo+ID4gSXQncyBwb3NzaWJsZSB0byBjcmVhdGUgbXVsdGlwbGUgcHJpbWFyeSBlbmRv
-cnNlbWVudCBrZXlzIHdpdGgNCj4gPiBkaWZmZXJlbnQgYWxnb3JpdGhtcy4NCj4gPiANCj4gPiBG
-b3IgbWFuaWZlc3QgdmVyc2lvbiAxLCB3ZSBoYXZlIGEgbGlzdCBvZiBjcmVhdGVkIHByaW1hcnkg
-a2V5cyBpbg0KPiA+IFRQTV9BTEcgZW51bSBvcmRlciwgbm90IGNyZWF0aW9uIG9yZGVyLg0KPiA+
-IA0KPiA+IDB4MDAwIHVpbnQzMiBOdW1iZXIgb2YgcHJpbWFyeSBlbmRvcnNlbWVudCBrZXlzDQo+
-ID4gMHgwMDQgVmFyaWFibGUgTnVtYmVyLW1hbnkgVFBNVF9QVUJMSUMgc3RydWN0dXJlcw0KPiA+
-IA0KPiA+IEkgZG9uJ3Qgd2FudCB0byB0cnkgdG8gbG9hZCBhIGxvdCBpbnRvIHRoaXMgY2hhbmdl
-IHJlcXVlc3QuIEZvcg0KPiA+IHJlZHVjaW5nIHBhaW4gd2l0aCBtYWtlL2FjdGl2YXRlY3JlZGVu
-dGlhbCwgdGhlcmUncyBtb3JlIHRvIGRpc2N1c3MuDQo+IA0KPiBJJ20gbm90IHN1cmUgSSBleGFj
-dGx5IHVuZGVyc3RhbmQgdGhlIHByb3Bvc2FsLCBidXQgSSB0aGluayBpdCdzIHRoYXQNCj4gdGhl
-IHR5cGUgb2YgZW5kb3JzZW1lbnQga2V5IHNob3VsZCBiZSBwYXJ0IG9mIHRoZSBpbnB1dCBkYXRh
-IHRvIHRoZQ0KPiB2VFBNIHByb3RvY29sIGF0dGVzdGF0aW9uP8KgIEluIHdoaWNoIGNhc2UgSSBh
-Z3JlZS4NCj4gDQo+IEhvd2V2ZXIsIHRoZSBsYXN0IHNlbnRlbmNlIGFib3V0IG1ha2UvYWN0aXZh
-dGUgY3JlZGVudGlhbCBtYWtlcyBtZQ0KPiB0aGluayB5b3UncmUgYmVpbmcgdG9vIHRyYWRpdGlv
-bmFsIGFib3V0IHRoaXMuwqAgVGhhdCBwcm90b2NvbCBpcyByZWFsbHkNCj4gb25seSByZXF1aXJl
-ZCBiZWNhdXNlIHBoeXNpY2FsIFRQTXMgYXJlIG9ubHkgc2hpcHBlZCB3aXRoIGVuY3J5cHRpb24g
-RUsNCj4gY2VydGlmaWNhdGVzIHRvIGZvcmNlIHRoZSBwcml2YWN5IHByZXNlcnZpbmcgYWxnb3Jp
-dGhtcy7CoCBTaW5jZSB0aGVyZSdzDQo+IG5vIHByaXZhY3kgY29uY2VybnMgYWJvdXQgdGhlIHZU
-UE0gaW4gYSBjb25maWRlbnRpYWwgc3lzdGVtLCB3ZSBjYW4NCj4ganVzdCBwcm9kdWNlIGEgc2ln
-bmluZyBFSywgd2hpY2ggY2FuIGl0c2VsZiBjZXJ0aWZ5IFRQTSBvYmplY3RzIHdpdGhvdXQNCj4g
-dGhlIG5lZWQgZm9yIGRvaW5nIHRoZSBBSyBjcmVhdGlvbiBkYW5jZS4NCj4gDQo+IFRoYXQgYXJn
-dWVzIHRoYXQgdGhlcmUgc2hvdWxkIGJlIHR3byBpbnB1dCBhcmd1bWVudHM6IGFsZ29yaXRobSBh
-bmQga2V5DQo+IHR5cGUuDQoNCkkgYW0gYWxzbyBub3Qgc3VyZSBJIGZ1bGx5IHVuZGVyc3RhbmQg
-dGhlIHByb3Bvc2FsLg0KDQpQcm92aWRpbmcgYWxnb3JpdGhtIGFuZCBrZXkgdHlwZSBtYXkgbm90
-IGJlIGVub3VnaCB0byBpZGVudGlmeSBhbiBFSyBhcyB3ZSBuZWVkDQp0byBwcm92aWRlIG11bHRp
-cGxlIHBhcmFtZXRlcnMgdG8gY3JlYXRlIG9uZSwgZm9yIGV4YW1wbGU6DQoNClJTQTIwNDggcHJp
-bWFyeSBrZXkNCmh0dHBzOi8vZ2l0aHViLmNvbS9jY2xhdWRpby9zdnNtL2NvbW1pdC9kM2ZiMGJi
-NTc1NmU2OWY3MWNlMDFmM2ZiNGMwYjFiM2EwZDNlYWVjI2RpZmYtNTA3NTFkNmRmNTRiYzMzNmU0
-N2UxZDU5MDdiZjMxZTBmYzM0OTFlMjg3ZDIwMmJmNjE0OWRmMDViNTgyZTBiNlI4MC1SMTA4DQoN
-CkVDQ19QMjU2IHByaW1hcnkga2V5DQpodHRwczovL2dpdGh1Yi5jb20vY2NsYXVkaW8vc3ZzbS9j
-b21taXQvZDNmYjBiYjU3NTZlNjlmNzFjZTAxZjNmYjRjMGIxYjNhMGQzZWFlYyNkaWZmLTUwNzUx
-ZDZkZjU0YmMzMzZlNDdlMWQ1OTA3YmYzMWUwZmMzNDkxZTI4N2QyMDJiZjYxNDlkZjA1YjU4MmUw
-YjZSMTQxLVIxNzANCg0KSW4gYWRkaXRpb24gdG8gdGhhdCwgdGhlIG51bWJlciBvZiBwZXJtdXRh
-dGlvbnMgb2YgYWxnb3JpdGhtcyBhbmQgdHlwZXMgY291bGQgYmUNCnJlbGF0aXZlbHkgYmlnIGFz
-IHdlbGwuDQoNCkhlcmUgaXMgYW5vdGhlciBpZGVhLiBNYXliZSB3ZSBjYW4gYWdyZWUgb24gYSBm
-ZXcgVFBNIG1lbW9yeSBzbG90cyB0aGF0IGNvdWxkIGJlDQp1c2VkIGZvciBwcmltYXJ5IGtleXMg
-YW5kIHRoZW4gdGhlIGF0dGVzdGF0aW9uIHJlcXVlc3QgY291bGQganVzdCByZWZlciB0byBvbmUN
-Cm9mIHRob3NlLg0KDQpSZWdhcmRzLA0KQ2xhdWRpbw0KDQo+IA0KPiBSZWVnYXJkcywNCj4gDQo+
-IEphbWVzDQo+IA0KDQo=
+On Wed, Mar 5, 2025 at 7:29=E2=80=AFAM Claudio Siqueira de Carvalho
+<cclaudio@ibm.com> wrote:
+>
+> On Fri, 2025-02-21 at 08:31 -0500, James Bottomley wrote:
+> > On Thu, 2025-02-20 at 17:17 -0800, Dionna Amalie Glaze wrote:
+> > > I'd like to propose a new version to the vTPM protocol that is
+> > > clearer
+> > > about its EK information.
+> > > It's possible to create multiple primary endorsement keys with
+> > > different algorithms.
+> > >
+> > > For manifest version 1, we have a list of created primary keys in
+> > > TPM_ALG enum order, not creation order.
+> > >
+> > > 0x000 uint32 Number of primary endorsement keys
+> > > 0x004 Variable Number-many TPMT_PUBLIC structures
+> > >
+> > > I don't want to try to load a lot into this change request. For
+> > > reducing pain with make/activatecredential, there's more to discuss.
+> >
+> > I'm not sure I exactly understand the proposal, but I think it's that
+> > the type of endorsement key should be part of the input data to the
+> > vTPM protocol attestation?  In which case I agree.
+> >
+> > However, the last sentence about make/activate credential makes me
+> > think you're being too traditional about this.  That protocol is really
+> > only required because physical TPMs are only shipped with encryption EK
+> > certificates to force the privacy preserving algorithms.  Since there's
+> > no privacy concerns about the vTPM in a confidential system, we can
+> > just produce a signing EK, which can itself certify TPM objects without
+> > the need for doing the AK creation dance.
+> >
+> > That argues that there should be two input arguments: algorithm and key
+> > type.
+>
+> I am also not sure I fully understand the proposal.
+>
+> Providing algorithm and key type may not be enough to identify an EK as w=
+e need
+> to provide multiple parameters to create one, for example:
+
+This is not what I'm saying. In implementing this I found a
+simplification that we can use the manifest version for the selector
+version.
+The "selector" can be as rich as the entire command to CreatePrimary.
+To make it simpler, I'm making 2 initial selector variants.
+
+The first is a TPM2B_PUBLIC that will behind the scenes use an empty
+auth block, insensitve, outsidedata, and pcrselection in the creation.
+
+I'd revise the single service attestation extension to just take 2
+additional arguments: the selector gpa and selector length.
+
+manifest =3D single_service_manifest_ex(guid, manifest_version, selector)
+magic =3D u8[b'S', b'S', b'M', b'2']
+selector_context =3D guid || manifest_version.to_le_bytes() || magic || sel=
+ector
+The report_data used in the attestation report becomes SHA-512(nonce
+|| selector_context || manifest).
+
+>
+> RSA2048 primary key
+> https://github.com/cclaudio/svsm/commit/d3fb0bb5756e69f71ce01f3fb4c0b1b3a=
+0d3eaec#diff-50751d6df54bc336e47e1d5907bf31e0fc3491e287d202bf6149df05b582e0=
+b6R80-R108
+>
+> ECC_P256 primary key
+> https://github.com/cclaudio/svsm/commit/d3fb0bb5756e69f71ce01f3fb4c0b1b3a=
+0d3eaec#diff-50751d6df54bc336e47e1d5907bf31e0fc3491e287d202bf6149df05b582e0=
+b6R141-R170
+>
+> In addition to that, the number of permutations of algorithms and types c=
+ould be
+> relatively big as well.
+>
+> Here is another idea. Maybe we can agree on a few TPM memory slots that c=
+ould be
+> used for primary keys and then the attestation request could just refer t=
+o one
+> of those.
+>
+
+Yes, this is the second selector variant, which is to provide an NV
+index for an EK template that will serve as the selector to the
+implementation of the first variant.
+RSA EK template for EK provisioning is from "TCG TPM v2.0 Provisioning
+Guidance" - v1r1 - Table 2, 0x8101_0001 and ECC is 0x8101_0002.
+
+For Google's RSA AK template (signing EK), the NV index is
+0x01c1_0001, and ECC is 0x01c1_0003.
+I believe Geoffrey's L-1 key template ought to be from the EK
+credential profile's low range 0x01c0_0004 for RSA EK template.
+
+Note that 0x8101_0001 is the platform's prerogative to define, so we
+should expect different Coconut-SVSM distributions to populate it
+differently.
+
+> Regards,
+> Claudio
+>
+> >
+> > Reegards,
+> >
+> > James
+> >
+>
+
+
+--=20
+-Dionna Glaze, PhD, CISSP, CCSP (she/her)
