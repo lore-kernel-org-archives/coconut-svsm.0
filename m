@@ -1,31 +1,23 @@
-Return-Path: <dionnaglaze@google.com>
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 71CA242EB0
- for <svsm-devel@coconut-svsm.dev>; Wed,  5 Mar 2025 19:22:59 +0100 (CET)
-Received: by mail-ej1-x629.google.com with SMTP id
- a640c23a62f3a-ab771575040so206122866b.1
- for <svsm-devel@coconut-svsm.dev>; Wed, 05 Mar 2025 10:22:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1741198978; x=1741803778; darn=coconut-svsm.dev;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=PyEQZ3hX02+NEl55KdDYbHk0j8tOs3DnrCcb4MtdiSg=;
- b=uY6t2uq+bX1S3CHaeu2/yLjunh8KKUXqpEVYOsLDODBBQiPGVaQ97CZUHKtyXJESOu
- qdBPf0DH6fI8NieunPk1nYv2+xavvShQblc88YxX6CWodjt6Chy/xvKl/GY8JYSPB8UA
- UqzoiSdxgjgXBQL8Fqi4A+UbJUGp4EUJ3ze/wSzxbgf+hK6WkAiNlgOrA/TH0X18DtuT
- /fwtjS1pRlQ0Bj4Em+P0qR2tySKjXHscednZ2uwkUMfpjVcEhQCYrDDgtKUoScao5uMf
- CjT3sNz/dXFPmTHoJA45WJMkwaMYlFEyKvHhPjtif23Ki/N2tWc0HbDafS6DSRCfNvGs
- lPDg==
+Return-Path: <joro@8bytes.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+ s=default; t=1741251301;
+ bh=Z/Mdft8hOPGxfgQHOzw+nWsF3o2FCEvgA+AA6KKz4aQ=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=2/SCusvf3+n+bCCOdmqTMm8g2LVUb0HnbB371wI06gsPErNlAIgMoUnihPQ3BN3fA
+ RUEBh9vVonCxzlZTBtTp6hEBNskPwrg2mChFONkSQiEL+25NNsamOzoAkBU6N76WlS
+ tVDuhP50wFgua1dSOc8Ae4Bx6O74M6xseaoISQbLQEJnDZqA4n1R4KiJfbOGS0MGWC
+ HCguNocTEhMZwim0bHQ8aulYFGdZfazfJZ2t7cISUS/PVjt7PoEWB24zlsfoAA+IuU
+ 16/xl6N9qHEm2KJ1iANzq/9Rb0b50XPMBjH1n8x7J6cQvnQI0knYrDfRenGWxSUm0O
+ Ecf4+jwZvZFVA==
+Date: Thu, 6 Mar 2025 09:55:00 +0100
+From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
+Message-ID: <Z8li5JEfdogfJO_4@8bytes.org>
+References: <Z8dM9Tp49ZFR50lJ@8bytes.org>
 MIME-Version: 1.0
-From: Dionna Amalie Glaze <dionnaglaze@google.com>
-Date: Wed, 5 Mar 2025 10:22:46 -0800
-Message-ID: <CAAH4kHZmmDtJm1ef4kMuBWheacYW7QmttLUZsx8M2QP2SSLU=w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Subject: [svsm-devel] vTPM send command extension
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z8dM9Tp49ZFR50lJ@8bytes.org>
+Subject: Re: [svsm-devel] SVSM Development Call March 5th, 2025
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -34,21 +26,12 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: svsm-devel@coconut-svsm.dev
+To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
 
-On the topic of updating the SVSM reference, we discussed in the
-developer's call today that we really do need for the
-VTPM_SEND_COMMAND call to make the buffer length known to the SVSM,
-because there's not enough information in the input for SVSM to make
-the determination that the given buffer is large enough to receive the
-response.
+Minutes are now posted for review:
 
-I propose VTPM_SEND_COMMAND_EX, where everything is the same except
-RDX contains the number of contiguous pages starting from RCX that are
-available to use in the response.
-We ought to update the original send command to limit the buffer size
-to a page for safety.
+	https://github.com/coconut-svsm/governance/pull/48
 
+Regards,
 
--- 
--Dionna Glaze, PhD, CISSP, CCSP (she/her)
+	Joerg
