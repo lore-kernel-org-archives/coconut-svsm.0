@@ -1,26 +1,23 @@
-Return-Path: <Pankaj.Gupta@amd.com>
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on20610.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2414::610])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id DA157454B4
- for <svsm-devel@coconut-svsm.dev>; Wed, 12 Mar 2025 10:48:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h/Dm6dvWXa5QTJD/HlONXR0EAGTvqCh5EROm6IEkgI8=;
- b=49CeXApedwa/BrzusDQ9N+7qFwHd1+7LQaG1GqxAA10l+E56CBJux0gMizYHzJ+vzBrhhrxR44IZbuLcsx+SMMgMX1ywtPhVAQe6b/MaPc2RjDvpUPhwvg0kWIPEu/2ohbs8ODeQMPD/9wN56MVfZfsuX8bfI5NcDp9TEC8ozc4=
-Message-ID: <96c84424-5d2d-4bdd-8e48-ec217d0a41db@amd.com>
-Date: Wed, 12 Mar 2025 10:48:17 +0100
-From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Return-Path: <joro@8bytes.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+ s=default; t=1741773735;
+ bh=A1uVqH95CJPqwqijOjOOLii3c7rnY58wxAgsubZzoV8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gw/pueRaVz5Vvb24gCX2yKDBnZ0a1cymUa7fJxHTzlBQ8fYzjX71706b0T321dt0a
+ aCkPCCnU8qThsVxAQDPt9IE5zfBhI/vh5JsIauhNGndc1FtWpyJZ4pmlTH7MveUDs7
+ UUTa4RiQv5rj+pCTjcsYXAkIf6rTOwS8bF5Qz727o4aQkdFrZn5wo5pL8uMgGuCHS0
+ E3gdx0Qo9y0OK27Icfdkb/p/6ZVBY3dpnMkrO6ykFdxy1socjVoZ1OsIP3hrKVagLJ
+ F+U2vflh9cREttMVbT6Vl0J8kvu5XlyO8HDYc5dfKbzxThCnyaEIhytgswEIHAGzIl
+ G+LdjpuexpLGw==
+Date: Wed, 12 Mar 2025 11:02:14 +0100
+From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
+Message-ID: <Z9FbpnCBjpYgOYI3@8bytes.org>
 References: <Z9FSCnYWkV0g12R0@8bytes.org>
  <8c98c480-56b4-4fd0-af54-ae4d79cb1fbd@amd.com>
-Content-Language: en-US
-In-Reply-To: <8c98c480-56b4-4fd0-af54-ae4d79cb1fbd@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8c98c480-56b4-4fd0-af54-ae4d79cb1fbd@amd.com>
 Subject: Re: [svsm-devel] SVSM Host Kernel KVM Update Required
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
@@ -30,25 +27,29 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>, svsm-devel@coconut-svsm.dev
+To: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc: svsm-devel@coconut-svsm.dev
 
+Hi Pankaj,
 
->> As some of you already noticed there is a regression with the current
->> SVSM tree, as it does not boot the SVSM-kernel anymore on KVM with
->> SEV-SNP hardware. The problem was in our host kernel, for which I just
->> merged a fix. So please update your host environments with the updated
->> kernel if you experience this problem.
->>
->> The reason for the breakage was a PR to unconditionally compile in the
->> shadow-stack code in all builds and do detection at runtime.
-> 
-> Would you mind sharing the #PR? Now, I am wondering why I did not notice 
-> any no boot scenario at all.
+On Wed, Mar 12, 2025 at 10:36:17AM +0100, Gupta, Pankaj wrote:
+> Would you mind sharing the #PR? Now, I am wondering why I did not notice any
+> no boot scenario at all.
 
-I think i got it.
+The PR that triggered the breakage on the SVSM side was:
 
-"cpu: compile for shadow stack support by default (PR #630)"
+	https://github.com/coconut-svsm/svsm/pull/630
 
-Thanks,
-Pankaj
+The PR removing the intercepts and fixing boot for the SVSM Linux
+repository was:
 
+	https://github.com/coconut-svsm/linux/pull/10
+
+Note that part of the problem was that COCONUT determines CET support
+by checking whether it can successfully change the CR4.CET bit. With a
+CPUID check this would probably not have happened, but that early in the
+SVSM boot process CPUID is not working yet.
+
+Regards,
+
+	Joerg
