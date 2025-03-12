@@ -1,22 +1,27 @@
 Return-Path: <joro@8bytes.org>
+Received: from 8bytes.org (p4ffe03ae.dip0.t-ipconnect.de [79.254.3.174])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPSA id 993FB454B4
+ for <svsm-devel@coconut-svsm.dev>; Wed, 12 Mar 2025 10:21:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1741713229;
- bh=/fBZgkJEL5wUUGzQGkc5Eq/RgKaQQFa0MH8wEPk/S2E=;
+ s=default; t=1741771275;
+ bh=0yKk5ua4G6T/J3gwTYG2sZh6Y5d7KAgpLaV/lX5QKgA=;
  h=Date:From:To:Subject:From;
- b=UBQ9RIpdCKq03FchmKsgOFIU0RhHDkEVpThzZE8M7N5aipIcre3wXTRbq+5ao/WOC
- Ob80pcjpiNh9y+63oJjS5RrurwtCx0NKPxX14+1RWV2FLjp4CyUFrfTUeYfFlUl6cc
- wJw4fhVhFvSEDOqJSG6DOrt2WwplWgc42BZ0zWkytmWaFa7NpI6ERLHp3j2473Lspa
- Ys4X1VCjcCIAlOJzq1CX1m8jBVcMDnPxBSCz/tgogoOgU7urE6kYHguzsJhsyQ8ijx
- adSwzDgmfWMpaMl7x5p+XhXy48m4LDOE8117P7aELFymlL6aAyoIoTRuGtUvdJEXEV
- nUS9/x/RvR8/w==
-Date: Tue, 11 Mar 2025 18:13:48 +0100
+ b=BZg+ovwM1O60RrtLJLvJ4MtiqC81eMTZ5tQ3arTbAjOyWyXSIzOGF0bNu4jFk2QWf
+ BoJH2tGBsjTJAL4IncnrGQRSBS58yuqbZ3FUDN2swHHuteCHM6YQe6sCxziDpBlYh3
+ NbW0OUwiZrh3pr/a0w1sTN1zrs/sF3cYG3CtcRz2vgsxI8urfNg0oOpbBwOcMyd9hp
+ LgjpKiswzBeoJEgybFZybSzss3ADw3thKZSTExYqJ6Ous1yphun747tBYmRNcxUj4G
+ YUOl4lUwFZQJpnlPMllw8ulozzgarbXUHnJjmDQJxMg6svL3JZk37o+l2+t7UHHXO7
+ pV4IRtWJvpF0g==
+Date: Wed, 12 Mar 2025 10:21:14 +0100
 From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <Z9BvTJSoc166l2cf@8bytes.org>
+Message-ID: <Z9FSCnYWkV0g12R0@8bytes.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] SVSM Development Call March 12th,
- 2025 (Changed meeting time for US)
+Subject: [svsm-devel] SVSM Host Kernel KVM Update Required
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -25,30 +30,27 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="utf-8"
+To: svsm-devel@coconut-svsm.dev
 
-Hi,
+Hi everyone,
 
-The US is already on summer time and Europe does not switch before March
-30th, so the SVSM call will be an hour later in the US for the next
-three weeks. If you are in the US, please be aware of that.
+As some of you already noticed there is a regression with the current
+SVSM tree, as it does not boot the SVSM-kernel anymore on KVM with
+SEV-SNP hardware. The problem was in our host kernel, for which I just
+merged a fix. So please update your host environments with the updated
+kernel if you experience this problem.
 
-Otherwise:
+The reason for the breakage was a PR to unconditionally compile in the
+shadow-stack code in all builds and do detection at runtime.
+Unfortunately this broke on KVM because our SVSM Linux kernel tree does
+still intercept all shadow-stack MSRs. So when COCONUT accesses these
+MSRs it will cause a #VC exception and the kernel panics.
 
-Here is the usual call for agenda items for the this weeks SVSM
-development call.  Please send me any agenda items you have in mind or
-raise them in the meeting.
-
-Details of the meeting (GMeet and Calendar links, meeting time) can be
-found in our governance repository at:
-
-	https://github.com/coconut-svsm/governance
-
-The meeting will be recorded and the recording eventually published.
-
-See you all there.
+My fix disables the intercepts of the shadow-stack MSRs in our host
+kernel. This is safe because Linux does only implement user
+shadow-stacks so far and that state is switched via the FPU load/unload
+path.
 
 Regards,
 
-	Jörg
+	Joerg
