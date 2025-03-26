@@ -1,36 +1,24 @@
-Return-Path: <dionnaglaze@google.com>
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id A6DDD46D62
- for <svsm-devel@coconut-svsm.dev>; Wed, 26 Mar 2025 16:57:21 +0100 (CET)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-ac2aeada833so2717066b.0
- for <svsm-devel@coconut-svsm.dev>; Wed, 26 Mar 2025 08:57:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1743004641; x=1743609441; darn=coconut-svsm.dev;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QDVXmwUat4AEIfamPC2v0yQbrIp4WxkLamv4SdiBGgw=;
- b=jWIlS0fjxp0Yb/mhuV1zIueeITZOsxdjg1TMxkAxxumy4Y7JbfspiZJBXbNt4OaOQp
- eONEp6VHy7G4Pkr/Nqb4JRiomswuGE5zWpndBtfU4a4QBSaTT9LkPaFgze/6vrMDXndX
- KQS9/bW9cM3H5VfEFm51FyzFrf7/1nLzJJGV/2f3Pm/6USBCpulCg3YWhUc9rJwZybqV
- 0dDk7goKJV06JSYbFGAXrGpz1FwmWSaCXsuthQW9yhyzKcJVG+Nw/bnXTc2+NbAX21UX
- iLyksSZT/aipd0bWogyLXkIkDkQEjwqplzMPivFj8nYWY2jkI48tcLIF9bEZAYzUA86+
- 8jsQ==
+Return-Path: <Huibo.Wang@amd.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on20610.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2413::610])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPS id 5422E44326
+ for <svsm-devel@coconut-svsm.dev>; Wed, 26 Mar 2025 21:53:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=57TgtklYAhBqWHR7MNtLFMeYUdUNk0YmnyfmdPl9LI8=;
+ b=q/bfzIp/jLyZF/MvF4T9fps21Iurxr6elnLFKGE6A1OcAxC6pBm3lMBAsaBVuzIdK+EU32rSaBYNz1olUlTfdqyJsvPVL8Oj4aQl4f2ljyw8ZAC7Fd8PdESw8pw63pxOEG1/Rbsz0KDK/NgYSHtbJ1zw9NqS4fbG1fFoHSM93MY=
+From: "Wang, Huibo" <Huibo.Wang@amd.com>
+Date: Wed, 26 Mar 2025 20:53:51 +0000
+Message-ID: <CY8PR12MB83004E301EE93CEFCB969E5295A62@CY8PR12MB8300.namprd12.prod.outlook.com>
+Content-Language: en-US
+Content-Type: multipart/alternative;
+ boundary="_000_CY8PR12MB83004E301EE93CEFCB969E5295A62CY8PR12MB8300namp_"
 MIME-Version: 1.0
-References: <Z-LgVcs66nVpAd7x@8bytes.org> <Z-QYQTBuOjJtkiWX@8bytes.org>
-In-Reply-To: <Z-QYQTBuOjJtkiWX@8bytes.org>
-From: Dionna Amalie Glaze <dionnaglaze@google.com>
-Date: Wed, 26 Mar 2025 08:57:04 -0700
-Message-ID: <CAAH4kHYTD=PcCg6Yk9L03R3r=cmwOs7hXvSGKBHPt=+0SYYvOQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [svsm-devel] SVSM Development Call March 26th,
- 2025 (Changed meeting time for US)
+Subject: [svsm-devel] SEV-SNP Alternate Injection
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -39,51 +27,203 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-Cc: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
+To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "seanjc@google.com" <seanjc@google.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>, Jon Lange <jlange@microsoft.com>, "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, "Kaplan, David" <David.Kaplan@amd.com>, Joerg Roedel <jroedel@suse.de>
 
-On Wed, Mar 26, 2025 at 8:07=E2=80=AFAM J=C3=B6rg R=C3=B6del <joro@8bytes.o=
-rg> wrote:
->
-> Hey again,
->
-> On Tue, Mar 25, 2025 at 05:56:53PM +0100, J=C3=B6rg R=C3=B6del wrote:
-> > Here is the usual call for agenda items for the this weeks SVSM
-> > development call.  Please send me any agenda items you have in mind or
-> > raise them in the meeting.
->
-> Just a notice that I want to bring the status of some of the PRs to the
-> agenda today, namely:
->
->         - #259 SVSM: require SNP restricted injection
->           (Can we require restricted injection on SNP?)
->         - #528 Attestation driver and proxy (with KBS attestation)
->           (How to solve the stack usage problem?)
->         - #541 svsm: add SVSM VTPM Service Attestation
->           (Any dependencies regarding the ongoing attestation report
->            format changes?)
+--_000_CY8PR12MB83004E301EE93CEFCB969E5295A62CY8PR12MB8300namp_
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 
-I won't be at the entire meeting, so
-https://github.com/deeglaze/svsm/tree/attestsrv has my current
-reworking of Geoffrey's PR.
-Generally I'm not confident about how either of us are reading and
-writing guest memory. We need something like Rust-for-linux's
-uaccess::UserSlice.
+[AMD Official Use Only - AMD Internal Distribution Only]
 
->         - #635 virtio-blk storage via mmio using virtio-drivers [v3]
->           (Any blockers, maybe generic MMIO routine support?)
->
-> See you in the meeting :)
->
-> Regards,
->
->         Joerg
-> --
-> Svsm-devel mailing list
-> Svsm-devel@coconut-svsm.dev
-> https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel
+Hi,
+I am currently enabling Alternate Injection for SEV-SNP guests and have enc=
+ountered a design issue.
 
+The Alternate Injection specification which is a preliminary spec supports =
+only the SVSM APIC protocol through a subset of X2APIC MSRs, Timer support =
+is configurable, If timer functionality is not supported, the guest must re=
+ly on the hypervisor to emulate timer support through use of the #HV Timer =
+GHCB protocol.
 
+When the OVMF firmware starts, it is in XAPIC mode by default and then, lat=
+er during the init phase it switches the guest to X2APIC. However, with Alt=
+ernate Injection enabled, the OVMF in its very first phase - SEC - does XAP=
+IC accesses. The SVSM uses a so-called SVSM APIC protocol which uses a subs=
+et of the X2APIC MSRs.
 
---=20
--Dionna Glaze, PhD, CISSP, CCSP (she/her)
+The OVMF, however, thinks it starts off in XAPIC memory-mapped mode. There'=
+s a protocol mismatch of sorts. With Alternate Injection enabled in the SEC=
+ phase, it requires X2APIC. The registers (timer registers) - not handled b=
+y SVSM will get routed to KVM, which at that point is operating the guest i=
+n XAPIC mode until the PEI phase switches to X2APIC.
+
+One potential solution is to have KVM enable X2APIC as soon as Alternate In=
+jection is activated. While we could start X2APIC during the creation of th=
+e vCPU, APM Volume 2, Figure 16-32 states that we must transition from XAPI=
+C mode to X2APIC mode first.
+
+More specifically:
+
+=93If the feature is present, the local APIC is placed into x2APIC mode by =
+setting bit 10 in the Local APIC Base register (MSR 01Bh). Before entering =
+x2APIC mode, the local APIC must first be enabled (AE=3D1, EXTD=3D0).=94
+
+Therefore, I am uncertain if enabling X2APIC directly during vCPU creation =
+is permissible.
+
+Do you have any suggestions for a better solution?
+
+Please feel free to ask questions if some concepts are unclear and I'll gla=
+dly expand on them.
+
+Thanks,
+Melody
+
+--_000_CY8PR12MB83004E301EE93CEFCB969E5295A62CY8PR12MB8300namp_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<p style=3D"font-family:Calibri;font-size:10pt;color:#0000FF;margin:5pt;fon=
+t-style:normal;font-weight:normal;text-decoration:none;" align=3D"Left">
+[AMD Official Use Only - AMD Internal Distribution Only]<br>
+</p>
+<br>
+<div>
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Hi,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+I am currently enabling Alternate Injection for SEV-SNP guests and have enc=
+ountered a design issue.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+The Alternate Injection specification which is a preliminary spec&nbsp;supp=
+orts only the SVSM APIC protocol through a subset of X2APIC MSRs, Timer sup=
+port is configurable, If timer functionality is not supported, the guest mu=
+st rely on the hypervisor to emulate
+ timer support through use of the #HV Timer GHCB protocol.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+When the OVMF firmware starts, it is in XAPIC mode by default and then, lat=
+er during the init phase it switches the guest to X2APIC. However, with Alt=
+ernate Injection enabled, the OVMF in its very first phase - SEC - does XAP=
+IC accesses. The SVSM uses a so-called
+ SVSM APIC protocol which uses a subset of the X2APIC MSRs.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+The OVMF, however, thinks it starts off in XAPIC memory-mapped mode. There'=
+s a protocol mismatch of sorts. With Alternate Injection enabled in the SEC=
+ phase, it requires X2APIC. The registers (timer registers) - not handled b=
+y SVSM will get routed to KVM, which
+ at that point is operating the guest in XAPIC mode until the PEI phase swi=
+tches to X2APIC.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+One potential solution is to have KVM enable X2APIC as soon as Alternate In=
+jection is activated. While we could start X2APIC during the creation of th=
+e vCPU, APM Volume 2, Figure 16-32 states that we must transition from XAPI=
+C mode to X2APIC mode first.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+More specifically:</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+=93If the feature is present, the local APIC is placed into x2APIC mode by =
+setting bit 10 in the Local APIC Base register (MSR 01Bh). Before entering =
+x2APIC mode, the local APIC must first be enabled (AE=3D1, EXTD=3D0).=94</d=
+iv>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Therefore, I am uncertain if enabling X2APIC directly during vCPU creation =
+is permissible.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Do you have any suggestions for a better solution?</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Please feel free to ask questions if some concepts are unclear and I'll gla=
+dly expand on them.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Thanks,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Melody</div>
+</div>
+</body>
+</html>
+
+--_000_CY8PR12MB83004E301EE93CEFCB969E5295A62CY8PR12MB8300namp_--
