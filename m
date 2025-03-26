@@ -1,36 +1,61 @@
-Return-Path: <dionnaglaze@google.com>
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Return-Path: <nstange@suse.de>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de
+ [IPv6:2a07:de40:b251:101:10:150:64:2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 0FF7A4423E
- for <svsm-devel@coconut-svsm.dev>; Tue, 25 Mar 2025 20:20:46 +0100 (CET)
-Received: by mail-ej1-x62b.google.com with SMTP id
- a640c23a62f3a-ac2bfcd2a70so844336266b.0
- for <svsm-devel@coconut-svsm.dev>; Tue, 25 Mar 2025 12:20:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1742930446; x=1743535246; darn=coconut-svsm.dev;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lwSA4M0a/8432Ze+0aESX0bQjrcTRTL0d+4YAm6cDaM=;
- b=cRHy0+MgQ8V1QW5GrRQSDhqh+6gUv6FsJQsLiea1mxmUvp+KsnpRWOM7+jJ7uyWphn
- UQ/GH4Ov/lJLpW8fvuvHgj7hJix16bKmsYU0M4s4EPs2txxYg1HfTDEwne4oUF+07rnh
- pp5DOyDMb4aQbyFdzLYnGZoFQOrwbtYgNBUR72/+VAqxPUTDTQY0qV45xgQ39LXXS8Pd
- KBPwDCfoO1i4p6sb6/JIhnaYPTiEHqCCuNCbcQleSmfu60LRhjsWGhevbCYzW1uC8Ma8
- jS+Ol2Luy4xVbgWrpXulwS1dJJJuEJjc3/FVlDWRf04QbN7y626ynaO4H2acrBFLRK/Q
- 0d3g==
+ by mail.8bytes.org (Postfix) with ESMTPS id 1A61D46D92
+ for <svsm-devel@coconut-svsm.dev>; Wed, 26 Mar 2025 15:58:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1743001119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dVrtowdyE/vUhI8LAedsDNy29EnzwwBu7CYdorYQCnc=;
+ b=HQ6xWo/u/h8ocS4ZQY0J/6FYbp3LHTJePB1oc8hbkkIrl6q4saGJuOeC+eNpan6XcTgb9x
+ vOBve3Dd5W7LW/QFEOmAij+ejHrynWE1WgJ1hCgZPPxTLwJ2a9+gMvTfens6e5vXe+w/JB
+ wkjUN31UVXom38Bc3PRc8bQ1jzznd/8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1743001119;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dVrtowdyE/vUhI8LAedsDNy29EnzwwBu7CYdorYQCnc=;
+ b=Y6SX468ybnNo0wLkcQpux6sBoAy451mkJ/2FN6rtH8q+edziNmFygzROY4ed/M0gyZZ+5E
+ bbVK7G11vwtcqRAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1743001119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dVrtowdyE/vUhI8LAedsDNy29EnzwwBu7CYdorYQCnc=;
+ b=HQ6xWo/u/h8ocS4ZQY0J/6FYbp3LHTJePB1oc8hbkkIrl6q4saGJuOeC+eNpan6XcTgb9x
+ vOBve3Dd5W7LW/QFEOmAij+ejHrynWE1WgJ1hCgZPPxTLwJ2a9+gMvTfens6e5vXe+w/JB
+ wkjUN31UVXom38Bc3PRc8bQ1jzznd/8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1743001119;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dVrtowdyE/vUhI8LAedsDNy29EnzwwBu7CYdorYQCnc=;
+ b=Y6SX468ybnNo0wLkcQpux6sBoAy451mkJ/2FN6rtH8q+edziNmFygzROY4ed/M0gyZZ+5E
+ bbVK7G11vwtcqRAA==
+From: Nicolai Stange <nstange@suse.de>
+In-Reply-To: <CAGxU2F4iQYi3zRHJ21yMWQNGpABYdL+6a-Ug1tom8MaUvOMOQQ@mail.gmail.com>
+ (Stefano Garzarella's message of "Mon, 24 Mar 2025 12:37:16 +0100")
+References: <CAGxU2F4DOAhiRd02V0U6So0XV528DAahzJGgQTqFFDuF3j1+xw@mail.gmail.com>
+ <Z9xK6ACrFT5PTmrJ@8bytes.org> <Z9xOnKUgQlzhLjBu@redhat.com>
+ <CAGxU2F4+QSh5afNrywWLQL4hSs7m8Q-FPfsB=wgZ2OrPy7uC_w@mail.gmail.com>
+ <Z916zZPeuK8-Fb7m@suse.de>
+ <CAGxU2F4iQYi3zRHJ21yMWQNGpABYdL+6a-Ug1tom8MaUvOMOQQ@mail.gmail.com>
+Date: Wed, 26 Mar 2025 15:58:38 +0100
+Message-ID: <87frizon35.fsf@>
 MIME-Version: 1.0
-References: <cf792be2-56f8-653e-237d-a98787976b1d@amd.com>
- <CAAH4kHa_oas28jq4ExptkiMMzxk79G3fFxsg0X8KYvgCqC_u9w@mail.gmail.com>
-In-Reply-To: <CAAH4kHa_oas28jq4ExptkiMMzxk79G3fFxsg0X8KYvgCqC_u9w@mail.gmail.com>
-From: Dionna Amalie Glaze <dionnaglaze@google.com>
-Date: Tue, 25 Mar 2025 12:20:33 -0700
-Message-ID: <CAAH4kHZeoFKOsV-ZJ3k6N0H17Vx1-m8mDun7Qt2J9p=uFN+J8A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [svsm-devel] GUIDs in the GHCB and SVSM specifications
+Subject: Re: [svsm-devel] Call for mentors/ideas for Google Summer of Code
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -39,71 +64,60 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Cc: "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, svsm-devel@coconut-svsm.dev
+To: Stefano Garzarella <sgarzare@redhat.com>
+Cc: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>, svsm-devel@coconut-svsm.dev
 
-On Tue, Mar 25, 2025 at 11:50=E2=80=AFAM Dionna Amalie Glaze
-<dionnaglaze@google.com> wrote:
+Hi all,
+
+Stefano Garzarella <sgarzare@redhat.com> writes:
+
+> On Fri, 21 Mar 2025 at 15:42, J=C3=B6rg R=C3=B6del <jroedel@suse.de> wrot=
+e:
+>>
+>> > We also have a PoC working with a very minimal FS+encryption, but at
+>> > least can be used by the student to understand the final scenario.
+>> > In addition, we have OpenVMM to take inspiration from and perhaps
+>> > reuse some code.
+>> >
+>> > That said, this is in my ToDo list (after the vTPM driver saga...) so
+>> > I don't know whether it makes sense to wait until September to get a
+>> > result from a student or to work on it directly.
+>>
+>> This should probably be split up anyways, in a task for the file storage
+>> layer and one for the encryption layer. Since you are planning to work
+>> on these topics in the near future maybe you can scope out some parts as
+>> suitable projects for students?
 >
-> On Wed, Feb 26, 2025 at 2:40=E2=80=AFPM Tom Lendacky <thomas.lendacky@amd=
-.com> wrote:
-> >
-> > All,
-> >
-> > There has been some talk about how the GUIDs in the GHCB and SVSM
-> > specifications should be encoded [1]. The term GUID brings encoding
-> > ambiguity with it.
-> >
-> > - RFC 4122 specifies the format of a GUID/UUID and the encodingas
-> > network byte order.
-> >
-> > - The UEFI specification says that their GUID format is that of RFC
-> > 4122, but that the encoding is different. UEFI has time_low, time_mid,
-> > and time_hi_and_version as little-endian encoded.
-> >
-> > Given this, the GHCB and SVSM specifications need to be updated to
-> > specify the expected encoding of the GUIDs.
-> >
-> > The GHCB specification will add that the certificate GUIDs follow RFC
-> > 4122 in format and encoding (network byte order). This is based on
-> > existing users and tools that have already (likely) been using network
-> > byte order.
-> >
-> > The SVSM specification, however, because support has already been added
-> > to the Linux kernel using guid library APIs, will follow RFC 4122 in
-> > format with an encoding of time_low, time_mid, and time_hi_and_version
-> > as little-endian. In Linux, the guid library APIs are guid_parse(),
-> > guid_gen(), etc.
-> >
-> > If there are no objections, I'll make those changes.
+> Yes, perhaps it could be split, although I'm seeing that OpenVMM has
+> self-contained crates to handle what they called VM Guest State (VMGS)
+> file: https://github.com/microsoft/openvmm/tree/main/vm/vmgs
 >
-> What we know is that the service GUID is in little endian order, but
-> what we don't know is if the GUID table of the attest all services
-> protocol should be the same as is provided in GHCB (big endian).
-> I haven't heard back on the other thread about a more general
-> principle that maybe we should follow little-endian in and big-endian
-> out at least for GUIDs, since reports still use little endian numbers.
-> I'm writing up the implementation of the GUID table serializer right
-> now, and it'd be nice to know it can have the same test vectors as the
-> GUID table marshaling/unmarshaling code I have in go-sev-guest.
+> It's a custom FS, with a file table, each file has an ID that
+> identifies its type (e.g. TPM_NVRAM) and on top of that they use AES
+> 256 GCM for encryption. They also provide a tool for
+> manipulation/inspection:
+> https://openvmm.dev/guide/dev_guide/dev_tools/vmgstool.html?highlight=3Dv=
+tpm#vmgstool
 >
 
-I suppose nevermind since the headers are slightly different, the
-parsers are incompatible. I'll use little endian.
+I would like to mention at this point that I'm also working on a FS for
+quite some time now. The main motivation for developing one from scratch
+is to have full Merkle-Tree style authentication over the whole FS,
+which I think (hope) would be affordable for the expected image sizes in
+the MB range. With that however, a Journal is also desirable, because
+otherwise powercuts/crashes in the middle of a write would render the
+whole image definitely unreadable.
 
-> >
-> > Thanks,
-> > Tom
-> >
-> > [1] https://github.com/coconut-svsm/svsm/pull/541#discussion_r196320100=
-9
-> >
->
->
-> --
-> -Dionna Glaze, PhD, CISSP, CCSP (she/her)
+Anyway, I'm in the last steps of having something working, I expect it
+to take ~2-3 more weeks until I can present some code + docs on the
+format for discussion.
 
+Thanks!
 
+Nicolai
 
 --=20
--Dionna Glaze, PhD, CISSP, CCSP (she/her)
+SUSE Software Solutions Germany GmbH, Frankenstra=C3=9Fe 146, 90461 N=C3=BC=
+rnberg, Germany
+GF: Ivo Totev, Andrew McDonald, Werner Knoblich
+(HRB 36809, AG N=C3=BCrnberg)
