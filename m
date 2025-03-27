@@ -1,23 +1,42 @@
-Return-Path: <Huibo.Wang@amd.com>
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2060d.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2414::60d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 3BEDA46A8C
- for <svsm-devel@coconut-svsm.dev>; Wed, 26 Mar 2025 23:21:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3xYj4tZhyaeyY45qPLql1O9QHQsKdXW2WpwYeNsR3AY=;
- b=ZWxYfPA4MMAU8bhjwcIA+VTProkPNclzPM2W+KrGbOyIBrasxTF0WaoIlGr+Xu5zS4HYXCuJyDx1zRBoxOqVKF17tw+BivXYZrLvF2S/McpTr5M/P2osp3qXrdXjubmNxI6TlFWaUZflRQnk0Eo4K5rw2NEeB8y96qXDDrHZShc=
-Message-ID: <4732241e-b706-481b-a73a-01ef77622d8a@amd.com>
-Date: Wed, 26 Mar 2025 15:21:02 -0700
+Return-Path: <gndu8086@gmail.com>
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPS id 8C62B445FC
+ for <svsm-devel@coconut-svsm.dev>; Thu, 27 Mar 2025 12:37:54 +0100 (CET)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-43cf0d787eeso8051335e9.3
+ for <svsm-devel@coconut-svsm.dev>; Thu, 27 Mar 2025 04:37:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1743075474; x=1743680274; darn=coconut-svsm.dev;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=owYQCCn/JrStfR8R3ckwa7IoUUZBq442WYN4fZrH7mA=;
+ b=d1qiJnOpylxjBc6WJ6DGnm7ECpzoB5a5DN7S39Z5jv1w0nuR7oNyNjIEDeuePeq004
+ WeK3nTBKAWQJo/12tnEY46v63ynsADkPh7rg8DcJ+okHPYLz/gQXEsdl4C/bwqv/cOO2
+ ikL3GlZByRofQkysGlDcq753bmlahPAVV8gQLMldBlrD6ynW8swDl+N1GMaEe6Zba8dX
+ Bzgdq4kfoCouoDmN8gMbZ7f4kvGoXwoZXG6l2HFJ6Rhxtx5rlFeBGBujKjDlFZd8cup8
+ 7BOIr5oGehdKCQkQSZw8UmxjnTpGm2Wcrc0wAIrp5cYhQM4t6kvtolQlc4F5Kgt4aIrj
+ SdpQ==
 MIME-Version: 1.0
-Content-Language: en-US
-From: "Melody (Huibo) Wang" <huibo.wang@amd.com>
-Content-Transfer-Encoding: 8bit
-Subject: [svsm-devel] RESEND: SEV-SNP Alternate Injection
+References: <CAAH4kHZg_f--LJhw0zu9bYe87ozQX1jgxhQwJS+-=g0-u0DZTQ@mail.gmail.com>
+ <447a8b1cdf7ede36a14fd9c0bf061885adf868b3.camel@HansenPartnership.com>
+ <9f2236e99150814f64f444aff2d3edee495483a8.camel@ibm.com>
+ <CAAH4kHaP6n-n=X=zDxonqhv2tZRjycS3R0XBX-FZv6tS7xn_hQ@mail.gmail.com>
+ <CAH6wD8X9ttrnt5rTTx8paDiWeBOnZZCgWsEiDHctLqgz5GZucw@mail.gmail.com>
+ <c17b2eee63c5c16305d2a8b9aa8e451134718cdf.camel@HansenPartnership.com>
+ <CAAH4kHZe1S1ErOoqX7E6qVr9ofTf15_3zyEh3-xjufcksAkiGQ@mail.gmail.com>
+ <CAAH4kHYdy6bovpA=M5gYfp-K_rBC2Hz_r-tHg_XdEJ9uEc5wMw@mail.gmail.com>
+In-Reply-To: <CAAH4kHYdy6bovpA=M5gYfp-K_rBC2Hz_r-tHg_XdEJ9uEc5wMw@mail.gmail.com>
+From: Geoffrey Ndu <gndu8086@gmail.com>
+Date: Thu, 27 Mar 2025 11:37:42 +0000
+Message-ID: <CAH6wD8WEqn4XyefQXBYyTT_W6g6mE5GOhcp25BxpwJz_bgmZ1A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [svsm-devel] vTPM service attestation format update
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -26,31 +45,77 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "seanjc@google.com" <seanjc@google.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>
-Cc: "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>, Jon Lange <jlange@microsoft.com>, "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, "Kaplan, David" <David.Kaplan@amd.com>, Joerg Roedel <jroedel@suse.de>
-Content-Type: text/plain; charset="utf-8"
+To: Dionna Amalie Glaze <dionnaglaze@google.com>
+Cc: James Bottomley <James.Bottomley@hansenpartnership.com>, Claudio Siqueira de Carvalho <cclaudio@ibm.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
-Hi,
+I believe it would be helpful to add the error code as a read-only
+attribute in configfs
 
-I am currently enabling Alternate Injection for SEV-SNP guests and have encountered a design issue.
+Geoffrey
 
-The Alternate Injection specification which is a preliminary spec supports only the SVSM APIC protocol through a subset of X2APIC MSRs, Timer support is configurable, If timer functionality is not supported, the guest must rely on the hypervisor to emulate timer support through use of the #HV Timer GHCB protocol.
-
-When the OVMF firmware starts, it is in XAPIC mode by default and then, later during the init phase it switches the guest to X2APIC. However, with Alternate Injection enabled, the OVMF in its very first phase - SEC - does XAPIC accesses. The SVSM uses a so-called SVSM APIC protocol which uses a subset of the X2APIC MSRs.
-
-The OVMF, however, thinks it starts off in XAPIC memory-mapped mode. There's a protocol mismatch of sorts. With Alternate Injection enabled in the SEC phase, it requires X2APIC. The registers (timer registers) - not handled by SVSM will get routed to KVM, which at that point is operating the guest in XAPIC mode until the PEI phase switches to X2APIC.
-
-One potential solution is to have KVM enable X2APIC as soon as Alternate Injection is activated. While we could start X2APIC during the creation of the vCPU, APM Volume 2, Figure 16-32 states that we must transition from XAPIC mode to X2APIC mode first.
-
-More specifically:
-
-“If the feature is present, the local APIC is placed into x2APIC mode by setting bit 10 in the Local APIC Base register (MSR 01Bh). Before entering x2APIC mode, the local APIC must first be enabled (AE=1, EXTD=0).”
-
-Therefore, I am uncertain if enabling X2APIC directly during vCPU creation is permissible.
-
-Do you have any suggestions for a better solution?
-
-Please feel free to ask questions if some concepts are unclear and I'll gladly expand on them.
-
-Thanks,
-Melody
+On Wed, Mar 26, 2025 at 9:02=E2=80=AFPM Dionna Amalie Glaze
+<dionnaglaze@google.com> wrote:
+>
+> As the selector is used to drive a create_primary command, it's
+> possible for the command to fail before getting to the attestation
+> report creation.
+> If this svsm attestation report fails with invalid_parameter, then
+> sev-guest will retry in a loop thinking the only way for the request
+> to fail is due to output buffer sizes being wrong.
+>
+> I think in addition to the selector address and length, I'll use the
+> would-be-reserved 4 following bytes for an error code related to the
+> selector.  If this is set, then the attestation should not be retried.
+> Does it make sense to add the error code as a RO configfs attribute?
+> We can make it visible only if the write generation is the same as the
+> generation it was when the error code was recorded.
+>
+> On Fri, Mar 7, 2025 at 9:51=E2=80=AFAM Dionna Amalie Glaze
+> <dionnaglaze@google.com> wrote:
+> >
+> > On Fri, Mar 7, 2025 at 6:24=E2=80=AFAM James Bottomley
+> > <James.Bottomley@hansenpartnership.com> wrote:
+> > >
+> > > On Fri, 2025-03-07 at 11:48 +0000, Geoffrey Ndu wrote:
+> > > > Since the single_service_manifest call for the vTPM effectively
+> > > > certifies EKs, why don=E2=80=99t the =E2=80=9Cselector=E2=80=9D be =
+the handle values for EK
+> > > > certificates, as specified by the TCG in 2.2.2.5.1 of =E2=80=9CTCG =
+EK
+> > > > Credential Profile For TPM Family 2.0; Level 0=E2=80=9D? This appro=
+ach would
+> > > > simplify the user experience, as every SVSM would function
+> > > > identically, and  SVSM vTPMs would exhibit analogous behaviour to
+> > > > physical TPMs.
+> > >
+> > > Because to make life easier we might want to short circuit the EK/AK
+> > > makecredential/activatecredential round trip and simply construct a
+> > > signing EK to use in place of an arbitrary AK.  Then to make the
+> > > signing EK easily useful, we might want it not to have a policy
+> > > statement tying it to the endorsement hierarchy password (particularl=
+y
+> > > as we know that will be empty).  To allow this type of thing we need =
+to
+> > > allow flexibility in the EK creation which isn't listed in the TCG
+> > > profile EK templates.
+> > >
+> >
+> > I have local changes to tpm-rs that I haven't pushed to make this
+> > commit work on its own, but this is what I'm prototyping.
+> >
+> > https://github.com/coconut-svsm/svsm/commit/db1ad6018b04b995e0278455eb2=
+f9a66569cbcc9
+> >
+> > > Regards,
+> > >
+> > > James
+> > >
+> >
+> >
+> > --
+> > -Dionna Glaze, PhD, CISSP, CCSP (she/her)
+>
+>
+>
+> --
+> -Dionna Glaze, PhD, CISSP, CCSP (she/her)
