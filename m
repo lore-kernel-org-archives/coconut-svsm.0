@@ -1,43 +1,34 @@
-Return-Path: <dionnaglaze@google.com>
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
+Return-Path: <3zF7lZwYKCmUVHDQMFJRRJOH.FRPVYVP-GHYHOFRFRQXW-VYVP.GHY@flex--seanjc.bounces.google.com>
+Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com
+ [IPv6:2607:f8b0:4864:20::1049])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 131CC44881
- for <svsm-devel@coconut-svsm.dev>; Fri, 28 Mar 2025 17:02:35 +0100 (CET)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-abbb12bea54so437243866b.0
- for <svsm-devel@coconut-svsm.dev>; Fri, 28 Mar 2025 09:02:35 -0700 (PDT)
+ by mail.8bytes.org (Postfix) with ESMTPS id E0F6446B1E
+ for <svsm-devel@coconut-svsm.dev>; Thu, 27 Mar 2025 15:21:02 +0100 (CET)
+Received: by mail-pj1-x1049.google.com with SMTP id
+ 98e67ed59e1d1-3032f4eca83so1781800a91.3
+ for <svsm-devel@coconut-svsm.dev>; Thu, 27 Mar 2025 07:21:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1743177755; x=1743782555; darn=coconut-svsm.dev;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EFDmSP+emPv4h4u/KMofMoqU1XiX6Pk1bwkqordPNDU=;
- b=StucYZ2KQA78Y4pvAiavfdTRIEzG16krlzTgzKji95/MqSi+CtX2i65HUL0fhlldha
- Q8/ImU25msEHTpQeAGB+5BPfg+UETsGWAHZtCkg5+uCIqH3w5+XQc+JzRyGeag2qTbcK
- pYWUPk6YcBeFvhSAVtD8xRi2dKWTbpQe8hg/cw36K7GtXt8TSy8QtPQ5EdMrVCi25ftm
- Wv/GeH1q0WBPAfjrmZRki1k0hllFB3GTE8EJl0hCxZcPcVRtsTY8YPr8/wSyuoSe4eHT
- PuCnXisKI/XFz0jvvcZ0QZMcS9u1mm6edITd/2jzloisgonw6ujgd/twOecit7iYQNYU
- STvg==
-MIME-Version: 1.0
-References: <CAAH4kHZg_f--LJhw0zu9bYe87ozQX1jgxhQwJS+-=g0-u0DZTQ@mail.gmail.com>
- <447a8b1cdf7ede36a14fd9c0bf061885adf868b3.camel@HansenPartnership.com>
- <9f2236e99150814f64f444aff2d3edee495483a8.camel@ibm.com>
- <CAAH4kHaP6n-n=X=zDxonqhv2tZRjycS3R0XBX-FZv6tS7xn_hQ@mail.gmail.com>
- <CAH6wD8X9ttrnt5rTTx8paDiWeBOnZZCgWsEiDHctLqgz5GZucw@mail.gmail.com>
- <c17b2eee63c5c16305d2a8b9aa8e451134718cdf.camel@HansenPartnership.com>
- <CAAH4kHZe1S1ErOoqX7E6qVr9ofTf15_3zyEh3-xjufcksAkiGQ@mail.gmail.com>
- <CAAH4kHYdy6bovpA=M5gYfp-K_rBC2Hz_r-tHg_XdEJ9uEc5wMw@mail.gmail.com>
- <CAH6wD8WEqn4XyefQXBYyTT_W6g6mE5GOhcp25BxpwJz_bgmZ1A@mail.gmail.com>
-In-Reply-To: <CAH6wD8WEqn4XyefQXBYyTT_W6g6mE5GOhcp25BxpwJz_bgmZ1A@mail.gmail.com>
-From: Dionna Amalie Glaze <dionnaglaze@google.com>
-Date: Fri, 28 Mar 2025 09:02:23 -0700
-Message-ID: <CAAH4kHZoqppd7MgJTzd1rCP4Oo_xS=s+JKQ8QEWvXFTw81mciQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ d=google.com; s=20230601; t=1743085261; x=1743690061; darn=coconut-svsm.dev;
+ h=content-transfer-encoding:cc:to:from:subject:message-id:references
+ :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=0E1KoF9n8W5T1UdiJVOslWaohgAmLtobQZJ+uL0v3qI=;
+ b=seWe07n8A/7jKw1TgJUVKWY/y9nGYH0ju1NyTNhMgIpJdk951q/2K087xlPlFlI988
+ 9pOAo4r1qzCH+r8zJ2TTqJhZ19ZiQQnsctpzzTT/tc4tLgG8GpWtM+o+zqhm0SvnE3co
+ slcpygugR5fMaIKa9GYxpm32RvJp4J/TlDQuJ+AYZ+ZewkOksN7rS0pfNlHw3YOm2+VN
+ w+ip3xjdYU0/LAM0eTpYwyXp5L5voQgpUJGuxiix4qXNg146ec1EnFGHrQfZbpPSfudu
+ qr/yQhFLsE4y95q/dhmEVWm5Th9ldCFHFQ4HzFxo1e4Mzd6WmfTs/N95KROiJoaoRhp3
+ 2wTg==
+Date: Thu, 27 Mar 2025 07:20:58 -0700
+In-Reply-To: <4732241e-b706-481b-a73a-01ef77622d8a@amd.com>
+Mime-Version: 1.0
+References: <4732241e-b706-481b-a73a-01ef77622d8a@amd.com>
+Message-ID: <Z-Veys6h0OSx4L_e@google.com>
+From: Sean Christopherson <seanjc@google.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [svsm-devel] vTPM service attestation format update
+Subject: Re: [svsm-devel] RESEND: SEV-SNP Alternate Injection
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -46,100 +37,67 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Geoffrey Ndu <gndu8086@gmail.com>
-Cc: James Bottomley <James.Bottomley@hansenpartnership.com>, Claudio Siqueira de Carvalho <cclaudio@ibm.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: "Melody (Huibo) Wang" <huibo.wang@amd.com>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "pbonzini@redhat.com" <pbonzini@redhat.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>, Jon Lange <jlange@microsoft.com>, Thomas Lendacky <Thomas.Lendacky@amd.com>, David Kaplan <David.Kaplan@amd.com>, Joerg Roedel <jroedel@suse.de>
 
-On Thu, Mar 27, 2025 at 4:37=E2=80=AFAM Geoffrey Ndu <gndu8086@gmail.com> w=
-rote:
->
-> I believe it would be helpful to add the error code as a read-only
-> attribute in configfs
->
+On Wed, Mar 26, 2025, Melody (Huibo) Wang wrote:
+> Hi,
+>=20
+> I am currently enabling Alternate Injection for SEV-SNP guests and have
+> encountered a design issue.
+>=20
+> The Alternate Injection specification which is a preliminary spec support=
+s
+> only the SVSM APIC protocol through a subset of X2APIC MSRs, Timer suppor=
+t is
+> configurable, If timer functionality is not supported, the guest must rel=
+y on
+> the hypervisor to emulate timer support through use of the #HV Timer GHCB
+> protocol.
+>=20
+> When the OVMF firmware starts, it is in XAPIC mode by default and then, l=
+ater
+> during the init phase it switches the guest to X2APIC. However, with
+> Alternate Injection enabled, the OVMF in its very first phase - SEC - doe=
+s
+> XAPIC accesses. The SVSM uses a so-called SVSM APIC protocol which uses a
+> subset of the X2APIC MSRs.
+>=20
+> The OVMF, however, thinks it starts off in XAPIC memory-mapped mode. Ther=
+e's
+> a protocol mismatch of sorts. With Alternate Injection enabled in the SEC
+> phase, it requires X2APIC. The registers (timer registers) - not handled =
+by
+> SVSM will get routed to KVM, which at that point is operating the guest i=
+n
+> XAPIC mode until the PEI phase switches to X2APIC.
+>=20
+> One potential solution is to have KVM enable X2APIC as soon as Alternate
+> Injection is activated. While we could start X2APIC during the creation o=
+f
+> the vCPU, APM Volume 2, Figure 16-32 states that we must transition from
+> XAPIC mode to X2APIC mode first.
+>=20
+> More specifically:
+>=20
+> =E2=80=9CIf the feature is present, the local APIC is placed into x2APIC =
+mode by
+> setting bit 10 in the Local APIC Base register (MSR 01Bh). Before enterin=
+g
+> x2APIC mode, the local APIC must first be enabled (AE=3D1, EXTD=3D0).=E2=
+=80=9D
+>=20
+> Therefore, I am uncertain if enabling X2APIC directly during vCPU creatio=
+n is
+> permissible.
+>=20
+> Do you have any suggestions for a better solution?
 
-After closer inspection, I think that we should probably generalize
-this to report the svsm protocol error.
-For vTPM, then, we'd want to reserve perhaps the first 256 numbers for
-administrative errors for the service, but then use the rest for the
-TPM_RC.
-Adding the TPM_RC to PROTOCOL_BASE + 0x100 will not overflow the 32
-bits for the error code since the top 20 bits are specified to be 0.
-So I'll add a service_error attribute to tsm/report. Given the way
-tsm_report_state is separated from tsm_report, it will be ugly to add
-the administrative fields back in to limit the visibility to equal
-read/write generations, so I'll just make it available if SVSM is
-available.
+Fix OVMF.  Or change the AMD architectural specs.  Don't hack KVM.
 
-> Geoffrey
->
-> On Wed, Mar 26, 2025 at 9:02=E2=80=AFPM Dionna Amalie Glaze
-> <dionnaglaze@google.com> wrote:
-> >
-> > As the selector is used to drive a create_primary command, it's
-> > possible for the command to fail before getting to the attestation
-> > report creation.
-> > If this svsm attestation report fails with invalid_parameter, then
-> > sev-guest will retry in a loop thinking the only way for the request
-> > to fail is due to output buffer sizes being wrong.
-> >
-> > I think in addition to the selector address and length, I'll use the
-> > would-be-reserved 4 following bytes for an error code related to the
-> > selector.  If this is set, then the attestation should not be retried.
-> > Does it make sense to add the error code as a RO configfs attribute?
-> > We can make it visible only if the write generation is the same as the
-> > generation it was when the error code was recorded.
-> >
-> > On Fri, Mar 7, 2025 at 9:51=E2=80=AFAM Dionna Amalie Glaze
-> > <dionnaglaze@google.com> wrote:
-> > >
-> > > On Fri, Mar 7, 2025 at 6:24=E2=80=AFAM James Bottomley
-> > > <James.Bottomley@hansenpartnership.com> wrote:
-> > > >
-> > > > On Fri, 2025-03-07 at 11:48 +0000, Geoffrey Ndu wrote:
-> > > > > Since the single_service_manifest call for the vTPM effectively
-> > > > > certifies EKs, why don=E2=80=99t the =E2=80=9Cselector=E2=80=9D b=
-e the handle values for EK
-> > > > > certificates, as specified by the TCG in 2.2.2.5.1 of =E2=80=9CTC=
-G EK
-> > > > > Credential Profile For TPM Family 2.0; Level 0=E2=80=9D? This app=
-roach would
-> > > > > simplify the user experience, as every SVSM would function
-> > > > > identically, and  SVSM vTPMs would exhibit analogous behaviour to
-> > > > > physical TPMs.
-> > > >
-> > > > Because to make life easier we might want to short circuit the EK/A=
-K
-> > > > makecredential/activatecredential round trip and simply construct a
-> > > > signing EK to use in place of an arbitrary AK.  Then to make the
-> > > > signing EK easily useful, we might want it not to have a policy
-> > > > statement tying it to the endorsement hierarchy password (particula=
-rly
-> > > > as we know that will be empty).  To allow this type of thing we nee=
-d to
-> > > > allow flexibility in the EK creation which isn't listed in the TCG
-> > > > profile EK templates.
-> > > >
-> > >
-> > > I have local changes to tpm-rs that I haven't pushed to make this
-> > > commit work on its own, but this is what I'm prototyping.
-> > >
-> > > https://github.com/coconut-svsm/svsm/commit/db1ad6018b04b995e0278455e=
-b2f9a66569cbcc9
-> > >
-> > > > Regards,
-> > > >
-> > > > James
-> > > >
-> > >
-> > >
-> > > --
-> > > -Dionna Glaze, PhD, CISSP, CCSP (she/her)
-> >
-> >
-> >
-> > --
-> > -Dionna Glaze, PhD, CISSP, CCSP (she/her)
-
-
-
---=20
--Dionna Glaze, PhD, CISSP, CCSP (she/her)
+>=20
+> Please feel free to ask questions if some concepts are unclear and I'll
+> gladly expand on them.
+>=20
+> Thanks,
+> Melody
