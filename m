@@ -1,27 +1,21 @@
 Return-Path: <joro@8bytes.org>
-Received: from 8bytes.org (p4ffe03ae.dip0.t-ipconnect.de [79.254.3.174])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPSA id 0661E452D5
- for <svsm-devel@coconut-svsm.dev>; Tue,  1 Apr 2025 17:50:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1743522653;
- bh=vjj64EJFDkb/lO6OkJb4A53Fp0P46eV1n8IaNg8wwe8=;
+ s=default; t=1743522719;
+ bh=z+4WICW1h3JC6/hseNyo0eFe/4uubqM+i0L3DRSiD5c=;
  h=Date:From:To:Subject:From;
- b=Rda4YdyqCe7oOKOa38U2r6dqoqVhNSwltDmp+4WoDVmHB/uvt/s6kFpt9TTDkqW4c
- xadoG/fn1rHWPonk+s7EFwWI4ajhW1obVmnomPFfJj5ryATOv7fYJGhrINhSxCsmLu
- +ywwNyeqc224/07fVpvxR66jbr8IIoCfa2GsxH1r3U/Yg5OsxkaAYuNzJjuvz3N9fM
- 37lSOOdwiVHK660PjtQg4tOdQRSp7uNpOqfsXS14J8aJDCwfoYkZcPB+YoAJHXnSnA
- YXhkINi3Nj4vtUr17l+SAFwmGnRIaKkifsiq2U+jYm9jGs+j1aj0VLQoq4UQIRmhEK
- 9TkiyMPwluC4Q==
-Date: Tue, 1 Apr 2025 17:50:51 +0200
+ b=lvHhZ7xJqh8LzovQjrfg+DQSGAyBtJJFRS6cRsfA7nnBNCkvIdsux4qoXdSd0gMp0
+ VqVixOEgMZQT8Bx0ov6+mi4VZb0rjuaPn37dWLJpixKtiYmp71Wg/TSD/tRTKJDUIa
+ JLDsaimcgWWdb3ZYA1RnMPtC0oIlI/wkmZVFu3D+cWAtVg3Ix4qvQ0jgXPENighsG5
+ TmNtiBXTRPj27A3P/ATG942FH5KyTb/1w+vc81dG92lKQOAltxWWtsFjo1MGUBR8vZ
+ 4/32wGsPDgh9E9ulk65tvomgLwSIk6OQGep9T18DUgB1eY6hjv8rWB5o48uFMItEFF
+ NG9xmwt157UmA==
+Date: Tue, 1 Apr 2025 17:51:57 +0200
 From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Message-ID: <Z-wLW4qkK2Fict8o@8bytes.org>
+Message-ID: <Z-wLndJu1CM_K64R@8bytes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Subject: [svsm-devel] QEMU branch updated
+Content-Transfer-Encoding: 8bit
+Subject: [svsm-devel] SVSM Development Call April 2nd, 2025
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -30,17 +24,27 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: svsm-devel@coconut-svsm.dev
+To: svsm-devel@coconut-svsm.dev, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
 
-Hi all,
+Hi,
 
-Just a heads-up that I updated the svsm-igvm branch in our QEMU
-repository for the SVSM. This is to fix the ACPI-table read issue and
-get rid of the boot splash on Linux.
+Here is the usual call for agenda items for the this weeks SVSM
+development call.  Please send me any agenda items you have in mind or
+raise them in the meeting.
 
-If you are experiencing this issue, please update QEMU for your SVSM
-tests.
+Europe switched to summer time as well, so meeting time is back to
+normal for all US participants.
 
-Thanks,
+Details of the meeting (GMeet and Calendar links, meeting time) can be
+found in our governance repository at:
 
-	Joerg
+	https://github.com/coconut-svsm/governance
+
+The meeting will be recorded and the recording eventually published.
+
+See you all there.
+
+Regards,
+
+	Jörg
