@@ -1,25 +1,25 @@
 Return-Path: <David.Kaplan@amd.com>
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2060f.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2413::60f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id 9E08248224
- for <svsm-devel@coconut-svsm.dev>; Tue, 15 Apr 2025 17:59:06 +0200 (CEST)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on20602.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2407::602])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPS id B7246469F5
+ for <svsm-devel@coconut-svsm.dev>; Wed, 16 Apr 2025 02:48:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=msutVllJE/QZSkLADthjPc72CkAjs2DcziPN9+K1JxQ=;
- b=o992QAWPYiM3NL54yi1GfZDUj2DMYepDa/SHzt5VvYk9tPalztwuKCYdKyQq1DxsvEx9qMW9Jwprla82bXnwPeZtUYZt3GOtv2jsoJsggMz1lsAA3YQlaj2LcmvbSSrUGrfAHiGY/AJM8DZSJqX49dN5F24XPR5nCHUd9Y/+tc8=
+ bh=jfBxkCBpfq1UXXBLUyEyQnesIUnAX1mef95jiwy35LU=;
+ b=hwupdY7XmSzUVCj0gfEmqsZpYHp9dAOY+Ghyc8Tk9FmHoUQAf4fPntuaSNCml4w7wmF6KA5UB4MO78+A+CAURKKMVg8pLko66226RF9g9smLbkTzOT6WpbL6gydJpjXW8V3Mu+JqikXvlBkr2+MKAOxKILbJv9tvRRP3/PDZur8=
 From: "Kaplan, David" <David.Kaplan@amd.com>
-Date: Tue, 15 Apr 2025 15:59:01 +0000
-Message-ID: <LV3PR12MB92659F350EA9CF5061305DAA94B22@LV3PR12MB9265.namprd12.prod.outlook.com>
+Date: Wed, 16 Apr 2025 00:48:43 +0000
+Message-ID: <LV3PR12MB926568796749DEC214B674D994BD2@LV3PR12MB9265.namprd12.prod.outlook.com>
 References: <IA1PR12MB8285E6DDDE56B6BFDE7D2EA495B22@IA1PR12MB8285.namprd12.prod.outlook.com>
  <SA6PR21MB4303DC6B9D9DDA2592D40D8ECAB22@SA6PR21MB4303.namprd21.prod.outlook.com>
-In-Reply-To: <SA6PR21MB4303DC6B9D9DDA2592D40D8ECAB22@SA6PR21MB4303.namprd21.prod.outlook.com>
+ <LV3PR12MB92659F350EA9CF5061305DAA94B22@LV3PR12MB9265.namprd12.prod.outlook.com>
+In-Reply-To: <LV3PR12MB92659F350EA9CF5061305DAA94B22@LV3PR12MB9265.namprd12.prod.outlook.com>
 Content-Language: en-US
 Content-Type: multipart/alternative;
- boundary="_000_LV3PR12MB92659F350EA9CF5061305DAA94B22LV3PR12MB9265namp_"
+ boundary="_000_LV3PR12MB926568796749DEC214B674D994BD2LV3PR12MB9265namp_"
 MIME-Version: 1.0
 Subject: Re: [svsm-devel] Clear the guest busy bit when Alternated Injection
  is enabled
@@ -33,11 +33,28 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: Jon Lange <jlange@microsoft.com>, "Wang, Huibo" <Huibo.Wang@amd.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
---_000_LV3PR12MB92659F350EA9CF5061305DAA94B22LV3PR12MB9265namp_
+--_000_LV3PR12MB926568796749DEC214B674D994BD2LV3PR12MB9265namp_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 [AMD Official Use Only - AMD Internal Distribution Only]
+
+What I said below is wrong, please ignore it.  If the HV attempts to run a =
+busy (or invalid) VMSA, it will update the exit code info in the *VMCB* but=
+ not the *VMSA*.  So the error information in the VMSA does not get lost.  =
+It looks like I mis-interpreted some logs, apologies for the confusion.
+
+That said, it will still be more efficient if the HV looks at EXITINTINFO.V=
+ to know to invoke VMPL0 rather than waiting for VMEXIT_BUSY.
+
+--David Kaplan
+
+From: Kaplan, David
+Sent: Tuesday, April 15, 2025 10:59 AM
+To: Jon Lange <jlange@microsoft.com>; Wang, Huibo <Huibo.Wang@amd.com>; svs=
+m-devel@coconut-svsm.dev
+Cc: Lendacky, Thomas <Thomas.Lendacky@amd.com>
+Subject: RE: Clear the guest busy bit when Alternated Injection is enabled
 
 The HV cannot wait until it sees a VMEXIT_BUSY because then the error infor=
 mation about what caused the busy bit to get set becomes lost (the original=
@@ -51,11 +68,12 @@ busy bit, that seems like something the SVSM itself should check.
 
 --David Kaplan
 
-From: Jon Lange <jlange@microsoft.com>
+From: Jon Lange <jlange@microsoft.com<mailto:jlange@microsoft.com>>
 Sent: Tuesday, April 15, 2025 10:36 AM
-To: Wang, Huibo <Huibo.Wang@amd.com>; svsm-devel@coconut-svsm.dev
-Cc: Lendacky, Thomas <Thomas.Lendacky@amd.com>; Kaplan, David <David.Kaplan=
-@amd.com>
+To: Wang, Huibo <Huibo.Wang@amd.com<mailto:Huibo.Wang@amd.com>>; svsm-devel=
+@coconut-svsm.dev<mailto:svsm-devel@coconut-svsm.dev>
+Cc: Lendacky, Thomas <Thomas.Lendacky@amd.com<mailto:Thomas.Lendacky@amd.co=
+m>>; Kaplan, David <David.Kaplan@amd.com<mailto:David.Kaplan@amd.com>>
 Subject: RE: Clear the guest busy bit when Alternated Injection is enabled
 
 
@@ -120,7 +138,7 @@ Thanks,
 Melody
 
 
---_000_LV3PR12MB92659F350EA9CF5061305DAA94B22LV3PR12MB9265namp_
+--_000_LV3PR12MB926568796749DEC214B674D994BD2LV3PR12MB9265namp_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -154,8 +172,8 @@ a:link, span.MsoHyperlink
 	{mso-style-priority:99;
 	color:#467886;
 	text-decoration:underline;}
-span.EmailStyle21
-	{mso-style-type:personal-reply;
+span.EmailStyle23
+	{mso-style-type:personal-compose;
 	font-family:"Arial",sans-serif;
 	color:windowtext;}
 .MsoChpDefault
@@ -184,6 +202,43 @@ t-style:normal;font-weight:normal;text-decoration:none;" align=3D"Left">
 <div>
 <div class=3D"WordSection1">
 <p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ar=
+ial&quot;,sans-serif">What I said below is wrong, please ignore it.&nbsp; I=
+f the HV attempts to run a busy (or invalid) VMSA, it will update the exit =
+code info in the *<b>VMCB</b>* but not the *<b>VMSA</b>*.&nbsp;
+ So the error information in the VMSA does not get lost.&nbsp; It looks lik=
+e I mis-interpreted some logs, apologies for the confusion.<o:p></o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ar=
+ial&quot;,sans-serif"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ar=
+ial&quot;,sans-serif">That said, it will still be more efficient if the HV =
+looks at EXITINTINFO.V to know to invoke VMPL0 rather than waiting for VMEX=
+IT_BUSY.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ar=
+ial&quot;,sans-serif"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ar=
+ial&quot;,sans-serif">--David Kaplan<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ar=
+ial&quot;,sans-serif"><o:p>&nbsp;</o:p></span></p>
+<div style=3D"border:none;border-left:solid blue 1.5pt;padding:0in 0in 0in =
+4.0pt">
+<div>
+<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
+font-family:&quot;Calibri&quot;,sans-serif"> Kaplan, David
+<br>
+<b>Sent:</b> Tuesday, April 15, 2025 10:59 AM<br>
+<b>To:</b> Jon Lange &lt;jlange@microsoft.com&gt;; Wang, Huibo &lt;Huibo.Wa=
+ng@amd.com&gt;; svsm-devel@coconut-svsm.dev<br>
+<b>Cc:</b> Lendacky, Thomas &lt;Thomas.Lendacky@amd.com&gt;<br>
+<b>Subject:</b> RE: Clear the guest busy bit when Alternated Injection is e=
+nabled<o:p></o:p></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ar=
 ial&quot;,sans-serif">The HV cannot wait until it sees a VMEXIT_BUSY becaus=
 e then the error information about what caused the busy bit to get set beco=
 mes lost (the original error gets overwritten
@@ -210,14 +265,17 @@ ial&quot;,sans-serif"><o:p>&nbsp;</o:p></span></p>
 0in 0in">
 <p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
 ;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
-font-family:&quot;Calibri&quot;,sans-serif"> Jon Lange &lt;jlange@microsoft=
-.com&gt;
+font-family:&quot;Calibri&quot;,sans-serif"> Jon Lange &lt;<a href=3D"mailt=
+o:jlange@microsoft.com">jlange@microsoft.com</a>&gt;
 <br>
 <b>Sent:</b> Tuesday, April 15, 2025 10:36 AM<br>
-<b>To:</b> Wang, Huibo &lt;Huibo.Wang@amd.com&gt;; svsm-devel@coconut-svsm.=
-dev<br>
-<b>Cc:</b> Lendacky, Thomas &lt;Thomas.Lendacky@amd.com&gt;; Kaplan, David =
-&lt;David.Kaplan@amd.com&gt;<br>
+<b>To:</b> Wang, Huibo &lt;<a href=3D"mailto:Huibo.Wang@amd.com">Huibo.Wang=
+@amd.com</a>&gt;;
+<a href=3D"mailto:svsm-devel@coconut-svsm.dev">svsm-devel@coconut-svsm.dev<=
+/a><br>
+<b>Cc:</b> Lendacky, Thomas &lt;<a href=3D"mailto:Thomas.Lendacky@amd.com">=
+Thomas.Lendacky@amd.com</a>&gt;; Kaplan, David &lt;<a href=3D"mailto:David.=
+Kaplan@amd.com">David.Kaplan@amd.com</a>&gt;<br>
 <b>Subject:</b> RE: Clear the guest busy bit when Alternated Injection is e=
 nabled<o:p></o:p></span></p>
 </div>
@@ -345,7 +403,8 @@ Or any other, better idea?<o:p></o:p></span></p>
 </div>
 </div>
 </div>
+</div>
 </body>
 </html>
 
---_000_LV3PR12MB92659F350EA9CF5061305DAA94B22LV3PR12MB9265namp_--
+--_000_LV3PR12MB926568796749DEC214B674D994BD2LV3PR12MB9265namp_--
