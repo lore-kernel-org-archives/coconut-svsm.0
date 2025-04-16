@@ -1,25 +1,28 @@
-Return-Path: <David.Kaplan@amd.com>
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on20602.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2407::602])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id B7246469F5
- for <svsm-devel@coconut-svsm.dev>; Wed, 16 Apr 2025 02:48:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+Return-Path: <jlange@microsoft.com>
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azlp170100001.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:c004::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPS id EA912480FD
+ for <svsm-devel@coconut-svsm.dev>; Wed, 16 Apr 2025 06:14:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jfBxkCBpfq1UXXBLUyEyQnesIUnAX1mef95jiwy35LU=;
- b=hwupdY7XmSzUVCj0gfEmqsZpYHp9dAOY+Ghyc8Tk9FmHoUQAf4fPntuaSNCml4w7wmF6KA5UB4MO78+A+CAURKKMVg8pLko66226RF9g9smLbkTzOT6WpbL6gydJpjXW8V3Mu+JqikXvlBkr2+MKAOxKILbJv9tvRRP3/PDZur8=
-From: "Kaplan, David" <David.Kaplan@amd.com>
-Date: Wed, 16 Apr 2025 00:48:43 +0000
-Message-ID: <LV3PR12MB926568796749DEC214B674D994BD2@LV3PR12MB9265.namprd12.prod.outlook.com>
+ bh=ItwS8LIHXiGTZp7bkybsc3MfSzzkFBMPBa1Apxiz5AU=;
+ b=KFFIq5Ar3W/bNqe24c5fXamkLYmGeitWISdkDx3YvYjzBFtUtFN/rh2nsTXdNYN2Q91wwGRXaMxu3Oqa3oUUh8j8K9Vpswe8wi7KsZifju6vQWRA19KUsCB3KecPBK33nu6Kp8dE40/UkfLVbx/BsqHpUU7+57Wda6JCM1dKUBk=
+From: Jon Lange <jlange@microsoft.com>
+Date: Wed, 16 Apr 2025 04:14:19 +0000
+Message-ID: <SA6PR21MB430370D59ECA9A4E9E459FCBCABD2@SA6PR21MB4303.namprd21.prod.outlook.com>
 References: <IA1PR12MB8285E6DDDE56B6BFDE7D2EA495B22@IA1PR12MB8285.namprd12.prod.outlook.com>
  <SA6PR21MB4303DC6B9D9DDA2592D40D8ECAB22@SA6PR21MB4303.namprd21.prod.outlook.com>
  <LV3PR12MB92659F350EA9CF5061305DAA94B22@LV3PR12MB9265.namprd12.prod.outlook.com>
-In-Reply-To: <LV3PR12MB92659F350EA9CF5061305DAA94B22@LV3PR12MB9265.namprd12.prod.outlook.com>
+ <LV3PR12MB926568796749DEC214B674D994BD2@LV3PR12MB9265.namprd12.prod.outlook.com>
+In-Reply-To: <LV3PR12MB926568796749DEC214B674D994BD2@LV3PR12MB9265.namprd12.prod.outlook.com>
 Content-Language: en-US
 Content-Type: multipart/alternative;
- boundary="_000_LV3PR12MB926568796749DEC214B674D994BD2LV3PR12MB9265namp_"
+ boundary="_000_SA6PR21MB430370D59ECA9A4E9E459FCBCABD2SA6PR21MB4303namp_"
 MIME-Version: 1.0
 Subject: Re: [svsm-devel] Clear the guest busy bit when Alternated Injection
  is enabled
@@ -31,11 +34,25 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Jon Lange <jlange@microsoft.com>, "Wang, Huibo" <Huibo.Wang@amd.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: "Kaplan, David" <David.Kaplan@amd.com>, "Wang, Huibo" <Huibo.Wang@amd.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
---_000_LV3PR12MB926568796749DEC214B674D994BD2LV3PR12MB9265namp_
+--_000_SA6PR21MB430370D59ECA9A4E9E459FCBCABD2SA6PR21MB4303namp_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+David, thanks for clearing up the architectural behavior.  I agree with wha=
+t you say below about how to decide when VMPL 0 should be invoked.
+
+-Jon
+
+From: Kaplan, David <David.Kaplan@amd.com>
+Sent: Tuesday, April 15, 2025 5:49 PM
+To: Jon Lange <jlange@microsoft.com>; Wang, Huibo <Huibo.Wang@amd.com>; svs=
+m-devel@coconut-svsm.dev
+Cc: Lendacky, Thomas <Thomas.Lendacky@amd.com>
+Subject: [EXTERNAL] RE: Clear the guest busy bit when Alternated Injection =
+is enabled
+
 
 [AMD Official Use Only - AMD Internal Distribution Only]
 
@@ -51,9 +68,11 @@ That said, it will still be more efficient if the HV looks at EXITINTINFO.V=
 
 From: Kaplan, David
 Sent: Tuesday, April 15, 2025 10:59 AM
-To: Jon Lange <jlange@microsoft.com>; Wang, Huibo <Huibo.Wang@amd.com>; svs=
-m-devel@coconut-svsm.dev
-Cc: Lendacky, Thomas <Thomas.Lendacky@amd.com>
+To: Jon Lange <jlange@microsoft.com<mailto:jlange@microsoft.com>>; Wang, Hu=
+ibo <Huibo.Wang@amd.com<mailto:Huibo.Wang@amd.com>>; svsm-devel@coconut-svs=
+m.dev<mailto:svsm-devel@coconut-svsm.dev>
+Cc: Lendacky, Thomas <Thomas.Lendacky@amd.com<mailto:Thomas.Lendacky@amd.co=
+m>>
 Subject: RE: Clear the guest busy bit when Alternated Injection is enabled
 
 The HV cannot wait until it sees a VMEXIT_BUSY because then the error infor=
@@ -138,7 +157,7 @@ Thanks,
 Melody
 
 
---_000_LV3PR12MB926568796749DEC214B674D994BD2LV3PR12MB9265namp_
+--_000_SA6PR21MB430370D59ECA9A4E9E459FCBCABD2SA6PR21MB4303namp_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -172,10 +191,10 @@ a:link, span.MsoHyperlink
 	{mso-style-priority:99;
 	color:#467886;
 	text-decoration:underline;}
-span.EmailStyle23
-	{mso-style-type:personal-compose;
-	font-family:"Arial",sans-serif;
-	color:windowtext;}
+span.EmailStyle21
+	{mso-style-type:personal-reply;
+	font-family:"Georgia",serif;
+	color:blue;}
 .MsoChpDefault
 	{mso-style-type:export-only;
 	font-size:10.0pt;
@@ -194,13 +213,39 @@ div.WordSection1
 </head>
 <body lang=3D"EN-US" link=3D"#467886" vlink=3D"#96607D" style=3D"word-wrap:=
 break-word">
-<p style=3D"font-family:Calibri;font-size:10pt;color:#0000FF;margin:5pt;fon=
-t-style:normal;font-weight:normal;text-decoration:none;" align=3D"Left">
-[AMD Official Use Only - AMD Internal Distribution Only]<br>
-</p>
-<br>
-<div>
 <div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">David, thanks for clearing up the architectur=
+al behavior.&nbsp; I agree with what you say below about how to decide when=
+ VMPL 0 should be invoked.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue">-Jon<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ge=
+orgia&quot;,serif;color:blue"><o:p>&nbsp;</o:p></span></p>
+<div>
+<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
+font-family:&quot;Calibri&quot;,sans-serif"> Kaplan, David &lt;David.Kaplan=
+@amd.com&gt;
+<br>
+<b>Sent:</b> Tuesday, April 15, 2025 5:49 PM<br>
+<b>To:</b> Jon Lange &lt;jlange@microsoft.com&gt;; Wang, Huibo &lt;Huibo.Wa=
+ng@amd.com&gt;; svsm-devel@coconut-svsm.dev<br>
+<b>Cc:</b> Lendacky, Thomas &lt;Thomas.Lendacky@amd.com&gt;<br>
+<b>Subject:</b> [EXTERNAL] RE: Clear the guest busy bit when Alternated Inj=
+ection is enabled<o:p></o:p></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:5.0pt"><span style=3D"font-size:10.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif;color:blue">[AMD Official Use Only - AMD Internal=
+ Distribution Only]<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
 <p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ar=
 ial&quot;,sans-serif">What I said below is wrong, please ignore it.&nbsp; I=
 f the HV attempts to run a busy (or invalid) VMSA, it will update the exit =
@@ -230,9 +275,13 @@ ial&quot;,sans-serif"><o:p>&nbsp;</o:p></span></p>
 font-family:&quot;Calibri&quot;,sans-serif"> Kaplan, David
 <br>
 <b>Sent:</b> Tuesday, April 15, 2025 10:59 AM<br>
-<b>To:</b> Jon Lange &lt;jlange@microsoft.com&gt;; Wang, Huibo &lt;Huibo.Wa=
-ng@amd.com&gt;; svsm-devel@coconut-svsm.dev<br>
-<b>Cc:</b> Lendacky, Thomas &lt;Thomas.Lendacky@amd.com&gt;<br>
+<b>To:</b> Jon Lange &lt;<a href=3D"mailto:jlange@microsoft.com">jlange@mic=
+rosoft.com</a>&gt;; Wang, Huibo &lt;<a href=3D"mailto:Huibo.Wang@amd.com">H=
+uibo.Wang@amd.com</a>&gt;;
+<a href=3D"mailto:svsm-devel@coconut-svsm.dev">svsm-devel@coconut-svsm.dev<=
+/a><br>
+<b>Cc:</b> Lendacky, Thomas &lt;<a href=3D"mailto:Thomas.Lendacky@amd.com">=
+Thomas.Lendacky@amd.com</a>&gt;<br>
 <b>Subject:</b> RE: Clear the guest busy bit when Alternated Injection is e=
 nabled<o:p></o:p></span></p>
 </div>
@@ -407,4 +456,4 @@ Or any other, better idea?<o:p></o:p></span></p>
 </body>
 </html>
 
---_000_LV3PR12MB926568796749DEC214B674D994BD2LV3PR12MB9265namp_--
+--_000_SA6PR21MB430370D59ECA9A4E9E459FCBCABD2SA6PR21MB4303namp_--
