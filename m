@@ -1,64 +1,62 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CECDA26B097
-	for <coconut-svsm@lists.linux.dev>; Fri, 18 Apr 2025 08:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE36C1FDE12
+	for <coconut-svsm@lists.linux.dev>; Fri, 18 Apr 2025 08:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744963942; cv=none; b=Kdbz/x9AQbxjK8HLmVJNXvj7Fr4MW+dZZPnttf/MOQDcx2C+iCy5tXtVYKorL8Nio96GhlyZkTbqiprWB5HbDcD8Vy/YSXFg4ap34tC3MNK+SIs8XoL/DSfZpdQENyUWx/JlFMvdlPrlWcWp6/1AwEMIAFrw1rzWajdLkqvD6Ww=
+	t=1744965134; cv=none; b=U7ZtpQ7rRbzWvpHnuS1EhYDPd28JguA2nGRtqPXbqfOyhnZbQQx2yHjokvJIibrQ0xuozpYYaB0i4rPVa+pebafnTlP0clo7UMnUjpQeKYFY59KXllOsuTyfg5LxM5bAVMFbBIq7UxEsaErTzy28kEBCW8SC0OHtfgiqqOJSASU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744963942; c=relaxed/simple;
-	bh=hz5CWEz/bgK/a8V7LITNGRZWWud+pqwBhI/SqU0LRUI=;
+	s=arc-20240116; t=1744965134; c=relaxed/simple;
+	bh=7lYyefAddAAAW3Iha7erN9RAaYJYQ8xP6k6BZTIc3lU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IwV9OVIsN6CGBns/svHxlbUS++3IvmzazL3TQMVwBjd+7UAfuN8M072NVwULE41ozN9FZuGeLjB6uEch+acM3SiqQS1rvIGsW6Wb6XxXtbgMPq2SS/6pYSoDQbptqWngl+myggxCukcK7D2hsUjZ0C2leRIcu7ublYcx+H3Gfp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CmHw1SIA; arc=none smtp.client-ip=170.10.129.124
+	 To:Cc:Content-Type; b=QV32H0o4T73NP9EBwGi2KjijF3evVqCKjjWTz5gBF9KydOkYTpVDShQBAiowByQjTZmRrDbh88kZ1NBQ0wOejDUXLN9xbxpshc7fWRQD4qVqeEtL7njP08QoZ4Btc9MykAJE+NtFkgXveZIC81ZPacgH5vxtBT5bXSMkDz6eSPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AZJ7m5rR; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CmHw1SIA"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AZJ7m5rR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1744963939;
+	s=mimecast20190719; t=1744965131;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hz5CWEz/bgK/a8V7LITNGRZWWud+pqwBhI/SqU0LRUI=;
-	b=CmHw1SIAqB1qiFNv5h/Ld45ZV3c1/zrBChMl9gs3KBY98+RYnfsXjGtZVV0XUQpVvmTZej
-	7gwpos5wYA9llowUg5Y2Vxn/pYOgZwAtisU3ZaEoJxjq3gvFy/4CunzBH5U9tVHeH28Xx4
-	zVUThDhiaomeM+hpOodmt5Vg4s45gLw=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=7lYyefAddAAAW3Iha7erN9RAaYJYQ8xP6k6BZTIc3lU=;
+	b=AZJ7m5rRfrl6CQBXswNoj5sxt2JhY0gCmkVKXMNbLR5tiqFiG87PxCykijLquHH8qpSv9A
+	+Sn1p9UtzO61RJt+KbgMa6ccnMgQfhn+4m7nzsf1C+B5jSphrBUGC49t0JpYP9ww0Lggfp
+	rYL5EOPrAqUqVzM7FaMOWjo6oVD0baM=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-617-vONvKFbcPIiEqaI3GJYc2A-1; Fri, 18 Apr 2025 04:12:18 -0400
-X-MC-Unique: vONvKFbcPIiEqaI3GJYc2A-1
-X-Mimecast-MFC-AGG-ID: vONvKFbcPIiEqaI3GJYc2A_1744963937
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-70552c16b9cso18141777b3.3
-        for <coconut-svsm@lists.linux.dev>; Fri, 18 Apr 2025 01:12:17 -0700 (PDT)
+ us-mta-402-92oSjpRpPtG-4smFgoD3iw-1; Fri, 18 Apr 2025 04:32:10 -0400
+X-MC-Unique: 92oSjpRpPtG-4smFgoD3iw-1
+X-Mimecast-MFC-AGG-ID: 92oSjpRpPtG-4smFgoD3iw_1744965129
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-707cc4700acso785817b3.1
+        for <coconut-svsm@lists.linux.dev>; Fri, 18 Apr 2025 01:32:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744963937; x=1745568737;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hz5CWEz/bgK/a8V7LITNGRZWWud+pqwBhI/SqU0LRUI=;
-        b=ASU1BTRmNkV4ugBLeI+rBdBanvNb2q/l21WfUgTnrGritmYx9G8TtsQuNreSqGcPO7
-         5MGjGd3EatPmzdRixS9btnSTxSdmApBy8umZfE5dvLm1h3QW4U+LSZWu4Jn002k8pmzX
-         LFRi5vXRXRgrna5fasG2NIFQLeYSPVK3PYTYFQ8alJWyTlyO5yVlg6q6yfdd6KJ8eus9
-         x+1Lx1cMEJQQZIsZ2J6CVwEKnIrLX/IBToePm1JwV1/4Iwb8w1U16Q1FquIP/H0xyFeV
-         5/4J5dOFM9fPQoxiD/VsDTyElVxYCzcL8BmRtcIQwi8u+re2x1GeWUYurW5TMkDTRJpF
-         Ny/A==
-X-Forwarded-Encrypted: i=1; AJvYcCVhUHXqO4/Boh650YWq/qNu2M+5EXj+eB0L6fnuYwPRLgW1Ns3mpBjfITz0iu6DNADl1nUNuS6JpbQU+l8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwlJfZzOzsygjPEn48nprXV7AKkw2Hze9kCXK4fbraFehIS1MPM
-	rCbMPS52fg9zA8CZRVr5NxZvwmawgrp9qHrM1ItGOpiG6G1QGAEYv7KXoXgYWyr4h3WXM2QMcI5
-	jbz05Y/olNYlbzaF6CrUmxhhq1MhWf7Ri+Ys4Rkwl4dJKEn0Jp+NeTLsE7Z5T8IR5qbL1w6x2Om
-	vu+xa2LGN9s2YjgUtFypLWcaNpGTM7GXoOJtp7
-X-Gm-Gg: ASbGncv3ieMlYM4dtTiXF8RPRLCJljw+XB4t+doo2ly2jZl1I3h29yjvYYFJrV4dq4D
-	YOFGYd5dVeIq7S85H5dbcGAA9knT58EDuoP1nKm3lpUxTsQg+M3h4lJZRnxVKm3+Nsb9L/RY=
-X-Received: by 2002:a05:690c:7084:b0:6fb:a696:b23b with SMTP id 00721157ae682-706cce3e6dcmr23072777b3.33.1744963937313;
-        Fri, 18 Apr 2025 01:12:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEKT5/9Wtz8NNxHTdj+KpEXRxDoyfyYPcEWeTxpexvvRrIx2Wxm7T1o1yXYkh2RZDDciHACkDwD0zn4OxD5wfc=
-X-Received: by 2002:a05:690c:7084:b0:6fb:a696:b23b with SMTP id
- 00721157ae682-706cce3e6dcmr23072617b3.33.1744963936930; Fri, 18 Apr 2025
- 01:12:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744965129; x=1745569929;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7lYyefAddAAAW3Iha7erN9RAaYJYQ8xP6k6BZTIc3lU=;
+        b=WfixYkjom3FMhWPJvtEybzvuqb3ydqt7AiM740zX20GNz8aomo0ko4FN76oG6dZHlV
+         aUqB1RJ9zJeR/M0GcDlKzbSgdTqbYaDqxV8LPH6yh+ACUQhgziXAEbSh55R4NZmT4LlB
+         cXQXk47rBlQ5vXhq6NSZlCzN/S9d52lFPoblzYnXOVlip0JsSHsqFuKpNF87YfZlBOGY
+         AO+pB4l1DMOXoNU6FJusR1kb2aZ+sh2U4dBvECeGV+6UeaZl/SRxgrGJfv2A7HUJCC16
+         OCbHLzUulXdZsV+G+z8JXOcrq0QyueNPnMuj4LPyj+XBdUxDMo98MQtV/Wpe36GBHeNt
+         XzTQ==
+X-Gm-Message-State: AOJu0YwBcdng1g+OirrFuBLauSGqRBuPyg51B8JgGXAKsLA36t+270dI
+	bwvpRxL+2yoifnCwmdG7zqK+JspXLajXC9+8GCobH5vxnVih7SqmHXvJAs9P8o+2CRg8OaPx6gT
+	3o3lFKd1QM2ZzniPMR/GUHjhZT4nHhp8ouL8367al38wpcc6z7og1cDRpYTn2dC384E5x+ZjG60
+	bkRh0UZBWsGmU2J5FLPceExKR/YXCQJLWdZshYk9A2PnOT2Lk=
+X-Gm-Gg: ASbGncu7P+lSoliic30IPMyYGqkOqg15Ap9Qo6cdyeBBTYQuh6Mtzb0aKjZu5ipWRCY
+	enGz5SOFae3M3lw/4orcc3ybWhG/lOfgCthKnx4O5ETs14jdtgd64QDwpVgOZxiOnXsEhk0M=
+X-Received: by 2002:a05:6902:c10:b0:e69:192f:c752 with SMTP id 3f1490d57ef6-e7297d9d009mr2190927276.1.1744965129165;
+        Fri, 18 Apr 2025 01:32:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGeUaXyQqvQ1GJibqQVhzP4dyPxscBRrEC7H1PBuC0GMbdcQbZDSI4ZM84siAPwzTDY/LnfsdNaJp9IJAfMU5c=
+X-Received: by 2002:a05:6902:c10:b0:e69:192f:c752 with SMTP id
+ 3f1490d57ef6-e7297d9d009mr2190906276.1.1744965128778; Fri, 18 Apr 2025
+ 01:32:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
@@ -66,39 +64,29 @@ List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <CAGxU2F4X_yQS9zR7u6cPmXzt8-BkPwWf0NQt2f=GVQBp1BOztw@mail.gmail.com>
- <CAAH4kHb8MsVtCSpAS7UCBN_40yjCKapWC0H1Z=cmvf4m9oErKw@mail.gmail.com>
-In-Reply-To: <CAAH4kHb8MsVtCSpAS7UCBN_40yjCKapWC0H1Z=cmvf4m9oErKw@mail.gmail.com>
+ <06e71552-c890-1577-8967-4d44fb8bdf6b@amd.com>
+In-Reply-To: <06e71552-c890-1577-8967-4d44fb8bdf6b@amd.com>
 From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Fri, 18 Apr 2025 10:12:05 +0200
-X-Gm-Features: ATxdqUGVKfEAzDsgpQ5d4oXm8umQr-3qA2n-htyLnUDpd6UIXjT0zuyEm7wV3t8
-Message-ID: <CAGxU2F7P4ubMKDNpXdtO0q2shf4pAfBsGmDdAoKh98GWO4DM-Q@mail.gmail.com>
+Date: Fri, 18 Apr 2025 10:31:57 +0200
+X-Gm-Features: ATxdqUHdYAvML7aqjGZ_ucl2GL-GgbTrPhweioXJTIxhDdfvZJ3DFPfiIeX8jQM
+Message-ID: <CAGxU2F7=TuWMrbUAE0fqwfpb4A82pNqtaf63Fq59P=7h6U8tdQ@mail.gmail.com>
 Subject: Re: Potential project on implementing AMD SEV emulation in QEMU
-To: Dionna Amalie Glaze <dionnaglaze@google.com>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, coconut-svsm@lists.linux.dev, 
-	svsm-devel@coconut-svsm.dev
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: coconut-svsm@lists.linux.dev, svsm-devel@coconut-svsm.dev
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: M-hByk9STDJGtB5qYVbbxd99mU1ahJj0PYCSBwvN6js_1744963937
+X-Mimecast-MFC-PROC-ID: M5QuUuqRor9IfB6jDv-_9dfc9CBLnSMSsPAlc7bDR3A_1744965129
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 17 Apr 2025 at 18:08, Dionna Amalie Glaze
-<dionnaglaze@google.com> wrote:
+Hi Tom,
+
+On Thu, 17 Apr 2025 at 22:14, Tom Lendacky <thomas.lendacky@amd.com> wrote:
 >
-> What do you mean by emulate? Fake the MSRs and CPUID, or actually
-> provide some memory protection value like the pKVM project?
-
-The first, perhaps I should have explained the ultimate goal better:
-Test/develop SVSM and guest OS interaction without having the hardware in p=
-lace.
-
-Stefano
-
->
-> On Thu, Apr 17, 2025 at 8:26=E2=80=AFAM Stefano Garzarella <sgarzare@redh=
-at.com> wrote:
-> >
+> On 4/17/25 10:26, Stefano Garzarella wrote:
 > > Hi Tom,
+>
+> Hi Stefano,
+>
 > > yesterday in the Coconut-SVSM community call we talked about a
 > > potential project with the University of Pisa to emulate AMD
 > > SEV/SEV-ES/SEV-SNP support in QEMU.
@@ -108,18 +96,22 @@ at.com> wrote:
 > > master's thesis (about 6 months of work).
 > >
 > > We wondered if you knew of any attempts already made in this regard,
+>
+> Nothing that I'm aware of.
+>
 > > but especially if you think it's a feasible thing.
-> >
-> > Suggestions, ideas or partial works that can be reused are very welcome=
-!
-> >
-> > Thanks,
-> > Stefano
-> >
-> >
 >
->
-> --
-> -Dionna Glaze, PhD, CISSP, CCSP (she/her)
->
+> Anything is possible I guess, but I'm not sure what it would take to
+> accomplish that. Attestation would tell you if you're on real hardware
+> vs emulated hardware.
+
+As I wrote to Dionna, I did not explain the ultimate goal well:
+Test/develop SVSM and guest OS interaction without having the hardware in place.
+
+So that's why IMO it's perfectly fine for attestation to be
+unsuccessful, plus I don't think it's even necessary to implement any
+encryption.
+
+Thanks,
+Stefano
 
