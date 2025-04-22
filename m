@@ -1,117 +1,108 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE36C1FDE12
-	for <coconut-svsm@lists.linux.dev>; Fri, 18 Apr 2025 08:32:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8B61EB5E3
+	for <coconut-svsm@lists.linux.dev>; Tue, 22 Apr 2025 07:53:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744965134; cv=none; b=U7ZtpQ7rRbzWvpHnuS1EhYDPd28JguA2nGRtqPXbqfOyhnZbQQx2yHjokvJIibrQ0xuozpYYaB0i4rPVa+pebafnTlP0clo7UMnUjpQeKYFY59KXllOsuTyfg5LxM5bAVMFbBIq7UxEsaErTzy28kEBCW8SC0OHtfgiqqOJSASU=
+	t=1745308384; cv=none; b=C0DrYNMH4p/z08AzegeWM9nhf8xCqzy78nzQCtukH8RzOtZ1df4kMOej0lXWZXmmZMurFjCf1AaoUaGN/UMJMmSQQTzRYfOkm0pTcsTZUFYSVFa796xMWfpKESZFHtnEJ8Y+KcjE41MNOqMnDOCH2kBis9NN6f9mavYzQKRwYl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744965134; c=relaxed/simple;
-	bh=7lYyefAddAAAW3Iha7erN9RAaYJYQ8xP6k6BZTIc3lU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QV32H0o4T73NP9EBwGi2KjijF3evVqCKjjWTz5gBF9KydOkYTpVDShQBAiowByQjTZmRrDbh88kZ1NBQ0wOejDUXLN9xbxpshc7fWRQD4qVqeEtL7njP08QoZ4Btc9MykAJE+NtFkgXveZIC81ZPacgH5vxtBT5bXSMkDz6eSPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AZJ7m5rR; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1745308384; c=relaxed/simple;
+	bh=dPFsEHoRTbQ1m2B+jbk4qiRqOB1cyta1eiU7fuOnCnw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=sgOLu6yfG3X73+QcY2C+GWUadfv0w4afUlgDSUV3zaPLgA6Y42gToS24szJTDxDQNqF3Y/MKKPtTXzSyXD+1GAdMB+nd9r+njRDVCyCyXuXRCVFvjoaCVafSaZ0FzYtIdRWzqYK0P8W8Wt3NyqSxp9QoCnMJxRgb7iqa2sGjEXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BER9E8hX; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AZJ7m5rR"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BER9E8hX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1744965131;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7lYyefAddAAAW3Iha7erN9RAaYJYQ8xP6k6BZTIc3lU=;
-	b=AZJ7m5rRfrl6CQBXswNoj5sxt2JhY0gCmkVKXMNbLR5tiqFiG87PxCykijLquHH8qpSv9A
-	+Sn1p9UtzO61RJt+KbgMa6ccnMgQfhn+4m7nzsf1C+B5jSphrBUGC49t0JpYP9ww0Lggfp
-	rYL5EOPrAqUqVzM7FaMOWjo6oVD0baM=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-402-92oSjpRpPtG-4smFgoD3iw-1; Fri, 18 Apr 2025 04:32:10 -0400
-X-MC-Unique: 92oSjpRpPtG-4smFgoD3iw-1
-X-Mimecast-MFC-AGG-ID: 92oSjpRpPtG-4smFgoD3iw_1744965129
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-707cc4700acso785817b3.1
-        for <coconut-svsm@lists.linux.dev>; Fri, 18 Apr 2025 01:32:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744965129; x=1745569929;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7lYyefAddAAAW3Iha7erN9RAaYJYQ8xP6k6BZTIc3lU=;
-        b=WfixYkjom3FMhWPJvtEybzvuqb3ydqt7AiM740zX20GNz8aomo0ko4FN76oG6dZHlV
-         aUqB1RJ9zJeR/M0GcDlKzbSgdTqbYaDqxV8LPH6yh+ACUQhgziXAEbSh55R4NZmT4LlB
-         cXQXk47rBlQ5vXhq6NSZlCzN/S9d52lFPoblzYnXOVlip0JsSHsqFuKpNF87YfZlBOGY
-         AO+pB4l1DMOXoNU6FJusR1kb2aZ+sh2U4dBvECeGV+6UeaZl/SRxgrGJfv2A7HUJCC16
-         OCbHLzUulXdZsV+G+z8JXOcrq0QyueNPnMuj4LPyj+XBdUxDMo98MQtV/Wpe36GBHeNt
-         XzTQ==
-X-Gm-Message-State: AOJu0YwBcdng1g+OirrFuBLauSGqRBuPyg51B8JgGXAKsLA36t+270dI
-	bwvpRxL+2yoifnCwmdG7zqK+JspXLajXC9+8GCobH5vxnVih7SqmHXvJAs9P8o+2CRg8OaPx6gT
-	3o3lFKd1QM2ZzniPMR/GUHjhZT4nHhp8ouL8367al38wpcc6z7og1cDRpYTn2dC384E5x+ZjG60
-	bkRh0UZBWsGmU2J5FLPceExKR/YXCQJLWdZshYk9A2PnOT2Lk=
-X-Gm-Gg: ASbGncu7P+lSoliic30IPMyYGqkOqg15Ap9Qo6cdyeBBTYQuh6Mtzb0aKjZu5ipWRCY
-	enGz5SOFae3M3lw/4orcc3ybWhG/lOfgCthKnx4O5ETs14jdtgd64QDwpVgOZxiOnXsEhk0M=
-X-Received: by 2002:a05:6902:c10:b0:e69:192f:c752 with SMTP id 3f1490d57ef6-e7297d9d009mr2190927276.1.1744965129165;
-        Fri, 18 Apr 2025 01:32:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGeUaXyQqvQ1GJibqQVhzP4dyPxscBRrEC7H1PBuC0GMbdcQbZDSI4ZM84siAPwzTDY/LnfsdNaJp9IJAfMU5c=
-X-Received: by 2002:a05:6902:c10:b0:e69:192f:c752 with SMTP id
- 3f1490d57ef6-e7297d9d009mr2190906276.1.1744965128778; Fri, 18 Apr 2025
- 01:32:08 -0700 (PDT)
+	s=mimecast20190719; t=1745308379;
+	h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:in-reply-to:in-reply-to:  references:references;
+	bh=ux1E3t+ETmTpkwCxwrXB/lJVCMHxtN9pqudyWAlaU9I=;
+	b=BER9E8hXshTNwK/BTlOFi4ndcbvbaKidBD7e05LmAU8FuzOHQgO6znjRJRo2JfFdkVyoO5
+	pqmJqOf2r8PV4FpI3O1JInhAF0YLNIHXq6kkzXiwjSRufj4qLN7ahEIfxZjLGi4Yp4Xm4w
+	Qd1gzQ194BaoF0j1Tm6p22eq1rQ6UPk=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-622-64_zuUunPa6DmJcnFKsSJw-1; Tue,
+ 22 Apr 2025 03:52:56 -0400
+X-MC-Unique: 64_zuUunPa6DmJcnFKsSJw-1
+X-Mimecast-MFC-AGG-ID: 64_zuUunPa6DmJcnFKsSJw_1745308375
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DA1CD1800370;
+	Tue, 22 Apr 2025 07:52:54 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.105])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4D6B919560AB;
+	Tue, 22 Apr 2025 07:52:53 +0000 (UTC)
+Date: Tue, 22 Apr 2025 08:52:49 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, coconut-svsm@lists.linux.dev,
+	svsm-devel@coconut-svsm.dev
+Subject: Re: [svsm-devel] Potential project on implementing AMD SEV emulation
+ in QEMU
+Message-ID: <aAdKwgeBO3ILBwcJ@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+References: <CAGxU2F4X_yQS9zR7u6cPmXzt8-BkPwWf0NQt2f=GVQBp1BOztw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAGxU2F4X_yQS9zR7u6cPmXzt8-BkPwWf0NQt2f=GVQBp1BOztw@mail.gmail.com>
- <06e71552-c890-1577-8967-4d44fb8bdf6b@amd.com>
-In-Reply-To: <06e71552-c890-1577-8967-4d44fb8bdf6b@amd.com>
-From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Fri, 18 Apr 2025 10:31:57 +0200
-X-Gm-Features: ATxdqUHdYAvML7aqjGZ_ucl2GL-GgbTrPhweioXJTIxhDdfvZJ3DFPfiIeX8jQM
-Message-ID: <CAGxU2F7=TuWMrbUAE0fqwfpb4A82pNqtaf63Fq59P=7h6U8tdQ@mail.gmail.com>
-Subject: Re: Potential project on implementing AMD SEV emulation in QEMU
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Cc: coconut-svsm@lists.linux.dev, svsm-devel@coconut-svsm.dev
+In-Reply-To: <CAGxU2F4X_yQS9zR7u6cPmXzt8-BkPwWf0NQt2f=GVQBp1BOztw@mail.gmail.com>
+User-Agent: Mutt/2.2.14 (2025-02-20)
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: M5QuUuqRor9IfB6jDv-_9dfc9CBLnSMSsPAlc7bDR3A_1744965129
+X-Mimecast-MFC-PROC-ID: ngVmBALHbipvpaktZw9tg0hgAAaNfzkQ67CbvK-6xtg_1745308375
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Hi Tom,
+On Thu, Apr 17, 2025 at 05:26:15PM +0200, Stefano Garzarella wrote:
+> Hi Tom,
+> yesterday in the Coconut-SVSM community call we talked about a
+> potential project with the University of Pisa to emulate AMD
+> SEV/SEV-ES/SEV-SNP support in QEMU.
+> 
+> Joerg rightly suggested having a step-by-step approach, supporting SEV
+> initially, as supporting SEV-SNP directly might be too much for a
+> master's thesis (about 6 months of work).
 
-On Thu, 17 Apr 2025 at 22:14, Tom Lendacky <thomas.lendacky@amd.com> wrote:
->
-> On 4/17/25 10:26, Stefano Garzarella wrote:
-> > Hi Tom,
->
-> Hi Stefano,
->
-> > yesterday in the Coconut-SVSM community call we talked about a
-> > potential project with the University of Pisa to emulate AMD
-> > SEV/SEV-ES/SEV-SNP support in QEMU.
-> >
-> > Joerg rightly suggested having a step-by-step approach, supporting SEV
-> > initially, as supporting SEV-SNP directly might be too much for a
-> > master's thesis (about 6 months of work).
-> >
-> > We wondered if you knew of any attempts already made in this regard,
->
-> Nothing that I'm aware of.
->
-> > but especially if you think it's a feasible thing.
->
-> Anything is possible I guess, but I'm not sure what it would take to
-> accomplish that. Attestation would tell you if you're on real hardware
-> vs emulated hardware.
+Agreed, from the QEMU maintainer side we'd very likely want to see an
+incremental set of patches rather than a "big bang" attempting todo
+everything in one go. Staging patch submissions for SEV, then ES
+then SNP would make conceptual sense, to enable something useful to
+be delivered at each step.
 
-As I wrote to Dionna, I did not explain the ultimate goal well:
-Test/develop SVSM and guest OS interaction without having the hardware in place.
+> We wondered if you knew of any attempts already made in this regard,
+> but especially if you think it's a feasible thing.
 
-So that's why IMO it's perfectly fine for attestation to be
-unsuccessful, plus I don't think it's even necessary to implement any
-encryption.
+I think 6 months is possibly on the optimistic side.
 
-Thanks,
-Stefano
+Non-trivial feature proposals have a habit of taking longer than people
+expect upfront. They might get lucky, but I equally it wouldn't surprise
+me to see patches go through 6-9 months of reviews, on top of the initial
+time needed to write a first impl before submission, with multiple
+repostings needed before being merged. IOW it could be 6 months,  it
+could be 12 months.
+
+I don't mean that to discourage an attempt. Just that non-trivial open
+source contributions with fixed timelines are not a reliable combination.
+IOW, plan for what happens if it takes longer than expected, exceeding
+the 6 month thesis timeframe.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
