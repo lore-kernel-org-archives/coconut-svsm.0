@@ -1,139 +1,202 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B7A79FE
-	for <coconut-svsm@lists.linux.dev>; Wed, 30 Apr 2025 04:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8021DE2C2
+	for <coconut-svsm@lists.linux.dev>; Wed, 30 Apr 2025 05:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745988452; cv=none; b=qoAUZnm3YdJrUUP3xfnu1WCEMLnbSjKx8ZcOb6D8CkkFaqJw6dLicpX0FVaQsbn1KoXLzBuWQPcoZ44g5OiluyobiXfrFgIgdhIX0xPFbLEuh0v3HdYnzvCkwBA5XxqlSsxWLIwfnB1i+nk/pPx3QMlcFOzQcOz6q24X51tAwNw=
+	t=1745990435; cv=none; b=LoBErx+CbYK25tuZeERnoMg0gd8j/aNuOt0lymoC2gRztPMKoAexFDriFNUYSM+zjmYtZorr7DyLo5sKw4rJ7xp9K6Jlkxjyz2hd65SAd6vT8Flh5YVXJz2EIFNe1u78UuK9EtWPg8OdedwsopaGLV1gBeCmR4g0WTqMf83qzPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745988452; c=relaxed/simple;
-	bh=9FfbGsk24rJWbRc0Yf015KtVC+PzMLlir/QcC5+Vp8M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JhUd1f+5Fs3fde7PALlCdJRtb0XjJ394r+bv3AeM7J2y/s2i8MsRjzQehSL7h5MqLfKq9UqovriHDXbPJglZL/keScMJ8nYjptfyh+SV0PZ7Xzt1yHyIyzu3M9J8GgREOlL3UMPTgOe/Il2bdUThxzyfoQqKX4fit9uJNHY4SPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EXp890dv; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1745990435; c=relaxed/simple;
+	bh=4b9v4V3RHVawka9TLkMNoMy4jOUCxkZC21CZM1HzXnc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=j9fRPc65VFXJOMbmw6Tyx1brnVOkjWEfNOwZQ0wIo9IYnLPTWuG6fgY619ibnC+rpbwMxCdhoH4Ax0i4/lukJWRAL99JahtG4jwriW21Fne4qwom5iSz6sEQVcHZqxFn6suPLw4c0OttCapA9WRTNWGVWz/aU21mye4rqq1kaK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QjoPR83e; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=I041d4f1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kDKqsCdt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ydjVReNv; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EXp890dv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1745988449;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QjoPR83e";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I041d4f1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kDKqsCdt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ydjVReNv"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D71AE218F4;
+	Wed, 30 Apr 2025 05:20:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745990430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=84b4sFCza8grOoMBG+HHICfXCatmjOGMOm7BrAybkUw=;
-	b=EXp890dviv7M4xt7bPNtd61ZEMvFJdUUN1/jtkHk8cuhIKZmx7NhSI6Kz+ESzbwxzmLoVG
-	UGdrYXfmdA2pwCM3tzi7bnuTplDLB6E4K+eO0QAelpXlY0fmVbdwDv57MPNJVsS/kUnEqt
-	4AQ9JCzRnbrmoRzRjb4/MRu025HNIb8=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-632-N6DP3YBBNPGiZ1Th3lL_oQ-1; Wed, 30 Apr 2025 00:47:28 -0400
-X-MC-Unique: N6DP3YBBNPGiZ1Th3lL_oQ-1
-X-Mimecast-MFC-AGG-ID: N6DP3YBBNPGiZ1Th3lL_oQ_1745988447
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-476b2179079so124878231cf.1
-        for <coconut-svsm@lists.linux.dev>; Tue, 29 Apr 2025 21:47:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745988447; x=1746593247;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=84b4sFCza8grOoMBG+HHICfXCatmjOGMOm7BrAybkUw=;
-        b=NswbJws5XJ3/R7cq4gARpGA7uFJZaulczWd7K8XFh3Rb4E73WgxditCB13/ncXpzPB
-         Sg5czhvAF1KpSMYYds5YAlTTfvhxh55E9DiD+On1z9olwLSc8n0Ts+lHXp1p6q40x2e8
-         Lv17nO4xc4FJuycx2MtQ5JIGC54ZKLUOpVouVjUat9Tf1GIJnFqJcPi2kN8PhlXSHOC4
-         T3RLQvUDBbY2juBF9ZD6RbNNzlsCVtjw4shx/S/n8cgiLC70JyblGY+xSD+GP3zZuh8W
-         H2OK5VMZB/JSNh8CqvthFVBTdKWFK1Y61TTh59r6oMU4+pK4byZ2Orch4+8Bz6Vf9AS3
-         K+yA==
-X-Gm-Message-State: AOJu0YwTjI7zoVPRRfTzWyzhvQg20EqrFZN1IxtGWiQ9nfU5qMG4yd9T
-	Be/9qrKyLMr4UAeYjX0wtRDSwi3HilzUxWZAY9Z9vCN4YSdXcD+cdzhLef2dm77omjQUXCMaLCS
-	cuvP0cGPB2g9u+HaUJmNOh7MvsFBH7pfw8BX4l50TZ3yqkMuE8elM/CTWI4RDnA==
-X-Gm-Gg: ASbGncvsQyfr653dQUigf1DJ2K8pn4EzP8QVFyO8r1n1lg0Fgsxsb6rPBsHnEcC2t/5
-	8p+2/MZZarM3p8tg/uoObhWJW8xH2A3iNx83QFJ/Lv9wcOQuFcAqVR03QozA4ekQ7Mtk7nGx0FP
-	wqHpR0vqUza7mJ+ueX0/y3eOP4nV4Ohn5vYyGkhJ/Mn7r9WMGd/dI9icuokVvo4hv0cOf7YTDUJ
-	cfizGi7MqtA0uVLyRvIAyZfJDTjblRv3KRIyndOJeU2sHSB9m9xs+PUo0iYoYNXYlZ4srKf+8+R
-	Hg4wiKKTVeg7FDPvLR64WuqZiSfAcO6wv5OQepLv9+e4eZsOJnTw/+cC3xg=
-X-Received: by 2002:a05:622a:5448:b0:47f:d11:5b4d with SMTP id d75a77b69052e-489e69a58fcmr21192931cf.49.1745988447551;
-        Tue, 29 Apr 2025 21:47:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGcPxCn5cQEmjt5lJ3I+Dqy22hHCnvd4H39/XtMPtXkrRKy7gT6vGGXSiTU6e73OlM2HEvAjg==
-X-Received: by 2002:a05:622a:5448:b0:47f:d11:5b4d with SMTP id d75a77b69052e-489e69a58fcmr21192811cf.49.1745988447274;
-        Tue, 29 Apr 2025 21:47:27 -0700 (PDT)
-Received: from ?IPV6:2600:4040:7c4e:c200:d6a:7ca8:b526:8eeb? ([2600:4040:7c4e:c200:d6a:7ca8:b526:8eeb])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47ea1794482sm88195291cf.56.2025.04.29.21.47.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Apr 2025 21:47:26 -0700 (PDT)
-Message-ID: <e1ade6fd-53f9-43d1-a270-4d233194b4d1@redhat.com>
-Date: Wed, 30 Apr 2025 00:47:25 -0400
+	bh=duj/4uoFtGwMQuzOA5bYdyU3mEq/WnYKijoKv+YpVms=;
+	b=QjoPR83ez6rm7RFR6QyqyDu3IVoRCUx6u90dUxen5JUFyRFcMq4HgCKCEFJgaxdgLN9+Dg
+	3+TcjWE9DdyKGtLGRKAGN0ANd0StQNlXkiBLjyQypJwVcTiF/mEncZaJcqEc6mPTf0cl1v
+	eIL9O1zBCUckSfHMfJgVqXvgF/HYP3w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745990430;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=duj/4uoFtGwMQuzOA5bYdyU3mEq/WnYKijoKv+YpVms=;
+	b=I041d4f16kXDEQkGIZMgG5/fUTOn6XgyrPNRQVtLvCWaXss2Gbs8iy2sxGztzKTIjD3whn
+	feVHxALvXX6bcPBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kDKqsCdt;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ydjVReNv
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745990429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=duj/4uoFtGwMQuzOA5bYdyU3mEq/WnYKijoKv+YpVms=;
+	b=kDKqsCdtufs9/az5uo58DyTFselWn4ZBMVNgxsz/u7eLliSUjN8PKyNY4B0+KVRejJrQKv
+	MJaw3j+7sO70BJBm4DMPJ0UEcF6UFC6HpmHW8u/lXGKBZ/zoAFToteIkkMCAw9gtg+5+xf
+	DYcBv8+1K0OMxup/uNVA/n7EqLzUMek=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745990429;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=duj/4uoFtGwMQuzOA5bYdyU3mEq/WnYKijoKv+YpVms=;
+	b=ydjVReNvpiS+t34/NTuPDNJ/TGah167lc2NIg3rh5CPST4YfsLgy9UdixEH/0hwnnzoKIc
+	wvw4fqjVSfU+DpAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6653813A25;
+	Wed, 30 Apr 2025 05:20:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id h858Fx2zEWgXWAAAD6G6ig
+	(envelope-from <nstange@suse.de>); Wed, 30 Apr 2025 05:20:29 +0000
+From: Nicolai Stange <nstange@suse.de>
+To: Tyler Fanelli <tfanelli@redhat.com>
+Cc: Nicolai Stange <nstange@suse.de>,  Stefano Garzarella
+ <sgarzare@redhat.com>,  coconut-svsm@lists.linux.dev
+Subject: Re: ECC keygen for PR #528 ("Attestation driver and proxy")
+In-Reply-To: <e1ade6fd-53f9-43d1-a270-4d233194b4d1@redhat.com> (Tyler
+	Fanelli's message of "Wed, 30 Apr 2025 00:47:25 -0400")
+References: <25558.125041610080302253@us-mta-166.us.mimecast.lan>
+	<CAGxU2F5aM_GXbcbOocrwpsGS4H+1i7O9xM4MhKrx8ycGOgah=w@mail.gmail.com>
+	<96587.125042918523400199@us-mta-360.us.mimecast.lan>
+	<e1ade6fd-53f9-43d1-a270-4d233194b4d1@redhat.com>
+Date: Wed, 30 Apr 2025 07:20:24 +0200
+Message-ID: <87ikmmkyxz.fsf@>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: ECC keygen for PR #528 ("Attestation driver and proxy")
-To: Nicolai Stange <nstange@suse.de>, Stefano Garzarella <sgarzare@redhat.com>
-Cc: coconut-svsm@lists.linux.dev
-References: <25558.125041610080302253@us-mta-166.us.mimecast.lan>
- <CAGxU2F5aM_GXbcbOocrwpsGS4H+1i7O9xM4MhKrx8ycGOgah=w@mail.gmail.com>
- <96587.125042918523400199@us-mta-360.us.mimecast.lan>
-From: Tyler Fanelli <tfanelli@redhat.com>
-In-Reply-To: <96587.125042918523400199@us-mta-360.us.mimecast.lan>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: PlAns_P0j_9q741I8kr_ZoccbKXJtB08JLIM144kurE_1745988447
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: D71AE218F4
+X-Spam-Score: -2.31
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.31 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	INVALID_MSGID(1.70)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Hi Nicolai,
+Hi Tyler,
 
-On 4/29/25 6:46 PM, Nicolai Stange wrote:
-> Hi Stefano,
-> 
-> Stefano Garzarella <sgarzare@redhat.com> writes:
-> 
->> On Wed, 16 Apr 2025 at 16:08, Nicolai Stange <nstange@suse.de> wrote:
->>>
->>> I managed to carve out and cleanup the first batch ([1]) from my work on
->>> an encrypted FS by now. The FS cleanup itself is still WIP, but the
->>> crypto parts should be in a usable state.
->>>
->>> As mentioned on last week's svsm-devel call, it might help with
->>> addressing those stack size related issues with ECC keygen in the
->>> context of PR #528 ([2]).
->>>
->>> I prepared some example code for generating an ECC key with NIST P-521,
->>> to be found at [3].
->>>
->>>  From some lax experiments in userspace, peak stack usage is at about 2.3kB.
->>> (Which is still way above what I would have expected, given that no
->>>   buffers are stored on the stack. I'm currently investigating that).
->>>
->>> I'm not sure whether merely generating the key is all you need -- FWIW
->>> there's also support for ecdh, ecdsa and ecschnorr, in case you're
->>> wondering. I'd be happy to come up with some example code for these as
->>> well.
->>>
->>> Please let me know if you have any questions, either here or in today's
->>> call.
->>
->> Cool, thanks for the example code, I guess this can unlock for now
->> Tyler's PR and FS support, but as we discussed yesterday in the
->> community call, the long term plan is to use OpenSSL/BoringSSL. I'll
->> open an issue ASAP to track that work, and I'll start to investigate
->> it.
-> 
-> I've implemented a BoringSSL FFI backend as a configurable alternative
-> to the cocoon-tpm-crypto now (example code is updated accodingly), and
-> did a POC integration into SVSM, c.f. [4]. Good news is it still boots :)
-> 
+Tyler Fanelli <tfanelli@redhat.com> writes:
 
-Thanks for this. I'm currently updating PR #528 to use cocoon-tpm-crypto 
-for generating ECC keys. For now, should I err towards using the 
-BoringSSL feature?
+> On 4/29/25 6:46 PM, Nicolai Stange wrote:
+>> Hi Stefano,
+>> Stefano Garzarella <sgarzare@redhat.com> writes:
+>>=20
+>>> On Wed, 16 Apr 2025 at 16:08, Nicolai Stange <nstange@suse.de> wrote:
+>>>>
+>>>> I managed to carve out and cleanup the first batch ([1]) from my work =
+on
+>>>> an encrypted FS by now. The FS cleanup itself is still WIP, but the
+>>>> crypto parts should be in a usable state.
+>>>>
+>>>> As mentioned on last week's svsm-devel call, it might help with
+>>>> addressing those stack size related issues with ECC keygen in the
+>>>> context of PR #528 ([2]).
+>>>>
+>>>> I prepared some example code for generating an ECC key with NIST P-521,
+>>>> to be found at [3].
+>>>>
+>>>>  From some lax experiments in userspace, peak stack usage is at about =
+2.3kB.
+>>>> (Which is still way above what I would have expected, given that no
+>>>>   buffers are stored on the stack. I'm currently investigating that).
+>>>>
+>>>> I'm not sure whether merely generating the key is all you need -- FWIW
+>>>> there's also support for ecdh, ecdsa and ecschnorr, in case you're
+>>>> wondering. I'd be happy to come up with some example code for these as
+>>>> well.
+>>>>
+>>>> Please let me know if you have any questions, either here or in today's
+>>>> call.
+>>>
+>>> Cool, thanks for the example code, I guess this can unlock for now
+>>> Tyler's PR and FS support, but as we discussed yesterday in the
+>>> community call, the long term plan is to use OpenSSL/BoringSSL. I'll
+>>> open an issue ASAP to track that work, and I'll start to investigate
+>>> it.
+>> I've implemented a BoringSSL FFI backend as a configurable
+>> alternative
+>> to the cocoon-tpm-crypto now (example code is updated accodingly), and
+>> did a POC integration into SVSM, c.f. [4]. Good news is it still boots :)
+>>=20
+>
+> Thanks for this. I'm currently updating PR #528 to use
+> cocoon-tpm-crypto for generating ECC keys. For now, should I err
+> towards using the BoringSSL feature?
+>
 
+That would become a Cargo feature ("boringssl") for the svsm kernel
+crate, but yes, we can make it the default, either in the Cargo.toml or
+by specifying it in the Makefile as it's being done for the vtpm IIRC.
 
-Tyler
+One note though: the cocoon-tpm-crypto in its current form depends on a
+1.86 toolchain, while the svsm fixes 1.82. Either we bump that up, or I
+would have to go figure which of the used language features are
+incompatible with 1.82 and somehow fix that up or work around (one is
+upcasts of &mut dyn's to supertraits).
 
+In either case, as the integration of the boringssl build into the svsm
+environment is non-trival (see that demo POC [4]), I would leave that
+part at least to a separate, dedicated PR.
+
+Thanks!
+
+Nicolai
+
+--=20
+SUSE Software Solutions Germany GmbH, Frankenstra=C3=9Fe 146, 90461 N=C3=BC=
+rnberg, Germany
+GF: Ivo Totev, Andrew McDonald, Werner Knoblich
+(HRB 36809, AG N=C3=BCrnberg)
