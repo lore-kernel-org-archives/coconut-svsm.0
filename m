@@ -1,24 +1,25 @@
 Return-Path: <Huibo.Wang@amd.com>
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2060a.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2412::60a])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on20620.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2409::620])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id E95B3450F5
- for <svsm-devel@coconut-svsm.dev>; Sun,  4 May 2025 22:28:14 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPS id D9DEA450F5
+ for <svsm-devel@coconut-svsm.dev>; Sun,  4 May 2025 22:54:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YUTEKOuHRTa22++wSx3PewAT7ta4pZVHAb4K5SB6GTA=;
- b=dt0qfgcCq4TfT0th3/NadrzS8ecZlrYBpUjs7V1pmZJ98HhW7Itq4n8QrfsjfH7ly+/Dm1eUE5G2GYaqNe61g/WkxmpsS8dKhPqSZXm3sda7kImCdznln85HgS+OQMx7mPwjugEzXSh3d0R+T1cB6PljBxSQU3KA2n8WtniBAew=
-Message-ID: <86219652-1174-4965-8aaa-11a05f2c1f46@amd.com>
-Date: Sun, 4 May 2025 13:27:56 -0700
+ bh=Db1cyuZETIKDWavM0ZW206YsWxDOd8QPWNAofJUDoTg=;
+ b=IUMy+5erMxTjV+Gv64Ly+zPFCi8Z4xbIMkS+0tIYU/SDDapZLE+VMuC15a/HbFbSH31ixXCmTAN/UDagDqM/GEpSpEwfAmA99Mm8oknlL++Ea78A66CWR4FLHkt5nJJiy/Px/n1WxBZoR6KYtrZBrCoyL9t3GE4yQsQNO8oCB2k=
+Message-ID: <e95b7672-d7a3-4da5-9045-c820a17be00b@amd.com>
+Date: Sun, 4 May 2025 13:54:00 -0700
 MIME-Version: 1.0
 Content-Language: en-US
+References: <86219652-1174-4965-8aaa-11a05f2c1f46@amd.com>
 From: "Melody (Huibo) Wang" <huibo.wang@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Subject: [svsm-devel] Extended Interrupt Information
+In-Reply-To: <86219652-1174-4965-8aaa-11a05f2c1f46@amd.com>
+Content-Transfer-Encoding: 8bit
+Subject: [svsm-devel] Fwd: Extended Interrupt Information
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -29,6 +30,17 @@ List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>,
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
 To: Jon Lange <jlange@microsoft.com>
 Cc: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+Content-Type: text/plain; charset="utf-8"
+
+Sorry to send it again. If you have received twice, please disregard the second one. Sorry about it, I have email troubles.
+
+
+-------- Forwarded Message --------
+Subject: Extended Interrupt Information
+Date: Sun, 4 May 2025 13:27:56 -0700
+From: Melody (Huibo) Wang <huibo.wang@amd.com>
+To: Jon Lange <jlange@microsoft.com>
+CC: Lendacky, Thomas <Thomas.Lendacky@amd.com>, Jörg Rödel <joro@8bytes.org>, svsm-devel@coconut-svsm.dev <svsm-devel@coconut-svsm.dev>
 
 Hi Jon,
 
