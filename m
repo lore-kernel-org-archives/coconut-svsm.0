@@ -1,42 +1,40 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 614631DB127;
-	Fri,  2 May 2025 06:31:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24E19146A72
+	for <coconut-svsm@lists.linux.dev>; Mon,  5 May 2025 09:46:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746167476; cv=none; b=ihkdUf4mOzE3LCxVkG7p/lh64D10N+TUOOzBvGOVwYHPs8PDOQjBSnucN5UvP9rd7+RbmBziJy+G54yI8Wq0KI0yjsHvn02PAQjVmyNQ3GrgOT0SqA22gNETPD8JgvygOCspb5xmTXKFBx3VB4lDoiw/aJcdX0KtpjRVylAjABY=
+	t=1746438378; cv=none; b=F8nnVPblRb5zqLOqxjkOjCYGyKjcLSE/zNl/LKf2Lb3WvThTD9JRbSWiaOFYhdPiCl8nVDMVcg7pmegCUyb0L9PhP8ga55sksDAzTfOfLTWdqddz3r8flKAVy20VR9BioI8NwCKWiuZRjeEE2BHV3+N0FV6P2dX9wVZJLNiSvGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746167476; c=relaxed/simple;
-	bh=EPs1CunF6VE76UmW8lHRhVmfk/ZpQqAp3Ghy8NkWZec=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tTOuhumrXFimZn1HJDRNfiGxcB49iW5+o0HzTK44JxIIsJ9xjvwXfE9gtwSBYNFPyBK9AhHuCsq3O2KM0Af9N7qd7tf8FT19FnGVeUD5gnFZ4iuJNyLmZDz3eRFT2YgaBGjm8T6iCgCJ+XNTmzAhIH22EDXZpNmHe9cgjT33jRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=LAyWRPmO; arc=none smtp.client-ip=85.214.250.239
+	s=arc-20240116; t=1746438378; c=relaxed/simple;
+	bh=f7AtF2PSAWJTmYlGE2qsNzwn4xR23PuPjiTML0+mJi4=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g6+tdrp4WPvwC4pNU5tbqkpP874VzAnf0poWvTbCBxqfn7kcBIs3VALRj9DPf1A5MBUHdLxm0GzkTMR097hrIDo465WxPm/RmF2r8jUdX0gzUxU7wfWTAouU2tSFUUpTCLScTybaepuU7Y+yQEN7ki3s+GOYkZOQ/GvEmvdbgto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=nfMuIFun; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="LAyWRPmO"
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="nfMuIFun"
 Received: from 8bytes.org (p4ffe03ae.dip0.t-ipconnect.de [79.254.3.174])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id DBB4A49B71;
-	Fri,  2 May 2025 08:31:06 +0200 (CEST)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 549C9450F5;
+	Mon,  5 May 2025 11:46:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1746167466;
-	bh=EPs1CunF6VE76UmW8lHRhVmfk/ZpQqAp3Ghy8NkWZec=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=LAyWRPmOHIXFpAM8HOy/21lzPg6HRVeYUwG9YBc/O0BJc1VpvJQrxOBZfdkvYLzM6
-	 t0HScZt5DjjyGMcv/HpEMFCE4dbKPfa+Oe+QPEW6EyWUoOsQRDEsOECRranMYKQ1qA
-	 U8Zcpwq7l86MkcSe6tvxATft47s2sU5WE8FRY4LWNFMyqLbh43x6J1F3Z4vtReMx8c
-	 OPwCplWGP+rsb9BrswEFhwPa+A60guSl6XmIrQM8kngiLi/wCzmivEhIX3pqitGovg
-	 eapwTPPfRhYwaRtufvT3vfehMLtw8Ak24DcquDD2ncy1hxyxiHdWKF7ux6lazt+hWd
-	 50mraTk+BOWMQ==
-Date: Fri, 2 May 2025 08:31:05 +0200
+	s=default; t=1746438369;
+	bh=f7AtF2PSAWJTmYlGE2qsNzwn4xR23PuPjiTML0+mJi4=;
+	h=Date:From:To:Subject:From;
+	b=nfMuIFunaLZdfnp2WMc5l5qF3DRna58UxetgFS+UyJj8v3S08Ak97wJitGpjC3E1M
+	 i1g7xuYI5CnHCP2HJOp6fwYi46iqD2NSQ90wbmcigDSCkgpNI1864SiVnve+dmL4Zh
+	 TpDNBpKoEWSzpj8auSDVRzV/n1QKGC0QrLre9Im1RLrKLdtkg5/nfUw0cxnJNUkkT0
+	 aEx/flGFqvAxfDK9mYb+j2dTpe8htRJafw19NLS0b+o8ux3ohPKz143wQXiiwDSX+i
+	 kyAYEFQur7TSBNzZWX8zU1d6Iqo5kLwWMEFHJigYhd/nem1fkkMbZwL3kH9+tMOUjs
+	 3XoAOJFKrRp8Q==
+Date: Mon, 5 May 2025 11:46:08 +0200
 From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-To: svsm-devel@coconut-svsm.dev, coconut-svsm@lists.linux.dev,
-	linux-coco@lists.linux.dev
-Subject: Re: [svsm-devel] SVSM Development Call April 30th, 2025
-Message-ID: <aBRmqTan7qWcULjy@8bytes.org>
-References: <aBDzsNz2hpkkA23c@8bytes.org>
+To: svsm-devel@coconut-svsm.dev, coconut-svsm@lists.linux.dev
+Subject: Please update QEMU for SVSM development.
+Message-ID: <aBiI4LuIltqLLKGn@8bytes.org>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
@@ -45,13 +43,14 @@ List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aBDzsNz2hpkkA23c@8bytes.org>
 
-Meeting Minutes are now posted in this PR:
+Hey everyone,
+    
+just a heads-up that I merged the VirtIO PR from Oliver to the SVSM QEMU
+repository. I encourage everyone to update their QEMU as it will be
+needed to run the tests successfully when the VirtIO-BLK PR for SVSM is
+merged, which I plan to do in the next days.
 
-	https://github.com/coconut-svsm/governance/pull/55
-
-Have fun!
-
+Thanks,
 
 	Joerg
