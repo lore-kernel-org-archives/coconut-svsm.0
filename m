@@ -1,26 +1,25 @@
-Return-Path: <jlange@microsoft.com>
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazlp170100005.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:c111::5])
+Return-Path: <Huibo.Wang@amd.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on20614.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2412::614])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id D0CBA4A3EC
- for <svsm-devel@coconut-svsm.dev>; Tue,  6 May 2025 00:19:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
+ by mail.8bytes.org (Postfix) with ESMTPS id 337EA4A2EE
+ for <svsm-devel@coconut-svsm.dev>; Tue,  6 May 2025 00:31:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wlQsuPXRZTYkDOIl6trWVnGPyOgmINjWpwL6YNhQGIk=;
- b=MN/RO8zzqp0iJsrqCyxjr1yod3I6JCeMtB+waYxYTeZpxygp+uiw3sTRa/qQkucZrMBtsZMsO7fOECdphytXfYhw64pRZOvsWnP9cA2W1qj9G1+SelbuwiaeLSpJYR6tQDgKA7p32Gjrik5LjgKRAKSAGGv2TJe4xwy9LmGJe5E=
-From: Jon Lange <jlange@microsoft.com>
-Date: Mon, 5 May 2025 22:19:14 +0000
-Message-ID: <SA6PR21MB4303E5A246588F3CC3E6C288CA8E2@SA6PR21MB4303.namprd21.prod.outlook.com>
-References: <86219652-1174-4965-8aaa-11a05f2c1f46@amd.com>
-In-Reply-To: <86219652-1174-4965-8aaa-11a05f2c1f46@amd.com>
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ bh=BFunNJs8viqyKtJPrjM9kWP03Xq1v0jcnbQE0hxtNsI=;
+ b=1PeFvDLTuebnFJ/EGUSmT9xWJf1qbP+Igxk53CsR/OBatgftLTiVXERCymb1RotVjgJRJBE3jfEVTSdyyj1ChbXVGEaoMFGldz62d1Xa4Zq1JRC3B498QqYNz0U13m03YBXvBJRgLuSfVU8GRd/3Cp2AXdUG2jF4A427vFSqa4w=
+Message-ID: <b5b827f6-79f3-4012-be17-4317b0ed965d@amd.com>
+Date: Mon, 5 May 2025 15:31:41 -0700
 MIME-Version: 1.0
+References: <86219652-1174-4965-8aaa-11a05f2c1f46@amd.com>
+ <SA6PR21MB4303E5A246588F3CC3E6C288CA8E2@SA6PR21MB4303.namprd21.prod.outlook.com>
+Content-Language: en-US
+From: "Melody (Huibo) Wang" <huibo.wang@amd.com>
+In-Reply-To: <SA6PR21MB4303E5A246588F3CC3E6C288CA8E2@SA6PR21MB4303.namprd21.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 Subject: Re: [svsm-devel] [EXTERNAL] Extended Interrupt Information
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
@@ -30,60 +29,142 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: "Melody (Huibo) Wang" <huibo.wang@amd.com>
-Cc: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: Jon Lange <jlange@microsoft.com>
+Cc: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+Content-Type: text/plain; charset="utf-8"
 
-SSBiZWxpZXZlIHlvdXIgZGVmaW5pdGlvbnMgYXJlIGNvcnJlY3QuDQoNCi1Kb24NCg0KLS0tLS1P
-cmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IE1lbG9keSAoSHVpYm8pIFdhbmcgPGh1aWJvLndh
-bmdAYW1kLmNvbT4gDQpTZW50OiBTdW5kYXksIE1heSA0LCAyMDI1IDE6MjggUE0NClRvOiBKb24g
-TGFuZ2UgPGpsYW5nZUBtaWNyb3NvZnQuY29tPg0KQ2M6IExlbmRhY2t5LCBUaG9tYXMgPFRob21h
-cy5MZW5kYWNreUBhbWQuY29tPjsgSsO2cmcgUsO2ZGVsIDxqb3JvQDhieXRlcy5vcmc+OyBzdnNt
-LWRldmVsQGNvY29udXQtc3ZzbS5kZXYNClN1YmplY3Q6IFtFWFRFUk5BTF0gRXh0ZW5kZWQgSW50
-ZXJydXB0IEluZm9ybWF0aW9uDQoNCkhpIEpvbiwNCg0KSSBoYXZlIHdyaXR0ZW4gYSBzbWFsbCBD
-IHByb2dyYW0gdGhhdCBpbXBsZW1lbnRzIHRoZSBuZXcgI0hWIGRvb3JiZWxsIHBhZ2Ugd2l0aCBl
-eHRlbmRlZCBpbnRlcnJ1cHQgaW5mb3JtYXRpb24uIA0KDQpDb3VsZCB5b3UgcGxlYXNlIGNvbmZp
-cm0gdGhhdCBteSByZWFkaW5nIG9mIHRoZSBzcGVjIGlzIGNvcnJlY3QsIGVzcGVjaWFsbHkgZmll
-bGRzIGxheW91dCBhbmQgb3JkZXI/IA0KDQojaW5jbHVkZSA8ZXJybm8uaD4NCiNpbmNsdWRlIDxz
-dGRpby5oPg0KI2luY2x1ZGUgPHN0ZGxpYi5oPg0KI2luY2x1ZGUgPHN0cmluZy5oPg0KI2luY2x1
-ZGUgPGFzc2VydC5oPg0KDQojZGVmaW5lIFBBR0VfU0laRQkJNDA5Ng0KDQojZGVmaW5lIERJVl9S
-T1VORF9VUChuLGQpCSgoKG4pICsgKGQpIC0gMSkgLyAoZCkpDQoNCiNkZWZpbmUgQklUU19QRVJf
-VFlQRSh0eXBlKQkoc2l6ZW9mKHR5cGUpICogOCkNCiNkZWZpbmUgQklUU19UT19MT05HUyhucikJ
-RElWX1JPVU5EX1VQKG5yLCBCSVRTX1BFUl9UWVBFKGxvbmcpKQ0KDQojZGVmaW5lIERFQ0xBUkVf
-QklUTUFQKG5hbWUsYml0cykgXA0KCXVuc2lnbmVkIGxvbmcgbmFtZVtCSVRTX1RPX0xPTkdTKGJp
-dHMpXQ0KDQp0eXBlZGVmIHVuc2lnbmVkIGNoYXIgdTg7DQp0eXBlZGVmIHVuc2lnbmVkIHNob3J0
-IHUxNjsNCg0KLyoNCiAqIEh5cGVydmlzb3IgZG9vcmJlbGwgcGFnZToNCiAqDQogKiBVc2VkIHdo
-ZW4gcmVzdHJpY3RlZCBpbmplY3Rpb24gaXMgZW5hYmxlZCBmb3IgYSBWTS4gT25lIHBhZ2UgaW4g
-c2l6ZSB0aGF0DQogKiBpcyBzaGFyZWQgYmV0d2VlbiB0aGUgZ3Vlc3QgYW5kIGh5cGVydmlzb3Ig
-dG8gY29tbXVuaWNhdGUgZXhjZXB0aW9uIGFuZA0KICogaW50ZXJydXB0IGV2ZW50cy4NCiAqLw0K
-c3RydWN0IGV4dF9pcnFfZGVzYyB7DQoJLyogZmlyc3QgMTYtYml0IHdvcmQgKi8NCglzdHJ1Y3Qg
-ew0KCQl1MTYgc2lfdmVjdG9yOgkJOCwNCgkJICAgIG5taToJCTEsDQoJCSAgICBtY2U6CQkxLA0K
-CQkgICAgdHJpZ2dlcl9tb2RlOgkxLA0KCQkgICAgcmVzZXJ2ZWQxOgkJMywNCgkJICAgIG11bHRp
-X2ludGVycnVwdHM6CTEsDQoJCSAgICByZXNlcnZlZDI6CQkxOw0KCX0gd29yZDA7DQoNCgkvKiBT
-ZWNvbmQgMTYtYml0IHdvcmQgKi8NCglzdHJ1Y3Qgew0KCQl1MTYgcmVzZXJ2ZWQ1OgkJMTUsDQoJ
-CSAgICBpbnRlcnJ1cHRfdmVjdG9yOgkxOw0KCX0gd29yZDE7DQoNCgkvKg0KCSAqIFNldCB0aGUg
-Y29ycmVzcG9uZGluZyB2bXBsP19pcnEgYml0IGluIGlual9pbmZvIGFmdGVyIHNldHRpbmcNCgkg
-KiBtdWx0aXBsZSBiaXRzIGhlcmUuDQoJICovDQogICAgICAgIHUxNiBpbnRlcnJ1cHRfYml0X3Zl
-Y3RvclsxNF07DQoNCgkvKg0KCSAqIFJlc2VydmVkIGZvciBmdXR1cmUgdXNlLg0KCSAqIFRPRE86
-IENvZGUgc2hvdWxkIGNoZWNrIHRoZW0gYW5kIGZhaWwgaWYgc2V0Lg0KCSAqLw0KICAgICAgICB1
-OCByZXNlcnZlZDZbMzJdOw0KfSBfX2F0dHJpYnV0ZV9fKChwYWNrZWQpKTsNCg0Kc3RydWN0IGh2
-ZGIgew0KCS8qIGZpcnN0IDE2LWJpdCB3b3JkIFBlbmRpbmdFdmVudCAqLw0KCXN0cnVjdCB7DQoJ
-CS8qIE5vbi1tYXNrYWJsZSBldmVudCBpbmRpY2F0b3JzICovDQoJCXUxNiByZXNlcnZlZDE6ICAg
-ICAgICAgIDgsDQoJCW5taTogICAgICAgICAgICAgICAgICAgIDEsDQoJCW1jZTogICAgICAgICAg
-ICAgICAgICAgIDEsDQoJCXJlc2VydmVkMjogICAgICAgICAgICAgIDUsDQoJCW5vX2Z1cnRoZXJf
-c2lnbmFsOiAgICAgIDE7DQoJfSBwZW5kaW5nX2V2ZW50Ow0KDQoJLyogU2Vjb25kIDE2LWJpdCB3
-b3JkIEluamVjdGlvbkluZm8gKi8NCgl1bmlvbiB7DQoJCXN0cnVjdCB7DQoJCQl1MTYgbm9fZW9p
-X3JlcXVpcmVkOgkxLA0KCQkJICAgIHJlc2VydmVkMzoJCTcsDQoJCQkgICAgdm1wbDFfaXJxOgkJ
-MSwNCgkJCSAgICB2bXBsMl9pcnE6CQkxLA0KCQkJICAgIHZtcGwzX2lycToJCTEsDQoJCQkgICAg
-cmVzZXJ2ZWQ0OgkJNDsNCgkJfSBpbmpfaW5mbzsNCgkJdTE2IGluamVjdGlvbl9pbmZvOw0KCX07
-DQoNCgkvKiBJUlEgaW5mbyBhc3NvY2lhdGVkIHdpdGggdGhlIFNWU00gaXRzZWxmICovDQoJLyog
-WFhYOiBjb2RlIHNob3VsZCBlbmZvcmNlIGJ5dGVzIFszMi02M10gYXJlIHplcm8gKi8NCgl1OCBz
-dnNtX2lycV9pbmZvWzY0IC0gNF07DQoNCgkvKiBWTVBMWzEtM10gZXh0ZW5kZWQgSVJRIGRlc2Ny
-aXB0b3JzICovDQogICAgICAgIHN0cnVjdCBleHRfaXJxX2Rlc2MgaXJxc1szXTsNCg0KICAgICAg
-ICAvKiBSZW1haW5kZXIgb2YgdGhlIHBhZ2UgaXMgZm9yIHNvZnR3YXJlIHVzZSAqLw0KICAgICAg
-ICB1OCByZXNlcnZlZFtQQUdFX1NJWkUgLSAyNTZdOw0KfSBfX2F0dHJpYnV0ZV9fKChwYWNrZWQp
-KTsNCg0KaW50IG1haW4odm9pZCkNCnsNCglzdHJ1Y3QgaHZkYiBoID0geyB9Ow0KDQoJYXNzZXJ0
-KHNpemVvZihzdHJ1Y3QgZXh0X2lycV9kZXNjKSA9PSA2NCk7DQoNCglwcmludGYoInNpemVvZihz
-dHJ1Y3QgZXh0X2lycV9kZXNjKTogJXp1XG4iLCBzaXplb2Yoc3RydWN0IGV4dF9pcnFfZGVzYykp
-Ow0KDQoJaC5pbmpfaW5mby5ub19lb2lfcmVxdWlyZWQgPSAxOw0KCWguaW5qX2luZm8udm1wbDNf
-aXJxID0gMTsNCg0KCXByaW50ZigiaW5qZWN0aW9uX2luZm86IDB4JXhcbiIsIGguaW5qZWN0aW9u
-X2luZm8pOw0KDQoJcmV0dXJuIDA7DQp9DQoNCg0KVGhhbmtzLA0KTWVsb2R5DQo=
+Thanks for confirming, it helps. :)
+
+Thanks,
+Melody
+
+On 5/5/2025 3:19 PM, Jon Lange wrote:
+> I believe your definitions are correct.
+> 
+> -Jon
+> 
+> -----Original Message-----
+> From: Melody (Huibo) Wang <huibo.wang@amd.com> 
+> Sent: Sunday, May 4, 2025 1:28 PM
+> To: Jon Lange <jlange@microsoft.com>
+> Cc: Lendacky, Thomas <Thomas.Lendacky@amd.com>; Jörg Rödel <joro@8bytes.org>; svsm-devel@coconut-svsm.dev
+> Subject: [EXTERNAL] Extended Interrupt Information
+> 
+> Hi Jon,
+> 
+> I have written a small C program that implements the new #HV doorbell page with extended interrupt information. 
+> 
+> Could you please confirm that my reading of the spec is correct, especially fields layout and order? 
+> 
+> #include <errno.h>
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <string.h>
+> #include <assert.h>
+> 
+> #define PAGE_SIZE		4096
+> 
+> #define DIV_ROUND_UP(n,d)	(((n) + (d) - 1) / (d))
+> 
+> #define BITS_PER_TYPE(type)	(sizeof(type) * 8)
+> #define BITS_TO_LONGS(nr)	DIV_ROUND_UP(nr, BITS_PER_TYPE(long))
+> 
+> #define DECLARE_BITMAP(name,bits) \
+> 	unsigned long name[BITS_TO_LONGS(bits)]
+> 
+> typedef unsigned char u8;
+> typedef unsigned short u16;
+> 
+> /*
+>  * Hypervisor doorbell page:
+>  *
+>  * Used when restricted injection is enabled for a VM. One page in size that
+>  * is shared between the guest and hypervisor to communicate exception and
+>  * interrupt events.
+>  */
+> struct ext_irq_desc {
+> 	/* first 16-bit word */
+> 	struct {
+> 		u16 si_vector:		8,
+> 		    nmi:		1,
+> 		    mce:		1,
+> 		    trigger_mode:	1,
+> 		    reserved1:		3,
+> 		    multi_interrupts:	1,
+> 		    reserved2:		1;
+> 	} word0;
+> 
+> 	/* Second 16-bit word */
+> 	struct {
+> 		u16 reserved5:		15,
+> 		    interrupt_vector:	1;
+> 	} word1;
+> 
+> 	/*
+> 	 * Set the corresponding vmpl?_irq bit in inj_info after setting
+> 	 * multiple bits here.
+> 	 */
+>         u16 interrupt_bit_vector[14];
+> 
+> 	/*
+> 	 * Reserved for future use.
+> 	 * TODO: Code should check them and fail if set.
+> 	 */
+>         u8 reserved6[32];
+> } __attribute__((packed));
+> 
+> struct hvdb {
+> 	/* first 16-bit word PendingEvent */
+> 	struct {
+> 		/* Non-maskable event indicators */
+> 		u16 reserved1:          8,
+> 		nmi:                    1,
+> 		mce:                    1,
+> 		reserved2:              5,
+> 		no_further_signal:      1;
+> 	} pending_event;
+> 
+> 	/* Second 16-bit word InjectionInfo */
+> 	union {
+> 		struct {
+> 			u16 no_eoi_required:	1,
+> 			    reserved3:		7,
+> 			    vmpl1_irq:		1,
+> 			    vmpl2_irq:		1,
+> 			    vmpl3_irq:		1,
+> 			    reserved4:		4;
+> 		} inj_info;
+> 		u16 injection_info;
+> 	};
+> 
+> 	/* IRQ info associated with the SVSM itself */
+> 	/* XXX: code should enforce bytes [32-63] are zero */
+> 	u8 svsm_irq_info[64 - 4];
+> 
+> 	/* VMPL[1-3] extended IRQ descriptors */
+>         struct ext_irq_desc irqs[3];
+> 
+>         /* Remainder of the page is for software use */
+>         u8 reserved[PAGE_SIZE - 256];
+> } __attribute__((packed));
+> 
+> int main(void)
+> {
+> 	struct hvdb h = { };
+> 
+> 	assert(sizeof(struct ext_irq_desc) == 64);
+> 
+> 	printf("sizeof(struct ext_irq_desc): %zu\n", sizeof(struct ext_irq_desc));
+> 
+> 	h.inj_info.no_eoi_required = 1;
+> 	h.inj_info.vmpl3_irq = 1;
+> 
+> 	printf("injection_info: 0x%x\n", h.injection_info);
+> 
+> 	return 0;
+> }
+> 
+> 
+> Thanks,
+> Melody
+
