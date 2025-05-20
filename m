@@ -1,24 +1,28 @@
-Return-Path: <Huibo.Wang@amd.com>
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2060b.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2413::60b])
+Return-Path: <jlange@microsoft.com>
+Received: from CH4PR04CU002.outbound.protection.outlook.com
+ (mail-northcentralusazlp170130007.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:c105::7])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPS id E72554BC95
- for <svsm-devel@coconut-svsm.dev>; Tue, 20 May 2025 20:47:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ by mail.8bytes.org (Postfix) with ESMTPS id 724904BB49
+ for <svsm-devel@coconut-svsm.dev>; Tue, 20 May 2025 21:11:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CjjnR9zex4LsHPqJCHzmPGjx+s3cWCX0/wfeQD6Gqwg=;
- b=o5+O/OBI6DXZv8tzhsdHj2ZvUSoTtuiFWET7K5lQ/9rL8rdn/Ay+vO2ULeJR+i/m+4mEfNVXExPs9PGEdRzjH8lFUfnQVQNwC/iSkGEvH6hYw+mzdvngAByuanBU+xj9syl5w0q3GHSysJyYF5dctaD9uNstn86mREvmr3HbUHI=
-Message-ID: <8daff046-38d3-4d69-989c-1398a0d2d46f@amd.com>
-Date: Tue, 20 May 2025 11:47:36 -0700
-MIME-Version: 1.0
+ bh=YCio3lJ8DgAblcc39KQ1D9z3PHOLG1fyRh+pwyln+uc=;
+ b=eJ/FAQ3nDGTFgNiNJZirR9iTsgjiHUnfnRDwBfKWRR+uHwT3RaDQ1QfgvXAh0tvl2IQJH16/3thktHnf6Ax7BgzDRC61AQjAk4Gs0rSwJg0o+RZb1Ywkyzo+ip9V7OLJgcZdRgmyW8YtabUF7OGjCK8Y5gHSnES2N18oywXEUKw=
+From: Jon Lange <jlange@microsoft.com>
+Date: Tue, 20 May 2025 19:11:00 +0000
+Message-ID: <SA6PR21MB43030D5190101D8D81FDD33ECA9FA@SA6PR21MB4303.namprd21.prod.outlook.com>
+References: <8daff046-38d3-4d69-989c-1398a0d2d46f@amd.com>
+In-Reply-To: <8daff046-38d3-4d69-989c-1398a0d2d46f@amd.com>
 Content-Language: en-US
-From: "Melody (Huibo) Wang" <huibo.wang@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Subject: [svsm-devel] Questions about Alternate Injection and timers
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Subject: Re: [svsm-devel] [EXTERNAL] Questions about Alternate Injection and
+ timers
 List-Id: COCONUT-SVSM development list <svsm-devel.coconut-svsm.dev>
 List-Unsubscribe: <https://mail.8bytes.org/cgi-bin/mailman/options/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=unsubscribe>
@@ -27,37 +31,58 @@ List-Post: <mailto:svsm-devel@coconut-svsm.dev>
 List-Help: <mailto:svsm-devel-request@coconut-svsm.dev?subject=help>
 List-Subscribe: <https://mail.8bytes.org/cgi-bin/mailman/listinfo/svsm-devel>, 
  <mailto:svsm-devel-request@coconut-svsm.dev?subject=subscribe>
-To: Jon Lange <jlange@microsoft.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+To: "Melody (Huibo) Wang" <huibo.wang@amd.com>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
 
-Hi Jon,
-
-I have a few questions I would like to clarify with you.
-
-1. How do you envision the whole flow of injecting a timer interrupt into an
-   AI-enabled guest with a SVSM?
-
-   Qemu+KVM enables both the PIC and APIC by default and it tries to inject IRQ 0 as a timer
-   interrupt but the spec talks only about vectors 31-255 will be handled
-   by the SVSM What about 0-31 and 0 especially which is the PIC timer
-   interrupt line?
-
-2. In Coconut SVSM, we do not use "Injection Notification Vector" 0x50 to
-   differentiate this #HV is for SVSM or lower VMPL, instead the SVSM is
-   reading the extended interrupt information from the doorbell page
-   automatically. At least I don't see where in the code we use vector 0x50 to
-   do the differentiation.
-
-   I would imagine we should use this vector to see if we need to read the
-   doorbell page and after that we should clear this bit. We would need to
-   make sure that KVM and SVSM are "compatible" in the pending event field,
-   no?
-
-
-As always, thanks for the help!
-
-Melody
- 
-
- 
-
- 
+QVBJQyB0aW1lcnMgdXNlIHRoZSB0aW1lciBMVlQgZW50cnkgdG8gZGVmaW5lIHdoaWNoIGludGVy
+cnVwdCB2ZWN0b3Igc2hvdWxkIGJlIHNpZ25hbGVkIHdoZW4gYSB0aW1lciBpcyBkdWUuICBJdCBp
+cyB1cCB0byBzb2Z0d2FyZSB0byBkZWNpZGUgd2hpY2ggdmVjdG9yIHRvIHByb2dyYW0gaW50byB0
+aGUgdGltZXIgTFZULg0KDQpWZWN0b3JzIDAtMzEgYXJlIG5vdCBsZWdhbCBpbnRlcnJ1cHQgdmVj
+dG9ycy4gIFRoaXMgaXMgaW5oZXJlbnQgaW4gdGhlIHg4Ni94NjQgc3BlY2lmaWNhdGlvbi4gIFZl
+Y3RvciAwIGlzIHRoZSAjREUgZXhjZXB0aW9uIGFuZCBjYW5ub3QgYmUgYXNzb2NpYXRlZCB3aXRo
+IGFuIGludGVycnVwdC4gIEknbSBub3Qgd2VsbCB2ZXJzZWQgaW4gdGhlIGxlZ2FjeSBQSUMsIGJ1
+dCBJIHN1c3BlY3QgdGhhdCB0aGUgUElDIHVzZXMgaW50ZXJydXB0IHNvdXJjZSB6ZXJvLCBub3Qg
+dmVjdG9yIHplcm8sIHRvIGRlc2NyaWJlIGEgdGltZXIuICBUaGUgSU9BUElDIGlzIHN1cHBvc2Vk
+IHRvIHRyYW5zbGF0ZSBpbnRlcnJ1cHRzIHNvdXJjZXMgdG8gdmVjdG9yIG51bWJlcnMsIHNvIEkg
+ZXhwZWN0IHRoZSBJT0FQSUMgd291bGQgYmUgYWJsZSB0byBhc3NvY2lhdGUgdGhlIFBJQyB0aW1l
+ciB3aXRoIHdoYXRldmVyIHZlY3RvciBudW1iZXIgaXMgZGVzaXJlZCBieSBzb2Z0d2FyZS4NCg0K
+VGhlIHVzZSBvZiB2ZWN0b3IgMHg1MCAtIG9yIGFueSB2ZWN0b3IgaW4gdGhlIFNWU00gLSBhc3N1
+bWVzIHRoZSBhdmFpbGFiaWxpdHkgb2YgS1ZNIHBsYW5lcywgd2hpY2ggaXMgYSBmZWF0dXJlIHRo
+YXQgaXMgc3RpbGwgaW4gZGV2ZWxvcG1lbnQuICBPbmNlIEtWTSBwbGFuZXMgaGF2ZSBiZWVuIGlt
+cGxlbWVudGVkLCB0aGVuIGV2ZXJ5IFZNUEwgd2lsbCBoYXZlIGl0cyBvd24gdmVjdG9yIHNwYWNl
+LCBhbmQgdGhlIHVzZSBvZiB2ZWN0b3IgMHg1MCAob3IgYW55IG90aGVyIHZlY3Rvcikgd291bGQg
+bm90IGNvbGxpZGUgYWNyb3NzIFZNUExzLiAgVGhlIEFsdGVybmF0ZSBJbmplY3Rpb24gZGVzaWdu
+IHJlbGllcyBvbiB0aGUgYXZhaWxhYmlsaXR5IG9mIHN1Y2ggYSBmZWF0dXJlLCBiZWNhdXNlIHRo
+ZSBTVlNNIG11c3QgYmUgYWJsZSB0byBzaWduYWwgaXRzZWxmIGluIG9yZGVyIHRvIGNvbXBsZXRl
+IGludGVycnVwdCBpbmplY3Rpb24sIGFuZCB3aXRob3V0IHBsYW5lcywgdGhpcyBpcyBpbXBvc3Np
+YmxlLg0KDQpUaGUgY2hvaWNlIG9mIDB4NTAgd2FzIGFyYml0cmFyeSwgYW5kIHdhcyBjaG9zZW4g
+YmVmb3JlIGdlbmVyaWMgSVBJIHN1cHBvcnQgd2FzIGltcGxlbWVudGVkIGluIHRoZSBTVlNNLiAg
+V2UgY291bGQgaGF2ZSBkZWNpZGVkIHRoYXQgY3Jvc3MtcHJvY2Vzc29yIEFsdGVybmF0ZSBJbmpl
+Y3Rpb24gY291bGQgYmUgYWNjb21wbGlzaGVkIHRocm91Z2ggdGhlIHVzZSBvZiBnZW5lcmljIElQ
+SXMuICBIb3dldmVyLCBnZW5lcmljIElQSXMgYWxzbyByZWx5IG9uIHBsYW5lcyB0byBnaXZlIHRo
+ZSBTVlNNIHRoZSBhYmlsaXR5IHRvIHNpZ25hbCBpdHNlbGYuICBJJ20gYWZyYWlkIHRoYXQgeW91
+J3JlIGdvaW5nIHRvIGhhdmUgdG8gd2FpdCBmb3IgcGxhbmVzIHRvIGJlIHJlYWR5IGJlZm9yZSBt
+YWtpbmcgZnVydGhlciBwcm9ncmVzcyBvbiB0b3Agb2YgS1ZNLg0KDQotSm9uDQoNCi0tLS0tT3Jp
+Z2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBNZWxvZHkgKEh1aWJvKSBXYW5nIDxodWliby53YW5n
+QGFtZC5jb20+IA0KU2VudDogVHVlc2RheSwgTWF5IDIwLCAyMDI1IDExOjQ4IEFNDQpUbzogSm9u
+IExhbmdlIDxqbGFuZ2VAbWljcm9zb2Z0LmNvbT47IHN2c20tZGV2ZWxAY29jb251dC1zdnNtLmRl
+dg0KQ2M6IExlbmRhY2t5LCBUaG9tYXMgPFRob21hcy5MZW5kYWNreUBhbWQuY29tPg0KU3ViamVj
+dDogW0VYVEVSTkFMXSBRdWVzdGlvbnMgYWJvdXQgQWx0ZXJuYXRlIEluamVjdGlvbiBhbmQgdGlt
+ZXJzDQoNCkhpIEpvbiwNCg0KSSBoYXZlIGEgZmV3IHF1ZXN0aW9ucyBJIHdvdWxkIGxpa2UgdG8g
+Y2xhcmlmeSB3aXRoIHlvdS4NCg0KMS4gSG93IGRvIHlvdSBlbnZpc2lvbiB0aGUgd2hvbGUgZmxv
+dyBvZiBpbmplY3RpbmcgYSB0aW1lciBpbnRlcnJ1cHQgaW50byBhbg0KICAgQUktZW5hYmxlZCBn
+dWVzdCB3aXRoIGEgU1ZTTT8NCg0KICAgUWVtdStLVk0gZW5hYmxlcyBib3RoIHRoZSBQSUMgYW5k
+IEFQSUMgYnkgZGVmYXVsdCBhbmQgaXQgdHJpZXMgdG8gaW5qZWN0IElSUSAwIGFzIGEgdGltZXIN
+CiAgIGludGVycnVwdCBidXQgdGhlIHNwZWMgdGFsa3Mgb25seSBhYm91dCB2ZWN0b3JzIDMxLTI1
+NSB3aWxsIGJlIGhhbmRsZWQNCiAgIGJ5IHRoZSBTVlNNIFdoYXQgYWJvdXQgMC0zMSBhbmQgMCBl
+c3BlY2lhbGx5IHdoaWNoIGlzIHRoZSBQSUMgdGltZXINCiAgIGludGVycnVwdCBsaW5lPw0KDQoy
+LiBJbiBDb2NvbnV0IFNWU00sIHdlIGRvIG5vdCB1c2UgIkluamVjdGlvbiBOb3RpZmljYXRpb24g
+VmVjdG9yIiAweDUwIHRvDQogICBkaWZmZXJlbnRpYXRlIHRoaXMgI0hWIGlzIGZvciBTVlNNIG9y
+IGxvd2VyIFZNUEwsIGluc3RlYWQgdGhlIFNWU00gaXMNCiAgIHJlYWRpbmcgdGhlIGV4dGVuZGVk
+IGludGVycnVwdCBpbmZvcm1hdGlvbiBmcm9tIHRoZSBkb29yYmVsbCBwYWdlDQogICBhdXRvbWF0
+aWNhbGx5LiBBdCBsZWFzdCBJIGRvbid0IHNlZSB3aGVyZSBpbiB0aGUgY29kZSB3ZSB1c2UgdmVj
+dG9yIDB4NTAgdG8NCiAgIGRvIHRoZSBkaWZmZXJlbnRpYXRpb24uDQoNCiAgIEkgd291bGQgaW1h
+Z2luZSB3ZSBzaG91bGQgdXNlIHRoaXMgdmVjdG9yIHRvIHNlZSBpZiB3ZSBuZWVkIHRvIHJlYWQg
+dGhlDQogICBkb29yYmVsbCBwYWdlIGFuZCBhZnRlciB0aGF0IHdlIHNob3VsZCBjbGVhciB0aGlz
+IGJpdC4gV2Ugd291bGQgbmVlZCB0bw0KICAgbWFrZSBzdXJlIHRoYXQgS1ZNIGFuZCBTVlNNIGFy
+ZSAiY29tcGF0aWJsZSIgaW4gdGhlIHBlbmRpbmcgZXZlbnQgZmllbGQsDQogICBubz8NCg0KDQpB
+cyBhbHdheXMsIHRoYW5rcyBmb3IgdGhlIGhlbHAhDQoNCk1lbG9keQ0KIA0KDQogDQoNCiANCg==
