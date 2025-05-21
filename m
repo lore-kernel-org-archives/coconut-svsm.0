@@ -1,161 +1,121 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11022117.outbound.protection.outlook.com [40.93.195.117])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3673253F3B
-	for <coconut-svsm@lists.linux.dev>; Tue, 20 May 2025 16:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.117
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747759082; cv=fail; b=ZH7Sj1yFI4O52aI7yy/PRCfUaglSuGpXg4hzSDYAKUbniqfkKnPTluYJBKxgkC298z7asCunA1ON9v8JgPtMKeRr9RvBbRQ1TDqmjhtSc4yEjBRXtmIkmhHpVt/15YT112JNioNFNFEkixJx5hxKjo+6/MafqJKOXjCTF7yTUHU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747759082; c=relaxed/simple;
-	bh=4ow47A5/MwruZ2m8ZGxcLmEkuzblVWITcN6MghHxkaU=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=EjllOccZvqv9qlx0xpyo1YhbKskkP+y5sKZgukydZ/z7et/tWSqSiXkRll+5P//wrl/JjhHX17LZouSqYQ91dF7JGKpAaZulqRNOXO/knNsbA1IO+3h/XKQLU0ugdybHkOyaOO+5hRpMcV4BC5j3UVI/tlf7qlznFV1WLLm/9Cg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=EJVSgPml; arc=fail smtp.client-ip=40.93.195.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322B725E80B
+	for <coconut-svsm@lists.linux.dev>; Wed, 21 May 2025 11:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747826451; cv=none; b=hRLW7Qc3y5C0EPuq3kohuxTuH8a+3puW25d04EBMnYyE1m06aMjHH5+gHo6hrypJLqoj/cD8jJKxO14Fhz8Qmgs/cuYa3artJyRGOuPfNHGH1LHO/lrvqb4uYFtyBj4c9d2XJpJ+E3mEn9ZVomAk2oLjVkGFLRtwRcqqQZ/qK+4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747826451; c=relaxed/simple;
+	bh=W7TpvmK+2HwnDH/AkfjLdJcINyr/tZu/3xjeN2qjT5g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=s1cn+nT/lpb74lzzMYrWaGrDBPAYTU6FOJfUR0o6Q+7Rs1FV7K/rt8lX8JK95i1BnEqH6g1+4mCBnrpRCdLAgxZ2hQ4rLmZF3TMDqx2mWCYZnwwUvIlHwHU6o6o5Nax05fQLVrsW++7360QCK9/CWnk7PrkBWF7X/7LrOAKY0H0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DUcm0DZQ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="EJVSgPml"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wH3O70X+7MYp/2Wwq/b+R6dvcvpmbyFUUJtf+L4mBJzbOpQ7Lqzya6ZZUlvjMzGNKCyp6lVQTqlSHoCVXhKSkA9mC1mk9IyIGBX08fWMEM4m4nBZw0rNLeeJi1JZGzNJe1CtySvfGbFLfjWWyii3+OrEkJdKiT7J3K0tAAMgC3EUp+Ajf/MphyrKIWS6m/Vs4di1l72jrguTa+ilFhDc8hzw0Jp0n3HaEdxHH33RA+yO9Dl5L2RhOkBwT4HFn26bLwJRLzU62zsFUpQ94nwIqMzoJTmbvpTsxfTBSx/R2b2hBKa4fXCWKm2R8e+XX8jtIqM3GkBBwWqtnziasiAwOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lfVfwwqQnjBoPJEurlTMZeq+2r0ZRQdCtf7YCSlr/NE=;
- b=mkGfjHE1GHIoRa+B4nMfkakY+1evtPx3bjLjCHaZqxeYwv6Qpzd2DMm1GvOmBUBGduaoaDZLNzhydmkIAD0pdzqrntHxUKICjdLlCEnLIg/e7ia/hlsJGpoycK93qtObxDN6cQvV5S+H2CVgaLCAu5fxDyEokOxN3RgJUZRqvuBRQvXY6ly6favb5OIVP16IhciXvcSEiaHeP4w970CYf1eBPsj0NeHkrNpKf7nwF7j8JEdxb8P988L4tUaQsA/OUJdh4l4eYnoHXyYI5IDhkX1vi5QjI19anEAAjgzgi0oxSR68RUlMo/ovPweM0UcCcBg7eiMwkpmxiWbTvVUw1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lfVfwwqQnjBoPJEurlTMZeq+2r0ZRQdCtf7YCSlr/NE=;
- b=EJVSgPml6OP+mRJKERuyVPQr+t6ongdFgpMjgU6Szxfrig6TN7RI4v5Ic5DpSlL97dDCxHT+YLDJTjZoUmESZ4ACipLUsrDVhnq6JVUdgyRKkAipfXGCnRkGZq9fcF+8OkQE2aUr9HqV6FcfS0sgVSOMjLfxju2+nslMydX/0xs=
-Received: from SA6PR21MB4303.namprd21.prod.outlook.com (2603:10b6:806:419::17)
- by SA1PR21MB4000.namprd21.prod.outlook.com (2603:10b6:806:379::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.19; Tue, 20 May
- 2025 16:37:57 +0000
-Received: from SA6PR21MB4303.namprd21.prod.outlook.com
- ([fe80::e19b:11d0:630d:d6fc]) by SA6PR21MB4303.namprd21.prod.outlook.com
- ([fe80::e19b:11d0:630d:d6fc%6]) with mapi id 15.20.8769.016; Tue, 20 May 2025
- 16:37:56 +0000
-From: Jon Lange <jlange@microsoft.com>
-To: "coconut-svsm@lists.linux.dev" <coconut-svsm@lists.linux.dev>
-Subject: SVSM Development Call Mar 21, 2025
-Thread-Topic: SVSM Development Call Mar 21, 2025
-Thread-Index: AdvJpWPUydwjFKpoS9qzML0cXTMlug==
-Date: Tue, 20 May 2025 16:37:52 +0000
-Message-ID:
- <SA6PR21MB4303E6F5DCCE81434A10304DCA9FA@SA6PR21MB4303.namprd21.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=c2a4e911-b9aa-468c-8929-f8208a46861b;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2025-05-20T16:36:29Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA6PR21MB4303:EE_|SA1PR21MB4000:EE_
-x-ms-office365-filtering-correlation-id: 02f8a731-ed9a-463a-27df-08dd97bcacfb
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|10070799003|366016|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?6LviROYKpTI7TrZHNLu3G1FQ1ILpbd0V9SeXG686k1leA3K1B5D/c+vt01ce?=
- =?us-ascii?Q?Updjh7IndD9P4sR1IfYPw4wBxEmAX8V6ceAetQJEAiqSYAzxNAMA9iyscnfz?=
- =?us-ascii?Q?OSeJhRm44tBGwjIUEWVLXPlKGpW0NhkH2PQ+Hy2GNAh6UH0RrzhS3NlZdbxf?=
- =?us-ascii?Q?g9k0W7r54fPEdRmlIxcAqAu5cOBuupiz42AmppWia3uQQ6Iq2l6n/PqMVMYY?=
- =?us-ascii?Q?tJZHJJftXgfTNiQJVOgeBZADlQS8kkjzzv5qZS9O0ejpIPrObmPq0JzT7tax?=
- =?us-ascii?Q?vRptJHyzcq0OxsyEUzBX/jj5tzzMrsA+wMKBDs4TcsyWGMvX0NuyqhV28+H+?=
- =?us-ascii?Q?AXwKnfUvulZLevnvnsSyTZcMFb3fgjfQePYocFwJvdWdFi3uvCbf2su/9H7n?=
- =?us-ascii?Q?Z4yojG4KKUz1IMlC+ul9BMHRvSeyQ3UWrEzdOth8yHW6eQ8HfB2oUwXU4ikz?=
- =?us-ascii?Q?/0tbQxdJ2d5FlLFu/sLM6WAjKkq+e7ep3Z+N8hS1LklwwSm/ujCcPig9759C?=
- =?us-ascii?Q?C4JT3J5vmqqkuQaw4VHljJAb38Igc85EZKNTlIwy+5r71TW/MqnzJriZ15sf?=
- =?us-ascii?Q?4PJANWfYMfAWS2OwL5HfZhQ0uXpfWBDulpzFKzAaN+m9WUcx9VN9R1BCRvxf?=
- =?us-ascii?Q?H1weLFG3+bUwGf5nflbwj1ZVJwj19D3nGLu4jWmVZ9CwINuNEx4R0aOJR9vt?=
- =?us-ascii?Q?WsHue2yDE/W6ldaT6ZXbNueHq74mxhzct9H6r2wCcLIqQ/vP1tVP1DlXL8od?=
- =?us-ascii?Q?wsJUvvlMVuYAZAuqqe5Un3rFe28BFjZ9lFNIprfdSLIC1N2XqADH6+9Mm/DE?=
- =?us-ascii?Q?hRMqbVdMh4V0lM/vvq5xfwRmGGe/A0bC4SIonRtFdASGRh8+lDemctPHHkGw?=
- =?us-ascii?Q?wqD8kh/xpd/xrAC6o0DpWZX3X84bnAH4zMfZlFyiZ34Pv1brgIOGWZA9K0EB?=
- =?us-ascii?Q?6C3sGHjSrB1ooMulsVla5Oa16OYLgQIxJX1etYw/vn6rLyVvp3t6QVGcMPJY?=
- =?us-ascii?Q?sWr4BUzCLkfV1ri3nHn75SmkN1q5nL1PJxsfU6Pl3WJYBL8qlXyA9apQ/INI?=
- =?us-ascii?Q?WspCKCFgAN6Vf0Ri2Y4lBPlnlBwbBuOhxMbdshlagxF77gxhXM6vqc2EksPx?=
- =?us-ascii?Q?KK+9vQhLiUx9vzT1rDMuxNx1Iilvxqgm25Gk8mqRGwKQ7Zt9nckgFR8awTo3?=
- =?us-ascii?Q?C01Z4aN0tMWT7exPpoZ3EGWxMdlsIUqeKZExx7AxIAG3ErHLX1qI12uRCtAn?=
- =?us-ascii?Q?SceY/zc/WD8uz4RnoltmbtDwmoezWWbKfesC9+Qa4PElN+FW1OuwRS811hHZ?=
- =?us-ascii?Q?QzuukNcDgkXqNsW3VNAyUw0ApRg5t7cgL263uHs2+XXuy/iFEWRa05JQCpEJ?=
- =?us-ascii?Q?W4uVUEy4HlBEaAFXRK1Q0LZjvt66JEN2WGaKmQOGB26QbFVTco6il2jLbT0o?=
- =?us-ascii?Q?jpX0pWEqz48=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA6PR21MB4303.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(366016)(376014)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?E1/oDtmwnbxsUHr+9vVTVgNNCECicR/NS+W4l7UFNTcfS9iaCqepy/j9FDvX?=
- =?us-ascii?Q?IDEcK+oCWV8gPWOnDMiUUDrJkjmmH/AhGe2n6PAZHqDH/ErsJOdmsDFOObHd?=
- =?us-ascii?Q?k/+sJ0HI0m9EExAcBRbzAvMHXX9z7kUQAjEyDlVs+pxRI9tCWLUqnVrlKXUE?=
- =?us-ascii?Q?9iXmn+gfG1GOvdZoYsF1iwFtWwNd4di6ap0F37AudI21uQsMsXWLWyU54yig?=
- =?us-ascii?Q?KtKzVyUxewJDXrhzLCJQp/wXH02ZBXqcXRcQQLssbvmhDu10i/pRlKKCp2/7?=
- =?us-ascii?Q?4d9ynw88a+3I9ndSmG80sp75m+9KCiDIzAocuLMVUa+yTsl9Sv/LijjZ+d3H?=
- =?us-ascii?Q?gGSc5VWEDyMERsUsSMiAjR7iOPOlMw3V9afTsu1buDAMW3vZ4SoP2mbPYdT2?=
- =?us-ascii?Q?GxI3fu/5nKy2Nb6Lhd5xi5ZlxVwFSFQ/dyQgMEnla2sygEYo/ezWvcrN8tNj?=
- =?us-ascii?Q?XfiuYe22M5Jf5V/ijwBqcogXHSQAa8uoAsWTXaqgmUpBv9Ph7GMghBf5UAQF?=
- =?us-ascii?Q?YMTSUHSLYi2giNCpZg9OBpFQ0H3kDkH3VBF2XeOnKHQGcakyHnKoZBt5y/5m?=
- =?us-ascii?Q?6lOYmi8fkJ2duj+8HPVkh7phwLssommFwBZ4o03kguHxfq7DzBOkolsyjCfH?=
- =?us-ascii?Q?EX4ZKdqW4goRUqNor1BM0HSnDx6Al2ZMnvieo2yzTffFypG4elJlLky4nB2Q?=
- =?us-ascii?Q?elr6dPKjEQkNOELdNNhn7j5a8d5Gto4FtS3D5E85buUorOs+pKuTGbaRkUfu?=
- =?us-ascii?Q?s5Xejh8+5IE+S3+VQn7eVCpBDRYtA/tqxH8BzXyfrq7YQmi68sdj5zTgV80g?=
- =?us-ascii?Q?kKoIO07MAoRrTMYkjahC6KNZnTidBFv1QOSq4CATDU5dRCC0a1gXkpTfQhx5?=
- =?us-ascii?Q?tdB/e/WMvu6KzT0G8rJtMf4xSbX2byr2AzHRoS6rwoOqCAgL2/1o+3arpnd0?=
- =?us-ascii?Q?AuQ+SmE68pasTV5bS8/+fCMEp3VvBHcGhKV7BTd8K7fpGmZu0NqjSZ5wlgpj?=
- =?us-ascii?Q?LRt/BPdwPXPZ0tW2qen0pF/heuHwm+bfgWaRzC3X3wNsL8VhqEGNvHeC3aG3?=
- =?us-ascii?Q?hmFRXboZaWbpH1J3vP3NYFFZ98gGreF+qgnkxaNFXHRRTLVOr4n1tFOeZg/P?=
- =?us-ascii?Q?F2QhUbgixTrJr/ixkANZJM4B4khA+2WzEUyT9YpjPZT+R7Y3GeovJ8wR6qWi?=
- =?us-ascii?Q?V0yoD1nLNo58zLboQjv0LomiBGnCdtxJR5rfJ58ayolgwTq9zKEcZQa+LBOI?=
- =?us-ascii?Q?pBnhz8uWCbOL/LxO/kYFTUCZy4B+wCoSVVrAUGqAImKiusIK0oncWvGSb1D5?=
- =?us-ascii?Q?kT6DUwWPAaTxBgrqGBes3E0Wfe2uKXyzvAb6AaFq/f/ubkDnbnN7OHGWV+XF?=
- =?us-ascii?Q?lFOxqlkJPzWBjW4928ID0Tl5kNDu1wR4jPpFDALgE4djjEFoX2HVdMBAMQxK?=
- =?us-ascii?Q?nXxn6215w2KW+D7PmZqxBOv7pY1Q2HJdUiNyhfH/WEB/ygGfzwzhaBCsH8GJ?=
- =?us-ascii?Q?oA9b/u1ONfKns1LcRMhGZaAnYNeZjU1IgEdNzun6mcttOeFryo/LWyOgckSr?=
- =?us-ascii?Q?k7enhigzlPD97Rx4DZ8ITUF9TgpG96AbbvUi7m835nDN8jg8aKIIHR371hWM?=
- =?us-ascii?Q?hhT338Sr76wAp+4TTYJI7z9e3aVlTjUpjbIKffzhXM7Z?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DUcm0DZQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1747826448;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=229vULuJALbDpLei3s+IiBCr6Oqk48WUwtLhMSTgF9E=;
+	b=DUcm0DZQRXfSIyYs7n0ucYCZzoLHw8rEeEGEPIiR5hoVWX9495Dfe5sg83l+guQGkTxhos
+	wJbOjD7W6ltMeh0I8byENc46p2+p+1ycTOW+gN50NGlE3W9YZZwkOC3X26ctq/TETN67zZ
+	nHgKewsDq+Xr335vVyg4wBM1V7TuXAg=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-526-R7QpCujgMLGccDaKVIQd3w-1; Wed,
+ 21 May 2025 07:20:44 -0400
+X-MC-Unique: R7QpCujgMLGccDaKVIQd3w-1
+X-Mimecast-MFC-AGG-ID: R7QpCujgMLGccDaKVIQd3w_1747826443
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1A31D180045C;
+	Wed, 21 May 2025 11:20:43 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.44.32.155])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8F04919560A3;
+	Wed, 21 May 2025 11:20:42 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+	id D7C0C180039F; Wed, 21 May 2025 13:20:39 +0200 (CEST)
+Date: Wed, 21 May 2025 13:20:39 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Jon Lange <jlange@microsoft.com>
+Cc: Adam Dunlap <acdunlap@google.com>, 
+	"coconut-svsm@lists.linux.dev" <coconut-svsm@lists.linux.dev>, "svsm-devel@coconut-svsm.dev" <svsm-devel@coconut-svsm.dev>
+Subject: Re: [EXTERNAL] Re: [svsm-devel] EDK2 CAA Page Fragmented Allocation
+Message-ID: <3molncndmeeajso7cuyhx3cmt36wsx3lvsqurch54htvf7ngal@6e67qqyfbtk6>
+References: <CAMBK9=YfWzsXqhav8d8-cLtn6RKLBKY4PN2FCHwjCci1Mi-fhQ@mail.gmail.com>
+ <ifj4skreud33emq6apcrmp6s4na5nmwsncrxkozaicg4xih6il@5kqf6yjt3tsy>
+ <SA6PR21MB430341F8085E6F0B004B865BCA9CA@SA6PR21MB4303.namprd21.prod.outlook.com>
+ <nnijlaq5y6a5fvydo4vohgjefci63puwckhcrtgi5yec3tmbql@xjuuvnjyypqi>
+ <SA6PR21MB4303A1AE51FDC2CC8A83A779CA9FA@SA6PR21MB4303.namprd21.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA6PR21MB4303.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02f8a731-ed9a-463a-27df-08dd97bcacfb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 May 2025 16:37:52.2557
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WkPwZ5KOv6H99SORmMd/i3kycYDSPTT4gYxHcQ14m/whu3k/IeeJlkHjPAaFJ1+4Zj7lnq1v5/JcLjycTuwNdQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR21MB4000
+In-Reply-To: <SA6PR21MB4303A1AE51FDC2CC8A83A779CA9FA@SA6PR21MB4303.namprd21.prod.outlook.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: mGqdu5_eEVdmwMbxA7G3U5YrUXvdYoIteSHyyMrWphI_1747826443
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Here is the usual call for agenda items for this week's SVSM development ca=
-ll.  Please send me any agenda items you have in mind or raise them in the =
-meeting.
+On Tue, May 20, 2025 at 04:17:26PM +0000, Jon Lange wrote:
+> The error you are seeing indicates that the page being read has not
+> been PVALIDATEd.  Unfortunately, the #VC exception won't tell you
+> which GPA is failing, so you'll have to do some debugging to figure
+> out which access is causing a problem.  Because the exception occurs
+> on a MOVS instruction, you can't even be sure whether the page
+> validation error is occurring on the source address or the destination
+> address, though it's rather unlikely that the validation error is
+> occurring on a page owned by the SVSM itself.
 
-I have only one agenda item, which is to discuss any open PRs or issues tha=
-t anyone feels need to be addressed within the next two weeks.  I do not ha=
-ve a specific list of PRs or issues to discuss, but if you send me specific=
-s in email or raise them in the meeting, then we will be sure to discuss th=
-em.
+It's the source address.  Patched in a few dummy mov instructions
+before movs to see whenever rdi or rsi access faults.
 
-Details of the meeting can be found in our governance repository:
-https://github.com/coconut-svsm/governance
+Address is the CAA page.  Owned by the linux kernel.  svsm maps it at
+0xffffff0000002000 aka SVSM_PERCPU_CAA_BASE
 
-The link to the COCONUT-SVSM calendar is:
-https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=3D=
-week
+> I cannot guess why the GPA is not validated in this case.  The calling
+> area address is established by the SVSM when the CPU is created, so
+> this specific SVSM call cannot be specifying a bad address (because it
+> is not specifying an address at all) - unless this SVSM call is the
+> REMAP_CAA call.
 
--Jon
+Linux remaps the CAA twice via REMAP_CAA, but this 404 fault happens
+long after the remap completed.
+
+> I don't know whether it's possible that Linux is issuing a PVALIDATE
+> request to the SVSM (remember that all PVALIDATE operations must be
+> performed by the SVSM) to revoke page validation on this page.
+
+Linux flips an page range to SHARED state, most likely for IO bounce
+buffers.  The CAA page is not included in that page range.
+
+The linux kernel can do svsm protocols just fine, only when uefi runtime
+does the same thing with the same physical CAA page things break.
+
+> I also don't know whether it's possible that the specific flow you're
+> looking at involves the VMM deciding to remove the physical page
+> associated with the CAA's GPA and to replace it later - this would
+> result in a non-validated page being present in the address space.
+
+There is no trace of any explicit PVALIDATE calls.  So I'm wondering
+what conditions might cause the VMM do actions like that?
+
+One possibly relevant detail is that the linux kernel and the uefi
+runtime use different mappings and different virtual addresses to
+access the caa page.
+
+thanks & take care,
+  Gerd
+
