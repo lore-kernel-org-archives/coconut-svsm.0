@@ -1,166 +1,93 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D53241670
-	for <coconut-svsm@lists.linux.dev>; Tue, 27 May 2025 14:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A4E27A45D
+	for <coconut-svsm@lists.linux.dev>; Tue, 27 May 2025 15:49:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748356560; cv=none; b=CKjFt8bdR6QOQZo34Xlbz5ySy76A9sK+sTnecr4OkVjAzBz1pQGfBQo4lDjoOuRnUu6RO8/8eQpZX4xShqviCb+8la5+sBfrFT/RsEex/ER4yAzi598DupJAuwZhx1P2hPuIz8kIjZ9os1gn2wn4wiHluBSNC748DUPbzcgCsGw=
+	t=1748360993; cv=none; b=ZE68XZiZmfKPbNHzbAkhy06OdXxjr/9ufjhGUAro8MAQ0HvU1gNXwfYFucw+7icOskZqyjMl7qXJjyaW/Mq84I7n2Gxk+miFrGIygilledRWS82I0TJyqNlQqAS7eAeypfxu2YnPq9GdWrsY2YEqdBywj7DqPIE7Pz9Trbc0Ykk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748356560; c=relaxed/simple;
-	bh=i7qGULmVcX3ErU2slnsBd+xiTRCRyd1S8najDtWRyho=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nZZWEo5OfOMfMDu0NDcIUopgNibqSWJfDdhNzypoUzKBFf/ms6jkFZPglEENceItkVVkDhSBR4GApnsglcqK4hybTFQbDQmy4nBo0eDVTkct+bKGBBVUukqSOYtInfVaCw+LWVrp8Vma7e3NCJ8bGxgTrAPyKH8e/H8P4dy1sx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KioEiPqG; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1748360993; c=relaxed/simple;
+	bh=yShCBBLRkIFxQZxNmJvNsxRiK/3/0s0yLPvxyo8IwfM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=b16S5LML8oess2HSbcl9j1l9gOxqcSUdSgoUKRsI1js5lcNAhh5Ke56jppzDe2MqSauUOTIEUsQTjrxLWWKR5ug0ISH3lLe90Kq5nBmAqOWJOHK0yufi1X4RN7lzCMlIRXbdWyvnG/gM852kytksI0jbhlfYnupN41L2La1tJeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LKKFWsg+; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KioEiPqG"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LKKFWsg+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1748356556;
+	s=mimecast20190719; t=1748360987;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=BLcn068ghTSUGpYTCtJbNdOw0C2E0jiNYrNYtTLlS00=;
-	b=KioEiPqG6wlmtcLO+02AfW3JNaS2nRPXursHu2DRptL9p9PeJKy46dUM/8hWTVgYX7/cVy
-	jymI9QMTwxCOrKqV8EcA7cOq4j96akvG15qnw62JCV9jAQztC8ochjbNI+UZajmrId+ST0
-	hq0psGu11cHuWdIWXnPkWCb8+DIw16I=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-629-vUuvCHL-NAielU76kqjtDA-1; Tue,
- 27 May 2025 10:35:54 -0400
-X-MC-Unique: vUuvCHL-NAielU76kqjtDA-1
-X-Mimecast-MFC-AGG-ID: vUuvCHL-NAielU76kqjtDA_1748356553
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3611419560B5
-	for <coconut-svsm@lists.linux.dev>; Tue, 27 May 2025 14:35:53 +0000 (UTC)
-Received: from dobby.home.kraxel.org (unknown [10.45.226.108])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D6F7819560AB
-	for <coconut-svsm@lists.linux.dev>; Tue, 27 May 2025 14:35:52 +0000 (UTC)
-Received: by dobby.home.kraxel.org (Postfix, from userid 1000)
-	id 2383844FBA2; Tue, 27 May 2025 16:35:50 +0200 (CEST)
-Date: Tue, 27 May 2025 16:35:50 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: coconut-svsm@lists.linux.dev
-Subject: uefi mm protocol draft
-Message-ID: <36kigg632bsfruhx2cuxca3wzhygxc5x6wenzkxy4xe3txgsyi@lb7lb4xvikgs>
+	bh=WZGOJLeYIZIuNyXycDHmcBhHNeauZyZzpVAciy5BvY0=;
+	b=LKKFWsg+HgqIZubhbEMrXrvrhdJVocM//MOJ7oED7Mfd9NyOonvx0hpjrWQOPsG1L3nPUn
+	GA//NFS9nWtdHlZmCEhGRg3s4/wJW/XzTIOcnX3cvESCO8HhWpiGfw1bdjrHln5Ap5C1Cq
+	Y96dUX3FxGVTwW1gdXCSUiqQD4Qv8yg=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-607-GpdEgmXaOmyCbEQNwy0z9w-1; Tue, 27 May 2025 11:49:44 -0400
+X-MC-Unique: GpdEgmXaOmyCbEQNwy0z9w-1
+X-Mimecast-MFC-AGG-ID: GpdEgmXaOmyCbEQNwy0z9w_1748360984
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-70e620999a5so25780607b3.1
+        for <coconut-svsm@lists.linux.dev>; Tue, 27 May 2025 08:49:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748360984; x=1748965784;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WZGOJLeYIZIuNyXycDHmcBhHNeauZyZzpVAciy5BvY0=;
+        b=nBH4pc9dFuBXkKJ1RQAEJS9/OeA0ICCQEIIpaHVb+DtS6HGW+CApyL/phrEPH8PO7l
+         cwxYoUMF6Mw/eW7ZBUzhGtKrLlYOvr103B3Q7O3HAjSjYZdDwf1UHeT2iJpyMM25+oNu
+         a8XZ8wV4f3ctY2NvvYAzwZscCqrkVSZkTivVjGZBEwyht1QSfsKEZ9OYIkRbCC172ti3
+         PbxusTlXti562r2/F7FTE3r2BKliZMzlEQoqBQ0rxKyonv+UeK1g33fBzGUGVTmX5yPY
+         2K7A2VtIOk9v3R+pzizJa6oJl+3UjroGiwC6t8bMgwvdKgUia/MudxBgm/p6Z/3x/uVS
+         uyNw==
+X-Gm-Message-State: AOJu0YyPRv7hNvhHJbNEqP1msVbl3g8GHLhgyvNhgceEL1v2rEi13Dpk
+	QDqbTIILWBB/+c7xIsKku1EYCLcuJPBJ3/iDp/OMWpDcVxU2Kek0jz/xLJCCEhvbwB0qMQjJCxf
+	8nQHlBKSFFeT1ahxsEga8ToxntqLrAw1ufA5bF/b2aTJ6Lticag28t6ZkP2GjrwIadR9dNV/652
+	URad2RslxX7K/qdKeguGVxzBrJqDu9ap9JHRMXv3Hm7DquOg0x
+X-Gm-Gg: ASbGncsX4UjTgVCtgxcSTyXoIjzeZKJNkFVNdJv9rWqWD+aNsneod+HaMBW7DuLWq6W
+	UXLlFTv4CipeLtmTcu+s4Qdnd3C895gtcqX3NxbAcnoBcwqg+rupwShPmIDx1dVIucjo=
+X-Received: by 2002:a05:6902:100f:b0:e7d:c9f4:ed7b with SMTP id 3f1490d57ef6-e7dc9f4eedemr3087841276.1.1748360983869;
+        Tue, 27 May 2025 08:49:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHiWyvITgJL+J+DThBvUtJX06I5LZ0wJ4xX7cXWNpyrd9yE+oA3SbDhtVDmFlvtI+97dxZWuXgvdd/jvC793zk=
+X-Received: by 2002:a05:6902:100f:b0:e7d:c9f4:ed7b with SMTP id
+ 3f1490d57ef6-e7dc9f4eedemr3087813276.1.1748360983464; Tue, 27 May 2025
+ 08:49:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+From: Stefano Garzarella <sgarzare@redhat.com>
+Date: Tue, 27 May 2025 17:49:32 +0200
+X-Gm-Features: AX0GCFtO07OFGCirVhUW5Z7V4STVi5G09xgnk1wWpqEEzNAmpai1tl4PiZ4ZEqw
+Message-ID: <CAGxU2F6wv3QUOD=Ji_Y1aFqpwKUKhcHsUDCdk2uy79DgrvOrrQ@mail.gmail.com>
+Subject: SVSM Development Call May 28th, 2025
+To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: cuXEhdaDbG8RKPh_mk-UR_jH-S19T6SUEcTlM8ZRdV8_1748356553
+X-Mimecast-MFC-PROC-ID: RmItPeVjjBNKl1GHtV2r9Q4tSKDKmKaHtYg58OcdeDE_1748360984
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 
-  Hi folks,
+Hi,
 
-Here is a spec draft for the uefi mm protocol.
-See also https://github.com/coconut-svsm/svsm/pull/694
+Here is the usual call for agenda items for this week's SVSM development call.
+Please send us any agenda items you have in mind or raise them in the meeting.
 
-take care,
-  Gerd
+Details of the meeting can be found in our governance repository at:
 
-------------------------------- cut here --------------------------
+    https://github.com/coconut-svsm/governance
 
-## SVSM UEFI MM PROTOCOL
+The link to the COCONUT-SVSM calendar is:
 
-Process MM communication requests from edk2 firmware.
+    https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=week
 
-Usually this request serialization format is used by edk2 for
-communication between normal mode and management mode (MM for short).
+The meeting will be recorded and the recording eventually published.
 
-This SVSM protocol is a thin wrapper to allow edk2 firmware send those
-requests to the SVSM instead.  This allows the SVSM provide services
-which are usually running in SMM mode on bare metal or
-non-confidential VMs, specifically an UEFI variable store.
+See you all there.
 
-### protocol number
-
-```
-pub const SVSM_UEFI_MM_PROTOCOL: u32 = 4;
-```
-preliminary, not yet officially assigned
-
-### query command
-
-```
-const SVSM_UEFI_MM_QUERY: u32 = 1;
-```
-
-Returns success in case the protocol is supported by the svsm.
-
-Return parameters:
-
- * RCX: protocol feature flags.  There are no features defined yet.
-   All bits are reserved and must be zero.
-
-### setup command
-
-```
-const SVSM_UEFI_MM_SETUP: u32 = 2;
-```
-
-Setup buffer for messages.
-
-Parameters:
- * RCX: buffer address (guest physical).
- * RDX: buffer size
-
-### reset command
-
-```
-const SVSM_UEFI_MM_RESET: u32 = 3;
-```
-
-Reset protocol (communication buffer).
-
-### request command
-
-```
-const SVSM_UEFI_MM_REQUEST: u32 = 4;
-```
-
-Process request in the communication buffer, store response message in
-the buffer.
-
-### request format
-
-The request serialization format is specified by edk2, the short
-overview below is purely informational.
-
-The buffer starts with this header:
-
-```
-// EFI_MM_COMMUNICATE_HEADER
-#[repr(C, packed)]
-pub struct MmCoreHeader {
-    pub guid: [u8; 16],
-    pub size: u64,
-}
-```
-
-The `guid` specifies the receiver of the message (typically an efi
-protocol guid or an efi event guid), and therefore also the format of
-the request data following this header.  The `size` field specified
-the size of the request data (excluding the header).
-
-### edk2 references
-
- * MdePkg/Include/Protocol/MmCommunication.h
- * MdeModulePkg/Include/Guid/SmmVariableCommon.h
- * MdeModulePkg/Include/Guid/VarCheckPolicyMmi.h
-
-### linux refernces
-
-The linux kernel has an efi variable driver implementation using this
-request format in `drivers/firmware/efi/stmm`.  It sends those
-requests to the edk2 MM code running in arm secure partition.
+Ciao,
+Stefano
 
