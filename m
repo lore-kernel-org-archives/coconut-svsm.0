@@ -1,43 +1,44 @@
 Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D9A18E1A
-	for <coconut-svsm@lists.linux.dev>; Wed,  2 Jul 2025 12:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6758271449
+	for <coconut-svsm@lists.linux.dev>; Wed,  2 Jul 2025 12:45:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751459325; cv=none; b=YKLFed/sXgy7TfGOa2mNM8hBpK0aHNx+CSeBtqcOiP7SHtHjIihNcmlQd+Qf8b9kfo9qlyphgvRZLUU9kEETypryKtfivly77qsnNw9yw+1qXYi0tDoNDtwQsdhZN6cg7xv5RyLU2AK4BFnS+L1W5GI3F8TzpuKx7FUmNuoWsw4=
+	t=1751460303; cv=none; b=JpU1pbKVwSz2+AiPtS/AUT3q8dWgm5PC7uUUcQckLUcxwdbXjjdjJjdZd+ddcn432zZvClqiJW9ZRbcboL3ATQ9CwMiKuM9vlTS7vK5BkQDWvjimsBT4SweRmqjlFMBclu/ZDutuOJEPE9u5egkoA8NlvISyZxTXKaa+WaSceJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751459325; c=relaxed/simple;
-	bh=LQV/oFk7gUyxqh9iXeqKbe4onIE3QRhA2wXGHXG8kgI=;
+	s=arc-20240116; t=1751460303; c=relaxed/simple;
+	bh=8lLhJdsf1hzIISu5L2GBETVkYsGzvttDtA6YDi8eKZc=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=HRfAKdMcupuUSN1JMuN30muMD9Ew8xVe/5TyG84G2kPcdtYi3pEu83OhqGgjWylvFeS+Xk/KJMZ1p/UB8Nxe9z1biufumiIHicpoZab+ysa+ZS3H+QfjQXInCAxwwD3k64PSmuYrJ9tsUjHxq7xH/CVSaq9oalleEsFcccrksC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=FoNnF8nW; arc=none smtp.client-ip=198.37.111.173
+	 Content-Type:MIME-Version; b=ZsFuWYNJ/70IaEBxWvomN5XG2YSE/z06Vg/tXzxTBVBmHsnyKo3N0qy9j3HN2TJBiqPzrzB5qU6lJCMvROd9GOgorAgi0HB5ywQycaMAx9UjN86WT9jK9H2shqtO7dfrfYWoXWvdG2VBHUo3V3faLicKXXfALOuKTmuhk4myUKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=LW1/BDZ0; arc=none smtp.client-ip=198.37.111.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="FoNnF8nW"
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="LW1/BDZ0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1751459321;
-	bh=LQV/oFk7gUyxqh9iXeqKbe4onIE3QRhA2wXGHXG8kgI=;
+	d=hansenpartnership.com; s=20151216; t=1751460300;
+	bh=8lLhJdsf1hzIISu5L2GBETVkYsGzvttDtA6YDi8eKZc=;
 	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=FoNnF8nW8eTFy33dYgNq15Mb6h+6h7qLMIdvcKSMgozwzH0OReFJkdEy9UJGx2oIB
-	 F0NHRqn0K+PPEVVG6pz5m/Jnp1pxiUKCuhXynjZHvaFoQ+/iy1sl82y0u9t4bXK3FV
-	 EsqGhlrDfSNsihrfXo2TSBtxyNtxA0Zd1mkRYmbA=
+	b=LW1/BDZ0AG4JLNnXJjNvKKBK01/Oh9orA5u//exHHjYZ5jQaKkLifx8XrfmDy4qOI
+	 oJiBHj5JPAo163YC7H8NpdqsabnmSk2u2r9v22YM5SHZlIvHLd5G+hOJFMrA/xIf86
+	 /0RsJkE2pa/liCoZunhCzY+TrlHGF1TCIpXwhDWo=
 Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 703A41C00A7;
-	Wed, 02 Jul 2025 08:28:41 -0400 (EDT)
-Message-ID: <47bf2466ae99d797c8f10f071fd919ad3df6b409.camel@HansenPartnership.com>
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 6EC9B1C01C2;
+	Wed, 02 Jul 2025 08:45:00 -0400 (EDT)
+Message-ID: <b2cab079872b6e0588743d4f93a769f1844cda6e.camel@HansenPartnership.com>
 Subject: Re: SVSM draft specification
 From: James Bottomley <James.Bottomley@HansenPartnership.com>
 To: Tom Lendacky <thomas.lendacky@amd.com>, coconut-svsm@lists.linux.dev
 Cc: Dionna Amalie Glaze <dionnaglaze@google.com>, Gerd Hoffmann
 	 <kraxel@redhat.com>
-Date: Wed, 02 Jul 2025 08:28:40 -0400
-In-Reply-To: <fe3a4825-d079-0fe8-3fda-ed16044a048a@amd.com>
+Date: Wed, 02 Jul 2025 08:44:59 -0400
+In-Reply-To: <47bf2466ae99d797c8f10f071fd919ad3df6b409.camel@HansenPartnership.com>
 References: <fe3a4825-d079-0fe8-3fda-ed16044a048a@amd.com>
+	 <47bf2466ae99d797c8f10f071fd919ad3df6b409.camel@HansenPartnership.com>
 Autocrypt: addr=James.Bottomley@HansenPartnership.com;
  prefer-encrypt=mutual;
  keydata=mQENBE58FlABCADPM714lRLxGmba4JFjkocqpj1/6/Cx+IXezcS22azZetzCXDpm2MfNElecY3qkFjfnoffQiw5rrOO0/oRSATOh8+2fmJ6el7naRbDuh+i8lVESfdlkoqX57H5R8h/UTIp6gn1mpNlxjQv6QSZbl551zQ1nmkSVRbA5TbEp4br5GZeJ58esmYDCBwxuFTsSsdzbOBNthLcudWpJZHURfMc0ew24By1nldL9F37AktNcCipKpC2U0NtGlJjYPNSVXrCd1izxKmO7te7BLP+7B4DNj1VRnaf8X9+VIApCi/l4Kdx+ZR3aLTqSuNsIMmXUJ3T8JRl+ag7kby/KBp+0OpotABEBAAG0N0phbWVzIEJvdHRvbWxleSA8SmFtZXMuQm90dG9tbGV5QEhhbnNlblBhcnRuZXJzaGlwLmNvbT6JAVgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAhkBFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAmBLmY0FCRs1hL0ACgkQgUrkfCFIVNaEiQgAg18F4G7PGWQ68xqnIrccke7Reh5thjUz6kQIii6Dh64BDW6/UvXn20UxK2uSs/0TBLO81k1mV4c6rNE+H8b7IEjieGR9frBsp/+Q01JpToJfzzMUY7ZTDV1IXQZ+AY9L7vRzyimnJHx0Ba4JTlAyHB+Ly5i4Ab2+uZcnNfBXquWrG3oPWz+qPK88LJLya5Jxse1m1QT6R/isDuPivBzntLOooxPk+Cwf5sFAAJND+idTAzWzslexr9j7rtQ1UW6FjO4CvK9yVNz7dgG6FvEZl6J/HOr1rivtGgpCZTBzKNF8jg034n49zGfKkkzWLuXbPUOp3/oGfsKv8pnEu1c2GbQpSmFtZXMgQm90dG9tbGV5IDxqZWpiQGxpbnV4LnZuZXQuaWJtLmNvbT6JAVYEEwEIAEACGwMHCwkIBwMCAQYVC
@@ -58,32 +59,30 @@ List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
-On Mon, 2025-06-30 at 11:36 -0500, Tom Lendacky wrote:
-> Attached is a draft specification with the following changes:
->=20
-> =C2=A0 - New single service extended attestation request
-> =C2=A0 - vTPM service update for single service extended attestation
-> request
+On Wed, 2025-07-02 at 08:28 -0400, James Bottomley wrote:
+[...]
+> =C2=A0=C2=A0 3. Preventing updates to db/dbx will require code changes to=
+ the
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reference implementation ... that's always=
+ a bad idea since it
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 moves us away from what the TCG publishes =
+and means we have to
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 keep an out of tree patch. =C2=A0What's th=
+e point of it anyway? =C2=A0The
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 way to ensure the guest can't update db/db=
+x is what we have
+> today
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for physical systems: not knowing the priv=
+ate key in KEK.
 
-I don't think any of the flags in the vTPM single service attestation
-are a good idea
+Sorry, not enough tea yet.  This, again, is actually nothing to do with
+the TPM (so at least we wouldn't have to change the implementation).=20
+However, even if we get a UEFI flash persistence service, updates to
+variables will again be the province of OVMF and the SVSM will just be
+providing backing storage.  Sure, it can snoop the updates but it still
+looks like something that's already covered adequately today as stated
+above.
 
-   1. Whether non volatile UEFI variables have backing or not is
-      nothing to do with the TPM service ... there should be a UEFI
-      variable service that indicates this (when it's even available).
-   2. How does the vTPM or even the SVSM know if the system is secure
-      booted? =C2=A0That's the province of OVMF to enforce. =C2=A0The SVSM =
-can
-      deduce it possibly from the state of the variables, but on
-      security separation grounds the vTPM service should *not* be
-      accessing the UEFI variable service.
-   3. Preventing updates to db/dbx will require code changes to the
-      reference implementation ... that's always a bad idea since it
-      moves us away from what the TCG publishes and means we have to
-      keep an out of tree patch. =C2=A0What's the point of it anyway? =C2=
-=A0The
-      way to ensure the guest can't update db/dbx is what we have today
-      for physical systems: not knowing the private key in KEK.
 Regards,
 
 James
