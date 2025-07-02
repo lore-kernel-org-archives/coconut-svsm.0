@@ -1,128 +1,90 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCDF266584
-	for <coconut-svsm@lists.linux.dev>; Wed,  2 Jul 2025 11:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D9A18E1A
+	for <coconut-svsm@lists.linux.dev>; Wed,  2 Jul 2025 12:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751456471; cv=none; b=U+gFQc2rpDYCSwSJTvzB00t//p/H9AmVRmjhjvuG2yRC3kV6zugtUa6CgwYLS1LAFcdxtat4GPEmjFzcpj0BpcKX40ReVWfICiEF4TsIKNYsmzgnDWefTWaCdnNmurk3TNbjbY4BufhR++eF/p/BzFbFIZCoJlt075UVXyHVAZ4=
+	t=1751459325; cv=none; b=YKLFed/sXgy7TfGOa2mNM8hBpK0aHNx+CSeBtqcOiP7SHtHjIihNcmlQd+Qf8b9kfo9qlyphgvRZLUU9kEETypryKtfivly77qsnNw9yw+1qXYi0tDoNDtwQsdhZN6cg7xv5RyLU2AK4BFnS+L1W5GI3F8TzpuKx7FUmNuoWsw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751456471; c=relaxed/simple;
-	bh=O/cLO1qM8DWlvcCIX2cFQPDGMCvTqrVhmBP2U/bQvUw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eG3S655g4oFexLvEUNOmCKVyCgawQEgXW/Dt2quVLZHs/fJJ9nl54Mgp0h008WULJrU9KrHFIpu4XxcZAwPgdkhw9d9NuKBbXsjvL3GKyqRCKK2LpVagsuLU0u6sOvgrSPZxGFq7JV6XKZmbnyGcgBrv8kDRgc1InKDVo6Lbsxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TRRk/gpx; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751459325; c=relaxed/simple;
+	bh=LQV/oFk7gUyxqh9iXeqKbe4onIE3QRhA2wXGHXG8kgI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HRfAKdMcupuUSN1JMuN30muMD9Ew8xVe/5TyG84G2kPcdtYi3pEu83OhqGgjWylvFeS+Xk/KJMZ1p/UB8Nxe9z1biufumiIHicpoZab+ysa+ZS3H+QfjQXInCAxwwD3k64PSmuYrJ9tsUjHxq7xH/CVSaq9oalleEsFcccrksC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=FoNnF8nW; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TRRk/gpx"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a365a6804eso3608557f8f.3
-        for <coconut-svsm@lists.linux.dev>; Wed, 02 Jul 2025 04:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751456468; x=1752061268; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EjdzqWSUtjOwd+Zu+sjRNPjgqY5ABklHbrbBSih73w0=;
-        b=TRRk/gpxO03RDOavKuxnhj59kOHo9WX84IvjKw5o9TnbnqQLg+Z2DES0UdaxV+AtT0
-         v+FbJpvE/3kkQBvrZ0Dr2GT36kw5lxvffOdyEPulZKjLNe9/4eJNeSsPdJagVbi0kzH+
-         REZheEzwZkIxz6P2cplr97Zda4+MFl/C3/eb4hFLS6lSKCi2kCEemqby+/zWFJh9ROk7
-         8Yb4YH3tJ4exEmmcOx5IjBxLAEvrs0EvRYeO3MdsEhJ/Yc3rM8gN/FdrmosG5013qDXI
-         X0TTHEHt04p3PCct6iaWneopivAifofO0PzQRyNjBEtSpm36qMRAPr4UHfnc6fwYA98V
-         tbPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751456468; x=1752061268;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EjdzqWSUtjOwd+Zu+sjRNPjgqY5ABklHbrbBSih73w0=;
-        b=AcP8eeJ6syRQWifxklrllF+sTfJTLsflqlmWdueT5vV21KyaSUUpWUs3xNJ4JQBZN2
-         L48wpPK/VKIwVRO64N6hAg1pwwQGXw2ZZtJLcsvo06Cgx9+IHlGGioYU6YcZm42JWV5M
-         y8TNXdnkcXjSUaJZ3usbwlpMLvTgXCJIzr4Wa2kSy0jCdGwRq/+9l6hV4eDFWvEEVi+D
-         8GoODvlkaHgP8zgZ1/qMX16IJXfFVuE1ZKOmbXMP7ohV8wf8L6jvas7pFEszU5Qp17K+
-         H3Mpgvc22+ors8Lzfd4yLZXjaI1IbqAi4aSv0r7D3cLiXRyJVRvUoOikQf8+EaA2TT1S
-         LDVA==
-X-Gm-Message-State: AOJu0Yz0slfQ4G3TXm0OylRQ5am6tXOZIMwO32xjP6TZ4YIAHImrq/9F
-	Hj7uycvS6PyTf3coCqDRKOL8nKzr4bjCQazcCbdeZzIjqxIIYuiOZSd4fPtYL5CACZ/+VYaUAGP
-	V9M8FMh6MuRtHIFYI/6xCSc+Jonn83GymnV/UspI=
-X-Gm-Gg: ASbGncuHOhWkxD9kpZTOCjUm9FnLq0y41MXL1gkndJvqgL4epTu+oYIBRyRqxhzdZ6V
-	Fn3k5ebK8MjeEmjiKJg2ZhGHorJoPrBq3mg3LUuy1k7hcURq6pT/E7M+ZINfmES7v3pQIifQtIW
-	bYQwRk0A/euzKYykuS5uKLDmxyKRlkRyliw0wdOpkohr35aA==
-X-Google-Smtp-Source: AGHT+IEYbyWmO/B0sFoEHtBjNENIL/f0LudnMLXr/pA4BVcBpcsOZ8bdOBN1l73r5P9IN6yNHoI5djUfrotQJ72tx28=
-X-Received: by 2002:a05:6000:658:b0:3a5:8a68:b836 with SMTP id
- ffacd0b85a97d-3b20048d117mr2114302f8f.44.1751456467462; Wed, 02 Jul 2025
- 04:41:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="FoNnF8nW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1751459321;
+	bh=LQV/oFk7gUyxqh9iXeqKbe4onIE3QRhA2wXGHXG8kgI=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=FoNnF8nW8eTFy33dYgNq15Mb6h+6h7qLMIdvcKSMgozwzH0OReFJkdEy9UJGx2oIB
+	 F0NHRqn0K+PPEVVG6pz5m/Jnp1pxiUKCuhXynjZHvaFoQ+/iy1sl82y0u9t4bXK3FV
+	 EsqGhlrDfSNsihrfXo2TSBtxyNtxA0Zd1mkRYmbA=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 703A41C00A7;
+	Wed, 02 Jul 2025 08:28:41 -0400 (EDT)
+Message-ID: <47bf2466ae99d797c8f10f071fd919ad3df6b409.camel@HansenPartnership.com>
+Subject: Re: SVSM draft specification
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Tom Lendacky <thomas.lendacky@amd.com>, coconut-svsm@lists.linux.dev
+Cc: Dionna Amalie Glaze <dionnaglaze@google.com>, Gerd Hoffmann
+	 <kraxel@redhat.com>
+Date: Wed, 02 Jul 2025 08:28:40 -0400
+In-Reply-To: <fe3a4825-d079-0fe8-3fda-ed16044a048a@amd.com>
+References: <fe3a4825-d079-0fe8-3fda-ed16044a048a@amd.com>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <fe3a4825-d079-0fe8-3fda-ed16044a048a@amd.com>
-In-Reply-To: <fe3a4825-d079-0fe8-3fda-ed16044a048a@amd.com>
-From: Geoffrey Ndu <gndu8086@gmail.com>
-Date: Wed, 2 Jul 2025 12:40:55 +0100
-X-Gm-Features: Ac12FXwt6aLaVLu5RjLUTG8YYzClLhvLnZiMW1NKp3q5kbBQz8YWPXCwD4d2NWk
-Message-ID: <CAH6wD8WM3Zk2uy=nmaPgZ7LKuFSpNfYc7W1tuQJSnWQF=vN0eQ@mail.gmail.com>
-Subject: Re: SVSM draft specification
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Cc: coconut-svsm@lists.linux.dev, Dionna Amalie Glaze <dionnaglaze@google.com>, 
-	Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Comments and Suggestions:
-
-* Bit 2 of Flags (Table 23):
-
-The description for bit 2 is, "Secure boot databases are updatable by
-the guest (db/dbx)."
-
-Does this also apply to other updatable Secure Boot databases like
-Platform Key (PK), Key Exchange Key (KEK), and Timestamp Signature
-Database (dbt)? If not, perhaps allocating one bit per UEFI database
-could enhance flexibility.
-
-* Confusing Statement:
-
-The following statement is unclear:
-
-"If a database does not contain any data or is not present, the offset
-and size for that database must be 0."
-
-My understanding is that bit 2 is meant to specify whether databases
-are updatable, not to define thier sizes.. Could you clarify this?
-
-* Typo:
-
-There is a typo in the text: "Secure boot is enabledn." It should be  "enab=
-led."
-
-
-Geoffrey
-
-On Mon, Jun 30, 2025 at 5:38=E2=80=AFPM Tom Lendacky <thomas.lendacky@amd.c=
-om> wrote:
->
+On Mon, 2025-06-30 at 11:36 -0500, Tom Lendacky wrote:
 > Attached is a draft specification with the following changes:
->
->   - New single service extended attestation request
->   - vTPM service update for single service extended attestation request
->   - UEFI Management Mode service
->     - Needs references to the request/response formats
->   - Placeholder for the APIC emulation service
->
-> I just noticed that Dionna is now looking instead at adding a new
-> manifest version that would return a list of the various forms of the
-> storage and signing keys. This would eliminate any kernel changes as the
-> caller would now just request the new manifest version in the attest
-> single service request.
->
-> I would prefer this as it would eliminate the need for the single
-> service extended attestation request and support for that within each
-> service. For now, this draft specification has the original changes
-> requested. Please review at least for the UEFI MM service, if the
-> direction is to move to a new vTPM manifest version.
->
-> Thanks,
-> Tom
+>=20
+> =C2=A0 - New single service extended attestation request
+> =C2=A0 - vTPM service update for single service extended attestation
+> request
+
+I don't think any of the flags in the vTPM single service attestation
+are a good idea
+
+   1. Whether non volatile UEFI variables have backing or not is
+      nothing to do with the TPM service ... there should be a UEFI
+      variable service that indicates this (when it's even available).
+   2. How does the vTPM or even the SVSM know if the system is secure
+      booted? =C2=A0That's the province of OVMF to enforce. =C2=A0The SVSM =
+can
+      deduce it possibly from the state of the variables, but on
+      security separation grounds the vTPM service should *not* be
+      accessing the UEFI variable service.
+   3. Preventing updates to db/dbx will require code changes to the
+      reference implementation ... that's always a bad idea since it
+      moves us away from what the TCG publishes and means we have to
+      keep an out of tree patch. =C2=A0What's the point of it anyway? =C2=
+=A0The
+      way to ensure the guest can't update db/dbx is what we have today
+      for physical systems: not knowing the private key in KEK.
+Regards,
+
+James
+
