@@ -1,74 +1,128 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AA9B264A95;
-	Tue,  1 Jul 2025 20:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751401129; cv=none; b=eQ5Jpp+uOOrmYf3n4ovBTU737Z6LTNnYeOzUIlWSNWxYGCr0xGkVg2XL4QqC0+8AChkLFgebRby33JdUuLgMugKIiDY+sl6V4RJXQdUZD80hngguFxDr9APZz9VMvh/PAJYqIrm8eke5yXMJn3oyP62dsApQc53lzdEQfniZZ54=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751401129; c=relaxed/simple;
-	bh=PDaOeYyCcqodpHyiL5U+31YQ+wJY6l4ncsFR6tyzBPI=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A3OBW4Z/9vSP922yiJthD///Uk3wJrh20nU/1P5RFicTlJXj9PStnOlXr/EI2YdOY1TmIrq4KaMJssYeykFFy7D/U2yOweYFASIim/t5ITpLiAUQKAyrKTtKZ+KuAyJ3TqXfqHyFa79UEqa9TZEfFCzLMgt9h/mSjSJPEXdAEy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=sgmZpg0a; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="sgmZpg0a"
-Received: from 8bytes.org (p4ffe03ae.dip0.t-ipconnect.de [79.254.3.174])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id B635C4F036;
-	Tue,  1 Jul 2025 22:18:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1751401119;
-	bh=PDaOeYyCcqodpHyiL5U+31YQ+wJY6l4ncsFR6tyzBPI=;
-	h=Date:From:To:Subject:From;
-	b=sgmZpg0asWadXnkUtDkXHVaLkL+3BFZN7kwSnVSqa4B+qmdKF7Yjm6CkJaAEUBlOx
-	 92/OQx/k9Umo47Noj7MroSuw5U8MPZy5UyDcRyqTOns3QW4B+cD7JVAPuBEUEGqDxz
-	 IrXxSzmMTeK7Mla7b2vqKIuQYvWpVkPKschZY/7YS6m/XQXIfU0RiYiTeKL8Zoyn89
-	 RZ6QZm9SriQ/Vqk+lu+vngxj37hi0YnX2GR4foQlwEIsD/PlNZdu2PGVJg0IkkeoYc
-	 18H8xA0NuW7fjcVtwhuqiS4ge5kthWDU+rVg4870mtW1itwZaA6jiMZ3HhLQY9rbOq
-	 +SXAU+T8JjD/g==
-Date: Tue, 1 Jul 2025 22:18:38 +0200
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
-Subject: SVSM Development Call July 2nd, 2025
-Message-ID: <sn6mqb3jmijz2mxur2fxow4wp55ljfiwhem5qzsoeavhsutjbv@iaunp2gqfs4g>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCDF266584
+	for <coconut-svsm@lists.linux.dev>; Wed,  2 Jul 2025 11:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751456471; cv=none; b=U+gFQc2rpDYCSwSJTvzB00t//p/H9AmVRmjhjvuG2yRC3kV6zugtUa6CgwYLS1LAFcdxtat4GPEmjFzcpj0BpcKX40ReVWfICiEF4TsIKNYsmzgnDWefTWaCdnNmurk3TNbjbY4BufhR++eF/p/BzFbFIZCoJlt075UVXyHVAZ4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751456471; c=relaxed/simple;
+	bh=O/cLO1qM8DWlvcCIX2cFQPDGMCvTqrVhmBP2U/bQvUw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eG3S655g4oFexLvEUNOmCKVyCgawQEgXW/Dt2quVLZHs/fJJ9nl54Mgp0h008WULJrU9KrHFIpu4XxcZAwPgdkhw9d9NuKBbXsjvL3GKyqRCKK2LpVagsuLU0u6sOvgrSPZxGFq7JV6XKZmbnyGcgBrv8kDRgc1InKDVo6Lbsxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TRRk/gpx; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TRRk/gpx"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a365a6804eso3608557f8f.3
+        for <coconut-svsm@lists.linux.dev>; Wed, 02 Jul 2025 04:41:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751456468; x=1752061268; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EjdzqWSUtjOwd+Zu+sjRNPjgqY5ABklHbrbBSih73w0=;
+        b=TRRk/gpxO03RDOavKuxnhj59kOHo9WX84IvjKw5o9TnbnqQLg+Z2DES0UdaxV+AtT0
+         v+FbJpvE/3kkQBvrZ0Dr2GT36kw5lxvffOdyEPulZKjLNe9/4eJNeSsPdJagVbi0kzH+
+         REZheEzwZkIxz6P2cplr97Zda4+MFl/C3/eb4hFLS6lSKCi2kCEemqby+/zWFJh9ROk7
+         8Yb4YH3tJ4exEmmcOx5IjBxLAEvrs0EvRYeO3MdsEhJ/Yc3rM8gN/FdrmosG5013qDXI
+         X0TTHEHt04p3PCct6iaWneopivAifofO0PzQRyNjBEtSpm36qMRAPr4UHfnc6fwYA98V
+         tbPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751456468; x=1752061268;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EjdzqWSUtjOwd+Zu+sjRNPjgqY5ABklHbrbBSih73w0=;
+        b=AcP8eeJ6syRQWifxklrllF+sTfJTLsflqlmWdueT5vV21KyaSUUpWUs3xNJ4JQBZN2
+         L48wpPK/VKIwVRO64N6hAg1pwwQGXw2ZZtJLcsvo06Cgx9+IHlGGioYU6YcZm42JWV5M
+         y8TNXdnkcXjSUaJZ3usbwlpMLvTgXCJIzr4Wa2kSy0jCdGwRq/+9l6hV4eDFWvEEVi+D
+         8GoODvlkaHgP8zgZ1/qMX16IJXfFVuE1ZKOmbXMP7ohV8wf8L6jvas7pFEszU5Qp17K+
+         H3Mpgvc22+ors8Lzfd4yLZXjaI1IbqAi4aSv0r7D3cLiXRyJVRvUoOikQf8+EaA2TT1S
+         LDVA==
+X-Gm-Message-State: AOJu0Yz0slfQ4G3TXm0OylRQ5am6tXOZIMwO32xjP6TZ4YIAHImrq/9F
+	Hj7uycvS6PyTf3coCqDRKOL8nKzr4bjCQazcCbdeZzIjqxIIYuiOZSd4fPtYL5CACZ/+VYaUAGP
+	V9M8FMh6MuRtHIFYI/6xCSc+Jonn83GymnV/UspI=
+X-Gm-Gg: ASbGncuHOhWkxD9kpZTOCjUm9FnLq0y41MXL1gkndJvqgL4epTu+oYIBRyRqxhzdZ6V
+	Fn3k5ebK8MjeEmjiKJg2ZhGHorJoPrBq3mg3LUuy1k7hcURq6pT/E7M+ZINfmES7v3pQIifQtIW
+	bYQwRk0A/euzKYykuS5uKLDmxyKRlkRyliw0wdOpkohr35aA==
+X-Google-Smtp-Source: AGHT+IEYbyWmO/B0sFoEHtBjNENIL/f0LudnMLXr/pA4BVcBpcsOZ8bdOBN1l73r5P9IN6yNHoI5djUfrotQJ72tx28=
+X-Received: by 2002:a05:6000:658:b0:3a5:8a68:b836 with SMTP id
+ ffacd0b85a97d-3b20048d117mr2114302f8f.44.1751456467462; Wed, 02 Jul 2025
+ 04:41:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <fe3a4825-d079-0fe8-3fda-ed16044a048a@amd.com>
+In-Reply-To: <fe3a4825-d079-0fe8-3fda-ed16044a048a@amd.com>
+From: Geoffrey Ndu <gndu8086@gmail.com>
+Date: Wed, 2 Jul 2025 12:40:55 +0100
+X-Gm-Features: Ac12FXwt6aLaVLu5RjLUTG8YYzClLhvLnZiMW1NKp3q5kbBQz8YWPXCwD4d2NWk
+Message-ID: <CAH6wD8WM3Zk2uy=nmaPgZ7LKuFSpNfYc7W1tuQJSnWQF=vN0eQ@mail.gmail.com>
+Subject: Re: SVSM draft specification
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: coconut-svsm@lists.linux.dev, Dionna Amalie Glaze <dionnaglaze@google.com>, 
+	Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Comments and Suggestions:
 
-Here is the usual call for agenda items for the this weeks SVSM
-development call.  Please send me any agenda items you have in mind or
-raise them in the meeting.
+* Bit 2 of Flags (Table 23):
 
-Currently on the agenda:
+The description for bit 2 is, "Secure boot databases are updatable by
+the guest (db/dbx)."
 
-	* Update on Hardware for CI.
-	* Follow-up on the Live Migration discussion from last week.
+Does this also apply to other updatable Secure Boot databases like
+Platform Key (PK), Key Exchange Key (KEK), and Timestamp Signature
+Database (dbt)? If not, perhaps allocating one bit per UEFI database
+could enhance flexibility.
 
-We will use the LF Zoom instance. Details of the meeting  can be found in our
-governance repository at:
+* Confusing Statement:
 
-	https://github.com/coconut-svsm/governance
+The following statement is unclear:
 
-The link to the COCONUT-SVSM calendar is:
+"If a database does not contain any data or is not present, the offset
+and size for that database must be 0."
 
-	https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=week
+My understanding is that bit 2 is meant to specify whether databases
+are updatable, not to define thier sizes.. Could you clarify this?
 
-The meeting will be recorded and the recording eventually published.
+* Typo:
 
-See you all there.
+There is a typo in the text: "Secure boot is enabledn." It should be  "enab=
+led."
 
-Regards,
 
-	Jörg
+Geoffrey
+
+On Mon, Jun 30, 2025 at 5:38=E2=80=AFPM Tom Lendacky <thomas.lendacky@amd.c=
+om> wrote:
+>
+> Attached is a draft specification with the following changes:
+>
+>   - New single service extended attestation request
+>   - vTPM service update for single service extended attestation request
+>   - UEFI Management Mode service
+>     - Needs references to the request/response formats
+>   - Placeholder for the APIC emulation service
+>
+> I just noticed that Dionna is now looking instead at adding a new
+> manifest version that would return a list of the various forms of the
+> storage and signing keys. This would eliminate any kernel changes as the
+> caller would now just request the new manifest version in the attest
+> single service request.
+>
+> I would prefer this as it would eliminate the need for the single
+> service extended attestation request and support for that within each
+> service. For now, this draft specification has the original changes
+> requested. Please review at least for the UEFI MM service, if the
+> direction is to move to a new vTPM manifest version.
+>
+> Thanks,
+> Tom
