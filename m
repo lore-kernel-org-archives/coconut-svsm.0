@@ -1,244 +1,118 @@
-Received: from mxs.seznam.cz (mxs.seznam.cz [77.75.76.125])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FB42DEA92
-	for <coconut-svsm@lists.linux.dev>; Tue,  8 Jul 2025 13:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.75.76.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3972DFA20
+	for <coconut-svsm@lists.linux.dev>; Tue,  8 Jul 2025 14:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751982939; cv=none; b=Z8zxgEcRJz70U5fOvzGN8jQQpNS6Ro9eszcVEkhFkXVKxIlitDmJxxVP8txCd9/obVPmOAWSJEruT5cK1wFcwVx3gkVQ+cRpnV4RHqEoBmm84QuEpWUgjNuihDnhFZChEuH0G6ZQEVgdf76jcu41eicOKWIWAKKI8DwkhKmxXfU=
+	t=1751983992; cv=none; b=tzYgmlEAZu1XOlglrokSoX4zzQ//FHM3g9eKgjoY4GeOFblblIFsCJe2C/Uoh0bAgOitoIuD7U+uk/4hEM90LmGFuH+YDbnJmHttYKt7zqv3S4envwf338pXE4u6Tcs1FRGqD1/7+ejmYC7quEc7M2a3g47Fkq4jQBPnvrAMKHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751982939; c=relaxed/simple;
-	bh=3HLS0KckJ8g37ZhCVU1HHIBJ9z3IeeC5K8V9yrW7G2M=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=PsN0naUxforuvXfQAqTNKyz5nz3ATDVIpccOTt4pkztufkb+c0knyLyy4rgI2r8HJU3tLsdewKZRXPG8wAJijXhJIEL8h6INnh/JjI0/ogv0oQ5MbWK0h7jEWw6mRBHykk6HKLjIQIp8hEzQsv7JzpcOaH44WDXms5qGhInLmM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=seznam.cz; dkim=pass (2048-bit key) header.d=emailprofi.seznam.cz header.i=@emailprofi.seznam.cz header.b=nNSsrWwI; arc=none smtp.client-ip=77.75.76.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=matfyz.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seznam.cz
+	s=arc-20240116; t=1751983992; c=relaxed/simple;
+	bh=PUHAvs3+d/CdjxjkZrLMvNNQ22W7u2/D0epAj+/Skj8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=dqOTKx7WjLSeyXGzmtjRVV075tY7rj2I7sqM9eRGD7B9ao+DZtNyjEFh1F3eNEd1q8L4BIdcoMuNPgX46SGoHt7KpSiFaCIFJxUxFlG+0kfTi12uDTp/KS0kc5zROnNW0eb8yfTfY0rUXIhQNU02EHCYTIwMn84T+qlGDQMD4CY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JPc35Q0i; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=emailprofi.seznam.cz header.i=@emailprofi.seznam.cz header.b="nNSsrWwI"
-Received: from email.seznam.cz
-	by smtpc-mxs-d9c5f9c8b-scfkr
-	(smtpc-mxs-d9c5f9c8b-scfkr [2a02:598:128:8a00::1000:85a])
-	id 6667ad35f81b505967afba8d;
-	Tue, 08 Jul 2025 15:55:32 +0200 (CEST)
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=emailprofi.seznam.cz; s=szn20221014; t=1751982932;
-	bh=6a3BGh6ZpnkGHybme98BSUuKsG48G7nBWWbIiX2o8qQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc;
-	b=nNSsrWwIwcwtOHZ8W9imMtF7mJmufCRn0UCgP6Fdi3X3wXCJnkLQyXVEhX1F8AKCn
-	 OXUhmtvx8Z5m1/Ewuw7+cD58JOYlBUm/zOW8CQiVBozMo6u0IcRxRlamJbQ9JThW10
-	 6KBHy3HRpbrVrJ62Ol9d6DGBRnDzZY2eTpVyp88Lh/Z6j2L0/03+0nWjagj0e//mV2
-	 yam+Jeb98UOyBC563aSpwbFt4RdNBpQFHeXXPgEW8vVqG4wIgjapz19L5esMUhjEKn
-	 YrSSmDeY/YGC21RKetKghABcBOK/QGNcbB18k8aDdoy0kysTYrXAFwpro5KxD+BYig
-	 9n87CRtZrc5Zg==
-Received: from localhost (c-85-230-59-141.bbcust.telenor.se [85.230.59.141])
-	by smtpd-relay-b844fd7d4-kd86z (szn-email-smtpd/2.0.57~lubosawslc-1)
-	with ESMTPA id 2e5470e6-6507-47ab-9ba4-6c681636cb89;
-	Tue, 08 Jul 2025 15:49:50 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JPc35Q0i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751983989;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k41ApPrKZ//nlcAgxYcyST4TlD0nHDuA5gXTGpBXAaI=;
+	b=JPc35Q0i2LxoZXgRqkfM4O6Qu3NNQ5B8ZKv0BPY9tT9mINpTyH+iuj8El8Gggczk82vP4p
+	/gKMso2jyBWXblCJWyiKmT67TPMJ9futvdJcshJNc0Jn6H5DnSZv3j9zOynquUJhuRBU0k
+	fKbCL9+uXpIxolUsscW7bQaa2sdmjCM=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-124-5NKtugjUMoihwtsNFGvFPg-1; Tue,
+ 08 Jul 2025 10:13:05 -0400
+X-MC-Unique: 5NKtugjUMoihwtsNFGvFPg-1
+X-Mimecast-MFC-AGG-ID: 5NKtugjUMoihwtsNFGvFPg_1751983984
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id ED131190DE3F;
+	Tue,  8 Jul 2025 14:13:02 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.45.224.100])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 070F530001B1;
+	Tue,  8 Jul 2025 14:12:59 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+	id 7ECD018000B2; Tue, 08 Jul 2025 16:12:57 +0200 (CEST)
+Date: Tue, 8 Jul 2025 16:12:57 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Relph, Richard" <richard.relph@amd.com>
+Cc: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>, 
+	coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
+Subject: Re: SVSM Development Call July 2nd, 2025
+Message-ID: <cvrqixqf3odaxgpz4uzwtkfkbmgbyrndzgyl7mhlbs6vj6fnpp@5aqnndt7rm6q>
+References: <sn6mqb3jmijz2mxur2fxow4wp55ljfiwhem5qzsoeavhsutjbv@iaunp2gqfs4g>
+ <lirgc4cvbgr7wxuci2paqggsdzw2wcfmn2dtg6urorqmjpjhtk@bof63sgjpihg>
+ <vpwzlcdbpu3kdshsgfshwfldqm5wtcesblwa7gzwyaf3tgtqwp@2vh37q57z2xe>
+ <4qbnbdno6hof3llfemhxc4prm7x2vzpqmvjknykelucpqhyryz@kbgpmaoy7vmz>
+ <4b862033-9c53-47ec-8eae-e9c9ce7d7d7d@amd.com>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=297c6857cdfa6cdfd1075799097aaee2830b456d71badee86cf22f254a0a;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Tue, 08 Jul 2025 15:49:48 +0200
-Message-Id: <DB6PZTUMQLGW.2H9XI9IDV2UV4@matfyz.cz>
-Subject: Re: Steps towards live migration
-From: =?utf-8?q?Jakub_R=C5=AF=C5=BEi=C4=8Dka?= <jakub.ruzicka@matfyz.cz>
-To: "Gupta, Pankaj" <pankaj.gupta@amd.com>, <coconut-svsm@lists.linux.dev>
-Cc: <thomas.lendacky@amd.com>, <sgarzare@redhat.com>, "John Allen"
- <john.allen@amd.com>, "Joerg Roedel" <joro@8bytes.org>
-X-Mailer: aerc 0.20.1
-References: <DAXD0VKXZ7KH.2WNLX124KC7HZ@matfyz.cz>
- <232c21fc-33d9-49cc-ba82-fa02e5a699d7@amd.com>
-In-Reply-To: <232c21fc-33d9-49cc-ba82-fa02e5a699d7@amd.com>
+MIME-Version: 1.0
+In-Reply-To: <4b862033-9c53-47ec-8eae-e9c9ce7d7d7d@amd.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 2UkS4tjNOt-RyjmbVzQD3sauq_Jv39yuCIuL9Vcp64Q_1751983984
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---297c6857cdfa6cdfd1075799097aaee2830b456d71badee86cf22f254a0a
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+  Hi,
 
-On Mon Jun 30, 2025 at 2:09 PM CEST, Pankaj Gupta wrote:
-> +CC [John & Joerg]
->
-> Hi Jacob,
->
-> I briefly looked at your code. I have some questions below to understand=
-=20
-> your design more. Do you have a comprehensive design document somewhere?
->
+> >> From OVMF perspective I don't see this as a big problem, assuming we are
+> >> talking about static allocation.  The memory discovery code is designed
+> >> around e820.  Typically OVMF simply loads the e820 table from qemu via
+> >> fw_cfg.  But there are multiple ways to get the memory map, when running
+> >> on xen or cloud hypervisor things are handled in a different way.
+> >> Adding one more option for svsm surely is possible.
+> > 
+> > The idea is that COCONUT provides an IGVM memory map to OVMF, which takes it as
+> > a base for its memory map instead of the E820 from FWCFG.
 
-There is no comprehensive design document at the moment.
+Should be easy on the edk2 side.  As mentioned the infrastructure to use
+different sources for the memory map is already there.  Also OVMF must
+do SVSM calls quite early to accept memory, so doing SVSM calls to get
+the map is no problem too.
 
->> Hi,
->>=20
->> as mentioned during the last SVSM development talk, I am currently writi=
-ng my
->> thesis on live migration of confidential guests. With this email I would=
- like to
->> start a discussion so that the same problem is not addressed multiple ti=
-mes
->
-> Ofcourse. That's the reason we shared our design in the kvm forum talk=20
-> and asked for collaboration on common components (open vendor agnostic=20
-> problems):
->
-> https://kvm-forum.qemu.org/2024/SNP_Live_Migration_KVM_forum_2024_svDwxa3=
-.pdf
->
->
->> independently. I also welcome any feedback to make the code written usef=
-ul for
->> SVSM Coconut (not only for the thesis). Development is done on machine w=
-ith
->> SEV-SNP support. I made a pull request with the SVSM patches[1] to ease =
-the
->> discussion.
->>=20
->> Here is a summary of progress to date:
->>=20
->> All validated guest pages can be transferred from the source SVSM to the=
- target
->> SVSM. Currently, no packaging (no confidentiality) is performed, but a h=
-ash of
->> all transferred/received blocks is computed that can be compared to veri=
-fy that
->> the channel is working correctly. Also, the main migration function of t=
-he
->
-> Any analysis on algorithm you plan to use for this? IIUC you are=20
-> currently sharing the hash from source to destination? Wouldn't the=20
-> 'aes-gcm' in [4] will do that in addition to encryption?
+The interface should be usable without allocating memory, for example a
+protocol which returns one entry per call so OVMF can loop over the
+entries using the stack only should do the trick.
 
-Yes, it would, but it was not used when I sent the email.
+> > Longer term it would be great to fully enable OVMF for IGVM, so that it can
+> > also consume some of the ACPI tables from there instead of FWCFG. But that is
+> > future stuff, what we need for now is the memory map.
 
->> source and destination SVSM is busy waiting for a signal from QEMU to st=
-art
->> outbound or incoming migration.
->
->  > > A single shared page called MigrationPage is used for data transfer =
-and
->> communication with QEMU. The migration page contains two registers and a=
- buffer:
->> a status register, a data register, and a data buffer. The status regist=
-er is
->> used to signal a change in status (e.g., migration starts, migration is
->> complete). The data register is used to signal that a new page has been =
-prepared
->> in the data buffer by the provider or processed by the consumer. The rol=
-es of
->> provider and consumer are switched between SVSM and QEMU on the source a=
-nd
->> destination machines.
->
-> This looks like a communication channel between Qemu and SVSM. We are=20
-> re-using few bits in per CPU ghcb page for SVSM <-> host commands=20
-> communication.
+ACPI is a bit more tricky because today the process is that OVMF goes
+setup the hardware, then qemu goes generate ACPI tables matching the
+setup, finally OVMF loads them from qemu.
 
-The communication protocol description is not yet available for reading, or=
-?
+But as far I know svsm does not want enter the hardware initialization
+business, so fetching the tables in svsm instead is not going to work.
 
->
-> I can understand you are not using additional vCPUs. All this can be too=
-=20
-> much work for guest general purpose vCPUs.
->
->>=20
->> The QEMU patch[2] implements communication with the SVSM migration handl=
-er and
->> block transfer from source to destination. The idea is that creating the
->> communication channel is all the hypervisor should do, the rest should b=
-e done
->> in SVSM.
->>=20
->> Current plan for the future in order of realisation:
->>=20
->> (1) A function that puts all hosted vCPUs (except the migration handler)=
- into a
->
-> [...]
->
->>      spinning state. The hypervisor is not trusted, so the SVSM must be =
-able to
->>      ensure that it is not running any vCPUs. For this task, I consider =
-two-phase
->>      checkpointing[3].
->
-> Can you please elaborate more this.
+> As I heard it, the concern is that maintaining page state in SVSM (not OVMF)
+> will eventually require SVSM to have access to a dynamic amount of memory.
+> Right now, AFAIK, SVSM has no way to request memory from either the host or the 
+> guest.
 
-At the beginning of the back-out phase, all guest vCPUs except the migratio=
-n
-handler should be stopped. To ensure that the hypervisor does not let any o=
-f the
-vCPUs start, I want all vCPUs to enter a wait loop so that even if the
-hypervisor allowed the vCPUs to start, no guest code would be run.
+I assume you mean dynamic at boot time?  i.e. instead of the fixed, 16M
+allocation via RequiredMemory IGVM directive svsm estimates how much
+it'll need and takes the required chunk of memory from guest RAM?
 
->> (2) Migrate the machine from the source to the destination with all vCPU=
-s
->>      stopped by the function from (1).
->
-> You mean black-out phase?
+Once OVMF gets the memory map from svsm not qemu this should be doable,
+svsm can simply mark it's own memory as reserved then.
 
-Yes.
+take care,
+  Gerd
 
->> (3) Secret key establishment - though about using [5].
->
-> We need to tackle this problem. A probable collaboration point, maybe=20
-> coupled with attestation and migration key sharing.
->
->> (4) Package the pages - authenticated encryption using [4].
->> (5) Dirty page tracking.
->> (6) Move the SVSM migration handler on an extra vCPU.
->> (7) Start migration handler on signal instead of busy-waiting loop.
->
-> There still are other open questions at more granular level. Can discuss=
-=20
-> those as well, once I go through your complete design.
->
-> But at higher level, I would like to reuse more of the existing=20
-> functionality in Qemu for live migration and use SVSM for memory=20
-> packaging, guests memory permission setting at VMPL0, and live migration=
-=20
-> sanity related tasks.
-
-By reuse more of the existing functionality. Do you mean using the current
-migration in QEMU and registering different SaveVMHandlers?
-
-What's the plan for tracking dirty sites? I understood from the slides of t=
-he
-last kvm forum that this task should be done in SVSM. Have you already
-implemented this? If so, are you using dirty page tracking in KVM or is it
-implemented in SVSM.
-
-Regards,
-Jakub
-
-> Best regards,
-> Pankaj
->
->>=20
->> Best regards,
->> Jakub
->>=20
->> [1] https://github.com/coconut-svsm/svsm/pull/745
->> [2] https://github.com/coconut-svsm/qemu/pull/23
->> [3] https://ipads.se.sjtu.edu.cn/_media/publications/sgxmigration-dsn17.=
-pdf
->> [4] https://github.com/RustCrypto/AEADs/blob/master/aes-gcm/src/lib.rs
->> [5] https://github.com/nihalpasham/static-dh-ecdh
-
-
---297c6857cdfa6cdfd1075799097aaee2830b456d71badee86cf22f254a0a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTttfbGRG1oLZIHv/k0m7mftWU3lAUCaG0h/gAKCRA0m7mftWU3
-lBk4AQCsedwLXcPuC2izAcZ8orhRC6hlnyO0JuPZoz1cgnNjbAD/X78DKVF6/TNi
-zHrQQKqrEq+/qsv7xIquDBybyf3B4Qo=
-=3dd4
------END PGP SIGNATURE-----
-
---297c6857cdfa6cdfd1075799097aaee2830b456d71badee86cf22f254a0a--
