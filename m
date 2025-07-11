@@ -1,94 +1,111 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F065C225409
-	for <coconut-svsm@lists.linux.dev>; Fri, 11 Jul 2025 13:21:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17322D3ECC
+	for <coconut-svsm@lists.linux.dev>; Fri, 11 Jul 2025 13:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752240069; cv=none; b=YJRIbSOAAnthVZ0W59UB4fT3H/a4UlWDeAcUeJgkyrsIEc4eZzlE9SSIWislzCsqWKRSLTzsMt6pM7myQk6wG6cEpTF2MUWdaoOkQSgU97T3/IKbDiRCn0xnoMjGNo1EvvPSFe6M5w+MDYz8YXjLGw15yC28rNw3t46PvoAQgLE=
+	t=1752240643; cv=none; b=OfxGGovLt02OeJtlMN2BSJregb3IVV80WiPUFbUYIgYE1q3BzkanL23IToMNWfWxtL28sje26HT6ncdz2/MWjpB22DA6UJnzYia4PIr394fjROlAU42lATXTOf4yP0RgrPO9DPkIiWq3rPWioe66eOMUHSq8n4jpjiYvOMNpdAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752240069; c=relaxed/simple;
-	bh=nqx49WPKnUoI8Y3198O0/4CAeBRnDsUCbGjqq3i0L7s=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=mijIxbA39IEIhn3puIerKxSHszKu3tEqxQW75cQZdOT8DFenDvwwcSU+pJ9DNLkTZUE8wQAzO+xICqFK9+MeK/ZGgij47zd34zwY/v2whTWTftc84W/fBZjXzDr6t4orMEEYk108hKSdQl7E4Rxt7XxhUMjJT5wc//msrJ2SOeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hPVwbTCT; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1752240643; c=relaxed/simple;
+	bh=6qYCdL4eUWzIJytcMLAQj4G6cl0MK9VLNnRVheqb3uE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=UtPwnHWpPfwSnSLF/dBCUjreENk/ZlmUbx6AJegm/ht3+dfvf6Z4UJ4mZZwFYqtAFoIRxns6W7LYi4UYZxOIsxYaMhOcSAcQqSbAFw1sWky/ZmyVTTPylUwN9HqE2i62eE+GLuVmJlr8Hwwe8EdB21YKjmN47OUHKRlp6eYWN7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=J/DS4FBM; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hPVwbTCT"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="J/DS4FBM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752240066;
+	s=mimecast20190719; t=1752240640;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=HI3DXTJH+E5afO2iqlBA4pO79KkBmc3pMVui26CVcYE=;
-	b=hPVwbTCTDto0gb1E2nh8ycqP7Ibi1XcZmWzEkRLFpV+s9UcdNblk4Ptg3fUqPOMzWb3cVg
-	9Q383Z9D3MsNp2bTZ3WgQADGLr+MZrFwd+lGzdJTfnvyo+RUti7B4VeuEZcvPlQsHWX2Q0
-	Pu1hSvmvt1kvF3Rk0rMt3rlL2HxORKI=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-48-ni5iBtjMP3qx0tA8L9CVKw-1; Fri, 11 Jul 2025 09:21:04 -0400
-X-MC-Unique: ni5iBtjMP3qx0tA8L9CVKw-1
-X-Mimecast-MFC-AGG-ID: ni5iBtjMP3qx0tA8L9CVKw_1752240064
-Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-703d7a66d77so27944097b3.0
-        for <coconut-svsm@lists.linux.dev>; Fri, 11 Jul 2025 06:21:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752240064; x=1752844864;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HI3DXTJH+E5afO2iqlBA4pO79KkBmc3pMVui26CVcYE=;
-        b=wGdsJjKIo8NIBVoGHKfjK30P1Bj5jcvoruvQlNbd8oou6IHwklQEo6pNqGXk8OpMsX
-         znrhZFSgqveidValBku4oNImFqnrMl9NwXStVYNZnnagRnAnE4q2zAlfHUj/19esK6Gu
-         fGaMXPJQf7p8Fg1OFbrCXCoxvujxvRu+mP62I4YCcjo2R4gZ7nwTddNMUSzWPOaI2cO5
-         0vEDAgmvuMq7EHpBfvgCLAdumebz0HRZRp4KBZkB2VOajAl3Mg4so+BnOT81sYL4nE4D
-         jXqG1MXpSBzBEcO0gws9NBdHGcUVVSsLVCX9kJsM28O+rBiO1MLbR0J2N6m7S27WL4k9
-         AF3w==
-X-Gm-Message-State: AOJu0Yw1rHZCDaouZPVSV3kMisHG02Itl9eFVov3G6ju9yQn3s/DKmx6
-	nFK5aFIyZypjISLWfaOWC5IahJDWm7PTDwFp5FzwRoX9GQrleB8u1bNsbojUXvq6fzUuAzOcx6s
-	S+l9jx9QnrZ+xxkSXNyY9Hqe77BF6TXWTiWqRr/la9Jq3n+IqWARs77CU19scIQjMlq9JTJcm+1
-	J2huGbkYxWLz4tVgN8NXACslqHRFtm9CqbNDV8LIwpxWXTwy9y2Co=
-X-Gm-Gg: ASbGncsFTBvTUs1HaDtIh/IEip4H7MthBw37/Y9pt9FRfChB81Z9BPsyS9Sn6b3Bog2
-	cvlDnYTQJEX9KZuerv1M/T+VQ5scYXhRi43/s3NHae2WDFLRywueC0qkQY6jXUPOzz45RWqgnkx
-	SPRKaphpluBXxi+Dvah8AdmcI=
-X-Received: by 2002:a05:690c:4981:b0:703:b47a:7312 with SMTP id 00721157ae682-717d69d0cf7mr53566127b3.15.1752240063670;
-        Fri, 11 Jul 2025 06:21:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHfweBzo+z0zokpW83SEsmpETsz6+MY9K1pLsMu2Tx2KaB3yIjIGJ+1Hh/iW2R+C5DTrBhAbj9BJVOUBNFXxLQ=
-X-Received: by 2002:a05:690c:4981:b0:703:b47a:7312 with SMTP id
- 00721157ae682-717d69d0cf7mr53565557b3.15.1752240063200; Fri, 11 Jul 2025
- 06:21:03 -0700 (PDT)
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SyTp8Prip+kBWBbrGW1r47Nl5zxY1T5Awq+di+Gh4Ec=;
+	b=J/DS4FBMDUg8iDVjDkDjuupzepMeIae1aKeseZjY3hwoXWoSmpbFc3JD3IVh3opbRBEBzO
+	wfrhMRe96Evvr0/7n+vlSyEPZcNiSKMjYyXSZ+jODsaFzKsXJrARd7UEucT/4jC/GBCEpp
+	3C3DWIdJ2UsRC7DFTU+aB3lTqbGCLO4=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-363-5RRNyl_lM86FGb9gaeYj5w-1; Fri,
+ 11 Jul 2025 09:30:39 -0400
+X-MC-Unique: 5RRNyl_lM86FGb9gaeYj5w-1
+X-Mimecast-MFC-AGG-ID: 5RRNyl_lM86FGb9gaeYj5w_1752240638
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DD9B91809C87;
+	Fri, 11 Jul 2025 13:30:37 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.45.224.214])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F01953000221;
+	Fri, 11 Jul 2025 13:30:36 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+	id 9B06B1800393; Fri, 11 Jul 2025 15:30:34 +0200 (CEST)
+Date: Fri, 11 Jul 2025 15:30:34 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Jon Lange <jlange@microsoft.com>
+Cc: "Relph, Richard" <richard.relph@amd.com>, 
+	=?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>, "coconut-svsm@lists.linux.dev" <coconut-svsm@lists.linux.dev>, 
+	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>
+Subject: Re: [EXTERNAL] Re: SVSM Development Call July 2nd, 2025
+Message-ID: <auq7txxlerpwzl542o6rkjams22cy6rb2xoi3f7lbej6u47svi@rto2jldlvxyh>
+References: <sn6mqb3jmijz2mxur2fxow4wp55ljfiwhem5qzsoeavhsutjbv@iaunp2gqfs4g>
+ <lirgc4cvbgr7wxuci2paqggsdzw2wcfmn2dtg6urorqmjpjhtk@bof63sgjpihg>
+ <vpwzlcdbpu3kdshsgfshwfldqm5wtcesblwa7gzwyaf3tgtqwp@2vh37q57z2xe>
+ <4qbnbdno6hof3llfemhxc4prm7x2vzpqmvjknykelucpqhyryz@kbgpmaoy7vmz>
+ <4b862033-9c53-47ec-8eae-e9c9ce7d7d7d@amd.com>
+ <cvrqixqf3odaxgpz4uzwtkfkbmgbyrndzgyl7mhlbs6vj6fnpp@5aqnndt7rm6q>
+ <d579919f-6e66-4499-8634-e258af61c933@amd.com>
+ <aq6225hfazqsbqgx6fhj2klst52wdfivfa6xj2ost65sg5fq2r@4yoqnv2tp5nm>
+ <LV5PR21MB5210A051A344852EC30C089CCA48A@LV5PR21MB5210.namprd21.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Fri, 11 Jul 2025 15:20:51 +0200
-X-Gm-Features: Ac12FXz3o3fvc-lL8R0cH1CBFbUbq1rXZQJrrE9iCf5IX-iLcgJA0PYGORv9lqU
-Message-ID: <CAGxU2F6AM=cdsr2DmY-7cawNxcsuHWwNPe3qN=WWrGfJOsTzzg@mail.gmail.com>
-Subject: COCONUT EDK2 fork rebased
-To: coconut-svsm@lists.linux.dev
-Cc: Oliver Steffen <osteffen@redhat.com>
+In-Reply-To: <LV5PR21MB5210A051A344852EC30C089CCA48A@LV5PR21MB5210.namprd21.prod.outlook.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: fcI7qeXssc2MVGFyEoOaGDSlFTXcqA0RWoKpC1w9Ll0_1752240064
+X-Mimecast-MFC-PROC-ID: OR007pdfC1-jWpfxDobtmV8ftECZRXHrr75r3bwZM4A_1752240638
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
-we just rebased the `svsm` branch of our edk2 fork on the upstream
-`stable202505` release, which also contains the SVSM TPM driver.
+On Thu, Jul 10, 2025 at 04:32:58AM +0000, Jon Lange wrote:
+> > i.e. support for SVSM_CORE_DEPOSIT_MEM ?
+> 
+> No, the SVSM knows the full memory map at boot time and therefore can
+> know the amount of memory required for all bitmaps as part of its boot
+> flow.  The simplest approach will be for the SVSM to carve out
+> whatever memory it requires, and to tell the guest (OVMF) what memory
+> it has claimed for itself.  There is no need for additional bitmap
+> memory unless the guest support memory ballooning, which I think we
+> can consider out of scope for now.  So the question is what is the
+> best way for the SVSM to advertise its carve-out to OVMF. 
 
-The `svsm` branch contains just 2 patches on top of `stable202505` to
-fix a known issue with major Linux distributions and to disable the
-fallback reboot of shim. See
-https://github.com/coconut-svsm/edk2/pull/7 for more details.
+OVMF doing svsm calls for this should work fine (didn't actually test,
+but OVMF does memory validate calls quite early at boot, so I don't
+expect blockers).  A protocol along these lines should work I think:
 
-For the rebase we had to force push the PR content, so if you have the
-old reference you have to reset HEAD in this way:
+memmap call #1
 
-  git checkout svsm
-  git fetch origin
-  git reset --hard origin/svsm
+  IN  RAX    $protocol.1
+  OUT RCX    number of entries
 
-Thanks,
-Stefano
+memmap call #2
+
+  IN  RAX    $protocol.2
+  IN  RCX    entry index
+  OUT RCX    entry index
+  OUT RDX    entry type (e820)
+  OUT R8     entry address
+  OUT R9     entry size
+
+Comments?
+
+take care,
+  Gerd
 
