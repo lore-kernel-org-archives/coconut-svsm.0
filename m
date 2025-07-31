@@ -1,69 +1,55 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0821226A0EB;
-	Tue, 29 Jul 2025 20:31:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD14228DF33;
+	Thu, 31 Jul 2025 07:10:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753821100; cv=none; b=O9iG4eoRvL++YBeVgQIdspWzX68G27H/UG03NASeijl/4e9Br8WyR3Sit0sUlSD2z+F8cA02lcf59mNVks3dpXRkc8ZIUl9Q7SIdWPQrwPgVoh4R+SvZ/CAiTvzzK9BrRnRs2d+EaI2LubPLtZyKlsL4XDx9tSHXzU/TmPMFY1o=
+	t=1753945821; cv=none; b=HJdiFUBCIjHP+kIk4oI/jLNpCf8xT0+BnRghT/9DPLSWgC9BWwgA/DTx7QKMRBSUKm0h20w7f3USxj2LeaPh/lwk61q61Ix1XQ3wIBuEaOKdiNP+3ROU3GVUhlwZ3nTObUm3xsORnh1ToYc95v5PO8QHqQTuWmAiUb2p55KjKQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753821100; c=relaxed/simple;
-	bh=HvavW8VkofQnxOqfVQEAgSIGxDbgCX+Dce+BFYqWQ+0=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TH2bZDD9Q1NzXL2k2tQjSRY+7wIhLKTIwEG7hHoTeLQPrNxSb8UNJ9UBlcB2H91LwWhgw8rGR5h5K+4lc0TtlixlVYLzbsK7490P8qL1HX/GHeFIgW4i3t1NXL+0B60a0qV/LbCzaIQu/GVW0jQoNakQ3ULtuJ1cx15hKCnikik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=7BvGl6T5; arc=none smtp.client-ip=85.214.250.239
+	s=arc-20240116; t=1753945821; c=relaxed/simple;
+	bh=7sGtsS8LQnYRqcGcQPgS5rTdX/PM5fPgx+rSlKW3v0g=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LPVI+9ax/T9DO4ehon4x99oMNqky+g5XCPAjDiJnYrrR0oAcsiQeIB3yXhZEPSDVrcR9UJnXpc1IIVIrLOrQmG0/qWU8YHV/TNQhq186Ha+5PkJ3hMV5Cutcek5Sh+3J7nKxRrpf2K06EHcvde8f/nvKrH0ZCEKhV+uqdA8to3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=cj1jpMgK; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="7BvGl6T5"
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="cj1jpMgK"
 Received: from 8bytes.org (p4ffe1b02.dip0.t-ipconnect.de [79.254.27.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 03E8946201;
-	Tue, 29 Jul 2025 22:31:30 +0200 (CEST)
+	by mail.8bytes.org (Postfix) with ESMTPSA id B7BFB51BD8;
+	Thu, 31 Jul 2025 09:10:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1753821090;
-	bh=HvavW8VkofQnxOqfVQEAgSIGxDbgCX+Dce+BFYqWQ+0=;
-	h=Date:From:To:Subject:From;
-	b=7BvGl6T5XTvegDSUz5pmhC2MMRSFrajWfc7HcNhNkZ/le7M7WtuAZFu/QyAsBPbOY
-	 1C3vypDbqpeffa77Pj9JGSXSx6LPa8KaS8sBgal1BZ74Scr/nB+z/l2dkIPpiXnHtd
-	 Hqa8HStQHM763AN+8FdgguPMFlUKPYn6JAZy7xqH+1e6/835tHI79LP5pAR7+i4zSO
-	 b07r9RtPVUUsVtPHRtLJHRLClHIGAvYJsJ5JDakPlUmfe5bh9c8BPn6YeDubtp++qU
-	 mIAUzLmkPV5GfNOmob1tL4dCtSOW6EDSonP+7wudCgKUs4yZm9BxBrMWB/SL+6N5vu
-	 PJQWQvCJmV72Q==
-Date: Tue, 29 Jul 2025 22:31:28 +0200
+	s=default; t=1753945810;
+	bh=7sGtsS8LQnYRqcGcQPgS5rTdX/PM5fPgx+rSlKW3v0g=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=cj1jpMgKtViLYfFW65RGZ/roZEB5+RNGYIVnbRQmFyIGMztWZQIGW7VB7B9mT6GFK
+	 UXJGRd7Zo5nNLonEAhrwcUPM9fU1uShxgDwSZ7U8BCWXCzXUauKKJyUUupMpHXih48
+	 ECijMfwmhhaWyNe9ObPr1CYfAbgNiQRxlctn0lnqMdbM/eU6TKIZhFLMqtAVSZeH3P
+	 /CEm1AXsMe6mFxh+1imnQ1hOy/eavkK3d6rqzMCK4sDKg4EGjj6Lk5V00GTjERQNO3
+	 yiaF7BeTOdXEzSjjtSns9eJ6ZTzsUGMY3Ruk1GI0+k04I0o9UGOdeOClxWZc9J7K86
+	 EpwAtMQ8ivNTg==
+Date: Thu, 31 Jul 2025 09:10:09 +0200
 From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
 To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
-Subject: SVSM Development Call July 30th, 2025
-Message-ID: <g63do42uow2gfovwl6qpilpathawqkndk7bc7egwmcjwe33jrj@hxybq2xum4ux>
+Subject: Re: SVSM Development Call July 30th, 2025
+Message-ID: <e3c7v6ybrvbexx5kjgnrmruheqr2mqvrxsg7p35tfwmehrepum@lai7jfpeaby3>
+References: <g63do42uow2gfovwl6qpilpathawqkndk7bc7egwmcjwe33jrj@hxybq2xum4ux>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <g63do42uow2gfovwl6qpilpathawqkndk7bc7egwmcjwe33jrj@hxybq2xum4ux>
 
-Hi,
+Minutes are now available:
 
-Here is the usual call for agenda items for the this weeks SVSM
-development call.  Please send me any agenda items you have in mind or
-raise them in the meeting.
+	https://github.com/coconut-svsm/governance/pull/69
 
-We will use the LF Zoom instance. Details of the meeting  can be found in our
-governance repository at:
+Have fun!
 
-	https://github.com/coconut-svsm/governance
-
-The link to the COCONUT-SVSM calendar is:
-
-	https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=week
-
-The meeting will be recorded and the recording eventually published.
-
-See you all there.
-
-Regards,
-
-	Jörg
+	Joerg
