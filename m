@@ -1,166 +1,69 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 829C52E92C1
-	for <coconut-svsm@lists.linux.dev>; Tue, 12 Aug 2025 09:38:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 378CF2FDC55;
+	Tue, 12 Aug 2025 17:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754991502; cv=none; b=ZNvaeWpVlee3DgmUqVLjIPP0h22XITGjsLAGW5EILPahHcGoRXXzgipySfxjCqZBG+E84XuI8sq+IMuWN0wBQXBXeFP5yzCrPOliBTP2CCtcR/NwhE3sS/CqJZ1NczMxLyRSIiwOvoV4G1XX19XSmIGF7l5nTGW7mPijJkc5ScQ=
+	t=1755020249; cv=none; b=dQXx1acQogwJ6L8H+w764U4dERztavmVQ0uMQWi+Hjz7Zf1pXMdWc0tVaj8/T8U3go2uSROYyGn0ktqeJoYgecc9jOQ+RWIDcgI2wDGd9CvOdGIspc/IJT5rHv9ZllnbDnWbgCTH46EFqoXO3xT4hZ1yKQLB6jCSZJYLEz9eQVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754991502; c=relaxed/simple;
-	bh=H3U87u1sm2f7SpiWZNgRvbX5cs8Sr+SBrIZUfqar40g=;
+	s=arc-20240116; t=1755020249; c=relaxed/simple;
+	bh=HvavW8VkofQnxOqfVQEAgSIGxDbgCX+Dce+BFYqWQ+0=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G4JxuZ4cnlWmid3Sa1npC50yQ5qUDEr0sH2zsb20onzEBy8V+DwL9+LtiioJjpzUb6WqCBbRbf2kSRA8luA4acHkg7eHujdF0R3DQngnN4VoRYDsKgBrIsB2zIfUgpF5t3c5Yaxx4O5PSB+ax+dyIJzPdzZRKA03+aUfvEidtAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=Mz3P3DlT; arc=none smtp.client-ip=85.214.250.239
+	 Content-Disposition; b=nHI92OKeFfUPVNDEnI2GKIki1aDbYit9FTrQKi6EvUbGn0pHAGqlo5SXiw0Z3l5YLcG7RgQ6rKl4nNDskvAbk4QyLnoexnpY36tI0mjtanbm0VCKfa9AcjeTI2MArYB74j7thIpDFaKexDhlUIBshhfgdOO5GWR7LFBF62bAz5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=CuE9OTc9; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="Mz3P3DlT"
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="CuE9OTc9"
 Received: from 8bytes.org (p54921b16.dip0.t-ipconnect.de [84.146.27.22])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 4115952974
-	for <coconut-svsm@lists.linux.dev>; Tue, 12 Aug 2025 11:38:19 +0200 (CEST)
+	by mail.8bytes.org (Postfix) with ESMTPSA id AEB50529A5;
+	Tue, 12 Aug 2025 19:37:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1754991499;
-	bh=H3U87u1sm2f7SpiWZNgRvbX5cs8Sr+SBrIZUfqar40g=;
+	s=default; t=1755020245;
+	bh=HvavW8VkofQnxOqfVQEAgSIGxDbgCX+Dce+BFYqWQ+0=;
 	h=Date:From:To:Subject:From;
-	b=Mz3P3DlTl1kDXofjuxi4z56rE+baCLn3XiU8YEXjE11bISDDuV5iu9B981DofdOt/
-	 +2Wz113+nEvzj2IHoNZecCzC7VfAE7BjR9ZO6CiodaQ6yhrMV0QLQ/uhTc4U/dP+oa
-	 92WsYiR7+l89R7NcwrEyXrkRDFHNXZvP+/Qc7jKhBzz16+4CLgzy5apmz7cOrOpT4q
-	 +AGL8RbuFYgxsmQvla7CwqBqfezny5tND+VG+miBDArqSje8pSnAGbRzASembb1D3z
-	 Cog6TPDh2muznpK/3cz9nZ+RcOHOiqa1XnVZrQOlBlKPp6LAQNoGtck1bfiHWaPs0K
-	 h4RAeI7a5bnAQ==
-Date: Tue, 12 Aug 2025 11:38:18 +0200
+	b=CuE9OTc9OSudnZaYU7N7Lvh286TODm0H1rxV3N1lMEqughP2Sp/k4K8DFxfE4npPZ
+	 lOtsgd3VZHu16vqVVGyEeiwJxn/f9hX2vZW8zwSJgLVPpEFT6lk2AOsewuezXs9yRx
+	 f6nyqIu/inM9W05MsyQN2EiPjSaloDxsUEa9nqJmuDBZWlBs3jhQrA76aXcW5Fe+nS
+	 TsHsPCCAl9+B1jDIktgAz8xahGKkF8Toe+nI7wd5XY7VkeIYciwJ9k5Q3Zd8zvxq4z
+	 yyM8CS9EdZh2qQfpG2swE3uiUEuSjthN8dya+HhcnRWYwDeFgXqDP9sKBkPg5kUEbj
+	 nxcXyLv1t5Vbw==
+Date: Tue, 12 Aug 2025 19:37:24 +0200
 From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-To: coconut-svsm@lists.linux.dev
-Subject: [CfP] Confidential Computing Microconference @ LPC 2025
-Message-ID: <4l5pbshkvzviq6eubr2ip6batvd26q5nkqjctxdyi6cp5lsb4c@6mgcub54fs6v>
+To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
+Subject: SVSM Development Call August 13th, 2025
+Message-ID: <tcn7lbkdldezuzuhsvmodkunsze6kwefbsibc3r5acktj4ssgz@akyknynywlqd>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="hvbgvlcmdy4ermqt"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-
---hvbgvlcmdy4ermqt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Forwarding to correct SVSM development mailing list.
-
---hvbgvlcmdy4ermqt
-Content-Type: message/rfc822
-Content-Disposition: inline
-
-Return-Path: <linux-coco+bounces-11734-joro=8bytes.org@lists.linux.dev>
-X-Original-To: joro@8bytes.org
-Delivered-To: joro@8bytes.org
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=147.75.199.223; helo=ny.mirrors.kernel.org; envelope-from=linux-coco+bounces-11734-joro=8bytes.org@lists.linux.dev; receiver=<UNKNOWN> 
-Authentication-Results: mail.8bytes.org;
-	dkim=pass (2048-bit key; unprotected) header.d=8bytes.org header.i=@8bytes.org header.a=rsa-sha256 header.s=default header.b=JbiXTDGE;
-	dkim-atps=neutral
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPS id DA9CC50C58
-	for <joro@8bytes.org>; Mon, 11 Aug 2025 20:26:16 +0200 (CEST)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1AE893E3A06
-	for <joro@8bytes.org>; Mon, 11 Aug 2025 18:25:52 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21AC12E267C;
-	Mon, 11 Aug 2025 18:21:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="JbiXTDGE"
-X-Original-To: linux-coco@lists.linux.dev
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20F9D2E282F
-	for <linux-coco@lists.linux.dev>; Mon, 11 Aug 2025 18:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754936482; cv=none; b=lh42jA/jhq+nrzvHdgIVZbdC1PQG6j6YChZSO7e0HamSey0SRMj5J08OeW5SUSzhl+pcNOoKRlerOvjBig11rBu81wiP0t/gzenthuUVvv46WsQu4ffgXDi2lpFMZZMk4ytlBz+mmA4iBWucec6B8AFKrY+O5OCKq8NIa0HQZZI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754936482; c=relaxed/simple;
-	bh=SvPZlqXRWngt1utHyAUTnrl/jVOB9D2tqo++t5yz1aY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PXzoc3wiwRnWzr0qQ/gM1urJ4yS7630CQmQmGrxBQNwzeHrt4Sc2VKPAd0oKFpRN/TMLJf8Jtuh3akwIFSPA+rBAFUsgTrquUYgEbRN+W/obYd6ImIZ0aEg9A0fZfjB1MufIetnSEMtTJ2vKS6n1SbHD1BUlTQ9fVJYtIbtENXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=JbiXTDGE; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Received: from 8bytes.org (p54921b16.dip0.t-ipconnect.de [84.146.27.22])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 3233B473D0;
-	Mon, 11 Aug 2025 20:21:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1754936473;
-	bh=SvPZlqXRWngt1utHyAUTnrl/jVOB9D2tqo++t5yz1aY=;
-	h=Date:From:To:Cc:Subject:From;
-	b=JbiXTDGEuSq+AOUV4o4PsNQ3+J6W+PQVn/CIT1q2IPHcInJKM398cNvcLz50fuPmX
-	 voYaFt4om+GrZU0hopvOvqSeqpj4A68jsOvuU2PKfUdcusc4vppMwMIoiul4lTV/j5
-	 Tw4OdnjEQpdVCQuOjqKqKtXs+Q/on2CsAGrdsEJZCVFOHG/HMpL97xwaXiLKUdKV3t
-	 VI2/qEC+JPxesSGX2loC/74XdYS4Sk4iYf6AxQwWvlV+ig/Y8qOWTKVHwKQrAO/tE5
-	 j8e4J28oKeLj1oz8P+kIwBnzH+ukMyPLVCcFIP/tshoVicYQEdSLK2M2cYS+0t0P9I
-	 HLbuNy2Okg6Pw==
-Date: Mon, 11 Aug 2025 20:21:12 +0200
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-To: linux-coco@lists.linux.dev, svsm-devel@coconut-svsm.dev, 
-	kvm@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-Cc: Dhaval Giani <dhaval.giani@gmail.com>
-Subject: [CfP] Confidential Computing Microconference @ LPC 2025
-Message-ID: <hbvvob7wwgymmg3hts3gdpr6jygzhlht4yq57riewryd6oulva@jpzuxrvljzb5>
-Precedence: bulk
-X-Mailing-List: linux-coco@lists.linux.dev
-List-Id: <linux-coco.lists.linux.dev>
-List-Subscribe: <mailto:linux-coco+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:linux-coco+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 Hi,
 
-We are pleased to announce the call for presentations for the Confidential
-Computing microconference at the Linux Plumbers Conference, happening in Tokyo,
-Japan from December 11 to 13, 2025.
+Here is the usual call for agenda items for the this weeks SVSM
+development call.  Please send me any agenda items you have in mind or
+raise them in the meeting.
 
-In this microconference we want to discuss ongoing developments around Linux
-support for memory encryption and confidential computing in general.
+We will use the LF Zoom instance. Details of the meeting  can be found in our
+governance repository at:
 
-	- Support for large-page backing of confidential virtual machines
-	  (CVM).
-	- Privilege separation features in KVM via VM planes.
-	- Live migration of CVMs.
-	- Secure VM Service Module architecture and Linux support.
-	- Trusted I/O software architecture.
-	- Further topics to discuss are:
-	- Possible solutions for the full CVM (remote) attestation problem.
-	- Linux as a CVM operating system across hypervisors.
-	- Performance of CVMs.
+	https://github.com/coconut-svsm/governance
 
-Please use the LPC CfP process to submit your proposals. Submissions can be
-made via
+The link to the COCONUT-SVSM calendar is:
 
-	https://lpc.events/event/19/abstracts/
+	https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=week
 
-Make sure to select "Confidential Computing MC" as the track and submit your
-session proposal by September 30th. Submissions made after that date can not be
-included into the microconference.
+The meeting will be recorded and the recording eventually published.
 
-Looking forward to seeing all of you in Tokyo in December!
+See you all there.
 
-Thanks,
+Regards,
 
-	Dhaval and Joerg
-
-
-
---hvbgvlcmdy4ermqt--
+	Jörg
