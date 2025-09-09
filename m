@@ -1,40 +1,40 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2274E2D4B73;
-	Wed,  3 Sep 2025 05:00:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04E0635209B;
+	Tue,  9 Sep 2025 14:52:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756875604; cv=none; b=asOEeu/MCWqtHUXit5KDBv/CNlfgopnTJ9VKRvLwHRlMklbEy8EG4uWH5QDQJaLndIYj7Lr9helFcugHn9MAFSQZyZkYkT96HjwpGPtZLupal3Aww4b7mK79POv4TxDE647JjcaHzVfNCobbK4EES+RQD6LKX4X9PKcdqjwzFD4=
+	t=1757429548; cv=none; b=b8dXzvCMO7efifgXp1l08zykw0iEgRtDMVdnfclg2LxGFd6x0n/GgU8cXfK53uvyTfMSCgKl9tdp5ZcTH7uBbQURv5lX666d0ugKOHbqwvvGE23rf+zfsWKQsRkb9SSWAlDoJ8eui0Z24eh+nwanKE2rFs/Ku5zn28Ue8gM+RPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756875604; c=relaxed/simple;
+	s=arc-20240116; t=1757429548; c=relaxed/simple;
 	bh=HvavW8VkofQnxOqfVQEAgSIGxDbgCX+Dce+BFYqWQ+0=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ttlqv7dfcM7SdjlFWQiShoYyuIXFpO6Xz2QlJc4b0QJLAAfQ4r8d5Jopmp9cd8Y8gyb68AYURRLRLp4Ela98l4gDK/Sqmb6qlRfYsrP8/QTVYL59pOy2LB3BdOdq53+8A5sc+dI1/cCRoovUUvqgMNAp84Y0oLCskdViNYhqAs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=5Czfmn5K; arc=none smtp.client-ip=85.214.250.239
+	 Content-Disposition; b=Rx4kvM2aoS0PnSbyoZqjYoDrVzM6yflnmbRFHBCNZJYwrYnjInAKEgtWNdxg2sOouGeEhRo/OcZp6J3rrFS8kvmS5gVgbM+ef5D/fyOdZQKwQkHJXpMGi4th+/C1D9iyGmh2C9vGCjzoxoYUZuIECifEUqvUssjBw514/LAcLK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=yTbqwZGD; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="5Czfmn5K"
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="yTbqwZGD"
 Received: from 8bytes.org (p54921b16.dip0.t-ipconnect.de [84.146.27.22])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id AB6424C392;
-	Wed,  3 Sep 2025 06:59:54 +0200 (CEST)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 5D13A52FBD;
+	Tue,  9 Sep 2025 16:52:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1756875594;
+	s=default; t=1757429539;
 	bh=HvavW8VkofQnxOqfVQEAgSIGxDbgCX+Dce+BFYqWQ+0=;
 	h=Date:From:To:Subject:From;
-	b=5Czfmn5KSpx/ZpJF2+iBbG9PhFiNfNHZ6bMFYDBJdmisxpSMyaNxzDP32LZiR8JXG
-	 FRy200wqTvaqaC5BgPcCTdymJbj4WYCayInEk4CG/lq6iUzODa4JZAib8iPxIeap/c
-	 ley0jKzNs/HNiZTHQuAXm7PmV6sNPuGEomzIfWyZUUrTdeWD3zUxoBJZD7O8ksWxVv
-	 SAfZTdLOHBjTJjXvmlkTlXTGNWm6H2hQKaADiqE2jyDeUJW//FxYVWEVejCXJIKcpJ
-	 XCDhVwMQSrjuxVdSr43kIJvuZ34jHik2xIVrknEVjZ0T6aCP+9LBN27BRuOcRv3wa7
-	 xWpy+GwLJHEIA==
-Date: Wed, 3 Sep 2025 06:59:53 +0200
+	b=yTbqwZGDSN/AueHi6SHcDshx5zc/8hlZoo1ZvvJcwviK4fKVvpL40Udor4idOCF1g
+	 E1vHlRZJdEci2olP3sGab5RSJuZr6EKu4Yiov4A/DRLHcyiR2fT2XRBY4jUezsBwnQ
+	 I429qggkHVeoHzLrgIjNaIznvwk942h6jX9ZnB9mP9MBM7Ll1IGAmE240EBf//2OgD
+	 YmDSRMnsg9eqYgd4TLFXvV9aw9b79iCghAnG0lBAXsWRpsih8qe6N23c4LNpcVU67n
+	 6J4Cfor8G1AwuMJ6R8ZYC6UUtjABD3m4vcNYbSJoNmX7+e0+EJmYo6Di+av6kltbQh
+	 +tULI+SpKAQyQ==
+Date: Tue, 9 Sep 2025 16:52:18 +0200
 From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
 To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
-Subject: SVSM Development Call September 3rd, 2025
-Message-ID: <vvkrixk2d63aenzhhlxemuq3chdk3rbr4jg47g6xki4bbcf7bv@ws454kzw2mxe>
+Subject: SVSM Development Call September 10th, 2025
+Message-ID: <2u3l6vuoby5ffds63pzlqzmxzqylk2aklv2znb6wkxhjhpgek2@mb5xxsx2r2bp>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
