@@ -1,90 +1,69 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540782F39BC
-	for <coconut-svsm@lists.linux.dev>; Mon, 22 Sep 2025 09:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2442D74420;
+	Wed, 24 Sep 2025 06:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758535027; cv=none; b=s/3rLTJL2THi9jLvi1FXlf3aUcU8eqsnykUSAxXfHAphjJ/Mli2v8R56ANuTIwkDAvsVY8fT2aEHMNL8HSSYh7i8MqL0B33rEADBemhdt7yH2z+1ONByTbu+ZJnecyaJey02k1hTmJVPlAgxWkslfs/l5jbJADmVCEfxGMy4Vh8=
+	t=1758696315; cv=none; b=cbC2u5KeA9MTFq+B9KvnVFezDUU4kndIiwOAHncJDdJXmxybVNBCJL4b/V9/9Aa25dNotgfRWl+Z8T7XYWVHH7spxJy8x3R4YrLaEhpFdP4hHvgWDW8Xtp4VT1olx963of9NDEwEVQbHjE5Svxq0k2wJn64kXuzimIk/rxcrGAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758535027; c=relaxed/simple;
-	bh=cWaxL9wDkJ/gdN9qHP1DkOW1oeoLvxzHaKVR9800fDE=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=DwxJEYYxstDOPdA5cCxWwDR1P3KnI0aXaz92c4xLdtDT7DJewQLK27YdX6Hx2ObBCwXbYE0qDHIxTowbnnelJMKqnH3zYSA8IRbLl0/eAV9LBELysnBGVSvA68mjSI0SFnKO/x/BaBf6F6Hx5VD312hrrW4VuErZX3DR8/c3jwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AXvWhdBG; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758696315; c=relaxed/simple;
+	bh=HvavW8VkofQnxOqfVQEAgSIGxDbgCX+Dce+BFYqWQ+0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kqhMI9nY4MTTF5CUuATkWVGA48zU/J2xcMgMM8UQ4W+F9S6YE3mKAZ2W2c1ccwP9N65qpMGNn3Q6WLI1pWPrZrtSZxLVCQSd0qus4d0nJfJnFiZoo3rQJZlsL181zlob3kso2jdNO1bkUGbAfwebCG6viVWl4sVARPBceaTdado=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=K+8kNXyf; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AXvWhdBG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758535025;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=cWaxL9wDkJ/gdN9qHP1DkOW1oeoLvxzHaKVR9800fDE=;
-	b=AXvWhdBG3r19GYBxHZuLVvTaWdudaZdYk1GP/rFqN8HLP3yQpqopWkzR6bCwHX+JXv3t+F
-	Jr/yuJZ4camMUjT4SOMvUlobiSgV+9TQXZeEZBbZQTttS0OghxZV1U1rM51u6mPkbZLFCD
-	Cn0dpAunCNirjNkR90vvS6+DGqeQUZ8=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-627-weYH2WZEMraAFSvAXp5qjg-1; Mon, 22 Sep 2025 05:57:03 -0400
-X-MC-Unique: weYH2WZEMraAFSvAXp5qjg-1
-X-Mimecast-MFC-AGG-ID: weYH2WZEMraAFSvAXp5qjg_1758535023
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-244581ce13aso78407285ad.2
-        for <coconut-svsm@lists.linux.dev>; Mon, 22 Sep 2025 02:57:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758535022; x=1759139822;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cWaxL9wDkJ/gdN9qHP1DkOW1oeoLvxzHaKVR9800fDE=;
-        b=niFW+HIcS2QK/242RHJ1neckw7CJuSv9va6KJTZBbImMw8PM09lK/4zTiGQXSYl3X6
-         0VBxX0byx9amMHWPpDK85se4kaRE4UmfNcJy0nMT7Ml2YpTBhkYOyjHd0ENWrbW6Lk4J
-         e3RtL/3ahFmdKo+8FxlTLR26VLJpAIUc7g1vloE9zxwIwToZdkpN4CsUGB0lhhkFlV8d
-         kRBI/6yFaoXpSfQBc6Ocbvh3mTpUo8FFx7BeGw9tAhKdwszdyTFBZPm5bF8sQA21GNQX
-         bfEY1cr0Q81qXPNitkHKlABlPmKHNJA8u9PkKzoQuKLUk0IDfoVmEhOpc5ODHZi/fyXl
-         eNQA==
-X-Gm-Message-State: AOJu0YzH3oC0FlGYOUr4dBuslpv26YyEZAjq0J+xqYtTkHCVhZF5qPLb
-	LfNCycKruVnvbHiIbcO7Mg3UwExggUsMC170kZT5zp+iaB1V5IXkChcbyyAGggZe1/m2+uEVd8D
-	oEb31m5K/JuZ+9nBeCRRPwecosTA4sPqQHDdisefNvaghsP35VsI4Nvgq5UMmLbAD26vn2yvOzJ
-	rp56WZWG2YQb5F6Wg26dpRqbSQIgWC56sm3KNOpNlKIpLB5r/KF7Y=
-X-Gm-Gg: ASbGncvVbm2qazcvvmuNQEdpknGJbXOub95Y5Dhm9OFDVc3lyMknkKeYES9g4VbuqO8
-	WRKKVWIJ2eizkjYOvlf8Te+V4o2dhtJwl7j4SwztABZ480k8Dsp6Wm+WVi2LGrfxURhUZdnBCQY
-	azZB+VOszLJyAxwyQEzQ==
-X-Received: by 2002:a17:903:b48:b0:267:cd93:cba9 with SMTP id d9443c01a7336-269ba5118damr143497635ad.35.1758535022597;
-        Mon, 22 Sep 2025 02:57:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEG6XdvGZ8WmCpki0vIUY43/4oTILcB3kXH8WPACXnvRVvA82nD7paRRfhneLktli/RybkRYeDNxBohkoI4CdM=
-X-Received: by 2002:a17:903:b48:b0:267:cd93:cba9 with SMTP id
- d9443c01a7336-269ba5118damr143497205ad.35.1758535021631; Mon, 22 Sep 2025
- 02:57:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="K+8kNXyf"
+Received: from 8bytes.org (p54921b16.dip0.t-ipconnect.de [84.146.27.22])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 99D5556090;
+	Wed, 24 Sep 2025 08:45:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1758696305;
+	bh=HvavW8VkofQnxOqfVQEAgSIGxDbgCX+Dce+BFYqWQ+0=;
+	h=Date:From:To:Subject:From;
+	b=K+8kNXyftP3tZGfLUPXHCWQpSQzt/66CDuHdSiD1zrxXpPIS3S5OJzb1JASQYGIuh
+	 qj+Dzk+YLyUtGegmgRrEXb3+OOWvo0dp2BDirnH4F/dEyTpQQsMgntYKz5D9Qc6c7T
+	 uKlopWiDnRAhDJbmcKjuiOWdVPNN7/u3CQdOxhE1FmtC+WP3hcG4PR6GeXalz/vk8j
+	 L+5FMohwNuPLvOGd9RER4o/vaUHCOx/JFBNrV1AX7jAnrnORjK/7fNLqeEk/Ai67HE
+	 X4cMniqKMkV6HAhthcivtAMes7NzdZRxN5zFaQcQaLg2kfIl0cPH3cO3ZkJX+v3Xx1
+	 vjBAo1UPvF6zQ==
+Date: Wed, 24 Sep 2025 08:45:03 +0200
+From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
+To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
+Subject: SVSM Development Call September 24th, 2025
+Message-ID: <gw3hzruia4uucn2a3dw2d5djhdv5jqrbwzifil76xd5vwajqon@pyy4tjowb5d3>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Mon, 22 Sep 2025 11:56:50 +0200
-X-Gm-Features: AS18NWD0m_hvSbKAwglEqo2InjXzbyXck7FUC7B0bZwRU6LsmSem9Ludog2J02E
-Message-ID: <CAGxU2F7d=9Lqf7Qwq2g2Y5tHeBSDVFd_r+55p5qVNf-XaieOEg@mail.gmail.com>
-Subject: QEMU: svsm-igvm branch of our fork rebased on v10.1.0
-To: coconut-svsm@lists.linux.dev
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: e4aSShnr6VXt5GlbSFQ0yzXW-M_qyv8zRDpomuEntdk_1758535023
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi all,
-we just rebased `svsm-igvm` branch of our QEMU fork
-(https://github.com/coconut-svsm/qemu/) on QEMU v10.1.0 + custom
-patches (Direct VMSA, Rebuild ACPI tables, virtio-mmio slots, no-cc
-support). See https://github.com/coconut-svsm/qemu/pull/25 for more
-details.
+Hi,
 
-Please note that vga must be disabled in qemu (-vga none) since we
-have an issue upstream tracked here:
-https://github.com/coconut-svsm/svsm/issues/811
-We already updated our scripts and documentation with
-https://github.com/coconut-svsm/svsm/pull/809
+Here is the usual call for agenda items for the this weeks SVSM
+development call.  Please send me any agenda items you have in mind or
+raise them in the meeting.
 
-Thanks,
-Stefano
+We will use the LF Zoom instance. Details of the meeting  can be found in our
+governance repository at:
 
+	https://github.com/coconut-svsm/governance
+
+The link to the COCONUT-SVSM calendar is:
+
+	https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=week
+
+The meeting will be recorded and the recording eventually published.
+
+See you all there.
+
+Regards,
+
+	Jörg
