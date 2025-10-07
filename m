@@ -1,340 +1,155 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11021086.outbound.protection.outlook.com [40.93.194.86])
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E457464;
-	Tue,  7 Oct 2025 02:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759803653; cv=fail; b=j0/06Xvxb+Z15dcjNY+oI7Apbt2bV4a89FJChnKhxQwOue56NVd4Z+gZvWDWFLV0TKU/xIBia7QseD2+0SE5y7Ltdr5u0T3zhrFSOdvVVohaDywQhx1hY0QrmYV5SSk38aE7h/ZaCPDV65EHMRSjMtGT+v7OLXEtWcGDsUxUT3g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759803653; c=relaxed/simple;
-	bh=ONNjftRtP32uu4iyDq49bq4UjbYhNPw35ObR1mMFg3A=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=pQDYX6KMyvNtFVFzCCQ9ty1q/jOeVUV31Ts0eEAnhS4KsQ5/AhhClDFJUMsKWY703mZtabqpQTiHRkvRpwsJHqnzyXhNgSZQD4wYQcntmm475CfaeJY9VovvktnJY6xlFSBI0QuO4aehYizUZoGn6R2awfsxl10NGCYulItZT+w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=dkWcdqt+; arc=fail smtp.client-ip=40.93.194.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF5F2B9B9;
+	Tue,  7 Oct 2025 02:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759805992; cv=none; b=sJs38jjUqcZ65IrsHPGEtKWxrrMUeapw9MJ9XXyPREQol8irKhqlr7D4P3QKrPi7115aXGjILScx0g+6gNxlgKZsPKx03UH9+6h+w1M7gaNmJ3howYIQMSP+BQEUolsAgZYe6+3TwBvf8L18afk6kk7Iu1UH+EhigHCiRCr04zI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759805992; c=relaxed/simple;
+	bh=eTPPuvSQFWWg010/4ebcIStuaBhg3af2JYciUG07jMw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=stMCMU/E/S5yph3CKhxtJ6YbA7X60RwtkLtR9wyOaNkcogW3TMUQkrI3ZqrsdCFbf8xgV+3KNb0CrSmN/K0bQgw8uIpyju6yGOSgNdvPoVMzDHUg111Of87B0fcOrXjuFbylqga3c2Q77LBCO7xIfo+grpapgpEg3G8NHniBuLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=iOEb8ovs; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="dkWcdqt+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rL+1uBdvCicT4Z9CrSegobLfHGzF3pjzTT86BImTam9tojZ1gGwdCGAsYMJ+wve4WIGjEbIOGWQsZz7n0u9j5/HSJKtwWfWqMBYReLAvwzuQn+h/wK46RCnt/JAaHHKdMTa642/4Fir7u8Cd50zaaRsnYi6oxYPSi1B5SAef4lOkxXCdKYu5jAdgqp0N7i9CrwXroTQOD5+gvQy/hWVaGqJgMtt0TthqHpDRqz8VWlRI18v0se+jqI38MluNYO5D/D3CdokMBBHYrc1UUOvgWeQZZ7UwAwcoX6/tjLTcL/kmQ3/j/ilxDk6Dadq/XFH4u7L0ihUaHgX/M4yV1u8AXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u+Onk7UFATga3zrDFff4iat4PfV9R/WP1iuEpg+L1Eo=;
- b=n8owvHLCNc8WSrIt2ViKqCzkZrCerSAxFZgh2Zp9OuiJER442gmNnqbemsETBzDWTp7BstgbS9faub6UYFb0auC4SPbBn4uxFCPLhuZ31U5Df2ZXfCaHZWBoLnfL9uUTOm/ig/tNHU7vwco81LsZyJJZmuBg42eVdmWEUXoHNPR8Ni87NThs6cs00mxe9JG802SZBrV2tMTM9Hj6IPnqIQ5lNvIRaBwq4ZtNzqz95O5ETXvFcgs8hSiBf9NzkvLBI+vq3lYc+1+Smk0qYi2AcvWuCdy6NeTQhTn4fEcn2Z9BxGZ6we+4d9Gjw7ZxuYxXoi/T3O50E+MjGbFPHZsgVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u+Onk7UFATga3zrDFff4iat4PfV9R/WP1iuEpg+L1Eo=;
- b=dkWcdqt+eNKv3+RgxTM0ibol9S6Xg1uEWeVFhFth10EoDCRsJLW/F6+Y/wnv+vLta/2OvjOVrxoKFZ6H8Gc5OX7qAWYfTiTjvR1ktyXksZCDhKs0VAEJRhdsebOtsEIm9RAdbkR4a1D/VI3x5mQIcfe2+UtEl4G2NtlOQO+q9rM=
-Received: from CH8PR21MB5222.namprd21.prod.outlook.com (2603:10b6:610:262::21)
- by CH8PR21MB5316.namprd21.prod.outlook.com (2603:10b6:610:272::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Tue, 7 Oct
- 2025 02:20:48 +0000
-Received: from CH8PR21MB5222.namprd21.prod.outlook.com
- ([fe80::ac59:5722:f945:8e7d]) by CH8PR21MB5222.namprd21.prod.outlook.com
- ([fe80::ac59:5722:f945:8e7d%5]) with mapi id 15.20.9203.007; Tue, 7 Oct 2025
- 02:20:48 +0000
-From: Jon Lange <jlange@microsoft.com>
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="iOEb8ovs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1759805989;
+	bh=eTPPuvSQFWWg010/4ebcIStuaBhg3af2JYciUG07jMw=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=iOEb8ovsP9WfbW2TyVEJa3v355nhSG446cjdQH+TfO3on5RmjN65NGCOLciS+luc1
+	 2vjSZ2V8KgP5qxMCevVmKN0V0BVC2QNHhMmIFvzHYv6NemCwNbm9fb2wmJMkVYX3k1
+	 Z9c7imyppz8w+6pkdToqCYieY9qbTRh6p0Lrckvk=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id AC7D51C0114;
+	Mon, 06 Oct 2025 22:59:48 -0400 (EDT)
+Message-ID: <40c872d85e15011784bec546290b22809dfff8e6.camel@HansenPartnership.com>
+Subject: Re: SVSM draft specification (v1.01 draft #3)
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
 To: Tom Lendacky <thomas.lendacky@amd.com>, Nicolai Stange <nstange@suse.de>
-CC: "coconut-svsm@lists.linux.dev" <coconut-svsm@lists.linux.dev>,
-	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
-	"kraxel@redhat.com" <kraxel@redhat.com>, "Relph, Richard"
-	<Richard.Relph@amd.com>, "Rodel, Jorg" <Joerg.Roedel@amd.com>, Melody Wang
-	<huibo.wang@amd.com>, James Bottomley <James.Bottomley@HansenPartnership.com>
-Subject: RE: [EXTERNAL] Re: SVSM draft specification (v1.01 draft #3)
-Thread-Topic: [EXTERNAL] Re: SVSM draft specification (v1.01 draft #3)
-Thread-Index: AQHcNSDFaTKRonNYjkyYuGuNj7UBrrS1at4AgACJhxA=
-Date: Tue, 7 Oct 2025 02:20:48 +0000
-Message-ID:
- <CH8PR21MB522287B7C4739DD5AAC83B16CAE0A@CH8PR21MB5222.namprd21.prod.outlook.com>
-References: <39cc8435-5643-4a16-8eb5-5e12f15566a1@amd.com> <87bjmmj4n2.fsf@>
- <8953f72f-edd2-edde-dc43-3782dbac8c16@amd.com>
+Cc: coconut-svsm@lists.linux.dev, "linux-coco@lists.linux.dev"
+ <linux-coco@lists.linux.dev>, Jon Lange <jlange@microsoft.com>, 
+ "kraxel@redhat.com" <kraxel@redhat.com>, "Relph, Richard"
+ <Richard.Relph@amd.com>, "Rodel, Jorg" <Joerg.Roedel@amd.com>, Melody Wang
+ <huibo.wang@amd.com>
+Date: Mon, 06 Oct 2025 22:59:48 -0400
 In-Reply-To: <8953f72f-edd2-edde-dc43-3782dbac8c16@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=8de7b0ae-1d32-471e-8ce6-4b048d8a705d;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2025-10-07T02:08:52Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH8PR21MB5222:EE_|CH8PR21MB5316:EE_
-x-ms-office365-filtering-correlation-id: e029f5db-2be1-4453-446b-08de05482156
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|1800799024|10070799003|366016|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?4hQBNVv3cS7NXUiX/UwIiTrtiecgacb9AXtgp8hjlK7l8KIv024+CYpGSnxl?=
- =?us-ascii?Q?tSx60dp7YufubHsZltLvXvXJYqFJ5ZsnU8lMnQjVXTziOuS6MJOg1LoBakgt?=
- =?us-ascii?Q?1pWdy60DrGew4LmvSXVgFjrTjq3NmD/BgZKLLGkhF1L1GIEDXDPJAeP8NRBE?=
- =?us-ascii?Q?7HED+EKMNKLyBo5FFEvXshda6mOvT85OWLQHT6Tx6ux4Mn7bv6MvXlwsNL3Z?=
- =?us-ascii?Q?tmEBu/wvLUkOFAvGw2H2mlnb6roT0tida7xoUQl/uAExBu9FuSLJUszJtopd?=
- =?us-ascii?Q?i+zMWiF/biLvxdmYDl5m9yw1qudMjhBVHqBI8nZ5ThizpIJDsXWTo7RtB3t/?=
- =?us-ascii?Q?q48a5IJLXXTd79SD7g+Tg6nHjSa1YPhD7Lq/qtsKeUqSeBiPWsvI0Ja/1aSV?=
- =?us-ascii?Q?Nx2VgtXLTx+fR12QBVrbdFqJ/1nBxRvhiYLbRmQe8Wdo6gcS0ZjnzS6UVrk2?=
- =?us-ascii?Q?KmVN9ZYfRfk8cPEgQePyYm7Kx0DVVCqdwsbZ39WdxLZGGwtgPRfHdj3csO+o?=
- =?us-ascii?Q?ZHZfxCcZQnN+TbZjJmDLnF6zeHgLoIVJSe2p1oQfjLEZw1dcfTiK99WAlxtg?=
- =?us-ascii?Q?DpEvle4NOtPC+f21Vwe7uHap3a/w5xgS3QZunl1rx/FGOf7CQQKeBvIs3cde?=
- =?us-ascii?Q?zBtSb2AjnXqZX4971B7+m+uA4WiWpFddcamW83Mx055DMMMU7LVwHDCw6ISS?=
- =?us-ascii?Q?DByhktpZWuetUHxJVTRd6QVTPHSlZY0WWLr9HL7F/+XEUOMGZ0Xd2nwYTv5Y?=
- =?us-ascii?Q?E8FCG5JBbIcg1uMvqscB+5LaqaePiib2/C3q7k6enpazAQLN8R4PegvWtFyx?=
- =?us-ascii?Q?N8tpxALxhDQLOronju+arTdLh0clYP0Lsr/YHJxrfUyIa9z5nr8uCApfL3tU?=
- =?us-ascii?Q?Y5R4HeXM3w+RfxvTFECexHKK4iytguHuZSyiJ7tt/mGmUSrzysLXl6X/o6+9?=
- =?us-ascii?Q?igpyZr6RPuUinzF6ayipHFM9VZxZMB7ZYah9HS4SZFeHhIme6kxmuCoIZL3p?=
- =?us-ascii?Q?yUjZUJtaJ5g/rPzmZiCsbRyUVqGu82wPISNOQfiXLEQhXOhsq7LTHRaUpWj+?=
- =?us-ascii?Q?TgvEUEoaqRu9x7YO2SqhcLi905xOTJ6cr9v0XSQ+MgoPsmA5a61vkW5HSE3Z?=
- =?us-ascii?Q?IB4/12ci3P+mpqMOnCNbbtwWQ3cn8LzsYXQCZSCn8EwMNizRMWWWVJrF0rHa?=
- =?us-ascii?Q?6QFeU3jOTrEW+g/s91qLlMK5g3JDo33PnitOF+wuGbcHUJqdhPaOt3wpGfN6?=
- =?us-ascii?Q?PbNc2wC75nH9u2TM8IPq1YoA7jQfjj7dI8mDbtmIDUwj+V2SBapBU5P88azb?=
- =?us-ascii?Q?D7kxpdP7sY6Yg1xB5FVvWVY1X+CDLLZlMA+k9VrtgLeV15YtkZqSnDkjm6fv?=
- =?us-ascii?Q?UK93+kgxW/+4p1h3g/48ptH5MSIfoSnl0Tix/zYHhWnkuEMLfLGoLYy8oU6R?=
- =?us-ascii?Q?Tjbnz43AWc/QOFnur4bImKxfbmPpBt6OZl6q9TBd86I3LaQEImGD8I51vT5P?=
- =?us-ascii?Q?tBRp97vUDUqIw/8xXCH0LYXj15Nxq/YHygW0?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH8PR21MB5222.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(10070799003)(366016)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?HWtbNfXq1tK9qkP9ZnLfUEEIfGeHuq7sjdFjhSsofj2xok+AfgxTXxwq8+o+?=
- =?us-ascii?Q?glOjMUWjrfU49G+zFrTcXWmiHJT4/0KgIlXQqWvX4iOKxsQtchFI7hB47Urc?=
- =?us-ascii?Q?lWcKq1+Kz7HAajx4rOZumYvKsgGMU17m9yPRv0vcK6pVKI66atcpluZ/H2+z?=
- =?us-ascii?Q?fGclSWCUhxL7QIPgZ24xdYjo+vZhL/C0X9qMO7lhCmxLgtMjCcJ8fTSE9JpS?=
- =?us-ascii?Q?9avnRbuz4mIa5C8um0iNF/T6dRvNHi8CSSiAyiLVY4wTO/CBHYcJAG4B2bZw?=
- =?us-ascii?Q?z+k4ewS4WeHv+z+p31TNZTzZnz+t2QSS01NsCs487spmzZnfQZ+secXiVIWI?=
- =?us-ascii?Q?Y48DvnzsieGfM51yafqP4crOLqCkprqfZpHI6Ohwx8KegPp3KiHsbm0BeIEc?=
- =?us-ascii?Q?qjCV6aTRzLIRzShHTp8nSkVdpswWlDm+JdCu9W6mOn6NxhVl7gOUt9eY1wgz?=
- =?us-ascii?Q?8cbRx8G65GraeZOOr893jtMAh15d/H6ztYBPFSkBLXf64i36CcykCdzdXHnb?=
- =?us-ascii?Q?DPZFxprWM1TfNG/xlA3ga3cwt/cvATTO8ndagto1XtRclRRCBU921gxI9kcG?=
- =?us-ascii?Q?8RpbYEISqKqrjVYjFOivibJ5HfurY9ovH2IVybcQW75Ocz0xWBcMznjwvFmy?=
- =?us-ascii?Q?3jiYe7l4o3tYE1THcEo0W6fT1oeIOCsKouCK0+E5nfr6KoR4tfTV3Iju/R1B?=
- =?us-ascii?Q?sb00Bu+UZQkKbStLWW6FkTVY003eIrDwM+2Wymdbi8uNbC3ACMIpddbaRO0F?=
- =?us-ascii?Q?M7kg1P3swVn5eVMxlgMP3/thFfpZB9Qf7HYfpDNhECEeLsuZHiDTbdIEUhtZ?=
- =?us-ascii?Q?S9WdC+bzUVgfJnkro+5BknfXh8ZEt7c7AhmDJyYYjhMuSaa7tcSfpqx7K04T?=
- =?us-ascii?Q?/fENy9a5swKV4wXx4XBIi9XG3l4aFbgRNp/xfv2e4VMDIdNGIo8eG5tsqVfq?=
- =?us-ascii?Q?JtwR6p+9EmUYbW7lbzMdze2Y5Rvl9t8eKs2mGTFUey7xQ3SqcZ051fUwCnqP?=
- =?us-ascii?Q?QpB3L8WVqgVITQiV6pV4pm73ichPi5gyGDU6FAskKhMpGl+o1HHYaPxpJPzr?=
- =?us-ascii?Q?bQyDNasjweR/ORp6+BtqR846AEW0QEOhfBNshPTVOlIAp3u8hCQySTyvNYuR?=
- =?us-ascii?Q?7i1Hr9/sfio07kYr/vXIfQaKrdnmXzK0i0H960ZhfZW/H7RLMGUaZmELElyu?=
- =?us-ascii?Q?mJpHogH+oWLH39TN652bD3sJoxH6hn3ZXISABnZLDgIl1Q4i7kpM3R7lYBs4?=
- =?us-ascii?Q?6LQNZDnAxatiPXcDLZkYNJq1+rGKCirgCjZblDDzzUdyK8jEP1WKRfgPsThl?=
- =?us-ascii?Q?Yb/uycNuzrtDoJ9JiTw/xIt9L+39A9kBLiMd+sRo23Xq6bDgp9Vb8iDWSKW8?=
- =?us-ascii?Q?yhYIEpr51EK4+5NHQDNr+ne6dFUAakX7xyI/ULIDAP3qdLY3mvonMyRtxfSz?=
- =?us-ascii?Q?Xf/f0MhCQn2iLojxvkDnPzjyI6wd2rr93LFdIj/vxtgqqri9NLkMniZQGG1K?=
- =?us-ascii?Q?zjOAKSkmPOfKwemVI/RZ//UzvRkZUx9o9Smwcmwjb7cjo2QPKQT82if/myex?=
- =?us-ascii?Q?f0cRWpzWWVoeiovO3zVTwwmbZBaz3UXlYF/P7DJAGSGDCgIqdkwq9jKBlITR?=
- =?us-ascii?Q?EtpiqhLIIKuVpuMSaD1KJjZe4WmI3lIMNLofP96d5QEp?=
-Content-Type: text/plain; charset="us-ascii"
+References: <39cc8435-5643-4a16-8eb5-5e12f15566a1@amd.com> <87bjmmj4n2.fsf@>
+	 <8953f72f-edd2-edde-dc43-3782dbac8c16@amd.com>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH8PR21MB5222.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e029f5db-2be1-4453-446b-08de05482156
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2025 02:20:48.7675
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DjmNa5p4gSc3vaQsY5bHi9DwwqXmMl2rM8OjTCpmyBAqiwAJ5ZacUuunzuMZUNCWvFnRXznSQgGBE7F38Qib/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR21MB5316
 
-Tom said something that concerns me greatly:
+On Mon, 2025-10-06 at 12:56 -0500, Tom Lendacky wrote:
+> On 10/4/25 06:19, Nicolai Stange wrote:
+> > Hi Tom,
+> >=20
+> > Tom Lendacky <thomas.lendacky@amd.com> writes:
+> >=20
+> > > Attached is the next version of the draft SVSM specification with
+> > > the
+> > > following changes since the previous version:
+> > >=20
+> > > =C2=A0 - APIC emulation protocol added
+> > > =C2=A0=C2=A0=C2=A0 - Coconut-SVSM will need to be audited, as the cur=
+rent APIC
+> > > emulation code does not completely match the "Alternate Injection
+> > > Support" specification on which this protocol is based.
+> > > =C2=A0 - Reboot protocol added
+> >=20
+> > there's an ongoing discussion at GH ([1]) on how a reboot should
+> > interact with the _TPM_Init (think an emulated TPM power cycle) and
+> > that should probably get resolved before making the spec update
+> > effective.
+> >=20
+> > I'm trying my best to summarize the problem in what follows, James
+> > (CCed) might have some additional input.
+> >=20
+> > So, naively, a cold reset of the firmware, which qualifies as a
+> > reset of what's called the "Root of Trust for Measurement" (RTM) in
+> > TCG terminology, would require a reset of the TPM, i.e. to make it
+> > enter the _TPM_Init state, c.f. the TCG TPM 2.0 Library v184, part
+> > 1 ("Architecture"), sec. 10.2.2 ("Initialization State"). Quote:
+> > "It should not be possible to reset the TPM without resetting the
+> > RTM. It should not be possible to reset the RTM without resetting
+> > the TPM."
+>=20
+> Right, the base idea of a reboot would be that everything should
+> appear as if the guest was re-launched.
 
-> Right, the base idea of a reboot would be that everything should appear a=
-s if the guest was re-launched.
+In Linux we have kexec reboot, which doesn't reset the TPM, it merely
+carries the logs across without resetting the PCRs, even though the
+guest gets relaunched.
 
-This is a great principle to state, but one that will almost certainly be u=
-nable to make correct in the way the guest expects.  Because the SVSM does =
-not restart, any code in the SVSM that must return to the reset state must =
-implement explicit code to do so.  We could certainly define some sort of s=
-ubscription mechanism that permits each running service to be advised when =
-a guest reboot occurs, but it's up to each service to implement it correctl=
-y.  Any service that fails to implement this correctly will violate the exp=
-ectation of the guest.  If we had a bunch of existing code, it would be a l=
-ost cause to audit 100% of it and confirm that it conforms to the reboot ex=
-pectations.  We have at least a fighting chance given that we have very lit=
-tle existing code, but declaring a requirement to new code to implement reb=
-oot correctly doesn't mean that it's reasonable - or even possible - for ne=
-w code modules to do so.
+> > In particular, a reset of the TPM causes a reinitialization of all
+> > PCRs to their respective default values as defined in the platform
+> > profile (constant all-zeroes or all-ones in most cases).
+>=20
+> Yes.
+>=20
+> >=20
+> > At the current stage of the SVSM development, that's fine and could
+> > easily get implemented.
+> >=20
+> > However, James remarked in the course of the linked GH discussion
+> > that establishing such semantics now would prohibit us from letting
+> > the SVSM measure dynamic parts + configuration of itself into the
+> > TPM PCRs in the future. IIUC, the idea is to record standard TCG
+> > events capturing the dynamic aspects of the SVSM into the
+> > firmware's PCR-measured eventlog (for the firmware event log c.f.
+> > [2], EFI_TCG2_PROTOCOL.GetEventLog), which is quite appealing,
+> > because it would integrate transparently with existing workflows
+> > and tools like `tpm2_eventlog` etc..
+>=20
+> Couldn't that be replayed by the SVSM into the TPM on "reboot?"
 
-On top of that, remember that one goal of the COCONUT-SVSM project is to pr=
-ovide cross-platform compatibility for any functionality that isn't coupled=
- to a single architecture.  There's nothing about reboot that is inherently=
- bound to SEV-SNP, so there will be an expectation that this can be support=
-ed on Intel TDX or Arm CCA.  Both of those architectures implement one-way =
-extensible measurement registers, and I fully expect that in the future, th=
-e COCONUT-SVSM kernel will offer services to enable use of those measuremen=
-t registers.  When such registers are used, it is impossible for the SVSM t=
-o return to a reset state because the underlying platform doesn't permit an=
-y rollback of measurement registers.  In fact, I wouldn't be surprised if A=
-MD defines such registers in the future as well, so this may end up being a=
- universal problem.  I don't know how to reconcile "appear as if the guest =
-was re-launched" with one-way extensible measurements.
+This was discussed in the referenced issue.  What I said then was:
 
-We are defining the reboot protocol as its own protocol, with the ability t=
-o define extensibility in any way we want.  I think we are going to be in a=
- much better position if we define reboot this way: (a) executing reboot re=
-starts the guest but has no effect by itself on any other SVSM state, (b) t=
-he reboot protocol is defined to offer extension points that permit other p=
-rotocols to advertise whether they can participate in reboot, or whether th=
-eir state persists across guest reboots, and (c) the guest must opt into se=
-rvice resets for the set of services that it expects to reset, which of cou=
-rse will be constrained by the set of services that support reset.  Such a =
-design makes the operation of reboot entirely explicit, with no unpleasant =
-surprises that arise because some SVSM service failed to implement reboot c=
-orrectly - or failed to realize it was supposed to implement it at all.
+---
+In theory, yes, but it depends on the mechanism.  What we'd discussed
+before was making OVMF responsible for the SVSM measurement log, so we
+could simply do additional TCG measurements into standard PCRs and they
+would automatically be part of remote verification and the SVSM
+wouldn't need to keep the log.  Now we'd actually have to keep that log
+inside the SVSM as well to do the replay.
 
--Jon
+There's also a security point: just in time measurements into a non-
+repudiable store have well known and hard to influence properties i.e.
+very little attack surface.  If we do the above the security properties
+alter (the initial measurements are potentially no longer just in time,
+so the auditability becomes more suspect) and the SVSM log store itself
+now becomes part of the attack surface, which is quite a huge
+expansion.
+---
 
------Original Message-----
-From: Tom Lendacky <thomas.lendacky@amd.com>=20
-Sent: Monday, October 6, 2025 10:57 AM
-To: Nicolai Stange <nstange@suse.de>
-Cc: coconut-svsm@lists.linux.dev; linux-coco@lists.linux.dev; Jon Lange <jl=
-ange@microsoft.com>; kraxel@redhat.com; Relph, Richard <Richard.Relph@amd.c=
-om>; Rodel, Jorg <Joerg.Roedel@amd.com>; Melody Wang <huibo.wang@amd.com>; =
-James Bottomley <James.Bottomley@HansenPartnership.com>
-Subject: [EXTERNAL] Re: SVSM draft specification (v1.01 draft #3)
+I really think the kexec model where the TPM PCRs don't reset and the
+log carries over is the correct one.  And, as Jon pointed out, it would
+also work in RTMR environments which can't be reset without a full VM
+reboot anyway.
 
-On 10/4/25 06:19, Nicolai Stange wrote:
-> Hi Tom,
->=20
-> Tom Lendacky <thomas.lendacky@amd.com> writes:
->=20
->> Attached is the next version of the draft SVSM specification with the=20
->> following changes since the previous version:
->>
->>   - APIC emulation protocol added
->>     - Coconut-SVSM will need to be audited, as the current APIC emulatio=
-n
->>       code does not completely match the "Alternate Injection Support"
->>       specification on which this protocol is based.
->>   - Reboot protocol added
->=20
-> there's an ongoing discussion at GH ([1]) on how a reboot should=20
-> interact with the _TPM_Init (think an emulated TPM power cycle) and=20
-> that should probably get resolved before making the spec update effective=
-.
->=20
-> I'm trying my best to summarize the problem in what follows, James
-> (CCed) might have some additional input.
->=20
-> So, naively, a cold reset of the firmware, which qualifies as a reset=20
-> of what's called the "Root of Trust for Measurement" (RTM) in TCG=20
-> terminology, would require a reset of the TPM, i.e. to make it enter=20
-> the _TPM_Init state, c.f. the TCG TPM 2.0 Library v184, part 1=20
-> ("Architecture"), sec. 10.2.2 ("Initialization State"). Quote: "It=20
-> should not be possible to reset the TPM without resetting the RTM. It=20
-> should not be possible to reset the RTM without resetting the TPM."
+Regards,
 
-Right, the base idea of a reboot would be that everything should appear as =
-if the guest was re-launched.
+James
 
->=20
-> In particular, a reset of the TPM causes a reinitialization of all=20
-> PCRs to their respective default values as defined in the platform=20
-> profile (constant all-zeroes or all-ones in most cases).
-
-Yes.
-
->=20
-> At the current stage of the SVSM development, that's fine and could=20
-> easily get implemented.
->=20
-> However, James remarked in the course of the linked GH discussion that=20
-> establishing such semantics now would prohibit us from letting the=20
-> SVSM measure dynamic parts + configuration of itself into the TPM PCRs=20
-> in the future. IIUC, the idea is to record standard TCG events=20
-> capturing the dynamic aspects of the SVSM into the firmware's=20
-> PCR-measured eventlog (for the firmware event log c.f. [2],=20
-> EFI_TCG2_PROTOCOL.GetEventLog), which is quite appealing, because it=20
-> would integrate transparently with existing workflows and tools like `tpm=
-2_eventlog` etc..
-
-Couldn't that be replayed by the SVSM into the TPM on "reboot?"
-
->=20
-> So assuming we do not want to preclude the implementation of something=20
-> like that in the future, the question is how to define interactions=20
-> with the new `SVSM_REBOOT_EXECUTE` protocol command.
->=20
-> From a high-level, AFAICT, we probably would have to
-> a.) Convey all or a subsequence of the eventlog to the relaunched
->     firmware. If a subsequence, then that would have to contain all TCG
->     event records relevant to the SVSM's self-measurements.
-> b.) Either do a "partial" TPM reset, making it to re-enter _TPM_Init,
->     but keep some subset of PCRs (*) at their current values in case the
->     full event log is conveyed, or do a full TPM reset and issue initial
->     PCR extends from the SVSM corresponding to the to be conveyed log in
->     case of a proper subsequence.
->=20
-> The "relevant log subsequence" option is technically feasible in=20
-> theory, but would require the SVSM to keep a log of its own events for=20
-> the replay at firmware relaunch. James, who entered the GH discussion=20
-> with a suggestion to hand the full log over with some mechanism=20
-> resembling the one from Linux kexec warm reboots, later on mentioned=20
-> some drawbacks with the approach of having the SVSM replay an=20
-> internally stored log at firmware relaunch, please refer to [1] for detai=
-ls.
->=20
-> I myself don't have an opinion on the topic, but as a hand-over=20
-> mechanism for the TCG event log would likely require support from the=20
-> newly proposed `SVSM_REBOOT_EXECUTE` command, I wanted to make you=20
-> aware of the pending discussion.
-
-Maybe we need a QUERY command to determine if REBOOT is possible then.
-If we add/have dynamic measurements but they can't be replayed back into th=
-e TPM to present a "fresh" boot environment, then the QUERY command returns=
- an indicator that REBOOT is not possible.
-
-Thoughts?
-
-Thanks,
-Tom
-
->=20
-> Thanks!
->=20
-> Nicolai
->=20
-> [1]=20
-> https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgith
-> ub.com%2Fcoconut-svsm%2Fsvsm%2Fpull%2F808%23issuecomment-3361113788&da
-> ta=3D05%7C02%7Cjlange%40microsoft.com%7C111c90c2ab2f460b823608de0501b85f
-> %7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C638953702155666999%7CUnk
-> nown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJ
-> XaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D6%2BQemUT
-> nSthBlMW3HXDAkS%2BUkwBQMAjOhEQdZPsE5mo%3D&reserved=3D0
-> [2]=20
-> https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Ftrus
-> tedcomputinggroup.org%2Fresource%2Ftcg-efi-protocol-specification%2F&d
-> ata=3D05%7C02%7Cjlange%40microsoft.com%7C111c90c2ab2f460b823608de0501b85
-> f%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C638953702155682015%7CUn
-> known%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOi
-> JXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DWaLeG8dI
-> QvXNaKB4Kvj%2BFedamG1XETV8SFj27u54ZE8%3D&reserved=3D0
->=20
-> (*) Which one is not clear to me yet -- the obvious candidate is PCR[0]
->     and possibly some more, but there might be interactions with the
->     H-CRTM semantics, which require to initialize the PCR[0] differently
->     depending on whether the firmware issued a H-CRTM measurement
->     sequence before invoking TPM2_Startup() or not, c.f. TCG TPM 2.0
->     Library v184, part 1, ("Architecture"), sec. 32.3 ("H-CRTM before
->     TPM2_Startup() and TPM2_Startup() without H-CRTM").
->=20
->> Please review. If there are no or only minor comments, this draft=20
->> will become the next version of the specification.
->=20
