@@ -1,41 +1,44 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B43F2D46BC;
-	Thu, 16 Oct 2025 07:02:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13FFC2DECDE
+	for <coconut-svsm@lists.linux.dev>; Thu, 16 Oct 2025 07:26:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760598172; cv=none; b=hAJvsnOhsnANc4orIpxMEmXttL/oFKZzyC6Lkx0ocBALaLioqaHXKXjDv5wyJwTRP2DK01v0fPC9YOTeFV45qGHnHgC4KAeuG5fmXafipSYd5/JHViqmPWWBOpdQCVpmfZ0DJXENhaVCSvACglVIIGoioLnSlOj5Ml5LCgLGwyI=
+	t=1760599611; cv=none; b=fTrxMb3Q5lyI+tj3ti4nVTJo6EcP7OwIGLJb4S/79o5HSuUaXInl781ke1wpESYO4hUWihPC4SI58g1FC4NHQ8AyDNQunEbc3pftLWmiizMQ9pBZwJj51/dSmjUlgzjRXqnWmEAPDwNQG5V0WR/3sVZdvlIbZmM4ycOHcyjE7x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760598172; c=relaxed/simple;
-	bh=emsN4i3bHwGFtnUqi7eooKckveRl8NcUpAflelBTpJI=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B2ke99An4gq1bNgJaImlsIEOGzMuGNkQDXphUlKHEnu+1gez4PQQaQqI+buSQbHrzn33pRs+J1zqHB7FbelM/uvTQ5ufCC1cnjH//odVm8Q/9AZ+nQ/nyRlCL8b4PLK38zuNi4FKWul00l7ptxjeaPDRS6EnAmoUz+DTHc9Gl8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=4U+9sL4D; arc=none smtp.client-ip=85.214.250.239
+	s=arc-20240116; t=1760599611; c=relaxed/simple;
+	bh=oPHASgBJdp2YQpxgFo3iZagWHBBvcIXbuFbVs8R5f3s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jnCcx37v3xPRrd1zT0bO6ANZVerFpv75OuT0LRJ1yXY09pXtNo0Q4UNsreWI8Hn06gjezMdoxLniitS9not1fPtx/I1vtw7PlaKbPHKVN2NopdFdO1gV7OJ0Ncb98AuuCjDcjc4rRBy2vc3wnuD7y99rh8iO/pwvbAkucSpy+DE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=qzzCVLi9; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="4U+9sL4D"
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="qzzCVLi9"
 Received: from 8bytes.org (p549214ac.dip0.t-ipconnect.de [84.146.20.172])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 0C9A2568C8;
-	Thu, 16 Oct 2025 09:02:43 +0200 (CEST)
+	by mail.8bytes.org (Postfix) with ESMTPSA id BBA7C583C8;
+	Thu, 16 Oct 2025 09:26:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1760598163;
-	bh=emsN4i3bHwGFtnUqi7eooKckveRl8NcUpAflelBTpJI=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=4U+9sL4Dw0QT+WVGcsSpTior0qqpxL7hJ5Bm8VOijUNCn31NOKnb5dj1iysepsvh8
-	 9rkrA3aYD98SPsxxD4C2BNTd16wtnzUwUmBpsVAawepRsg3YQp5UmSzX0Y5QVVedI8
-	 4qH9xKNFLYp1GYjoBqXwUahrRxzdKwCXeX+WZ0CeMFbh7l7LmTQbzLDwxGmegnCp/a
-	 l+M6g2fMUBd+mfgyAYCaeX6lI4cpBjJLec5clVXR4hlGUU5OSIo9NRyEuc6wD0UDER
-	 BqdPchxCc9ejlResLYpsdSaP8Ew3GGfGhvwo358vB6zxRcXODQq1OoJ3cpzsQE9y/q
-	 1MHAp8GKaRcUw==
-Date: Thu, 16 Oct 2025 09:02:41 +0200
+	s=default; t=1760599607;
+	bh=oPHASgBJdp2YQpxgFo3iZagWHBBvcIXbuFbVs8R5f3s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qzzCVLi9hnOj5twx11gfP7Yen2bBmZUxFGO80DGM61vcnIafkyy3f9asAcyRwHSj/
+	 OL23uwDoUdtpodzP+YBUfeprxRv0pu8J+8Co3niiRUf8RGGcBRt1K1DMZKmXtTfR4i
+	 ZDUj2wSQ3yLYwvzzHCPdPnhEa5sy3RtwqzGBFJ7SOW9o10qCK4Fx0eez9s7PiHmW8k
+	 hqTVntkRenO2/JTzytep5QkpIONfwAgQLdJICHpIvqZj2A6W/4MZjPLlbUqLrVAXUQ
+	 1/mwY0dXm8b9RKgg/kwvU72nv+DbJuLI2GKVJ5XvoWmbE/6LPSKB2Mdktn5frhP8TY
+	 vNlH5UNpbEJlA==
+Date: Thu, 16 Oct 2025 09:26:46 +0200
 From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
-Subject: Re: SVSM Development Call October 15th, 2025
-Message-ID: <ncex2besafg4cuc6qefzlpxk7ov5imuravohjtt5pgocpjznq5@3sl73sazwvum>
-References: <4xae4zcuqnb6mo5zgxdtsiqcdi4mrky5uydqc2mhzuvu37z7iw@d7grlbp4fdut>
+To: Luigi Leonardi <leonardi@redhat.com>
+Cc: coconut-svsm@lists.linux.dev, qemu-devel@nongnu.org, 
+	Stefano Garzarella <sgarzare@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+	Oliver Steffen <osteffen@redhat.com>
+Subject: Re: SVSM device assignment: device tree support
+Message-ID: <ybpr7ctlwxzadwzhzmgxkycwcvnisloujq6wuvirdnokfnae2b@2wtitjynh325>
+References: <CANo9s6kqgmSa4w-DkSRDqRw9gw0dBEmaM4yenczA+1uh6ZL9Pw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
@@ -44,12 +47,27 @@ List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4xae4zcuqnb6mo5zgxdtsiqcdi4mrky5uydqc2mhzuvu37z7iw@d7grlbp4fdut>
+In-Reply-To: <CANo9s6kqgmSa4w-DkSRDqRw9gw0dBEmaM4yenczA+1uh6ZL9Pw@mail.gmail.com>
 
-Minutes can be found here:
+Hey Luigi,
 
-	https://github.com/coconut-svsm/governance/pull/78
+On Thu, Oct 09, 2025 at 03:20:08PM +0200, Luigi Leonardi wrote:
+> -machine [..] svsm-bus=bus1
+> -device virtio-blk-device,drive=svsm_storage,id=dev1
+> -object svsm-devices,id=bus1,devices=dev1,dev2,dev3
 
-Have fun!
+As discussed in the meeting yesterday, here is my current in-progress
+development branch for planes. It contains the Machine and QDEV properties to
+assign planes to devices.
+
+The commits you likely need:
+
+97a524149cc1 qdev: Add plane property
+dc9cfd1e2e81 hw/core/machine: Add device-plane property
+
+Let me know if those work for you, and feel free to ignore the rest in this
+branch.
+
+Thanks,
 
 	Joerg
