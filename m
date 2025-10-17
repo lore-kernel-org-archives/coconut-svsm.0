@@ -1,269 +1,127 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6EA223771E
-	for <coconut-svsm@lists.linux.dev>; Fri, 17 Oct 2025 16:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC6850276
+	for <coconut-svsm@lists.linux.dev>; Fri, 17 Oct 2025 19:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760717818; cv=none; b=LuTpCi6lND6jP5jJfeWWn7iwddP2QN/RPf253ETfEKT+9y4sPIgpOXqlC+tFBFWrrOd8tQBueRfyYiQytKAUHwYBy7ed/3yBYMQQuXRBwXO3tc4MoYhH0F+Qn9wQJ/hYUf2xSB/RD6HcVt91TOpTInbriNj2AMThzi2CzYR5wYo=
+	t=1760730523; cv=none; b=te5OLvc8VNsx9Z4qmLJ8DqTlyTC8nCanHVT6nH4yqQhcwWWv0hvoIs0y57Q/hLQrNJy5HP8sqNOygZqPWn2DdfBpZvQtA+jbHBAklpzENijd5AR6VQRnMbAsnq7PERErY9xTmKEd9mksnqFMdg1IiNBa618QP3I5fS+RIADGE+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760717818; c=relaxed/simple;
-	bh=9WkNJAkNjn0CGLmZutDfvK880RO/D4lV0qyvxhaQDpU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uuN1bck/wLOGP5dWeAxQU5m+4tJy+OfwZJtdwkphRP442aqKd3nLRS0KS4yC19BHaBpJefce6vddTpzNbuZdYxo93F7YOxISKB3hMmJ750IR/j5iYh+zzZJDSbOk1rqC1CdFaTYqbfZJINYKcL4/7CzmDsgD0nmBNL9P91J4hfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LclAVHx5; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1760730523; c=relaxed/simple;
+	bh=Xmf/SA+rNdXlGxXAI93C7WYJhYLqeeATMH2t5EuN0f8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=toMAyz+m0WtQaLCXx16VRvzKU8BgrBUg7Qm3y4RISuzROv2YJ4HSxItitYshtTV9RVuQMCXUpudE2b1k1AY2ZZWbQt9oYx62qUCumwBXPsUVJhio+4A08HaJhYHB65y7wvO/cEjMrz8PcC+ePYWvJB+xG9Blhw6hV3kR5tG2Jow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=Qz/54WNc; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LclAVHx5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760717814;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=loHIkfioCXqZe6lzGT+fHRY5M6l71/3JaOsGcbfAUqA=;
-	b=LclAVHx5eqaiRlsUMuNlrmBPJ4+dWUpNQ8oY/D7pd/x5J3heKG97QstQJroUjHD3On/Wkd
-	xlpc8IMZp2iGpHVfWum/s8JTC+k/cF6B2jtx6YX+jmISNmfx33BBIsb0T/NHKnmgxTSLQG
-	70BPHugZgbIPCF4cAxBUxlaUNbUasPA=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-29-nFaVWp63N1GxN07B352Cqg-1; Fri, 17 Oct 2025 12:16:52 -0400
-X-MC-Unique: nFaVWp63N1GxN07B352Cqg-1
-X-Mimecast-MFC-AGG-ID: nFaVWp63N1GxN07B352Cqg_1760717812
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8910b0fb780so166675285a.3
-        for <coconut-svsm@lists.linux.dev>; Fri, 17 Oct 2025 09:16:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760717812; x=1761322612;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=loHIkfioCXqZe6lzGT+fHRY5M6l71/3JaOsGcbfAUqA=;
-        b=bFOJEm6K/EDyveXg6/ZPkpNlpLB+Gavlb7/c+jJesqcAy1LBVcXEZ4aAKI4TN2DM/6
-         ELw5UbSs5LhTy+1mxl+K59w1SndVct/enTiTHYYj2fuBhnMCnNHaSvXdjSUeCR6umb+H
-         BA+rL6FaE+FknKvoBOC00/3Mh1EJul2FYTSqVvlEcf9mmYZjC5u+ouINinhPFLySOg7r
-         Mj779b52bvu+aNcIrpWpMcAsMo1G3zPXEJNfxOkGn3SI0zSPKvjnyGh1VS5Q01lGjGxB
-         MnHVozSMzFU3dX/FCxoNqNMCt3l/+WXLlgY7K7lgcdcbbf3QvvyFf0GF9er8Mqigz27h
-         cQ7A==
-X-Forwarded-Encrypted: i=1; AJvYcCWaMtc0nJN5XSPKzKBC8Qhy7go97swwjjOq8wtbLIxeN+4prdycijassAA4ucSWpiwLIimxnYuPOri1nIs=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwDvl+CzsEFNFbxBuOypAaOzkzsB8CWnOOVC90XmiquydN3RB4Q
-	5VIz9hjP6LWeryj6GpaBen8Ckp6ag9upYebT9IDfsXHEoZ7atZHl/fPXNm6eq0DTbDcXwuOmy3j
-	kxAHZa75Z16MDAj7UKNhEKIswbVXlVvzNc7Qpu5OfYmIHYsC4470OYYtGI+KPL9ciBA==
-X-Gm-Gg: ASbGncuE8qbyQdg544kwYS2mdXd1f64VvFRKVTUHKuEI+JGtt4w0RplZhXHnY5OVYXy
-	GY5QUJ/MoQ459fpQn7mUEuKqK7ApQZwP/vAUIiKhYpjN3TP4BoTLlatdQFnjjyrxKq43RJ+LI+X
-	1JNyX7dNRtd63krTAtxACqUtNHhP6mH7vqB0UFpO6sLQcT05D4VIeLe2ZVEdDhXXYDaGCMlD2s+
-	0aGGH6KDLPeDh+tdAH7z1Qj/HwNkRKA4ckAA+2IX9BqaPVeYKilqa7RQi2p3kTgTy/Z5fZ1oybl
-	zzswG1BQxqLAYa4v24LoJ6T+/q1O0NS2tVhrWSPyvtg+VFlk7yYjXnRJHDC98b5xC/iDoIF2hJd
-	99BXw4Q9rByU6M8r6o/O2UQ33e3moCOdKtgN3qU173H33Qag=
-X-Received: by 2002:a05:620a:4550:b0:88b:72c0:7a21 with SMTP id af79cd13be357-890715afdedmr556004685a.88.1760717812053;
-        Fri, 17 Oct 2025 09:16:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEcML73PykNP4J5vPsxpgOOWM+Qo41mFbqelhsjbgi1YnpNrnGwnfYAwLIrEVqfizwmfi3vaQ==
-X-Received: by 2002:a05:620a:4550:b0:88b:72c0:7a21 with SMTP id af79cd13be357-890715afdedmr555998085a.88.1760717811482;
-        Fri, 17 Oct 2025 09:16:51 -0700 (PDT)
-Received: from ?IPV6:2600:4040:7c4e:c200:d6a:7ca8:b526:8eeb? ([2600:4040:7c4e:c200:d6a:7ca8:b526:8eeb])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-891cc8d5edasm1827485a.7.2025.10.17.09.16.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Oct 2025 09:16:50 -0700 (PDT)
-Message-ID: <8ca5fbdb-457e-4c65-af91-539dc2f850fb@redhat.com>
-Date: Fri, 17 Oct 2025 12:16:47 -0400
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="Qz/54WNc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1760730519;
+	bh=Xmf/SA+rNdXlGxXAI93C7WYJhYLqeeATMH2t5EuN0f8=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=Qz/54WNc5h1yYGCyM6IwT+qPzDBmr58BKf2T9KLw+LAEZzTF3GZFMUybBsQhUhaS+
+	 oGY2imBHyqnw6qU1ut+YpNfVI8eS34U235l8H9TOVcQHL9tBzCzH4Tky62Sd2IMLZ7
+	 C4WMbuSPpoTKJbmYz6OyzX7gWLN+ArtdycnBy1VU=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 7093F1C0021;
+	Fri, 17 Oct 2025 15:48:39 -0400 (EDT)
+Message-ID: <8a720c17406fc361e5fed7bc7f682801eb5e609a.camel@HansenPartnership.com>
+Subject: Re: [DISCUSSION] svsm: attestation: if and how to authenticate the
+ provided secret
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
+Cc: Tyler Fanelli <tfanelli@redhat.com>, Nicolai Stange <nstange@suse.de>, 
+ Oliver Steffen <osteffen@redhat.com>, Stefano Garzarella
+ <sgarzare@redhat.com>, coconut-svsm@lists.linux.dev
+Date: Fri, 17 Oct 2025 15:48:38 -0400
+In-Reply-To: <aPJI_5t8IO_zVM3P@redhat.com>
+References: 
+	<a6188e4c2eb11ac6fef4eab605666d15c3f604c4.camel@HansenPartnership.com>
+	 <87o6q96w4c.fsf@>
+	 <fe4fcbfeb22c26c8172960551d5721d2919a7004.camel@HansenPartnership.com>
+	 <203dfa61-dd55-4fbb-86d2-c0cef55eaf27@redhat.com>
+	 <8d76ade860b2ccc2ffbed5a5e6f73a8357776522.camel@HansenPartnership.com>
+	 <aPJI_5t8IO_zVM3P@redhat.com>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [DISCUSSION] svsm: attestation: if and how to authenticate the
- provided secret
-To: Nicolai Stange <nstange@suse.de>
-Cc: James Bottomley <James.Bottomley@HansenPartnership.com>,
- Oliver Steffen <osteffen@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, coconut-svsm@lists.linux.dev
-References: <a6188e4c2eb11ac6fef4eab605666d15c3f604c4.camel@HansenPartnership.com>
- <fe4fcbfeb22c26c8172960551d5721d2919a7004.camel@HansenPartnership.com>
- <203dfa61-dd55-4fbb-86d2-c0cef55eaf27@redhat.com>
- <91799.125101707314800421@us-mta-315.us.mimecast.lan>
-From: Tyler Fanelli <tfanelli@redhat.com>
-In-Reply-To: <91799.125101707314800421@us-mta-315.us.mimecast.lan>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: VLaTCQPSCWQNLPpHzeK88J_cu0en6E4xOS6kB-xFhcY_1760717812
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-On 10/17/25 7:31 AM, Nicolai Stange wrote:
-> Tyler Fanelli <tfanelli@redhat.com> writes:
-> 
->> On 10/14/25 5:40 PM, James Bottomley wrote:
->>> On Tue, 2025-10-14 at 22:56 +0200, Nicolai Stange wrote:
->>>> James Bottomley <James.Bottomley@HansenPartnership.com> writes:
->>>>
->>>>> On Tue, 2025-10-14 at 10:45 +0200, Nicolai Stange wrote:
->>>>>>
->>>>>> as I don't want to hijack Tyler's recent attestation PR, I'd like
->>>>>> to continue a discussion started there and best summarized in the
->>>>>> comment at [1] here.
->>>>>>
->>>>>> The question is whether or not to have the KBS authenticate the
->>>>>> secret returned to the SVSM upon a successful attestation.
->>>>>>
->>>>>> The current state is that authenticated encryption is being used
->>>>>> in the protocol (AES-KW + AES-GCM), but that's only bound to an
->>>>>> ephemeral ECDH key, hence doesn't link to any root of trust.
->>>>>
->>>>> Could we wind back a bit?  This discussion seems to be starting in
->>>>> the middle.  Where does the encrypted state actually come from?
->>>>
->>>> Sorry for being unclear -- this is one of the open questions, see
->>>> below.
->>>>
->>>>
->>>>> The threat being that if an attacker can supply the TPM state to
->>>>> your confidential VM, they know all the TPM parameters, including
->>>>> the private keys, and can fake any attestation.   In the non-CVM
->>>>> world, the state is usually part of the VM image (encrypted), but
->>>>> this happens because the TPM is running outside the VM envelope and
->>>>> suspend or shutdown can pull the encrypted state as part of the
->>>>> device state of the VM image.  In the CVM world the state is stored
->>>>> inside CVM in the SVSM and has to be inaccessible to the guest.  It
->>>>> is possible for the SVSM to encrypt the TPM state and pass it to
->>>>> the guest which then saves it in the VM image.  In that case, proof
->>>>> of correctness can simply be supplying a key capable of decrypting
->>>>> the image.
->>>>
->>>> The current plan is to not involve the guest at all. Instead
->>>> - a (small) block device will get attached to the SVSM, via virtio
->>>>     currently,
->>>> - there will be a filesystem on that block device, which is encrypted
->>>> + authenticated with a (symmetric) "filesystem root key" known only
->>>> to the SVSM and
->>>> - that filesystem root key will get revealed by the KBS to the SVSM
->>>> upon
->>>>     successful attestation.
->>>>
->>>> The TPM state will be stored in a file on that filesystem. UEFI data
->>>> in another and so on.
->>> On this, how does the guest know it's pulled in the correct image?
->>> If
->>> I were a malicious host, I could encrypt my own TPM image, accept your
->>> attestation to a KBS I control and release a key that decrypts my
->>> malicious image.  I think you give the answer below:
->>>
->>
->> We intend for the guest's rootfs to be sealed to the persistent TPM
->> found in encrypted storage. The malicious host could switch the TPM,
->> but that TPM wouldn't be able to unseal the rootfs.
->>
->> This doesn't directly prevent the attack you mention above, but it
->> would be a DoS.
-> 
-> So if I understand correctly (please correct if I'm wrong), a successful
-> unlock of the guest's LUKS-protected rootfs would act as a proxy for
-> "the SVSM is using the right/genuine CocoonFs image" in a sense?
+On Fri, 2025-10-17 at 14:47 +0100, Daniel P. Berrang=C3=A9 wrote:
+> On Fri, Oct 17, 2025 at 09:25:18AM -0400, James Bottomley wrote:
+> > On Tue, 2025-10-14 at 21:33 -0400, Tyler Fanelli wrote:
+> > > On 10/14/25 5:40 PM, James Bottomley wrote:
+> > [...]
+> > > > On this, how does the guest know it's pulled in the correct
+> > > > image?=C2=A0If I were a malicious host, I could encrypt my own TPM
+> > > > image, accept your attestation to a KBS I control and release a
+> > > > key that decrypts my malicious image.=C2=A0 I think you give the
+> > > > answer below:
+> > > >=20
+> > >=20
+> > > We intend for the guest's rootfs to be sealed to the persistent
+> > > TPM found in encrypted storage. The malicious host could switch
+> > > the TPM, but that TPM wouldn't be able to unseal the rootfs.
+> > >=20
+> > > This doesn't directly prevent the attack you mention above, but
+> > > it would be a DoS.
+> >=20
+> > Not necessarily.=C2=A0 If I control the host, I also control what you
+> > boot in all stages.=C2=A0 If you simply take booting up as proof, then =
+I
+> > can substitute both the KBS and the boot system, so you'll boot
+> > with my image but if you're running a trusted service in the VM,
+> > it's now my service.=C2=A0 An examination of the launch measurement by =
+a
+> > trusted KBS would defeat this, which is why I substituted the KBS
+> > as well.
+> >=20
+> > The point being that there has to be validation on both sides.=C2=A0 If
+> > you want a KBS to deliver a boot key by which your boot sequence
+> > continuing is your validation, you still need to prove that you
+> > contacted the correct KBS in the first place otherwise your launch
+> > measurement might not actually have been validated.
+>=20
+> For protection aganist that threat the guest owner would need to
+> validate either the TPM identity, or the root FS identity, or both,
+> once the VM is first accessed after booting.
+>=20
+> In the root FS case, systemd measures the primary encryption key of
+> any unlocked LUKS volume into PCR 15. If the user has prior knowledge
+> of the expected hash they can use a TPM quote to validate that the
+> root FS volume has not been substituted, and in turn that validates
+> that the TPM state has not been substituted as the LUKS keyslot would
+> have been sealed to the TPM.
 
-That's not necessarily how I see it. Instead, I think it acts as a proxy 
-for "this SVSM has proven to be running in an encrypted enclave and is a 
-validated version that I trust, I can now continue with the boot process 
-and load my guest firmware/OS". We attested the bedrock of our TCB in a 
-sense.
+I agree this would work ... but it's a who guards the guards problem
+and the above solution needs another guard to guard the first one (the
+KBS).
 
-> 
-> The problem with that, for remote parties, is how would they verify that
-> LUKS disk XY had been successfully unlocked (assuming the guest has a
-> LUKS protected rootfs in the first place)?
-> 
-> I mean, take keylime for example. If I'm not mistaken, the verifier
-> component has a list of trusted "OEM IAK/IDevID Certificate CAs" ([1])
-> configured for its $TPM_CERT_STORE ([2]), with the IAK/IDevID being
-> signing keys on the TPM. (*) The TPM's IAK/IDevID being signed by such
-> a trusted CA is what establishes trust in the TPM and its measurements
-> as far as the remote party is concerned.
-> 
-> With "trust" meaning trust that
-> - the TPM implementation is correct and
-> - the IAK/IDevIDs are keys on the TPM and never leave it.
-> 
-> In our setup, with the SVSM attesting to the KBS, it's ultimately the
-> KBS enforcing the first part, by only ever releasing the persistence key
-> to well-behaving, i.e. attested SVSMs.
+Another possible solution, which allows the KBS to be the only guard,
+is to have the KBS launch the VM, meaning it knows it should get a
+launch measurement back from the launched VM to release keys and can
+shut it down if it doesn't.
 
-Precisely. The only scenario protected against is one in which the 
-persistence key is released to an SVSM that isn't verified to be 
-well-behaving or within an encrypted enclave.
+Regards,
 
-> The second part however, is true
-> only if the SVSM actually does use the secret key obtained from that
-> very KBS for the TPM state persistence.
->
-
-Sure. TEE attestation only verifies an enclave's TCB. It makes no 
-assumption of what is done with the secrets once it's attested.
-
-> So if a relying party, perhaps a "OEM IAK/IDevID or EK Certificate CA"
-> requested to issue IAK/IDevID certificates for the SVSM's TPM, wants to
-> establish this trust, it needs to verify both parts.
-> 
-> For that, we need confirmation that the key from the KBS is used for the
-> persistence.
-
-I've been making the following assumptions:
-
-- The vTPM was provisioned and stored within encrypted storage.
-- The key for this storage is stored on a KBS.
-- The key will only be released to attested SVSMs.
-
-Therefore, the very fact that you are presented with this vTPM is 
-implicitly confirming that the key from the KBS was used for 
-persistence, because the vTPM wouldn't be decrypted otherwise.
-
-> Proof of possession of some secret pre-provisioned offline
-> into the CocoonFs image, like a LUKS key, might work, but I don't see a
-> straightforward way to make that universal and also, it would make the
-> initial setup more complicated than need be, IMO.
-
-One note: KBS attestation produces an EAR token:
-
-https://www.ietf.org/archive/id/draft-ietf-rats-ear-01.txt
-
-Once SVSM successfully attests, it will receive this token. It would 
-then write the token into encrypted storage as a sort of artifact. If 
-the eventual guest would like to then read the token and verify it with 
-the attestation server that SVSM used, it's able to do so.
-
-Not exactly "proof of posession" of a key, but proof of attestation that 
-the guest can use.
-
-> In particular, access
-> to the persistence key is required for that.
->
-> If OTOH we were to follow the route to associate the KBS with a ECDSA
-> key, and use that for (indirectly) authenticating the received secret,
-> then we could make the SVSM present that to the organization's "OEM
-> IAK/IDevID or EK Certificate CA", alongside evidence it's a SVSM, and
-> the CA would issue a "OEM IAK/IDevID or EK Certificate", because it
-> recognizes the KBS ECDSA key and trusts the associated KBS (and trusts
-> the SVSM to have verified the ECDSA signature). From then on, relying
-> parties like keylime would only have to trust that CA, and workflows
-> would be no different from any other TPM. Note that it wouldn't matter
-> when and where the initial TPM state is getting manufactured.
-> 
-
-It seems that this is attempting to cryptographically prove the 
-assumptions about the TPM that I made above. I'm in favor of that, as 
-the implicitness of having the TPM proving the guest is attested is 
-likely not enough.
-
-> Moreover, any subsequent usage of a certified IAK/IDevID or EK would
-> henceforth be an implicit proof that the genuine CocoonFs image is being
-> used, which could perhaps be used for establishing trust in the state
-> stored by any other subsystem on the SVSM's persistent storage (UEFI
-> etc.) -- as per its global authentication: if anything on the filesystem
-> is genuine, then everything is.
-> 
-Sounds reasonable to me.
-
-
-Tyler
+James
 
