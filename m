@@ -1,41 +1,40 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F78D2E9EAC;
-	Thu, 18 Dec 2025 09:08:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 978573164CB;
+	Thu, 18 Dec 2025 11:38:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766048917; cv=none; b=gjqgg5nSwODLy3LTO6k0KKDVFRzbiLZIQqYLMMd3YWLWBNTFgiHYXB3IVfz3gyyugLh+20Z3rAE0SsIoxvAv9HLOZamu40lF8Xs4ZSEd4mbNhL4Uro5f1W3+8crEi+Tq4NOSoCzUiZ6EdAAnuxpiZDNetw5K9cFjBmMNbfV/CW0=
+	t=1766057899; cv=none; b=C7bFxcYCZRSTc7h5c25Bp5+poDKJw14TkWMRXSwCghVUvy24gyXYOwqQbHHUt/RPve5NS2MPNOQ7xmuPo7Vp85zKZAqRLxwcJWPaE9LNBs0621NiBJjyUfV30qWS6Z7R6Mr+L2dk9aQ+GpK/e5C5pbbRLvRTGWeTQE6BE4MOLE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766048917; c=relaxed/simple;
-	bh=SqyIgaG0J+Ip/ibvhjn9k78MJExpiaf265gwTR7IQ+E=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HrzwetDC6k1/hxLZb1EcnzwDL827Jmhb/0fEUelIXMnjjNOYsBBc6qlHSAvY5csEjP24JgHFcyAhpgAbY1VF+ANlEBqXmYFvo96fWreKIlBcmYh554RT6I57g9KlGDZAWsapbTZlLhh559SZxBfrcx73Mr6UnBrOUlV8KRYTTKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=4E7tsczK; arc=none smtp.client-ip=85.214.250.239
+	s=arc-20240116; t=1766057899; c=relaxed/simple;
+	bh=luwn4moNd6ENX9vqfSQCdBoItqwXBfCbOeXhRLyHfVM=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WNKeA3+b4U4gfSHavimDi9iuyo8GX8QqllbYbFuRuBJKTkySAbEnvPLEJGX5eIx+93UnfJxN7rw2tBQAAs6EaZ1zbVUeQz6xTkdNzmw/CwVufPadqr2RWYE0iBI0UVOCQpCQDcNgHdk5YlcrXHKopu5XLgp+7iYApLz1h1FwgcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=Bs9iTYqq; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="4E7tsczK"
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="Bs9iTYqq"
 Received: from 8bytes.org (p4ffe00f4.dip0.t-ipconnect.de [79.254.0.244])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 8008B5D591;
-	Thu, 18 Dec 2025 10:08:28 +0100 (CET)
+	by mail.8bytes.org (Postfix) with ESMTPSA id F2E215C364;
+	Thu, 18 Dec 2025 12:38:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1766048908;
-	bh=SqyIgaG0J+Ip/ibvhjn9k78MJExpiaf265gwTR7IQ+E=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=4E7tsczKGgMQRjZgOANxQJe1ZRBtGV4xtfcanXFS1iAFVK65AinzCMSRq4dM9xdZ/
-	 jRDAtVP1+r5HWL+wtrYtzgbMmYVgaANEC2xDLdhM7SURHQPDXYp2DRRlkKhGyVCb6W
-	 qWOyKqG4Lb4srNfSvQxFlqB/aY3zeQKX61+zxMDjpxRkONJAS6U7r77OJIetVtW74F
-	 80nbzY3SfmNmM1oNl7CF0EkSxmldmeFIsZeiF5Dw7L4eFIYo91e92TtrvoEyhhNECg
-	 pyre1zGFVWmxGaX0j7JUA0mRitDIGHk2ICEq6JEJ64kPyZYxZJWTD5Q3ynY0C7PwUX
-	 B1U9IdlfK4m/A==
-Date: Thu, 18 Dec 2025 10:08:27 +0100
+	s=default; t=1766057895;
+	bh=luwn4moNd6ENX9vqfSQCdBoItqwXBfCbOeXhRLyHfVM=;
+	h=Date:From:To:Subject:From;
+	b=Bs9iTYqq+vXPPrHxR+n/Jj3ytsBxWsN0EKkmNm6AXusCFDaJdrPSZRgFWR2bexQAN
+	 R8VP3qfnF6okAteljkaEgCQ3LGXFokDPVniJ1MrrHOqN1EON9G7pfGatAB5Y82DBTi
+	 eIp0CX3Std6xpS4N6RF0TcI4jKGbUpdobqgRjfYNOe/P1gjYau9l9w2ePeRl7D9VY3
+	 K8qy4tPcARZxzO3/phPrRPZEsuJdeUjiSUf7LmQCUQJKtYDTpI8fTRcBe82av5ZUEy
+	 wdOoO6YGTIkw6iOCIB5Y3CQXMnl1sbaluGOYeiVDWi7140sSo0Mx4VlBb+8cw3v3rt
+	 xnGbcPmRf7Kpw==
+Date: Thu, 18 Dec 2025 12:38:13 +0100
 From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
 To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
-Subject: Re: SVSM Development Call December 17th, 2025
-Message-ID: <jufemrws4esfbsnfttf72rsb4bljys3aifhhyysm5ihpf3bwa6@veppcwk6land>
-References: <wr5g22qmztj3mqiiwzxvqw22tdypqtu4rd7biwcbrbvv2m52o5@ok3fldp5auo5>
+Subject: COCONUT-SVSM Development Release v2025.12-devel
+Message-ID: <ct4vbdsqu4kdbp5p4p4ssd4opwa7yc3j2mi36mogzuwhw5stne@udgg2tvlwpks>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
@@ -44,13 +43,40 @@ List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <wr5g22qmztj3mqiiwzxvqw22tdypqtu4rd7biwcbrbvv2m52o5@ok3fldp5auo5>
 
-Meeting Minutes are now posted:
+Hi,
 
-	https://github.com/coconut-svsm/governance/pull/90
+The last development release of COCONUT-SVSM for this year has been tagged. Due
+to the upcoming holidays in the western parts of the world this release
+happened a few weeks earlier than ususal and turned out to be smaller as well.
 
-Have fun and enjoy the holidays!
+This time it features 47 non-merge commits since the November release, the
+changes include (but are not limited to):
 
+	* Fixed formal verification. This has been broken for the last two
+	  releases, so I am excited to report that it works again.
 
--Joerg
+	* Rust safety improvements
+
+	* Initial steps towards a UEFI variable store service with merging the
+	  SVSM protocol number definition.
+
+	* Fixed the idle-halt loop. It had a bug that could have caused COCONUT
+	  to go into halt while another task is runnable.
+
+	* Improvements in x86 platform support.
+
+With verification working again this is a pretty solid release which received a
+good amount of testing as well.
+
+A big "Thank You!" goes to the COCONUT-SVSM community for another year of solid
+progress on the project due to all the hard work being done. I'd also like to
+thank the Technical Steering Committee for all their help and dedication in
+managing the project with PR reviews and setting the technical direction.
+
+I wish everyone a restful time with their loved ones, see you all again next
+year!
+
+Regards,
+
+	Joerg
