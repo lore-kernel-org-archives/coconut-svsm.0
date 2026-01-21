@@ -1,64 +1,88 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A150B3A7F60
-	for <coconut-svsm@lists.linux.dev>; Wed, 21 Jan 2026 10:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05EB934CFC5
+	for <coconut-svsm@lists.linux.dev>; Wed, 21 Jan 2026 14:42:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768993035; cv=none; b=FRU8tVreCaQilDpqEs0F/2HD9zDy7iEoreIuZZbYw536j4U4bnavfaeA0Xffw80xTW9p7WUDJhtSFR+LzNgjV1/3+3QYF4NEP3E44FviwGF/BTYEkqRcMRw4Uvk9db+WF0YYbR/KZZqujc0HVQJ/ITt9GvzCtXj7q+dng4FGgMI=
+	t=1769006529; cv=none; b=VsvziqU/cE9HZQYU7RdPh3Pf6/ZHdb/BJUGkt/Gf8PGSqMTrbuIr2zdSxrznQg/2GUv5mlK3n2V4HxEujiLYf3nL50jakzRCPQyCzCeFHeM1c21DG302qhHYV2Br+zBbCcjVNEc23C2ODhwwq4AFSiQetr55kJWr02+1eckbjHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768993035; c=relaxed/simple;
-	bh=gUk/epx32MC0mPk29vJKcsivCNS3ALyW4o5g9j2gsrQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ma+o7Hyxbnxi5zvv4SEyh4pcn02NLXjpcHGkoYWgjOdJQTlea9B4rjK51pIIsRVEIBw1TZ3QBu/zia1eyi+rHSZw6g1eFPmEmwLnAnaN6iCRqQ7wvEEZ3lDr1b5vfqLUD0+ZaTrVDx7y/s0lfS6VrealNRJgvu6sDmbu9OPv9CE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=7ZfE/JqO; arc=none smtp.client-ip=85.214.250.239
+	s=arc-20240116; t=1769006529; c=relaxed/simple;
+	bh=mrsIveH8141ic2BqyiFDofgj2ISUJJ7ZIPrAb7d/Uio=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C7cSU85PG2GhWjy3ZTWKKm38ZH5uEi2UxGbmctp1ADErJYanbj952SUnlwh1Q3DMncLzLOkISh2VrNLYoeluYialT+oQ1Kg9CAEV6cyhABZAGm1/7UrmunJEwdoN3J8fLoWnk6ZuM3aux/kEJtB2VFUgOloXwmXBstK50lwrhmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=CqR/1oXt; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="7ZfE/JqO"
-Received: from 8bytes.org (p4ffe051a.dip0.t-ipconnect.de [79.254.5.26])
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="CqR/1oXt"
+Received: from io.home.8bytes.org (p4ffe051a.dip0.t-ipconnect.de [79.254.5.26])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 3F8EA5FF90;
-	Wed, 21 Jan 2026 11:57:11 +0100 (CET)
+	by mail.8bytes.org (Postfix) with ESMTPSA id C646F1C039A;
+	Wed, 21 Jan 2026 15:42:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1768993031;
-	bh=gUk/epx32MC0mPk29vJKcsivCNS3ALyW4o5g9j2gsrQ=;
-	h=Date:From:To:Cc:Subject:From;
-	b=7ZfE/JqOcSnv4qtKGaS0QsQumywXf15RgZI6qjuNcRLPltoSVSsBBNvRF6wbwryGs
-	 XecFphbAfFOfhq1mWGdOXey0e8VCB7OQlkDMsGiLmD5JHoSo6IqRdMXdUZB07BFMCH
-	 Zs5BB0yDkzPQ6XGLU2wczEKNZRZ/PXtHvjuZVmWapTOsOvI4w2MEiAfXXlVWeozoA3
-	 uhc9nWrMDRD1Uo07r7BC34VDrgS5E+3f9152+LRn6mfmt5BU7LLfX5T+4cgEPi47mf
-	 NGPzUjaiksToN64T6SoVMTL4oTdnYfOGzx8fdIyTa2hpy4+6clds1+hSaNFX5/0Of6
-	 Pl8Wd7++KoVTw==
-Date: Wed, 21 Jan 2026 11:57:10 +0100
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
+	s=default; t=1769006524;
+	bh=mrsIveH8141ic2BqyiFDofgj2ISUJJ7ZIPrAb7d/Uio=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=CqR/1oXtPAXlRiA1XfmaKP71EHJv31OBCgnd+5wQqvFLw6o/y7LdLbK+/K7reMY6n
+	 IKYo/bjUt0beoJlOP9Tsdz0fNA2lYj7jHdctLXCosioWeG3BbOlpTZDa90CoFWjED9
+	 s8mdgnESbcGjamM0XRRBBOhwWIhWirP+UQVcFnKUgK1KZOSPkIpAz1lsQOyRrz3fbp
+	 r1x0DX/tJjCRhuOwX7mnZ+afehhYI/uoedgx7PcVLXS1eW4Z2l2lvSnqoYBUaOns/w
+	 0eg3u3D9jbGbFArh/FxrGSWedMhc7w407y8LD6npn4LJkQMRUxK7s0oyzkdr/RxlmD
+	 dtfraqccgJkwA==
+From: =?UTF-8?q?J=C3=B6rg=20R=C3=B6del?= <joro@8bytes.org>
 To: coconut-svsm@lists.linux.dev
-Cc: Carlos =?utf-8?B?TMOzcGV6?= <clopez@suse.de>
-Subject: Move to Rust 2024 and January dev release
-Message-ID: <ksdawsdemi3erury5izljbhvronldlt23qez5jawcjgo3aojbr@b6swic4sw2kq>
+Cc: joerg.roedel@amd.com,
+	=?UTF-8?q?J=C3=B6rg=20R=C3=B6del?= <joro@8bytes.org>
+Subject: [GSoC 2026] Observability Support for COCONUT-SVSM
+Date: Wed, 21 Jan 2026 15:41:50 +0100
+Message-ID: <20260121144151.37812-2-joro@8bytes.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260121144151.37812-1-joro@8bytes.org>
+References: <20260121144151.37812-1-joro@8bytes.org>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi everyone,
+=== Observability Support for COCONUT-SVSM ===
 
-I plan to merge Carlos' PR to adapt the Rust 2024 edition into the COCONUT-SVSM
-repository. There is a chance that other pending PRs need to be re-based after
-the change, so if you have pending PRs please keep an eye open for the change
-and re-test your changes with Rust 2024.
+'''Summary:''' Implement Support for COCONUT-SVSM Observability within the TEE
 
-Towards the end of next week I also plan to tag the next development release
-and a couple of PRs have been put on the wishlist. If you are the author or are
-on the reviewers of assignee list of one of those, please make sure there is
-progress so that the PRs are ready for merging next week.
+COCONUT-SVSM is a Secure Virtual machine Service Module that runs at a
+privileged level within a Confidential Virtual Machine (CVM) to provide trusted
+services, such as a virtual TPM, to the guest operating system, independent of
+the host hypervisor.
 
-Thanks everyone and hope to see many of you in the development call today.
+The goal of the project is to implement support for observability of
+COCONUT-SVSM from the guest OS. When finished the guest OS has a way to
+fetch runtime metrics and data from the COCONUT-SVSM running within the same
+TEE. Runtime data includes the log buffer, services logs, memory usage, and
+possible future extensions.
 
-Regards,
+The project consists of several parts:
 
-	Joerg
+1. Design an experimental SVSM observability protocol for exchanging metrics
+   and data between COCONUT-SVSM and the Linux kernel. This protocol will be an
+   extension of the SVSM protocol specification.
+2. Implement a handler for the protocol within COCONUT-SVSM following the other
+   protocols COCONUT-SVSM already implements.
+3. Implement a Linux device driver which uses this protocol to get
+   observability data from COCONUT-SVSM and make it accessible to Linux user-mode
+   via a device file.
+4. Implement a Linux user-space utility to fetch and save the observability
+   data using the device driver.
+
+'''Links:'''
+
+* COCONUT-SVSM Repository: https://github.com/coconut-svsm/svsm/
+* Development plan: https://coconut-svsm.github.io/svsm/developer/DEVELOPMENT-PLAN/#observability
+* SVSM protocol specification: https://docs.amd.com/v/u/en-US/58019
+
+'''Details:'''
+Skill level: Intermediate
+Language: Rust and C
