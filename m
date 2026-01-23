@@ -1,86 +1,104 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06899346AD1
-	for <coconut-svsm@lists.linux.dev>; Fri, 23 Jan 2026 10:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B413EBF29
+	for <coconut-svsm@lists.linux.dev>; Fri, 23 Jan 2026 19:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769162560; cv=none; b=MYXslO4xzQdtcOH6uj8zY7rh8n73m89UYVNYSRaO411ti/Q7taHj240fgW0KFZ4VUkbfgfPBXBeBltfgB2dUXcpA4sis51EdwaEcvdjfL3LKRMvk95Z/rCZUQ/U/9Okn8M0nqOWzH2REWVl4wr5qElzxc+NlpU2EcWxJal8h+6w=
+	t=1769195752; cv=none; b=Hrwf3NeNIz5hJk0DbHhyXD7IwbUsJKB9DIRZSQ6322FdkSX3MzB+rv6X3CWWPyGCG+A6WiqhPMm9g53w4a34M3m34MT+bf4b7Qt8X6ntE0h81p+7aIwj1kI33cg3JEQnD9JRJGlR0LXTAwoollBjaAK1xA8hk3anAsVqQEQt7es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769162560; c=relaxed/simple;
-	bh=luNi3GnVu+moLXEy6CGebr7/a44DQ7Fu+m2zmHnxzjM=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=CBKVa5cMFMSDWGhnZvtBzQNnfEnGm7J/A1egwRm40qY5H/YzszztnoCzOK22Redbxcl4jJNuYZrUetNj1AU5J19NjWBy9YYcxqlgcSagGZs4UrEKphBgTSIST8bRK+KzKijFMVDcIl3poAKIgQviRoPRqakdrg4xilPoVKHAUv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dJjHA0kH; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1769195752; c=relaxed/simple;
+	bh=ADlgxoOE5nJ81qqgXZXWIPnqhgncsiWRUZsAXWPe+c0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=LQuB8M8TPKB2OXrpT4mEu3sWoXJ6O7HFqprSY+xCNZ2Cb/2QIXqd6+PIiXaB0Yzrr2jmLuonJvQrO2K3VqswnqtDj83Z92qOBXASIx+sjuerKzLsgI15nGcacek78nDK7KqCuO4Z7GssYrXxlBA8VV/FVAg3oQMpNGrVhouKkLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=A/3oo2M6; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dJjHA0kH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769162551;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=luNi3GnVu+moLXEy6CGebr7/a44DQ7Fu+m2zmHnxzjM=;
-	b=dJjHA0kH8P6WN0J6ugNXLmc5QuA79HjtTgAHR8G+zn1LtNrBm5jndksP75uzC/qRc7SWuI
-	YInfBFeWOfLf8Urqen9vN66sz5JgPTUh0kAPDpjjWWTQpsepbkZRpwMBhV8lRInNgrJqUG
-	kNb7noxGwZmdTiN8QSC/YXyEU29J7iY=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-219-_5zag9V9MeK5opPRZ0l5vA-1; Fri, 23 Jan 2026 05:02:29 -0500
-X-MC-Unique: _5zag9V9MeK5opPRZ0l5vA-1
-X-Mimecast-MFC-AGG-ID: _5zag9V9MeK5opPRZ0l5vA_1769162549
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-34ec823527eso3261492a91.2
-        for <coconut-svsm@lists.linux.dev>; Fri, 23 Jan 2026 02:02:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769162548; x=1769767348;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=luNi3GnVu+moLXEy6CGebr7/a44DQ7Fu+m2zmHnxzjM=;
-        b=RkvpKT8xBR+ox3EiIgJ+yaWEiQwta7G3uXMfrvy5ArGIhcFzhw/7wQf4TBH1lxNFpr
-         /mbLtfo1jkj5+DZtgXRde9NfwalUp4kovetmF5anzGjz+T4SBZ8TEkpCVlnfHAhEvct5
-         26RHMuNhAoEKT+UjZsYQN7SlQ8GmT6pWNhm8q3KD1vqdIMX5vWbsDITKh1B4k6kCk0In
-         FkApYjDFQ6NtHxPzmu45chLawwaOD70BbuM++fbxTufOelsN2+PrRv0VZ0Nofgwer9b6
-         6g69RMUszG5ZzVK1lWOmTfKtDFMBJAJGhsIzveeQlX50qDDqxBCCNOzvItwJhFLZeVKN
-         j+RQ==
-X-Gm-Message-State: AOJu0Yw9zZtseO0j30XqRabqGVzACNLhMdR4frE7J3Yd3IMz9v2zv6R7
-	/s7nz9OAkctRNNxsoSaxH3QfBvxOxj54bUOPEVJyhEHxHONLSOFkUJ1KwWv7WYkvMs3ivEg0HJU
-	nOE6A+srZ34Dj8p8rYk3bUoK/D2JseGrLfL1rQmyCLTSo8gHXunj7qjULhHiFh2UpKw/nzKNOo6
-	3floWpxUTDrkfOnF1t1hWXBwWxN9GAlKTHMDo6z00OmLNVZpBdBM8=
-X-Gm-Gg: AZuq6aKxyuw2j3aWyJ2MlKdN7TUCFDTdMtECS46MjGqxezOV3zzrIcV/y6cXGTi5mcH
-	ofkW5nCI9byVMfN8b0PuN47S1pB/iojpKZSdKFi3PvsADRzQqsuplNns7uZgEKF18KBXukmqfpV
-	gwWhS98YOcPuCU0xkl1Na9JV4IyY2HAEdPRCtBmx7LOmZ9jBhWwQnBTNCm0SyIg1us
-X-Received: by 2002:a17:90b:1348:b0:343:60ab:ca8e with SMTP id 98e67ed59e1d1-35368953087mr2369706a91.17.1769162548658;
-        Fri, 23 Jan 2026 02:02:28 -0800 (PST)
-X-Received: by 2002:a17:90b:1348:b0:343:60ab:ca8e with SMTP id
- 98e67ed59e1d1-35368953087mr2369673a91.17.1769162547622; Fri, 23 Jan 2026
- 02:02:27 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="A/3oo2M6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1769195749;
+	bh=ADlgxoOE5nJ81qqgXZXWIPnqhgncsiWRUZsAXWPe+c0=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=A/3oo2M657eNJdX/BGpamjK50GY0tUUQPrrATVYUY8O4muQxjO54uIfq+ySZ8veuv
+	 2GTShhG4mxYgJjbQCtKZibLMRozlXAVqNdxR5imiUBtp5YUMs0TuIJgtEYjLZrm7Xa
+	 W6ce/ls1QCVqAvrUFzMW1S749ACPNIPRnMkD69VQ=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4300:d341::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id B6B861C02DF;
+	Fri, 23 Jan 2026 14:15:49 -0500 (EST)
+Message-ID: <6146dc59fed504a84db645cde56c3b85082aff0f.camel@HansenPartnership.com>
+Subject: Re: TCG TPM license issue
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Stefano Garzarella <sgarzare@redhat.com>, coconut-svsm@lists.linux.dev
+Cc: Daniel Berrange <berrange@redhat.com>
+Date: Fri, 23 Jan 2026 14:15:49 -0500
+In-Reply-To: <CAGxU2F6xrPvgoD1+i-S_7Snj3zfZ0iCLXfc7JBf8mZPZi+GMLQ@mail.gmail.com>
+References: 
+	<CAGxU2F6xrPvgoD1+i-S_7Snj3zfZ0iCLXfc7JBf8mZPZi+GMLQ@mail.gmail.com>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Fri, 23 Jan 2026 11:02:16 +0100
-X-Gm-Features: AZwV_QhRPOrSloqYfipemuziVP4O5-vRHqt3boZlB-TpsZI_fjVtOFRzvdKT0Ng
-Message-ID: <CAGxU2F6xrPvgoD1+i-S_7Snj3zfZ0iCLXfc7JBf8mZPZi+GMLQ@mail.gmail.com>
-Subject: TCG TPM license issue
-To: coconut-svsm@lists.linux.dev
-Cc: "James.Bottomley@HansenPartnership.com" <James.Bottomley@hansenpartnership.com>, 
-	Daniel Berrange <berrange@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: pS5B5sWt710duySLkg8tdLWFi1PDHMSc4qslj1llUKA_1769162549
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hi all,
-it seems the license of the TCG TPM reference implementation that we
-are using to emulate the vTPM in SVSM is not exactly BSD but a variant
-of it.
+On Fri, 2026-01-23 at 11:02 +0100, Stefano Garzarella wrote:
+> Hi all,
+> it seems the license of the TCG TPM reference implementation that we
+> are using to emulate the vTPM in SVSM is not exactly BSD but a
+> variant of it.
+>=20
+> For some distro, like Fedora, this could be an issue. See
+> https://gitlab.com/fedora/legal/fedora-license-data/-/issues/716
 
-For some distro, like Fedora, this could be an issue. See
-https://gitlab.com/fedora/legal/fedora-license-data/-/issues/716
+The problem clause is a conditional statement about the origin of the
+code and not part of the licence, so I don't believe it modifies the
+BSD-2-Clause nature of the implementation in any way.
 
-Thanks,
-Stefano
+Additionally, just in the interest of fair dealing Fedora can't
+disapprove of this this disclaimer in coconut, but perfectly fine with
+it in another project they're already shipping:
+
+https://packages.fedoraproject.org/pkgs/libtpms/libtpms/index.html
+
+which has a slightly different form of the disclaimer (inherited
+directly from the TCG) which seems to be a bit stronger in terms of
+modifying the licence:
+
+https://github.com/stefanberger/libtpms/blob/master/LICENSE
+
+---
+THE COPYRIGHT LICENSES SET FORTH ABOVE DO NOT REPRESENT ANY FORM OF
+LICENSE OR WAIVER, EXPRESS OR IMPLIED, BY ESTOPPEL OR OTHERWISE, WITH
+RESPECT TO PATENT RIGHTS HELD BY TCG MEMBERS (OR OTHER THIRD PARTIES)
+THAT MAY BE NECESSARY TO IMPLEMENT THIS SPECIFICATION OR
+OTHERWISE. Contact TCG Administration
+(admin@trustedcomputinggroup.org) for information on specification
+licensing rights available through TCG membership agreements.
+---
+
+However, I did ask and got word that apparently the TCG has already
+modified its copyright IP policy not to require the patent disclaimer
+in the code, so it's going to remove the language from the TPM
+repository anyway.  I'm guessing that would mean the same problematic
+clause can be removed from libtpms but you'll need to take that up with
+upstream.
+
+Regards,
+
+James
 
