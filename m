@@ -1,53 +1,86 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 116FF257848;
-	Thu, 22 Jan 2026 12:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769086558; cv=none; b=idcrbv0E0YoQdytxKpQyIaaf3tT6O8IukeSzNtgrKyEOrN0H79dTN0sOAyZl/qjX+fdG7ZM7KUdnTQdptuFkU3hd/2ld+PEEpm0J17/tsHrXRZYOtHMROyu2MZOlDiaUpxWi0fM6bWvmt65Qh1Fo6Oq3sGB9Bt2UijEgORi6DXs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769086558; c=relaxed/simple;
-	bh=5fp7Q4w83WlXnJQa/r3ZAnYhW8iQEe5ej5Mz74SSNMk=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MWCp03dBtkOl21qP+24+WEkNLFsWTCa4nK7ZIWtdw91E+Dm0hhVeyweDoEl0arO8mSFJpmP+0y/KcVUJOwjO3QkiLVhds16k7lBZIfjc5cNSZ6cVKZRl0ClJmZYm2cai5NtC6uMSc+J4HKK3R4sIJ28ylk8k/lWLE74KT6raqZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=hYQex6cP; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="hYQex6cP"
-Received: from 8bytes.org (p4ffe051a.dip0.t-ipconnect.de [79.254.5.26])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 9F81D1C0483;
-	Thu, 22 Jan 2026 13:55:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1769086554;
-	bh=5fp7Q4w83WlXnJQa/r3ZAnYhW8iQEe5ej5Mz74SSNMk=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=hYQex6cPWn68rVtgzyCfMMb8Rwu6Hv03NY//fR6zxwKY5Z2V3FDeKqqIvf57+ABzC
-	 xHukZ03Q5gJgmGgZT0kya0pROKIbxJVvthmqjDeUGdgOBGMhkYRUNss2zSPR56hafD
-	 qzHBsPp9/MB2O+Hp4+69Pvm/29txW0ogGW53hNKnddzcGI6PrNecPtGGoUl7euiWHo
-	 jgF9cAasCitAKz41uXdZWWT1X08dbDaVYg/UoPgFucK2EhoSAzfpNrmtgP669VQLuZ
-	 lN1AsWe+aliJ35Gv6hCphTOLTK2Bq62Vd5YN7p8rYcqBtCmVfyyLy3+Ez6KyfISsN6
-	 6NXvdEl9LLXTA==
-Date: Thu, 22 Jan 2026 13:55:53 +0100
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
-Subject: Re: SVSM Development Call January 21, 2026
-Message-ID: <l2torsojcg75hhwb5mn57sfmwnsbygbacmlu4n35s3hfrqbyr3@z5rhvmdjtypo>
-References: <4uhsm4wvzsoto4e6koyccvsdqcg2pber4s4oexclhywps7pz5l@tpkfglmsge45>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06899346AD1
+	for <coconut-svsm@lists.linux.dev>; Fri, 23 Jan 2026 10:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769162560; cv=none; b=MYXslO4xzQdtcOH6uj8zY7rh8n73m89UYVNYSRaO411ti/Q7taHj240fgW0KFZ4VUkbfgfPBXBeBltfgB2dUXcpA4sis51EdwaEcvdjfL3LKRMvk95Z/rCZUQ/U/9Okn8M0nqOWzH2REWVl4wr5qElzxc+NlpU2EcWxJal8h+6w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769162560; c=relaxed/simple;
+	bh=luNi3GnVu+moLXEy6CGebr7/a44DQ7Fu+m2zmHnxzjM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=CBKVa5cMFMSDWGhnZvtBzQNnfEnGm7J/A1egwRm40qY5H/YzszztnoCzOK22Redbxcl4jJNuYZrUetNj1AU5J19NjWBy9YYcxqlgcSagGZs4UrEKphBgTSIST8bRK+KzKijFMVDcIl3poAKIgQviRoPRqakdrg4xilPoVKHAUv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dJjHA0kH; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dJjHA0kH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1769162551;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=luNi3GnVu+moLXEy6CGebr7/a44DQ7Fu+m2zmHnxzjM=;
+	b=dJjHA0kH8P6WN0J6ugNXLmc5QuA79HjtTgAHR8G+zn1LtNrBm5jndksP75uzC/qRc7SWuI
+	YInfBFeWOfLf8Urqen9vN66sz5JgPTUh0kAPDpjjWWTQpsepbkZRpwMBhV8lRInNgrJqUG
+	kNb7noxGwZmdTiN8QSC/YXyEU29J7iY=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-219-_5zag9V9MeK5opPRZ0l5vA-1; Fri, 23 Jan 2026 05:02:29 -0500
+X-MC-Unique: _5zag9V9MeK5opPRZ0l5vA-1
+X-Mimecast-MFC-AGG-ID: _5zag9V9MeK5opPRZ0l5vA_1769162549
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-34ec823527eso3261492a91.2
+        for <coconut-svsm@lists.linux.dev>; Fri, 23 Jan 2026 02:02:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769162548; x=1769767348;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=luNi3GnVu+moLXEy6CGebr7/a44DQ7Fu+m2zmHnxzjM=;
+        b=RkvpKT8xBR+ox3EiIgJ+yaWEiQwta7G3uXMfrvy5ArGIhcFzhw/7wQf4TBH1lxNFpr
+         /mbLtfo1jkj5+DZtgXRde9NfwalUp4kovetmF5anzGjz+T4SBZ8TEkpCVlnfHAhEvct5
+         26RHMuNhAoEKT+UjZsYQN7SlQ8GmT6pWNhm8q3KD1vqdIMX5vWbsDITKh1B4k6kCk0In
+         FkApYjDFQ6NtHxPzmu45chLawwaOD70BbuM++fbxTufOelsN2+PrRv0VZ0Nofgwer9b6
+         6g69RMUszG5ZzVK1lWOmTfKtDFMBJAJGhsIzveeQlX50qDDqxBCCNOzvItwJhFLZeVKN
+         j+RQ==
+X-Gm-Message-State: AOJu0Yw9zZtseO0j30XqRabqGVzACNLhMdR4frE7J3Yd3IMz9v2zv6R7
+	/s7nz9OAkctRNNxsoSaxH3QfBvxOxj54bUOPEVJyhEHxHONLSOFkUJ1KwWv7WYkvMs3ivEg0HJU
+	nOE6A+srZ34Dj8p8rYk3bUoK/D2JseGrLfL1rQmyCLTSo8gHXunj7qjULhHiFh2UpKw/nzKNOo6
+	3floWpxUTDrkfOnF1t1hWXBwWxN9GAlKTHMDo6z00OmLNVZpBdBM8=
+X-Gm-Gg: AZuq6aKxyuw2j3aWyJ2MlKdN7TUCFDTdMtECS46MjGqxezOV3zzrIcV/y6cXGTi5mcH
+	ofkW5nCI9byVMfN8b0PuN47S1pB/iojpKZSdKFi3PvsADRzQqsuplNns7uZgEKF18KBXukmqfpV
+	gwWhS98YOcPuCU0xkl1Na9JV4IyY2HAEdPRCtBmx7LOmZ9jBhWwQnBTNCm0SyIg1us
+X-Received: by 2002:a17:90b:1348:b0:343:60ab:ca8e with SMTP id 98e67ed59e1d1-35368953087mr2369706a91.17.1769162548658;
+        Fri, 23 Jan 2026 02:02:28 -0800 (PST)
+X-Received: by 2002:a17:90b:1348:b0:343:60ab:ca8e with SMTP id
+ 98e67ed59e1d1-35368953087mr2369673a91.17.1769162547622; Fri, 23 Jan 2026
+ 02:02:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4uhsm4wvzsoto4e6koyccvsdqcg2pber4s4oexclhywps7pz5l@tpkfglmsge45>
+From: Stefano Garzarella <sgarzare@redhat.com>
+Date: Fri, 23 Jan 2026 11:02:16 +0100
+X-Gm-Features: AZwV_QhRPOrSloqYfipemuziVP4O5-vRHqt3boZlB-TpsZI_fjVtOFRzvdKT0Ng
+Message-ID: <CAGxU2F6xrPvgoD1+i-S_7Snj3zfZ0iCLXfc7JBf8mZPZi+GMLQ@mail.gmail.com>
+Subject: TCG TPM license issue
+To: coconut-svsm@lists.linux.dev
+Cc: "James.Bottomley@HansenPartnership.com" <James.Bottomley@hansenpartnership.com>, 
+	Daniel Berrange <berrange@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: pS5B5sWt710duySLkg8tdLWFi1PDHMSc4qslj1llUKA_1769162549
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-Meeting minutes are available here:
+Hi all,
+it seems the license of the TCG TPM reference implementation that we
+are using to emulate the vTPM in SVSM is not exactly BSD but a variant
+of it.
 
-	https://github.com/coconut-svsm/governance/pull/93
+For some distro, like Fedora, this could be an issue. See
+https://gitlab.com/fedora/legal/fedora-license-data/-/issues/716
 
--Joerg
+Thanks,
+Stefano
+
