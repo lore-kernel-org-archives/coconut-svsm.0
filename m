@@ -1,136 +1,141 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37F236214C
-	for <coconut-svsm@lists.linux.dev>; Tue, 27 Jan 2026 17:06:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536292E8E16
+	for <coconut-svsm@lists.linux.dev>; Tue, 27 Jan 2026 17:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769533622; cv=none; b=en/1yaBnNF3Wdw6EUQ9c3IOhJ2Og1FbdTN1mKPCyIRLUx9s5RuGqIokfBDLoBSsm0wxdgb0KFAqwoPwgreD3SM5MX6PhYkkjBrO1AuDa/uj5VyvTJ5c/up8q1Pv2s5N42Tqo6FGfMeoGUZnqGnoJM1HPV7YG7G8r59AiIQgFrLI=
+	t=1769534744; cv=none; b=AwyvibbdEf8BVS6hGAmHQqxE6/v11FvEfRFqhDjn6aD2bEpfqQw4o+Gl+4/f95GRxMMiy0O6PM03zEjUk28InXEDKnfdLUz6O8vw7KTy1jB1DBOcNuxngnI/ThEmHSrZWHtT/hWZwqKjSobDsbNslTCLewVCVh9uBNey8KZ9ssE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769533622; c=relaxed/simple;
-	bh=tlwjHSarT1Mqhef+1BKU4INaA/tED5J7oqYJ1OVsUn8=;
+	s=arc-20240116; t=1769534744; c=relaxed/simple;
+	bh=/smCSp1iqiX7k5O6L2ACoWmS3vBhh1rivPs2ZcZ7EjI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e9MG63+2e/4LolQFEMzDrVd3gTo4L3k7XFKObgpokQh2dAaIShyMgGlJqF4WRxrIuavtAEXYwC1k2DHDh7W2Hc5u5fd+FsRkzo5scGjdyLptWANtJYDPGU3+BQbsT0Fnp7MwvdgDGeuDbKe5VIjYsmU+9oo1xHW1UW39of/K33M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=K68HgsmC; arc=none smtp.client-ip=170.10.129.124
+	 To:Cc:Content-Type; b=ojqD+iHdZZgNHVvTFf6Ox1w77e3pKdoWK/BrN0gggbj8m6yXhZ0LAkpVJ0TNq6M7TdQbEp4QvsbAobvjHVxk8cCee4OAeV2+oQ0+BNeJt9gbNeEXlS6l7D2jyeurshUwopUNcRLEcx+bUqRJxU6p2Ln5kyx3hJcOB/Se61cOz5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hCWYJoWm; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K68HgsmC"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hCWYJoWm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769533618;
+	s=mimecast20190719; t=1769534742;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tlwjHSarT1Mqhef+1BKU4INaA/tED5J7oqYJ1OVsUn8=;
-	b=K68HgsmCqy1GMsaDW/Ga9+dJuExuYYM6W0EsOBNHgl+JxTIEcSOYH0RZvMBeCPlBGF12l7
-	NMFKS8ac8SD4qc0ZbvkNLxWrFhzDmMZkwnpbgGNXw/DFHvw51QolzPsWdv+gsCYfN3RXUI
-	EhpGTRAr5wJiL23yeyx9XJN0lfhxLpE=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=TSt1oTGPdbVtMWrhHsVP8ImDNETV2yBloqqrEqSDtD0=;
+	b=hCWYJoWmxftoRUgBeBKQ3dVTo2azQxBkpW2aA4u04HVSRHjBc4xoVrJTjZYjIUv1iTFXJP
+	uuuBmARLaeTI7NivLf58KSd/XJwmU+RDdeKfmZe3ew7hd8y6RRvtcfwMIqdXwCyt3m39/k
+	C47SjACIhOgurg9JHNknRcpOhI8fROY=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-633-brSyowthMvu-HOpB7LOrcw-1; Tue, 27 Jan 2026 12:06:57 -0500
-X-MC-Unique: brSyowthMvu-HOpB7LOrcw-1
-X-Mimecast-MFC-AGG-ID: brSyowthMvu-HOpB7LOrcw_1769533616
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-29f2381ea85so123484665ad.0
-        for <coconut-svsm@lists.linux.dev>; Tue, 27 Jan 2026 09:06:56 -0800 (PST)
+ us-mta-354-1cQ6_ooIN1CacSr-y6GxoQ-1; Tue, 27 Jan 2026 12:25:40 -0500
+X-MC-Unique: 1cQ6_ooIN1CacSr-y6GxoQ-1
+X-Mimecast-MFC-AGG-ID: 1cQ6_ooIN1CacSr-y6GxoQ_1769534739
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-34e5a9f0d6aso54562a91.0
+        for <coconut-svsm@lists.linux.dev>; Tue, 27 Jan 2026 09:25:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769533616; x=1770138416;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tlwjHSarT1Mqhef+1BKU4INaA/tED5J7oqYJ1OVsUn8=;
-        b=EeQAI5r9jw9WZa4mYzfh5uP7hq++uwMMInMX74iGMSycrTAaI8wm+gzNf+5aZCWmuA
-         RUbsykrABGwMNv0Hqle7OaSV7bQY5bH7ppD3FHfwADTgHm2O5YFCJaov93MJUu5iVGzR
-         LG7/IxQP67m/TcAhx7/GV1mKI22gVUdfXWS+gx9iDdFHrhnchWv2FuoTBdBTUjUiz+cI
-         vSGqMrcSKUVaSYPSSfavQcxgVvktXVqrqQxScOKKovdekkGZ2P2AiFGOkpy0Cb2UNlXB
-         kUkGUOLGDLw6JCtJrGBxgCsnNAD8sdjNT3WjHFXGMndWd5/U6qg0Do2xGG4oMvnvQQah
-         IOfA==
-X-Gm-Message-State: AOJu0YzBLp7OxwgqsVnPNWcH+/kPdOHfySOc/QWfCJ1geUTqW28QDceN
-	TdijAmLWsd/cRQKfaY9k14zk+/GJSABrHilKpUiZJUMHuKweZU8sgHFryiYz0t5p94GLtbdrZ0T
-	8tWVkFGV9sQcutQfVfH6w6T0+uAbZS05lkFOPxiKPU/4wfsXGCxg2xPQawk79mLiis8XKU9CVR6
-	lq3ZMmXRg9nV2hJQoUj0ZeR41YeOY7jR4aP8SW7rod
-X-Gm-Gg: AZuq6aLQhPnRKgFkQ2Z2S2BB6VUeVqcWeP13r/YwwONwhx4T9rVY2k103RhtoFZY38L
-	e4ix5hI0QiomB+Z7plyI0+u+T0M3xlPouBS4JGIY4yGRWm9Sbp3KeO5xawf8LnZGudHzUZDRDhM
-	EP4bGhpxNjjfjQKsxnSlzb9NVAybW760DzJnYSZtENeM7ZtDDgVDtQeZt+kYQ1WNC6
-X-Received: by 2002:a17:903:2f87:b0:2a7:a6fa:ede4 with SMTP id d9443c01a7336-2a870de244amr22526245ad.48.1769533615898;
-        Tue, 27 Jan 2026 09:06:55 -0800 (PST)
-X-Received: by 2002:a17:903:2f87:b0:2a7:a6fa:ede4 with SMTP id
- d9443c01a7336-2a870de244amr22526045ad.48.1769533615330; Tue, 27 Jan 2026
- 09:06:55 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769534739; x=1770139539;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=TSt1oTGPdbVtMWrhHsVP8ImDNETV2yBloqqrEqSDtD0=;
+        b=Z7VpcSrWWGMmS/txHJtFtEqGsXFnQb0Cy8rltEzSLhkNh4n+ItgTL6ZC9+ATemJsrl
+         HucBimmxDgFuomTarQjayJxCZP2CeO8Xr3yKBU+ft5HGCmszpQ5+IbYtz3gptcbU5to/
+         B7dKNeQLNx6jyNT3ezMGTsBX5T3g3RtNbu2/WIgWlExl8brZGlnh/bxHKRhRFb5VtPY2
+         bue5MbfTf55Mtz1hrqRsCJPgXlCOv850RemByOEiPprgPYhWWipvLc4KUyz47pvxWkLR
+         pD0IzGvJPQzjLLhvOJwMfVsw4Xn0v401+ZITvYad+vg1SV3rf7LsfZjI1m8MF520EmH6
+         pWkQ==
+X-Gm-Message-State: AOJu0Yzb7Jkpb93NbhZLa28RqmHwkb7OwRTRbiXpj/TKPFGaVBZsiIxd
+	atgqbnlcY6RYQ+RmUQgxbnm7KkDWAteCF2rbVd9iK5vF/Ya+5G1XW97iEKnug3jhH4y7qRtWh01
+	9B5N9YZXpYZazde6SPy1/gb4UYm9xX+pz1h5pqka/g5weTsvD7tizrdzJd5dfTW5yhyQYLuH0HF
+	zZKOHB9ZtqrjCXM/s8AZdB3Rovk0A5Af983sJWfwv6
+X-Gm-Gg: AZuq6aK8LWPl3mXLAaAde9a6JuWROrLAnHax0FymjdyKephwWF/HSX4Y0QalZAZ45FQ
+	hx8njjiRtqY1S8zoTQjGVY5zz04DbsdkYTM92E5XIzf0nyZvWqkRnpLvxf1UvsN5MByvhFM3MqH
+	ebk6wvm9bPzGaq0mLbWTR7c3z5VzPfzuPI7HkQMeXCsv+jW1DuKmn9ZG33dum547IZ
+X-Received: by 2002:a17:90a:608:b0:34c:718c:5448 with SMTP id 98e67ed59e1d1-353ff8b45b1mr1467932a91.4.1769534738654;
+        Tue, 27 Jan 2026 09:25:38 -0800 (PST)
+X-Received: by 2002:a17:90a:608:b0:34c:718c:5448 with SMTP id
+ 98e67ed59e1d1-353ff8b45b1mr1467912a91.4.1769534738207; Tue, 27 Jan 2026
+ 09:25:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAGxU2F6xrPvgoD1+i-S_7Snj3zfZ0iCLXfc7JBf8mZPZi+GMLQ@mail.gmail.com>
- <6146dc59fed504a84db645cde56c3b85082aff0f.camel@HansenPartnership.com>
-In-Reply-To: <6146dc59fed504a84db645cde56c3b85082aff0f.camel@HansenPartnership.com>
+References: <20260121144151.37812-1-joro@8bytes.org> <20260121144151.37812-2-joro@8bytes.org>
+In-Reply-To: <20260121144151.37812-2-joro@8bytes.org>
 From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Tue, 27 Jan 2026 18:06:44 +0100
-X-Gm-Features: AZwV_QhmUwRVPx5eez2ZX691kPEbvUsojgNcxyHvW2y1BNuja0lW_t1cKtm8KP0
-Message-ID: <CAGxU2F7244j9n6jBa-34vNjrLJvNhiP81-Wzv9L-C=dGw4bZDA@mail.gmail.com>
-Subject: Re: TCG TPM license issue
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: coconut-svsm@lists.linux.dev, Daniel Berrange <berrange@redhat.com>
+Date: Tue, 27 Jan 2026 18:25:27 +0100
+X-Gm-Features: AZwV_QipZily0RkKIxjrmM3CutVma1HkSby9Nr-739nFEqtMv0kWmOxdnlZ3aTM
+Message-ID: <CAGxU2F5_jFasH8oAvM+H8FnoHWFQtVcpApMfma4d9ny8meZJNg@mail.gmail.com>
+Subject: Re: [GSoC 2026] Observability Support for COCONUT-SVSM
+To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>, 
+	Gerd Hoffmann <kraxel@redhat.com>
+Cc: coconut-svsm@lists.linux.dev, joerg.roedel@amd.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: JzJsR4o1j0wJ6uWqvBu56-IkYuJdF_i7g0_f2no2V24_1769533616
+X-Mimecast-MFC-PROC-ID: OSx5ExxCiKg_ilRyAzSQ3EGUDaAaelBDGDDLVCtJ248_1769534739
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 23 Jan 2026 at 20:15, James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
->
-> On Fri, 2026-01-23 at 11:02 +0100, Stefano Garzarella wrote:
-> > Hi all,
-> > it seems the license of the TCG TPM reference implementation that we
-> > are using to emulate the vTPM in SVSM is not exactly BSD but a
-> > variant of it.
-> >
-> > For some distro, like Fedora, this could be an issue. See
-> > https://gitlab.com/fedora/legal/fedora-license-data/-/issues/716
->
-> The problem clause is a conditional statement about the origin of the
-> code and not part of the licence, so I don't believe it modifies the
-> BSD-2-Clause nature of the implementation in any way.
->
-> Additionally, just in the interest of fair dealing Fedora can't
-> disapprove of this this disclaimer in coconut, but perfectly fine with
-> it in another project they're already shipping:
->
-> https://packages.fedoraproject.org/pkgs/libtpms/libtpms/index.html
->
-> which has a slightly different form of the disclaimer (inherited
-> directly from the TCG) which seems to be a bit stronger in terms of
-> modifying the licence:
->
-> https://github.com/stefanberger/libtpms/blob/master/LICENSE
->
-> ---
-> THE COPYRIGHT LICENSES SET FORTH ABOVE DO NOT REPRESENT ANY FORM OF
-> LICENSE OR WAIVER, EXPRESS OR IMPLIED, BY ESTOPPEL OR OTHERWISE, WITH
-> RESPECT TO PATENT RIGHTS HELD BY TCG MEMBERS (OR OTHER THIRD PARTIES)
-> THAT MAY BE NECESSARY TO IMPLEMENT THIS SPECIFICATION OR
-> OTHERWISE. Contact TCG Administration
-> (admin@trustedcomputinggroup.org) for information on specification
-> licensing rights available through TCG membership agreements.
-> ---
->
-> However, I did ask and got word that apparently the TCG has already
-> modified its copyright IP policy not to require the patent disclaimer
-> in the code, so it's going to remove the language from the TPM
-> repository anyway.
+Hi J=C3=B6rg,
+Gerd and I can help on mentoring this, so we can add:
 
-So basically, the next TCG TPM version should have a LICENSE file with
-only BSD-2-Clause, right?
+On Fri, 23 Jan 2026 at 03:02, J=C3=B6rg R=C3=B6del <joro@8bytes.org> wrote:
+>
+> =3D=3D=3D Observability Support for COCONUT-SVSM =3D=3D=3D
+>
+> '''Summary:''' Implement Support for COCONUT-SVSM Observability within th=
+e TEE
+>
+> COCONUT-SVSM is a Secure Virtual machine Service Module that runs at a
+> privileged level within a Confidential Virtual Machine (CVM) to provide t=
+rusted
+> services, such as a virtual TPM, to the guest operating system, independe=
+nt of
+> the host hypervisor.
+>
+> The goal of the project is to implement support for observability of
+> COCONUT-SVSM from the guest OS. When finished the guest OS has a way to
+> fetch runtime metrics and data from the COCONUT-SVSM running within the s=
+ame
+> TEE. Runtime data includes the log buffer, services logs, memory usage, a=
+nd
+> possible future extensions.
+>
+> The project consists of several parts:
+>
+> 1. Design an experimental SVSM observability protocol for exchanging metr=
+ics
+>    and data between COCONUT-SVSM and the Linux kernel. This protocol will=
+ be an
+>    extension of the SVSM protocol specification.
+> 2. Implement a handler for the protocol within COCONUT-SVSM following the=
+ other
+>    protocols COCONUT-SVSM already implements.
+> 3. Implement a Linux device driver which uses this protocol to get
+>    observability data from COCONUT-SVSM and make it accessible to Linux u=
+ser-mode
+>    via a device file.
+> 4. Implement a Linux user-space utility to fetch and save the observabili=
+ty
+>    data using the device driver.
+>
+> '''Links:'''
+>
+> * COCONUT-SVSM Repository: https://github.com/coconut-svsm/svsm/
+> * Development plan: https://coconut-svsm.github.io/svsm/developer/DEVELOP=
+MENT-PLAN/#observability
+> * SVSM protocol specification: https://docs.amd.com/v/u/en-US/58019
+>
+> '''Details:'''
+> Skill level: Intermediate
+> Language: Rust and C
 
-That should solve the problem I guess.
-
-> I'm guessing that would mean the same problematic
-> clause can be removed from libtpms but you'll need to take that up with
-> upstream.
-
-Yeah, I'll do.
+Mentors: Stefano Garzarella <sgarzare@redhat.com>, Gerd Hoffmann
+<kraxel@redhat.com>
 
 Thanks,
 Stefano
