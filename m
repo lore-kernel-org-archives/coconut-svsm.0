@@ -1,53 +1,188 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E14C3128B8;
-	Thu, 26 Feb 2026 09:49:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B076F28CF6F;
+	Fri, 27 Feb 2026 08:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772099359; cv=none; b=uSUp8l6Acyebg2xqzbSTmBJfeaOez6sNWifwgaOb5/imNBtYi771tL4lcF3pSVasCcbFTlu/dXYbP/FJv6sLadxhh3auFafSfgLvJazcULDBhqZN5iDrUlUbG3BioHb78s1Dyg3/7D3FR1gnbH22p6FApm2Vsnyalqzar3a+JMM=
+	t=1772181085; cv=none; b=AsqkD+2pekVDSOj9O4nznBCMCJG4EVOKOa+780UJrB95f6rW+NdOOaCs9yHx5K8J81SJyOrqSAvSyTlnVpiaHf8NGojWTjaFH3FsywYf9Cv7fn/sOr6QmSlJCp1rSlnoQ08i6zcyPb8LGMripk8m8Rw7wOVTOg5wFwAYoyJ4Yo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772099359; c=relaxed/simple;
-	bh=ngr/nF1Ta0D4lo1IE92pvA3Vhhi3fpxqqI69lqLiOh8=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DGviSd4rhYWaIBOSgtZlcuFJv7zkNp1tukjhRiWOSZ8HIWn9IUpCqdQdviyrt7RsU7yqpX1L4B7oSJiNTT6KILX0TWBoGxrHNim2j7YGNkpDy4D4NuDKc64yHMg0Zmh7DYUOcTMfntBiMHsdQPwUlDmDNCyWcqLUxT0mV3t5E5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=f/LZhfZC; arc=none smtp.client-ip=85.214.250.239
+	s=arc-20240116; t=1772181085; c=relaxed/simple;
+	bh=y60GJ3GgfJqgyqpNchRmAVuTPY3cKMIRRXtEG2z3++8=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bl6oimcN0f6wdxryuwdamvIWe4zYvsZjyLLYvyPyqdLbdvvVAD/CUG58ZwE9ALNP+XtyCGK3A5+DcL6bTI6UoogVitRXYTItOCO+3Hql2um6jFt8+bRAZEOxPNDaqSLpIwo5g46jOvV5XwCAHvzcL8ioKFDHCugBzFY3RpVa19Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=n6oOL3f1; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="f/LZhfZC"
-Received: from 8bytes.org (p200300f6af1d9600c83559b88eb41dc2.dip0.t-ipconnect.de [IPv6:2003:f6:af1d:9600:c835:59b8:8eb4:1dc2])
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="n6oOL3f1"
+Received: from 8bytes.org (p200300f6af1d9600f58ad75c816d38de.dip0.t-ipconnect.de [IPv6:2003:f6:af1d:9600:f58a:d75c:816d:38de])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id B3961200063;
-	Thu, 26 Feb 2026 10:49:10 +0100 (CET)
+	by mail.8bytes.org (Postfix) with ESMTPSA id F0E2A2001A3;
+	Fri, 27 Feb 2026 09:31:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1772099350;
-	bh=ngr/nF1Ta0D4lo1IE92pvA3Vhhi3fpxqqI69lqLiOh8=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=f/LZhfZCpB0fUIp8A8rKUFx5D4KdqtYnWh3ZfgVoSoCmSO0OE74HFcGWeZFJEtXmi
-	 s5FMq82HUWiOYlRPjXM7GWzWaEDfhq83izuc+u7xvjMTpnEU7Lfkbjl/xEwqTo2AM0
-	 SGjUpl/gpx1B3g84Vqq9nxFgX1aaESRupPKOaUNAQhyFllnPNEu8zbJ91gecYRGySn
-	 A4W9wexx1SW3OPJB19/oPzL1g5PrmXY+58nsofoA70/RzvYnPtV+snxRpuGLtPhOgM
-	 4JeYJecn/iNwzNNnNPOuYp8Wvm8sK5xZoJ5tgDB9WyRInqDSncG1ZnXQFBHY0IPdq1
-	 hLh7ELgBeztFg==
-Date: Thu, 26 Feb 2026 10:49:09 +0100
+	s=default; t=1772181082;
+	bh=y60GJ3GgfJqgyqpNchRmAVuTPY3cKMIRRXtEG2z3++8=;
+	h=Date:From:To:Subject:From;
+	b=n6oOL3f1LojHIHKKW+vMaeLHv/JyuZlYgsJgxQZXBlI8ihdjNRSDG0HNjt2CDeTMo
+	 1T3QxhyZ9rnWeSKGtsfFDY2pj/FMXvLL+2nBnmgOaSvMAGRihxFqJL+JrSNYpIXN3Z
+	 gFiw/NPLX87J7q6YtkctspXyIT9X7FsXlrs7TBDTJHsK32Z8lw3nr1NijaXm1DtTgu
+	 Pu3mURsCXluwUIyZL63hrtFXNzxBw7iyAStnZfEfQ7sKrbn6W+Aotdw7cQmEZ3Xrp4
+	 PUxc8G61AZo/EMQLfBuxTsr9A3pD9ceR8UuWgOkUXPCOAsTCGFnf8MhSz3FzgDxmxD
+	 q3ZuDdX57Cn/g==
+Date: Fri, 27 Feb 2026 09:31:20 +0100
 From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
 To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
-Subject: Re: SVSM Development Call February 25, 2026
-Message-ID: <uyg4xshhfxjo3iuvqpt5kvklfxbvxef7sharcxmwjqab34hynm@7qx5bizvopmh>
-References: <hul66wdlddkhriko6gb7po5nstadfjvou7lbzsfbvlyrpl4ybw@gkpc22ppgsxo>
+Subject: COCONUT-SVSM Development Release v2026.02-devel
+Message-ID: <wuqjzhu7l5tdsys764jvmpp5bwdqzmkrmxluhlx7vbgxnqaqap@v2yuhews2hlo>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <hul66wdlddkhriko6gb7po5nstadfjvou7lbzsfbvlyrpl4ybw@gkpc22ppgsxo>
+Content-Transfer-Encoding: 8bit
 
-Meeting minutes are ready in this PR:
+Hi,
 
-	https://github.com/coconut-svsm/governance/pull/97
+The COCONUT-SVSM development release for February is tagged and ready for
+testing and wider use. The release includes 65 non-merge commits which bring
+several improvements to COCONUT-SVSM.
 
--Joerg
+There are no new features this time, but a lot of improvements around CI and
+the core infrastructure. Highlights are:
+
+	- CI improvements. GitHub CI is now able to optionally run formal
+	  verification on PRs.
+
+	- Fix of unsound behavior in the per-cpu code.
+
+	- Update to OpenSSL 3.5.5 for the TPM.
+
+	- Switch to Rust 1.88 as the minimal version to build COCONUT-SVSM.
+
+	- A lot of rework and improvements in the boot flow, an important step
+	  towards a minimal stage2 loader.
+
+Again a big THANKs to the COCONUT-SVSM community for all the contributions. The
+first two releases of 2026 mark a strong start into the year for COCONUT-SVSM.
+For all the nitty details of what changes the shortlog is attached.
+
+Happy testing and hacking.
+
+Regards,
+
+	Joerg
+
+Full shortlog:
+
+Carlos López (16):
+      mm/guestmem: fix GuestPtr trait bounds
+      mm/guestmem: introduce GuestPtr::try_read()
+      mm/guestmem: introduce UserPtr::try_read()
+      cpu/percpu: do not expose raw runqueue
+      cpu/percpu: do not expose vranges directly
+      cpu/percpu: fully harden against reentrancy
+      mm/page_visibility: add Sync for SharedBox
+      cpu/apic: require Sync as part of ApicAccess
+      cpu/irq_state: make IrqState Sync
+      cpu/percpu: ensure PerCpu is reentrancy-safe at compile time
+      repo: update packit to latest commit
+      insn_decode: make InsnMachineMem generic over T
+      insn_decode: remove dynamic dispatch from InsnMachineCtx
+      kernel/insn_decode: tests: fix Miri errors
+      kernel/mm/guestmem: tests: ignore invalid bit pattern test under Miri
+      fuzz: insn: provide valid pointer in TestCtx
+
+Joerg Roedel (3):
+      kernel/sev: Check physical address of VMSA for 2MiB alignemnt
+      kernel/platform: Use PageSize conditionally
+      COCONUT-SVSM Release 2026.02-devel
+
+Jon Lange (22):
+      stage2: allocate kernel page tables from kernel heap
+      svsm: remove duplicate construction of kernel page tables
+      kernel: simplify stage2 layout
+      svsm: create transition page tables for AP startup
+      kernel: limit low memory page tables to AP startup code
+      Merge pull request #928 from msft-jlange/page_tables
+      igvmbuilder: require tdx-stage1 for TDP
+      Merge pull request #881 from MelodyHuibo/reinject_irq_clear_busy
+      kernel: defer page validation out of stage2
+      kernel: allocate CPUID/secrets pages on all platforms
+      kernel_launch: remove platform type from launch struct
+      kernel: reclaim VMSA heap space when unused
+      kernel: remove `SvsmConfig`
+      igvm_params: rename `igvm_params`
+      boot: move boot definition crate
+      bootimg: implement boot image loader library
+      stage2: consume boot image library
+      svsm: move kernel initialization arguments onto the stack
+      Merge pull request #968 from stefano-garzarella/rust-1.88.0
+      Cargo.toml: add `cpudefs` to `members`
+      sev/ghcb: calculate page state chage page size directly
+      global_asm: ensure code is marked as `.text`
+
+Jörg Rödel (14):
+      Merge pull request #920 from 00xc/cpu/percpu/sync-v2
+      Merge pull request #954 from joergroedel/boot-fix
+      Merge pull request #922 from 00xc/mm/guestmem/bounds
+      Merge pull request #952 from 00xc/repo/update-packit
+      Merge pull request #955 from stefano-garzarella/update-cargo-lock-zerocopy
+      Merge pull request #974 from 00xc/tests/miri
+      Merge pull request #973 from msft-jlange/ghcb_psc
+      Merge pull request #969 from luigix25/cleanup_launch_guest
+      Merge pull request #972 from msft-jlange/cargo_members
+      Merge pull request #959 from stefano-garzarella/cargo-hack
+      Merge pull request #964 from stefano-garzarella/ci-fix-cargo-v-check
+      Merge pull request #965 from stefano-garzarella/verification-label
+      Merge pull request #977 from 00xc/tests/miri
+      Merge pull request #978 from msft-jlange/gloabl_asm
+
+Luigi Leonardi (2):
+      block: remove unnecessary Box wrapper
+      scripts/launch_guest: require QEMU 10.1 as minimum version
+
+Melody Wang (1):
+      cpu: Make sure interrupts do not disappear
+
+Oliver Steffen (4):
+      libtcgtpm/libcrt: Add stub for strpbrk()
+      libtcgtpm: Update OpenSSL to 3.5.5
+      libtcgtpm: Disable more unused algorithms for OpenSSL
+      libtcgtpm: Remove deprecated OpenSSL build option
+
+Peter Fang (2):
+      Merge pull request #957 from msft-jlange/igvm_stage1
+      Merge pull request #953 from msft-jlange/bootlib
+
+Stefano Garzarella (26):
+      Cargo.lock: refresh after packit zerocopy update
+      Merge pull request #958 from 00xc/mm/guestmem/bounds
+      verification: add NonNull<T> specification for Verus
+      github/manual-verify: check cargo-v output for errors
+      Add `test` crate in the workspace
+      verification/verus_stub: fix unresolved import
+      virtio-drivers: use std crates in FakeHal
+      virtio-drivers: fix unused variable
+      kernel/block: make BLOCK_DEVICE publicly visible
+      Makefile: add CARGO_HACK env variable to run clippy with cargo-hack
+      Documentation: add `Linting` section in CONTRIBUTING.md
+      libtcgtpm: update TPM reference implementation to fix the license
+      Merge pull request #960 from luigix25/cleanup_blk
+      Merge pull request #961 from osteffenrh/openssl-3.5.5
+      Merge pull request #962 from stefano-garzarella/fix-verification
+      Merge pull request #966 from stefano-garzarella/update-tcg-tpm-license
+      kernel/gdt: fix UB in GDT::drop()
+      Fix `uninlined_format_args` lint for Rust 1.88.0
+      kernel: fix `borrow_as_ptr` lint for Rust 1.88.0
+      kernel/vtpm: fix `manual_dangling_ptr` lint for Rust 1.88.0
+      Cargo.toml: remove deprecated `clippy::match_on_vec_items` lint
+      Update Rust toolchain to 1.88.0
+      Update bytes to 1.11.1
+      Update time to 0.3.47
+      Merge pull request #956 from stefano-garzarella/fix-cargo-audit-bytes
+      github/manual-verify: trigger on verification label
+
