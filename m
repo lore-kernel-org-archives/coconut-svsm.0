@@ -1,71 +1,125 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0193F33B974;
-	Tue, 10 Mar 2026 17:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773162615; cv=none; b=O2KyWwOBWFr27zlvUrJNwnFwKrTWagFg2pPQSelOs9Gy2DSTy3daha0xNMz7Sbx1V8eH9S1yLHgnzgoOr+TbkTpCplz7fPyxJM/3cDRPuVIG2n0Fo7rYOnOl0dQRG0o3OdMUM1GXlxDdREiYg1d5rZb6KukA2f4ief41M2+IvIg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773162615; c=relaxed/simple;
-	bh=r7lCt6kJbI/2c4eHVow8TmaKDrAdUOvtgdZVXMj8U2Q=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oSgyVGq+AHVoi64Xevw2bB3Hyd5xM3PNusKtyILIVX4gPoO4JeHC+k81GCHLRB4C80qSLr7Tq+qZOWDyf3GvPtOuUEvuhIvrsXQV4nY4OnFBxomFVoo2RCWToAzPC2b3KZc4w85XMjiuMry8l4LyQt6c6lwBe439Kaf4lzxWMlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=p7oephA/; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="p7oephA/"
-Received: from 8bytes.org (p200300f6af1d9600b43a1b46c831cc21.dip0.t-ipconnect.de [IPv6:2003:f6:af1d:9600:b43a:1b46:c831:cc21])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 9AB7B1A4BBE;
-	Tue, 10 Mar 2026 18:10:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1773162607;
-	bh=r7lCt6kJbI/2c4eHVow8TmaKDrAdUOvtgdZVXMj8U2Q=;
-	h=Date:From:To:Subject:From;
-	b=p7oephA/CdC/gQxQt8tVOXvpRa01X3NAjjd968ignuv9jSqoabA1aHo9/v+eDmVsc
-	 7/+Q/ZXObbfy6gw/hdSWy76Tl7BlUTOZ3lZKlDLM+4Vyx3FnjU1WsRL6fAKiU50xBk
-	 SgP918uxTbHpz63pb1YRvJcu9FDbK+XWuac8DrhRQ1fCnxgDwxlCjNT4t4zaX37ywZ
-	 SMUJQ3IfIdXJAgZRBBiuhX3Oa0f6HYCb6G46CABOOJzqpCaOE7MavuofbCNR/D8+Nd
-	 KHf9vjrZBKxlfsK/O3hIgGEbv5noMOHZEO43hpIP+BQUPmz5FLGoDEl1gJ43ocJn6S
-	 e1bwOiz0/hvCw==
-Date: Tue, 10 Mar 2026 18:10:06 +0100
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
-Subject: SVSM Development Call March 11, 2026
-Message-ID: <ete4u42tzmawocptkhibgkv6tgg7rlqcpncdutnk36qtpdejcz@cxhur5ib7dzz>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FBD23EAB2
+	for <coconut-svsm@lists.linux.dev>; Wed, 11 Mar 2026 04:29:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773203374; cv=none; b=ASKimbCevGTQ3mvnmt8qhj4E4rkE8LNF0tcXMd1TwD9qusKmAtNJZvx7NjyWuxHe30KI4ANGuQpYjBuVlM8/e/hkkwwmUiM0tC8fJI4a2tpAOJ2uCkRZKoS0OUjlp1BGiP0alai2SkslRNNbaSSO9dwDyAoA3oz59Qr3MNeOXwo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773203374; c=relaxed/simple;
+	bh=BI+wwR3gMJCkIfpA2uTuWcVLoUbppH/zEqUxPNeR1ic=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FwNQiJ09BfpXzmlPSI0q5M6crKXCApMwKvvjXhQvfYjO9nREb5Bk3frbJbu1rKsNNMesA2jNHj3LL6T+tzdTgpWT4c1fbAar7qOngVViW+348qvcT+kABQLm71sHbVxIAWqZfH37QHGaltphl0BmpHfXBPWcVu+dCMXy7/65Fog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hOsA78/U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fXVoh61H; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xfWNsxC/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ic09199y; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hOsA78/U";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fXVoh61H";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xfWNsxC/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ic09199y"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E61D14D36C;
+	Wed, 11 Mar 2026 04:29:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773203371; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=EX8dnsaNqq/54nColLuUfPBF/Gh+/tvq9besgpDQRCk=;
+	b=hOsA78/UgSS8VLHf4a4hy/vusmuCMw6cz5ISWpUSu5ghhdqUqPgfrBx+1EjOfD0B+aDPQz
+	ei++E0FrXY8wX3iPVPTP38BO2CqJGY6Z3WgP3JyYSsF8pZP5hn1EAqg/eUGAyW0NqPRcK4
+	6dPk1nZfAJgrfYZvORUndXTn5Ele8w0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773203371;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=EX8dnsaNqq/54nColLuUfPBF/Gh+/tvq9besgpDQRCk=;
+	b=fXVoh61HluKZ/XsCZoveyIdIj00UGJE3nr12u8rOpFxTFFyqr/XflbsIW8J8bjtVPnROhq
+	Z1wNZDnCNzqlwnBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773203370; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=EX8dnsaNqq/54nColLuUfPBF/Gh+/tvq9besgpDQRCk=;
+	b=xfWNsxC/nwBVxkbiAzuFk/Lo3jfw+bgplfKOgHjqJLc7zQCRQFjDbG6sPxUmzbDfkThzSt
+	ibLNHu/DizmBqEUMzt0ipG9HcIXUS5jf+WPYyR3Wp3b9LgOWYLlOg6ZB9I1vIaIQJolNPY
+	JXKegAa/R+xZu0Hjsk/I+TO7GOdUias=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773203370;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=EX8dnsaNqq/54nColLuUfPBF/Gh+/tvq9besgpDQRCk=;
+	b=Ic09199y0CvkfqnTfCq55nl0Z9TX5yne2Lm27fY0JHjtIz/tHVz2BmcgEguoF2NAcQvU4l
+	MdR4JWDDTwFoKWCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C16653F81C;
+	Wed, 11 Mar 2026 04:29:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +BLxLarvsGnhcwAAD6G6ig
+	(envelope-from <nstange@suse.de>); Wed, 11 Mar 2026 04:29:30 +0000
+From: Nicolai Stange <nstange@suse.de>
+To: Tyler Fanelli <tfanelli@redhat.com>
+Cc: Oliver Steffen <osteffen@redhat.com>, Stefano Garzarella
+ <sgarzare@redhat.com>, coconut-svsm@lists.linux.dev
+Subject: [DISCUSSION] svsm: attestation + CocoonFs: 
+Date: Wed, 11 Mar 2026 05:29:30 +0100
+Message-ID: <873427gf9x.fsf@>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Score: -1.59
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.59 / 50.00];
+	BAYES_HAM(-2.99)[99.97%];
+	INVALID_MSGID(1.70)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	SUBJECT_ENDS_SPACES(0.50)[];
+	NEURAL_HAM_SHORT(-0.19)[-0.969];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
 
-Hi,
+Hi Tyler,
 
-Here is the call for agenda items for this weeks SVSM development call.  Please
-send any agenda items you have in mind as a reply to this email or raise them
-in the meeting.
+I've been told in one of the svsm devel calls that a capability for
+storing some info in plaintext in CocoonFs would be helpful for your
+attestation efforts.
 
-There is one item on the agenda so far:
+Before I go and implement something, let me ask about the nature of that
+data.
+- What exactly are you planning to store there?
+- Presumably the filesystem salt from the image header, supposed to also
+  serve as a filesystem ID ([1]), is not sufficient?
+- Is the data considered immutable over the lifetime of the FS?
+- Is it Ok if that data is not authenticated?
 
-	- IGVM-Measure discussion
+Thanks!
 
-We will use the LF Zoom instance. Details of the meeting  can be found in our
-governance repository at:
+Nicolai
 
-	https://github.com/coconut-svsm/governance
-
-The link to the COCONUT-SVSM calendar is:
-
-	https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=week
-
-The meeting will be recorded and the recording eventually published.
-
-Regards,
-
-	Jörg
+[1] https://coconut-svsm.github.io/cocoon-tpm/cocoonfs/cocoonfs-format.html#image-header
