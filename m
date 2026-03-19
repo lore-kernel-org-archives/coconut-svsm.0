@@ -1,155 +1,89 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A19F36D518
-	for <coconut-svsm@lists.linux.dev>; Thu, 19 Mar 2026 12:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F4A2E0413
+	for <coconut-svsm@lists.linux.dev>; Thu, 19 Mar 2026 14:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773921663; cv=none; b=gDhjGyip+sryBm+2gpLjHvCpolJsIPD6B//HGtDbWekN4y509s1VUhxAzhQqp5KVkgsZRjxrkqFcXA87NFvV2eCACWUR2cLg0WTU+C0gTmlQuj5kLK8ajepm6XGLqFNH8WBI1bySVgfkiEYVVABNOyjAjqbIlWlSzr0Bb2Rfs2o=
+	t=1773929076; cv=none; b=qzRYEvSbQ0uYsqXEr0LffA04fbRglaLhDK4EcxmYO/fJ2hF3QYe24gHEo52QSmGi5qv6PBYvX++7e+wQX8riQZ0e6nFBXaCBNT285iSLBIE66pWKG1joL7k2uR2d8tJpmHzpO+fhdOeL6YAZFtnD084g+FmWSqYNMWjblzaMbCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773921663; c=relaxed/simple;
-	bh=DTSjfQwm9OihJ8UD/J4c8IFtmhQwRExpz2u8Zq8Kl98=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=biof+IxIjH6Emyafy62W0U7Zi5CoQbVc1DhRW4Ld9SlFafmHUBA7ZGih7RdS2/G//T7W1Jyjsyv0mkNV+PfwXSYpijA0Dihm8uf8pZrxIPf/6QTcNQ1QXsAQvPfoFeFa8M0Iw+s0eCPV8ugC1zth7giYvUOEtQVDm7wLRtnmAK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YOL+iT6J; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1773929076; c=relaxed/simple;
+	bh=rive/sCrNeJCsltclLdKM4/Lgp6LeBuJQO3nzKX8mZg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Q/ulJ5cpjf2dVIVBuND/uQtEi1e5xHa8GaLM3YMmw/bLsjBmrfMaACPJg7ZMZlnWjk3IkqksZBcMyBaet6gkdmBdyLHlVieSDY3Qzr4uy5wqv2Fa8Z71PG62YhU0maE6wFqGSLIfRNTPSQrYoFGs5iZ1PwnYfhhvvpSvUKb3MMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=Riaw2KSe; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YOL+iT6J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773921660;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o5gPTFv7uByfyq5CLYU23ZVWH5XdGoltdpdVnn1QRow=;
-	b=YOL+iT6Jy4UIYoSgvanga0usoGB89fF51Dj9wi5/0/5scvwqe8bag7VUkTjSwEqpLpNaT/
-	K27Fmzbt5iqh81cXg0HcvK6dk2fBLjqweT4tzanRbTk5Nt+TgpFAP4T+RbaBooRal3D3A6
-	nuJSZwImFGRsn0Q4+HdMUKGlXhjOHIE=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-332-rb6YWuImPbGGQ4mqsTP2IA-1; Thu, 19 Mar 2026 08:00:58 -0400
-X-MC-Unique: rb6YWuImPbGGQ4mqsTP2IA-1
-X-Mimecast-MFC-AGG-ID: rb6YWuImPbGGQ4mqsTP2IA_1773921657
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-82a77f807e4so2636268b3a.3
-        for <coconut-svsm@lists.linux.dev>; Thu, 19 Mar 2026 05:00:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773921656; x=1774526456;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o5gPTFv7uByfyq5CLYU23ZVWH5XdGoltdpdVnn1QRow=;
-        b=lA0cIkpdBG8xepI+jU4MvSlAjvZiNMGYoPPJN07mFQBZ4hnYohvj3Ow9e0yWVqVIdy
-         vV7WurpEeCaJNaMVYUzE5gTjZZbQb3EDy8tHrIg2jw0ddLbA0akMLIq0KWrASaTcu85O
-         3zqTprNQIROi1zrXxNNWzTGOo6xcaDehC4vUUijCb+Z8v34R2YUo7PAxLUwRkEIrgyGq
-         652qRQ4pre8gIhysfZJ9sl+b07igtQ934Pp6UfcgE95uNT3fYQJ3w8Mx9Jk5EiVDFscP
-         pdh3JrH3ky49FJTyv51zwLaQ1OIJuOYiiFClWgfgZWTV60gLSljzBR06ftCj04zZt7+O
-         0Lig==
-X-Forwarded-Encrypted: i=1; AJvYcCWOhmcRnqd5YXHX+ADi97/S/8jmAzzkVO0Ulr6ix1oE8lYWkEW9DSR5ThDDPfyNwEoR1Z9DXyl+6+VUaZQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz24gYbXKfaw0NJs14p1CNC2rBTWmg9oBmecZRUny5BxhPPyDap
-	WbqLpjO4CMHH1QDRo9zFHTNpnWlfjjtk9GQbVCKcIguaUbBll2fDg/ZAj/Pehw8tL2yWz61i0ep
-	N3siLcNl1EIw2RtcwW3aQD5EQjUVEkGqrBF0Tar1x58s8OGBSV/YycrCqIHLEsYr5vE+ZXm8wgQ
-	==
-X-Gm-Gg: ATEYQzwZmUiR8Aek46NutnkIq0rqIpdbPDSsiqu5pxqC2wID167rGrqIknqkG41INxj
-	xq2++Q1KvyzQ8fAatzcZjU7zZapk3yI1+yu93ujGfFiKfpAgNJqB5Zcp2KxppLsvfh7iB03n0LY
-	+4CuhzGMdfp0ApL0t4/Wg9cEF4HW85wm/3Y4ooyMwoavJGVTb3JpssKz5n+PPeL2CffGKR3wkcb
-	97W3ogOeD+O63RXFuL6l5MKyFXq7M73SMn0mvWnyiAyTAzWy0nWvlEBmWbUBiFAkWCzbg0oWJZp
-	CThxTyHgWUQpIHA4p+6q8lH6mxWpHdrPaQNoLBrMefLIYh7rOnXwJFOESft88XhUV+facgCFyC9
-	BYLZL1pDIriM=
-X-Received: by 2002:a05:6a00:17a9:b0:81f:31c3:2e34 with SMTP id d2e1a72fcca58-82a6acc07e5mr6781962b3a.25.1773921656277;
-        Thu, 19 Mar 2026 05:00:56 -0700 (PDT)
-X-Received: by 2002:a05:6a00:17a9:b0:81f:31c3:2e34 with SMTP id d2e1a72fcca58-82a6acc07e5mr6781929b3a.25.1773921655685;
-        Thu, 19 Mar 2026 05:00:55 -0700 (PDT)
-Received: from fedora ([49.36.104.12])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a6bbb2f34sm5900878b3a.30.2026.03.19.05.00.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 05:00:55 -0700 (PDT)
-Date: Thu, 19 Mar 2026 17:30:49 +0530
-From: Arun Menon <armenon@redhat.com>
-To: Nicolai Stange <nstange@suse.de>
-Cc: Tyler Fanelli <tfanelli@redhat.com>,
-	Oliver Steffen <osteffen@redhat.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
-	coconut-svsm@lists.linux.dev
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="Riaw2KSe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1773929071;
+	bh=rive/sCrNeJCsltclLdKM4/Lgp6LeBuJQO3nzKX8mZg=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=Riaw2KSeQP7t+6SLoA3siGC64LsO13aykgxOrRjwHvT+/+JcFqZQ/QQXtbZoDzNw2
+	 AJRsL5a0KGY28LLGCsTrfYlWGeoz/BKEIO0p00s9EbxC3WBNtxkF/D3aujPVxrKKtw
+	 pxJhM0eSKIvVgECfnkbK9HLTpNpgbXEPHjNqqgcM=
+Received: from [IPv6:2601:5c4:4300:d341::a774] (unknown [IPv6:2601:5c4:4300:d341::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 96F5E1C0480;
+	Thu, 19 Mar 2026 10:04:31 -0400 (EDT)
+Message-ID: <d401924e31cd39fdcb42008f8108c2bc8273efa0.camel@HansenPartnership.com>
 Subject: Re: [DISCUSSION] svsm: attestation + CocoonFs:
-Message-ID: <abvlcdh_zJPWUEwG@fedora>
-References: <873427gf9x.fsf@>
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Arun Menon <armenon@redhat.com>, Nicolai Stange <nstange@suse.de>
+Cc: Tyler Fanelli <tfanelli@redhat.com>, Oliver Steffen
+ <osteffen@redhat.com>,  Stefano Garzarella <sgarzare@redhat.com>,
+ coconut-svsm@lists.linux.dev
+Date: Thu, 19 Mar 2026 10:04:30 -0400
+In-Reply-To: <abvlcdh_zJPWUEwG@fedora>
+References: <873427gf9x.fsf@> <abvlcdh_zJPWUEwG@fedora>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <873427gf9x.fsf@>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: ACV38jK9RzCrmc7DP3SM7sOGi_7tzMuAJVFq6Aa2YDA_1773921657
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 11, 2026 at 05:29:30AM +0100, Nicolai Stange wrote:
-> Hi Tyler,
-> 
-> I've been told in one of the svsm devel calls that a capability for
-> storing some info in plaintext in CocoonFs would be helpful for your
-> attestation efforts.
-> 
-> Before I go and implement something, let me ask about the nature of that
-> data.
-> - What exactly are you planning to store there?
-> - Presumably the filesystem salt from the image header, supposed to also
->   serve as a filesystem ID ([1]), is not sufficient?
-> - Is the data considered immutable over the lifetime of the FS?
-> - Is it Ok if that data is not authenticated?
-> 
-> Thanks!
-> 
-> Nicolai
-> 
-> [1] https://coconut-svsm.github.io/cocoon-tpm/cocoonfs/cocoonfs-format.html#image-header
+On Thu, 2026-03-19 at 17:30 +0530, Arun Menon wrote:
+[...]
+> 1. Provisioning: Generate a TPM state file (NVChip) externally with
+> the EK cert and other metadata. The tool starts TCG TPM simulator and
+> then =C2=A0=C2=A0 writes an EK cert to the state file. [1]
 
-Hi Nicolai,
+Just a couple of notes about this: firstly your tool seems to generate
+an ephemeral CA and then sign the EK cert with that.  The problem with
+this is that it's the X.509 chain of trust (to the CA) which gives a
+persistent TPM its proof of trust.  An ephemeral CA basically voids
+that so what's the point of the EK cert?
 
-I’m jumping in here — while I’m not Tyler, I’ve been working under
-his guidance on a related provisioning flow and wanted to share my
-understanding to see if it aligns with the requirement being discussed.
+The next problem is how should we correctly prove trust in the
+persistent TPM?
 
-In my current workflow, we are pre-provisioning a TPM state file
-(including the EK cert) on a separate host (not necessarily confidential).
-The goal is to have the SVSM-based TPM start with this known state file.
+Obviously, for an ephemeral TPM the proof of trust is the Launch
+Measurement (verifying the implementation) followed by an attestation
+of the EK by the SVSM obviating the need for an EK cert.
 
-Here is how I envision the flow:
-1. Provisioning: Generate a TPM state file (NVChip) externally with the EK
-   cert and other metadata. The tool starts TCG TPM simulator and then
-   writes an EK cert to the state file. [1]
-2. Packaging: Create a CocoonFS image containing this state file, encrypted
-   with a key Key1.
-3. Key Management: Send Key1 to a Key Broker Service (KBS) and receive a
-   wrapped version, Key2.
-4. Header Storage: Store the wrapped key Key2 in the CocoonFS image
-   header.
-
-At Runtime in the SVSM: SVSM reads the header to retrieve the wrapped
-key Key2. SVSM sends Key2 along with the hardware attestation report
-to the KBS. The KBS validates the report and returns the unwrapped key
-Key1. SVSM uses Key1 to decrypt the CocoonFS image and access the
-TPM state.
-
-To address your specific question, in this scenario, the wrapped key
-Key2 needs to be accessible before the filesystem is decrypted. If
-the image header can store this metadata in a way that SVSM can parse it
-without the primary filesystem key, it would solve the bootstrapping
-problem of how to get the key from the KBS.
-
-Does this match the type of metadata you were considering, or was it
-intended for a different purpose?
-
-
-[1] https://github.com/armenon-rh/tpm_provisioner
-
+However, for a persistent TPM, the proof of trust would have to be
+something like the launch measurement (proving correct operation) plus
+something tying the current TPM state to the proof of non tampering
+with CocoonFS itself.  The EK isn't proof of this because if something
+compromises CocoonFS it can leak the EK seed and an attacker can
+replicate the state including a correct EK.
 
 Regards,
-Arun Menon
+
+James
 
