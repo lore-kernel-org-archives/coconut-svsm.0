@@ -1,120 +1,93 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B8D43634A
-	for <coconut-svsm@lists.linux.dev>; Wed, 27 May 2026 15:34:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC903DE44D
+	for <coconut-svsm@lists.linux.dev>; Wed, 27 May 2026 16:15:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779896092; cv=none; b=ecodCHShAzkU9zQMS7qFJRboJopso7o5xeYIlg1UpHi7Zo3EIVmf9ItpZ6K6NpUsgLD2+IbdbNBmyge+VGjSwV0ciyGiaQFqsFGZqvBWmCCXv/Qwm+O4ZfB7/bMX3qhWEkCO7t/poOFHPFBHDk0NF2qKaCmyrJ5X8vmV1P1VgyM=
+	t=1779898521; cv=none; b=Ah92JW4+6uZ92pQsy3qdB+pXJErTn4n3tn2BGFdmeU8ebyVHuFBGvLPkrb74auq4ffkaNB40reXhLQmSiDu/sV3dV9NUp9VzgRvip2eQw/YaxFQRVnJNeAYTaiQyX42USXiI80FWz8dwpQVzMR36F4kMNOYybula0GFZprn8ibs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779896092; c=relaxed/simple;
-	bh=1ec+pVpqeVLhWCe7xUB7KjuK6D+1xR+jbGakCt2aScw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r129XKY9CoXxuunQ5AblCD1UBqVW4BLtWuM2yB6lUYr8Dc3s9HmatA0aR3r8sycBzP/bXw8x9ZeprKW5Mp//RrKEb31mjhHvZ90M3gYw2gfODrOpJjSnsmiA9aeCeMKKmwcOIQJaNBLxYdM0RnPX0gs+KTdWEB8rwvaism9LtsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C9sLs+M0; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779898521; c=relaxed/simple;
+	bh=3kSEin8iQiUe7Rt9RltmRhmaRz3EsLAq30d3GhMkZdg=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=jGFba3F1tTEqSqScUQvKAwL7/dTSzc2F4QbOZ+D+/yHPqRQoahvgdst+RBTlPh6qz45XPghhwGpPpatU0KTUnW8iTvRvFEj+QnMDFbLJrIDwTela3uEeZXfUg2ozf4zeY5WRKtoneF4EJX31k/0VCMnwjH8UOxM+eprOSzFI6gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iFpUtvtB; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C9sLs+M0"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4905e190c71so41624905e9.3
-        for <coconut-svsm@lists.linux.dev>; Wed, 27 May 2026 08:34:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779896087; x=1780500887; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rF1sdUt+x3ES0J+bZHKGMYq3dPxPJDXhYXNfFWraH5k=;
-        b=C9sLs+M0aYiltT2/XRiNLKxjAW/jQBpAAY7Xq3QsGm6uffPm/iBdlkr1ath0XAHXOT
-         p4B4pk9QXnki8tYarjMsMlC+p3O5WnUSpYHl83Jbd3suIPoVfhrb7NZyfhYj+cWpxMcO
-         RT2pDc+64HMw25KMCqMtNhuavwuG8R9u5BXDQCeg1oGw1mM+yNr+UBtD31GTiRUB3lVP
-         PvJXIYYmb1CWncorJ2LOImaHKZnu8tncViL50wRxLIc9SmxmTySYZ3Bi/m3PUlm5LV6Z
-         ui5nam/i+1pbmkCvI3hS7zfzQLJ61KK+mZFRHCYkpnsoqt84snwiKRgkuME3CTok3zBT
-         Kc6Q==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iFpUtvtB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779898518;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=3kSEin8iQiUe7Rt9RltmRhmaRz3EsLAq30d3GhMkZdg=;
+	b=iFpUtvtBEnHXxs1IChfdAcL2m3uQxtbuHR5WwuKAr/pYMuOKkMMpM2z291RjMk95gdjh1N
+	ELFpcJH3PX/bh5Ee9LDA5+c2Vpow6WtIEFnw3Mn2inSxRB17bQJxYA8Q8EucSZPsoRBd2Q
+	0UrkTPzJfRFxpDolVHOi2mGxDo78vPU=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-32-UWMApwU5P1q3-bWvLvNFcA-1; Wed, 27 May 2026 12:15:16 -0400
+X-MC-Unique: UWMApwU5P1q3-bWvLvNFcA-1
+X-Mimecast-MFC-AGG-ID: UWMApwU5P1q3-bWvLvNFcA_1779898516
+Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-7bdd1ef8648so199426197b3.0
+        for <coconut-svsm@lists.linux.dev>; Wed, 27 May 2026 09:15:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779896087; x=1780500887;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rF1sdUt+x3ES0J+bZHKGMYq3dPxPJDXhYXNfFWraH5k=;
-        b=ci7PCNYE3g27dpvaIP9Jx1sorM5zmx84Pe6LW5WIk5x3CbJUSP+nhBmsMImixRzrZq
-         eNzVoUFFz+7Tj3QWuXtUCn2IuzXixDHqzEjHsKKnBzQi2MKYh3K55OnEqlUmltd2ilvT
-         47ufWaaPUv0vVKx3zMkU8hqaguJeu0l+EbGnHh8VUVcQ5cIupD/VLZuWZ2uiDw/2+bKp
-         Ryus8sYQZxZp5El87PoKbWdowO9AQcF8TpaggjLvZcbB7Dg7YePFH9/KS3pCw7OLPrp3
-         avF/uTFVLSRlkNUgIhQHyoWM36f5FjtdSGZs8mcVErt1kAdXdzUZ6jqrgXa7bECqM7Bb
-         toVA==
-X-Forwarded-Encrypted: i=1; AFNElJ8vb0uQRHLCQ9fKlt3WHwioBtLs2xCAXq+gSLQ/IOxdnkyllUSAEucL5OH4zTxOUXcTGJTxcDEhl3Z7MFE=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy9MWjc/ElRLRIGVP/MZCetkw7+IGi2o86/b8lY4CrcyTSO6Ss6
-	0BANqMSpSNO5SGJ8FfDbxgPFCPZ9TgiZ1wRJnpXDhadA/txacrUxvMnT
-X-Gm-Gg: Acq92OEpmFb4+njBlJGFlJZcd/SgHBZDmyZdCAu68HrcSSBOvB2rxuFhY3TABCgJLWL
-	2nzQGnK3ZHnB7W7XS0YlstIaIO6nZWaqRImcEjKfJiuvEOi/dAggAnibnu9zCVJbMhBoTZT1iYE
-	CC8Ee+tm/M6QrkOO7KzfdOM/5jKCaNsbsvIIYK3sx+BtW95EFkzLen7kFDO4nsg/e4/OfE1P6fQ
-	aB0D3gvPoUxtJapG0M1xZIvy/hiTKLCNiaq7WwDYB9jXe0uxjakqlqZa+dCxEaUdDmW9qfHUgkO
-	Y29Zsbs1dWyKRhaAnI9YTpwtJLiGeBHuvfWjKksQMpG53qOJAinUcOSIf6qJ2UCOXeMvw9dsFLE
-	TqOwijH/oFZ/RQegOVPc7IB6j/GfHnwaxfX/CgeLSR7UHKkvmrlA4QHjujBgRey8B+Y+pJTCruY
-	2qMNNajyolazMcM2DE6b5rSHzvHRCK1L1ZJY4om47/Ud6RcvPumq3wg+aq5xzPFBSV/IV73C4c4
-	zW4I8k=
-X-Received: by 2002:a05:600c:c4a1:b0:490:3fd9:e78b with SMTP id 5b1f17b1804b1-490426cef8bmr400420045e9.17.1779896087157;
-        Wed, 27 May 2026 08:34:47 -0700 (PDT)
-Received: from [192.168.1.50] (static-82-85-206-37.clienti.tiscali.it. [82.85.206.37])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4908098f57asm18458415e9.20.2026.05.27.08.34.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 May 2026 08:34:46 -0700 (PDT)
-Message-ID: <ecd045de-8649-4bd6-a3e2-fecb6371f7b3@gmail.com>
-Date: Wed, 27 May 2026 17:34:45 +0200
+        d=1e100.net; s=20251104; t=1779898516; x=1780503316;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3kSEin8iQiUe7Rt9RltmRhmaRz3EsLAq30d3GhMkZdg=;
+        b=g84Ou7rEg2AgvHINRwoVw5EZT6sN1vvh81b+4PC5RQSum/9VVlpmRFNZM3LHL/PoS2
+         xAAKicEByb36RDHV0YV4qovD6stARBJhzc5AlFwoj2aXcGn550m6yjDxU56SAglDjFAh
+         Duc8m7znA5b/DVErx/NOEdYNy9/WGFD/+QdDm124ayjRyzG6IP6drBQrx0wrYe30l9Pr
+         EJF5M9eFgzlsJ1EUJEPZs3ZYESJqnj+rRHch1WJA5E2PlHmrq3tm9SXw3rZTOWMWElN4
+         CKLH1CMmZFCHSJkzSKVoFYceY/dWyv9s4JmjF4Cz01k1SRryQpaRgc3e/HPOR2wRudSq
+         M6Sw==
+X-Gm-Message-State: AOJu0Ywkvneh5rrgCKvnZUR8xzmp0KpQUfA3Q9HAmGHFjP3XbhH25oro
+	jVyGNcJEgPzyU/Mk8XP6/qG1QvmbOLKLfsVi/zENzdRzE5pP/hD1xjpPDHpa8Fw65NzSGuEd9nU
+	LQzJjssWN0BnOquJzb32vfgBmSxXWcrUnxKA3gkf5cgowpQYZiYvmF/GQMC6g8ShAYRR54RwDXs
+	bjIKIWWzttktcpg7grBYblr27JER87W9LdqSccTwAL
+X-Gm-Gg: Acq92OE3q19l8nHlGR65W8tXkHEr7CUu/FIJIySi9RzMVaZ1S3Ss/FAWihziH+7dFhS
+	oRTvNbLxEoE1MdUn0muF6mhM9mrBv2RiT1lQnNy+c+rs0TYOGnVXnMRyk4RGz5leTej6jLaS2Mx
+	8646i15pe3tKXE9NZI1EO8aAuu6sZ39FW6Wf/k1PS3YNvE4zIFLh/I4hzLfVUlczU28jya0t2Xs
+	+9w9mbEwcFhxkMn+Lu2owF7win9GZgPX/2x//0=
+X-Received: by 2002:a05:690c:6908:b0:7bd:8ce4:92c with SMTP id 00721157ae682-7d335fbccdamr257923407b3.31.1779898515905;
+        Wed, 27 May 2026 09:15:15 -0700 (PDT)
+X-Received: by 2002:a05:690c:6908:b0:7bd:8ce4:92c with SMTP id
+ 00721157ae682-7d335fbccdamr257922817b3.31.1779898515424; Wed, 27 May 2026
+ 09:15:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: SVSM Development Call May 27th, 2026
-To: Stefano Garzarella <sgarzare@redhat.com>, coconut-svsm@lists.linux.dev,
- linux-coco@lists.linux.dev
-Cc: Tanish Desai <tanishdesai37@gmail.com>
-References: <CAGxU2F5hP=7pA1rKRvq5sgr0t2y1YoUzYCmH8hzaCS58U4+Y3A@mail.gmail.com>
- <CAGxU2F4uJLH5OTv+y4712vmNBogfSspN-nJHzDJAz9N6HWeg2g@mail.gmail.com>
-Content-Language: en-US
-From: Nicola Ramacciotti <niko.ramak@gmail.com>
-In-Reply-To: <CAGxU2F4uJLH5OTv+y4712vmNBogfSspN-nJHzDJAz9N6HWeg2g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Luigi Leonardi <leonardi@redhat.com>
+Date: Wed, 27 May 2026 18:15:04 +0200
+X-Gm-Features: AVHnY4IZGiWrUNgOkpPL8hW-KuGAbu4IT4E_I7BugWR3n7BsJukjAGtpzSNcPhs
+Message-ID: <CANo9s6kr38e_P59r2x3B_Xh+YqOWx5JmOmneY8xKJ9ZXQaASWA@mail.gmail.com>
+Subject: Hyper-V support for IGVM optional parameter
+To: jlange@microsoft.com
+Cc: coconut-svsm@lists.linux.dev
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: XlReK3AmQpSr7ZRXbocnWCvrIRxpLvhjKnz0UXwArVw_1779898516
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi all,
+Hi Jon,
 
-On 5/27/26 17:12, Stefano Garzarella wrote:
-> On Tue, 26 May 2026 at 17:46, Stefano Garzarella <sgarzare@redhat.com> wrote:
->> Hi,
->>
->> Here is the call for agenda items for this weeks SVSM development
->> call. Please send any agenda items you have in mind as a reply to this
->> email or raise them in the meeting.
-> One topic could be the 2 GSoC projects we have this year.
-> If Nicola and Tanish join, it would be nice to allow them some time to
-> present their projects. They will work with the COCONUT community
-> during the summer :-)
+I'm currently working on adding the device tree support for SVSM, and
+I was thinking of
+adding the DT directive, marking it as optional [1], for every hypervisor.
 
+Do you know if Hyper-V supports this? QEMU currently does not, but I'm
+working on it.[2]
 
-Great. I'll be there!
+This would simplify the logic in igvmbuilder, and when the other
+hypervisors support
+this directive, it would be totally transparent and require no change to SVSM.
 
-Regards,
-Nicola
+Luigi
 
+[1] https://docs.rs/igvm_defs/0.4.0/igvm_defs/struct.IgvmVariableHeaderType.html
+[2]https://lore.kernel.org/qemu-devel/20260525-igvm_optional-v1-1-28edc607acfd@redhat.com/
 
->
-> Stefano
->
->> We will use the LF Zoom instance. Details of the meeting can be found
->> in our governance repository at:
->>
->>          https://github.com/coconut-svsm/governance
->>
->> The link to the COCONUT-SVSM calendar is:
->>
->>          https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=week
->>
->> The meeting will be recorded and the recording eventually published.
->>
->> Regards,
->> Stefano
