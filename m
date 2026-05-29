@@ -1,240 +1,179 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D7843BBA07;
-	Thu, 28 May 2026 11:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779968657; cv=none; b=BvtMQvZ/2gxmwenZt9tU6FReP9/G/fehAwIb7ibBqL6k/L1Wy4EU2777o7zxdFWKLbozqMtm4eoc9Lr/VeO52xZcsf1zoZinphVXtKJVbrbQk6K8CpWYxPzbcx6Xjd24dIhP5kCV1xQJr325auzl39vnKb6vux8R3k1dqtnyGtk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779968657; c=relaxed/simple;
-	bh=ZFsJLTZmrChJB5Tls1zhVzW18QgPm1S7P1G6rGUBWzU=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sS+ecaAkun8rsUKagfDIbP8DNCOwj5RNgAS3fXnBxJABE+pUNrQQgZ1/mz1SAGTF9y0K7uFIrFRXRW6Vx+vuFl3sOo2vlx4LY8ePu0przMXnKIAtfGTFluojNSGX2YJOD5peFv3igEO92j+kV2NNogLF6lc7BddxUJlzMwMC780=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Received: from 8bytes.org (p200300f6af4fc5002be3892054af1079.dip0.t-ipconnect.de [IPv6:2003:f6:af4f:c500:2be3:8920:54af:1079])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id E42001C59BB;
-	Thu, 28 May 2026 13:44:13 +0200 (CEST)
-Date: Thu, 28 May 2026 13:44:12 +0200
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
-Subject: COCONUT-SVSM Development Release v2026.05-devel
-Message-ID: <ahgqjAdCTnhWQz_N@8bytes.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99492369D77
+	for <coconut-svsm@lists.linux.dev>; Fri, 29 May 2026 12:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780056944; cv=pass; b=kbXQYl+BtbBUOwAdBDOw4Hb0QSB9SVf8eC4kcAqazIs1zPrtzTev2hqoUFIC0zUEs40ZkH2i8IkIqcOaJIv4ez2N46xRXERP1xfeaL0iL4dRUlnT/36eCbtWxe2agqL3dXJgmaZsl+sP8JcgS/LKvXNaL5iCQNX8xhUrPmLrS3k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780056944; c=relaxed/simple;
+	bh=wBLsikgcWRjc6caTKkDxapksvxKzXWshhMu4aVKTHyI=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=X/5KFv3n3TuH4fRFQdc8McTOLZNIiLj9by+9J9t9RvuLE3L4Iadr5K3+7xyMsf/D1kh6CJC3VHHR92EXjSbyTSUnNnDc0jKckabge+pBk5XYxIsforZZQtJAZNo+XsImuw6mD6huz5Lg888/AqXfGuvpu+6QSF1D0jtVY8OwgIs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DDEcHQB0; arc=pass smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DDEcHQB0"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7dc2b658544so17544317b3.2
+        for <coconut-svsm@lists.linux.dev>; Fri, 29 May 2026 05:15:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780056943; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KqzWJzCILM5Q16X8MbcTQ/Wrl/U4xnWpl8DFj+Pji3OQFS27ih7f7aEcW5/sBvZrSN
+         dxJuzubhyy9iOcoGM+QGIAxsmGtmrIbv2fbA2LYDYACC+QQlOaCZ5HxFgnzPbtjfAqnG
+         cp3v24HkB19XOYCFfg1xZLkCGScn54whEc75PMqmQZvGlAvnQoCVUWvBhq8Ss6y6VpNE
+         hrX+VZdUdthQzyK3WNRt7jutZC7pQasJSWJImKc5yM/TsJNf3Dcm9TrqnXKqqJCdgbZo
+         gR6jd6PE5LONCo8VufNHYYzB6pAbcX2ixTzXIjKM5d6DPFTYbpSqjkCzNN4Vej0e5Uvn
+         jMNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=yjKGj59EYdEVZMYoNn1QX72MKnSy7HepRRbi+EYklHg=;
+        fh=rTSJHlsTmsGDbFoUnWDTtWj+4u05duMBNy7qEEhPraY=;
+        b=TjrqayAa0WDiC63t0YyIDXtoUJdNV7hYSTn9BNgnOAFQhJhQd7isXj/YAgTO9y7CtX
+         BLJn+XFP4ki63UonK8X4zTKylJFzOwA9siWRlZgpS4p25ba2GEBmJTz7V5dd8VblftKr
+         gukQIZOK6qBZ69UlQ1o9r21+84LCn7URdyeFfxM/0gWg/gajbC9aH13qemJavp/SGX5k
+         hZWqgEk0Cn9SmTMypYgsCnFWpAwdwO1kR6O+2y8iEvDNMAoGsxN0sPMCtUnCR8q94amu
+         qhdSj+VA5ozpbp3OYOrm3ikVW31mK/kOMang5xo+cUJYxmq93RGhbpf4+0OXdSNFb8Wy
+         PqGA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1780056943; x=1780661743; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=yjKGj59EYdEVZMYoNn1QX72MKnSy7HepRRbi+EYklHg=;
+        b=DDEcHQB0QFK8agqah9xIToPBR+eKnaOyPUebyaom5wvItz4mD0G4HYcH0EzFEBv6rL
+         TOuZtBAQ6dqHvBXVCYJ0/TcjymhdaGZYbSkMa7QCLE9ZTwGPk/psdkWjkrR802/8nVvV
+         t8KQ3E1v7aD8XkLzRetBoyNKFZ9MjRZL8U3JjzzZibXMp4HS4l2AaqEchKP2kzG+PW/p
+         zTjTKYDqP1oNmZ1Xck8uh+hYKNO6/Al5IT3naTgSff8uzHIaKSMMLac+MMRtoUd9tKyW
+         JE2Rf8DEy3nKPHwSlxFRj8E6BS2ujEVMWJDS9Ir3nD7KCt0BhKTZdQONSUpVc2HLwvYY
+         AUjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780056943; x=1780661743;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yjKGj59EYdEVZMYoNn1QX72MKnSy7HepRRbi+EYklHg=;
+        b=Q7txH1urQw3RrJP+bZV201zdADEUqSUhJ4Ibrhk9wcmWDHAxvYHx622VaTkia+wEex
+         +I9ZmfO9PncpdFc4aHuQtsrJjsB0MfJTosBgGZTJmqJbFD351ewWpz7F7nzuuN5bHmLs
+         zPw+ChsjeFa5m/gHucZiVJjQQfselyqM0BXQu35ryso3Xnlxooch0OgsixStI9AllI7n
+         DHt3PoXUa8An+LECcE2/Lf5E74QFKlzvjYRbFrkwz51XgfR+giceZxr29jAkkGMqdpMq
+         Mkdn+14HLdRcSSBFxb1idX39bJSeWRbGwioC2LEYiWGQZs9CtaU742dIh89wAcyBS6lW
+         ps0w==
+X-Forwarded-Encrypted: i=1; AFNElJ8dLNbEr1xlnFcOznQy7gpzNWhsJ3Lp6cv6xEni5ortHd6vz7mujGMt1SYKkX/EvL8g8SHt9nEX3wKmDqg=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyjBAlVllQgnzf3Bu6QPB9EyT4PRSl71uEjS7nSto26+ALZmRh0
+	TZzZE7P7F3VzX/oVSsgXAHtCYxyhS7O5r3qpOskgwjpLrZyKo469msC8eBMXk1KyLJAXlUmkSZz
+	56bArw8QVV09bT7ZFzWprq1HB/otfmZz2kAgzym2Qtw==
+X-Gm-Gg: Acq92OHfgsoUzjQ1qIMj+LfBULza27ZBvwuuwrDEFbuGWsudTBzvoU7CXeaGYCewdgT
+	3sODB4wWGnSIzwzdbKzb4V1m5dFuZuw3rSwmB8QB4bWIk3pazkm7M2MYGOhiDwh4l5WKh7I9F/j
+	ga0dg2H8AV9lryVkZc7HNzpbuZsoEzEv52TSNiI62aq3tw39/lONHOTXcK4U4ruJ7L9WbxF19NI
+	YGougOJcQS5jhPvPoxT8wYLlVKl7caTwQuEqvSpQWNHatrJPnuznhMZA7mqvEAQ82qQ5mEfOnrG
+	TQYnA8Kgal+zkYmiG2/8SyxqyxVdG4eAXNwDtPJb1sTlv6p7yjS/qHakS6aG63kkN0O6m1NZ8ef
+	TJg==
+X-Received: by 2002:a05:690c:600c:b0:7d1:c256:b5c2 with SMTP id
+ 00721157ae682-7de49c3369bmr20746167b3.33.1780056942332; Fri, 29 May 2026
+ 05:15:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 29 May 2026 13:15:31 +0100
+X-Gm-Features: AVHnY4JLeR9AeYFBA5aawGm6vGHoYnsK642CUtkYU-vZUDUKpXBaG742LlgMaNQ
+Message-ID: <CAFEAcA-H-bsjnvCPg71BMre7=6ZQ9f-tSU_XZcPPSgXkK+dDXA@mail.gmail.com>
+Subject: KVM Forum 2026: Call For Presentations
+To: QEMU Developers <qemu-devel@nongnu.org>, rust-vmm@lists.opendev.org, 
+	kubevirt-dev@googlegroups.com, kvm-devel <kvm@vger.kernel.org>, 
+	coconut-svsm@lists.linux.dev, libvirt-devel <devel@lists.libvirt.org>, 
+	edk2-devel-groups-io <devel@edk2.groups.io>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi all,
+####################
+KVM Forum 2026
+November 12-13, 2026
+Vancouver, Canada
+####################
 
-The month is almost over and it is time for a new COCONUT-SVSM development
-release. This one turned out bigger than usual with 33 merges that brought in
-91 non-merge commits from 9 contributors.
+On behalf of the program committee for the KVM Forum, I am pleased to
+announce the KVM Forum 2026 Call for Presentations.
 
-The changes include:
+CALL FOR PRESENTATIONS
+======================
 
-  - Boot flow: stage2 was removed and replaced by the new simpler boot/bldr
-    loader. Build, xbuild, IGVM builder, configs, and launch paths now
-    prefer/consume bldr.
+We encourage you to submit presentations via Pretalx at
 
-  - Platform/CPU feature model: CPUID handling was routed through the platform
-    abstraction, with a feature lookup table added for x2APIC, physical address
-    size, Hyper-V discovery, CET, FPU/SSE, INVLPGB, C-bit, and related SNP
-    features.
+     https://kvm-forum.qemu.org/2026/cfp/
 
-  - Attestation: Added vsock transport support with serial fallback, refactored
-    aproxy transport handling, added read_exact / write_all helpers, and
-    documented the vsock transport option.
+All presentation slots will be 25 minutes + 5 minutes for questions.
 
-  - Protocol hardening: Core and attestation protocol handlers gained stricter
-    region validation, reserved-bit checks, request validation, mutually
-    exclusive core calls, safer CAA/VMSA handling, and better guest fault
-    forwarding.
-  
-  - Memory and guest handling: Shared pages are made private on SharedBox drop,
-    guest memory reads now require FromBytes, VMSA registration checks
-    overlaps, and CAA/VMSA tracking was tightened.
+Suggested topics:
+- Scalability and Optimization
+- Hardening and security
+- Confidential computing
 
-  - Virtio/vTPM fixes: Virtio owning queue validation now checks tokens and
-    lengths before indexing/slicing. vTPM failure mode no longer returns
-    uninitialized heap bytes.
+KVM and the Linux Kernel
+- New Features and Architecture Ports
+- Device Passthrough: VFIO, mdev, vDPA
+- Network Virtualization
+- Virtio and vhost
 
-  - ACPI/fw_cfg cleanup: Removed leftover fw_cfg-based ACPI/MADT logic and
-    dropped the ACPI fuzz target.
+Virtual Machine Monitors and Management
+- VMM Implementation: APIs, Live Migration, Performance Tuning, etc.
+- Multi-process VMMs: vhost-user, vfio-user, QEMU Storage Daemon
+- QEMU without KVM: Hypervisor.framework, Hyper-V, etc.
+- Managing KVM: Libvirt, KubeVirt, Kata Containers
 
-  - Common architecture code: MSR, CR0/CR4, SEV status, x86, and APIC
-    definitions moved into cpuarch.
+Emulation
+- New Devices, Boards and Architectures
+- CPU Emulation and Binary Translation
 
-  - Scripts and CI: QEMU launch no longer invokes sudo, gained --tcg, dropped
-    the QEMU >= 11 nocc object path, improved test timeout/error reporting,
-    fixed workflow triggers, added Verus caching, updated dependency review to
-    Node 24, and dumps host dmesg on QEMU/test failures.
+Developer-focused content
+- Tooling improvements
+- Enabling Rust
+- Testing frameworks and strategies
 
-  - Verification: Documentation and workflows now reflect cargo-verus usage and
-    Verus installation changes.
+Speakers are expected to attend in person.
 
-  - Misc fixes: ELF symbol/buffer bounds fixes, IPI race fixes, CPU vendor
-    display, kernel version display during guest launch, and IGVM target VTL
-    selection based on firmware presence.
+IMPORTANT DATES
+===============
 
-As usual, the full shortlog since the last release is attached.
+The deadline for submitting presentations is:
+   2026-08-01 00:00 (Canada/Pacific)
 
-Have fun!
+Accepted speakers will be notified on August 21, 2026.
 
-Regards,
+ATTENDING KVM FORUM
+===================
 
-	Joerg
+The cost of admission to KVM Forum 2026 is $75. You can get your ticket at
 
-Carlos López (18):
-      kernel: platform: add platform_method!() macro
-      kernel: platform: do not take &self to query CPUID
-      kernel: cpu/vc: simplify snp_cpuid()
-      kernel: platform/snp: properly handle CPUID leaf 0xd
-      kernel: platform: add default CPUID implementation
-      kernel: always route CPUID through the platform abstraction
-      kernel: cpu/features: create feature lookup table
-      kernel: cet: make CET discovery into a feature
-      kernel: cpu/sse: make FPU feature detection into a feature
-      kernel: hyperv: make Hyper-V discovery into a feature
-      kernel: sev/tlb: make INVLPGB max entry detection into a feature
-      kernel: platform: make phys address sizes into a feature
-      kernel: platform: make x2apic into a feature
-      kernel: platform: make platform statics read-only after init
-      kernel: platform: remove trivial FIXME for SvsmPlatformCell
-      kernel: platform/snp: make C-bit into a feature
-      kernel: platform/snp: get physical address size through CPU features
-      kernel: platform: remove setup_guest_host_comm()
+     https://kvm-forum.qemu.org/2026/register/
 
-Joerg Roedel (23):
-      kernel/guestmem: Require FromBytes for read_from_guest()
-      kernel/mm: Make all pages private when SharedBox is dropped
-      kernel/protocols: Forward GuestPtr faults to the guest
-      kernel/protocols: Make sure memory regions are valid for attestation protocol
-      kernel/greq: Round extended guest request size up to page-size
-      kernel/percpu: Always page_align CAA address before mapping
-      kernel/percpu: Track CAA address in PERCPU_VMSAS
-      kernel/percpu: Check for region overlap in VMSA registration
-      kernel/percpu: Return SvsmError from PERCPU_VMSAS.unregister()
-      kernel/snp: Register initial guest VMSA
-      kernel/protocols: Check for valid regions in core_pvalidate
-      kernel/protocols: Update PERCPU_VMSAS in core_remap_caa()
-      kernel/protocols: Do not deregister VMSA before updating RMP state
-      kernel/protocols: Check for reserved bits in core_pvalidate_one()
-      kernel/protocols: Check for region validity in core_pvalidate_one()
-      kernel/protocols: Check whether attestation requests are valid
-      kernel/protocols: Remove try_from_as_ref() from attestation structures
-      kernel/protocols: Use valid_phys_region() where needed
-      kernel/protocols: Make some core protocol calls mutually exclusive
-      kernel/protocols: Use MemoryRegion::checked_new() in core protocol handlers
-      Elf: Make sure buffer length is multiple of 16
-      Elf: Do not read symbols beyond symbol table
-      COCONUT-SVSM Release 2026.05-devel
+Admission is free for accepted speakers.
 
-Jon Lange (22):
-      cpuarch: move MSR and CR0/CR4 definitions to common crate
-      igvmbuilder: reshape the initial low-mem page tables
-      bldr: implement a simpler boot loader
-      igvmbuild: support bldr
-      xbuild: support bldr
-      build: consume bldr instead of stage2
-      Merge pull request #1029 from msft-jlange/bldr
-      svsm: prefer bldr to stage2
-      xbuild: remove stage2 support
-      igvmbuilder: remove support for stage2
-      stage2: remove stage2
-      bldr: clear temporary mapping PTEs after use
-      Merge pull request #1064 from MelodyHuibo/init_vgif
-      Merge pull request #1068 from 00xc/platform/fixme
-      error: avoid `SvsmReqError` outside of SVSM-specific paths
-      svsm: detect and display CPU vendor
-      scripts: display kernel version when launching guest
-      cpu/ipi: fix race conditions
-      Merge pull request #1076 from msft-jlange/cpu_vendor
-      Merge pull request #1077 from msft-jlange/kernel_info
-      igvmbuilder: configure target VTL based on the presence of firmware
-      cpuarch: move APIC constants to a common location
+The conference will be held at Coast Coal Harbour Hotel Vancouver by APA
+in Vancouver, Canada. More details about the location, and about the
+reduced price rooms available for attendees at the conference hotel,
+can be found at:
 
-Jörg Rödel (24):
-      Merge pull request #1048 from luigix25/fix_ci
-      Merge pull request #1052 from n-ramacciotti/ci/remove_unmaintained_action
-      Merge pull request #1054 from msft-jlange/bldr_ptes
-      Merge pull request #1043 from mvanhorn/feat/1042-tools-check
-      Merge pull request #1050 from n-ramacciotti/ci/simplify-test-in-svsm
-      Merge pull request #1053 from msft-jlange/remove_stage2
-      Merge pull request #1055 from n-ramacciotti/ci/update_dep_review_node_24
-      Merge pull request #1030 from 00xc/platform/cpuid-v2
-      Merge pull request #1059 from ziqiaozhou/fix-broken-alloc-proof
-      Merge pull request #1067 from 00xc/ro-after-init
-      Merge pull request #1070 from MelodyHuibo/enable_alternate_injection
-      Merge pull request #1071 from 00xc/platform/remove-host-comm
-      Merge pull request #1072 from stefano-garzarella/virtio-fix-owning-pop
-      Merge pull request #1074 from stefano-garzarella/fix-tpm-allocation
-      Merge pull request #1078 from msft-jlange/ipi_fix
-      Merge pull request #1038 from ziqiaozhou/cargo-verus
-      Merge pull request #1079 from stefano-garzarella/verus-cache
-      Merge pull request #1080 from stefano-garzarella/ci-fix-verification-label-trigger
-      Merge pull request #1082 from stefano-garzarella/ci-dmesg
-      Merge pull request #1066 from luigix25/remove_sudo
-      Merge pull request #1090 from luigix25/fw_cfg_cleanup
-      Merge pull request #1085 from msft-jlange/igvm_vtl
-      Merge pull request #1087 from msft-jlange/cpu_apic
-      Merge pull request #1069 from 00xc/platform/missing-features
+     https://kvm-forum.qemu.org/location/
 
-Luigi Leonardi (14):
-      github/workflows: add apt update before apt install in publish-docs
-      io: add `read_exact` and `write_all` to Read and Write trait
-      aproxy: use read/write traits
-      aproxy: factor out accept loop to a separate function
-      aproxy: enable vsock for attestation
-      kernel/attest: abstract transport implementation
-      kernel/attest: switch to write_all/read_exact
-      kernel/attest: add vsock transport with serial fallback
-      Documentation/ATTESTATION: document vsock transport option
-      scripts/launch_guest: drop nocc object for QEMU >= 11.0
-      scripts/launch_guest: add --tcg option to use TCG acceleration
-      github/workflows: set up /dev/kvm permissions
-      scripts/launch_guest: remove sudo from QEMU invocation
-      acpi: remove fw_cfg-based ACPI/MADT leftover
+If you need a visa invitation letter in order to attend, please reach out
+to the organizers at kvm-forum-pc@redhat.com.
 
-Matt Van Horn (1):
-      testing/scripts: Check required host tools before launching guest
+We are committed to fostering an open and welcoming environment at our
+conference. Participants are expected to abide by our code of conduct
+and media policy:
 
-Melody Wang (2):
-      cpu: Make sure guest's GIF is set
-      boot: Allow Alternate Injection to be configured via boot params
+      https://kvm-forum.qemu.org/coc/
+      https://kvm-forum.qemu.org/media-policy/
 
-Nicola Ramacciotti (5):
-      github/workflows: Remove unmaintained action
-      scripts/test-in-svsm: Print exit code when failing
-      scripts/test-in-svsm: Add optional timeout handling
-      github/workflows: Use the test-in-svsm script directly
-      github/workflows: update dependency review to node 24
+CONTACTS
+========
 
-Stefano Garzarella (10):
-      Merge pull request #879 from luigix25/add_attestation_to_vsock
-      Merge pull request #1058 from luigix25/qemu_11_launch
-      Merge pull request #1065 from msft-jlange/svsm_req_error
-      virtio-drivers: queue/owning: validate the token before indexing buffer table
-      virtio-drivers: queue/owning: validate len before slicing buffer
-      kernel/vtpm: fix uninitialized heap bytes returned in TPM failure mode
-      github/manual-verify: fix triggering on 'verification' label
-      github/manual-verify: cache verus toolchain
-      Merge pull request #1073 from joergroedel/fixes
-      github/qemu: dump host kernel messages on QEMU or test failure
+Reach out to us should you have any questions. The program committee may
+be contacted as a group via email: kvm-forum-pc@redhat.com.
 
-Ziqiao Zhou (5):
-      mm/alloc.verus: update phys_to_virt proof after stage2 removal
-      verification: Support Verus's verita test via cargo-verus.
-      scripts: Update vsinstall.sh to directly install verus.
-      workflow: Revert "github/manual-verify: check cargo-v output for errors"
-      doc: Update verification.md to reflect the use of cargo-verus
-
-
+--
+Peter Maydell
