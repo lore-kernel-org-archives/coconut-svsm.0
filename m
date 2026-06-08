@@ -1,14 +1,14 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E32E3F6C3C
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92FF43F7867
 	for <coconut-svsm@lists.linux.dev>; Mon,  8 Jun 2026 15:21:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780932080; cv=none; b=k7uAdDUsWR7LMXBsZ9nrZDbfZiyYz0olWK+J8MVCU+Am7yGkSjgHZiw20qLQOjYiOEICJ4RF/EftPr+PCLRtr/kWlKsc5g0G1mqo22b40kVexX95+tZhQWl13koyCeus16WbFJwV1wB+sLagQ4WtuYYTuVotiLEeZ5qyRtldGrE=
+	t=1780932081; cv=none; b=bT81MLnXdM8ZkFkp4WnxOhT411H72Qqp4a0xulvvL8mRUlLVkHQfBkykrE+On3iEIkCDIo2TKdjtwjbkpxE0uwLUHI2ASs8/cr2ccsxAaDO4yjA561Ju7rOnMtPPJThiEXmSj7BF4boAR1wamxHZeiPuqDmkms0Dn6o214Ya0zI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780932080; c=relaxed/simple;
-	bh=6eiGhicYVzNPLypek389DI1BNTDiRpp/hhxkWJC9R94=;
+	s=arc-20240116; t=1780932081; c=relaxed/simple;
+	bh=jD+5YzYt/ja2jVYAJmHM+1HKagzMUvVMpUGxMkd3Wgk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UQaKep+a4NYJFoGhlhTYOeSUChqNU5InjUHNFRtaCUk8Xatr02dX0Z5xI2QnvIexCno/El//ELOWqztZ/XjwZV0YVG1aki+beaX6cY+lpmdp0bpxpOsVQrS0Nxg14P+4y5EGJBB2ntslYKloFdKjVgVgPQQyPSUM6HatF7aM1Bg=
+	 MIME-Version; b=g+luSsbYwanxNxV2hAAqC0mLD4iaqHgWDk+fOMMh3G/BMs0gQSjOgbV3Z6SLlJtN4Gvd5XtjXlg/x22QnS/eymlGhcLlo5Wdereegkiq6as4hZffC+PoxNeFibhJ2gh5TWa/f9+pi6t+ioAP1LBsRtKZl88x1HHrikTEiPQfOQM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
@@ -16,8 +16,8 @@ Received: from io.home.8bytes.org (p4ffe1d30.dip0.t-ipconnect.de [79.254.29.48])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 9BAFF202947;
-	Mon,  8 Jun 2026 17:21:15 +0200 (CEST)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 27BC920294A;
+	Mon,  8 Jun 2026 17:21:16 +0200 (CEST)
 From: =?UTF-8?q?J=C3=B6rg=20R=C3=B6del?= <joro@8bytes.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	Richard Henderson <richard.henderson@linaro.org>
@@ -33,9 +33,9 @@ Cc: philmd@linaro.org,
 	kvm@vger.kernel.org,
 	coconut-svsm@lists.linux.dev,
 	joerg.roedel@amd.com
-Subject: [RFC PATCH 06/10] accel/kvm: Handle KVM_PLANE_EVENT_CREATE_CPU event
-Date: Mon,  8 Jun 2026 17:21:05 +0200
-Message-ID: <20260608152109.356783-7-joro@8bytes.org>
+Subject: [RFC PATCH 09/10] MSI: Inject into correct plane
+Date: Mon,  8 Jun 2026 17:21:08 +0200
+Message-ID: <20260608152109.356783-10-joro@8bytes.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260608152109.356783-1-joro@8bytes.org>
 References: <20260608152109.356783-1-joro@8bytes.org>
@@ -49,138 +49,98 @@ Content-Transfer-Encoding: 8bit
 
 From: Joerg Roedel <joerg.roedel@amd.com>
 
-Implement the plane event handling infrastructure and handle the
-KVM_PLANE_EVENT_CREATE_CPU event.
+Inject MSI and MSI-X IRQs into the correct device plane.
 
-Co-developed-by: Tom Lendacky <thomas.lendacky@amd.com>
 Signed-off-by: Joerg Roedel <joerg.roedel@amd.com>
 ---
- accel/kvm/kvm-all.c   | 13 +++++++---
- include/system/kvm.h  |  2 +-
- target/i386/kvm/kvm.c | 57 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 67 insertions(+), 5 deletions(-)
+ accel/kvm/kvm-all.c  | 2 +-
+ hw/i386/kvm/apic.c   | 6 +++++-
+ hw/pci/msi.c         | 3 +++
+ hw/pci/msix.c        | 3 +++
+ include/hw/pci/msi.h | 1 +
+ 5 files changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index dbfef63a84b0..c5fe6d189e62 100644
+index c5fe6d189e62..31d80f7ac48b 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -573,11 +573,17 @@ static void kvm_alloc_vcpu_plane(CPUState *cpu, unsigned plane_id, int kvm_fd)
-     cpu->kvm_plane_state[plane_id] = p;
+@@ -2407,7 +2407,7 @@ int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg)
+     msi.flags = 0;
+     memset(msi.pad, 0, sizeof(msi.pad));
+ 
+-    return kvm_vm_ioctl(s, KVM_SIGNAL_MSI, &msi);
++    return kvm_vm_plane_ioctl(s, msg.plane_id, KVM_SIGNAL_MSI, &msi);
  }
  
--void kvm_create_vcpu_plane(CPUState *cpu, unsigned plane_id, int kvm_fd)
-+void kvm_create_vcpu_plane(CPUState *cpu, unsigned plane_id)
+ int kvm_irqchip_add_msi_route(KVMRouteChange *c, int vector, PCIDevice *dev)
+diff --git a/hw/i386/kvm/apic.c b/hw/i386/kvm/apic.c
+index 82355f04631a..4dd946d6f26b 100644
+--- a/hw/i386/kvm/apic.c
++++ b/hw/i386/kvm/apic.c
+@@ -210,7 +210,11 @@ static uint64_t kvm_apic_mem_read(void *opaque, hwaddr addr,
+ static void kvm_apic_mem_write(void *opaque, hwaddr addr,
+                                uint64_t data, unsigned size)
  {
--    int vcpu_fd = cpu_kvm_plane(cpu, 0)->kvm_fd;
--    int plane_fd = kvm_vm_plane_ioctl(cpu->kvm_state, plane_id, KVM_CREATE_VCPU, vcpu_fd);
-+    X86CPU *x86_cpu = X86_CPU(cpu);
-+    int plane_fd;
+-    MSIMessage msg = { .address = addr, .data = data };
++    MSIMessage msg = {
++	    .address = addr,
++	    .data = data,
++	    .plane_id = qdev_default_plane(),
++    };
  
-+    if (kvm_get_or_create_plane_fd(cpu->kvm_state, plane_id) < 0) {
-+        fprintf(stderr, "Failed to create plane %d\n", plane_id);
-+        abort();
-+    }
+     kvm_send_msi(&msg);
+ }
+diff --git a/hw/pci/msi.c b/hw/pci/msi.c
+index b9f5b45920b6..d0373131dd06 100644
+--- a/hw/pci/msi.c
++++ b/hw/pci/msi.c
+@@ -142,6 +142,7 @@ static MSIMessage msi_prepare_message(PCIDevice *dev, unsigned int vector)
+     uint16_t flags = pci_get_word(dev->config + msi_flags_off(dev));
+     bool msi64bit = flags & PCI_MSI_FLAGS_64BIT;
+     unsigned int nr_vectors = msi_nr_vectors(flags);
++    DeviceState *dev_state= DEVICE(dev);
+     MSIMessage msg;
+ 
+     assert(vector < nr_vectors);
+@@ -159,6 +160,8 @@ static MSIMessage msi_prepare_message(PCIDevice *dev, unsigned int vector)
+         msg.data |= vector;
+     }
+ 
++    msg.plane_id =  dev_state->plane;
 +
-+    plane_fd = kvm_vm_plane_ioctl(cpu->kvm_state, plane_id, KVM_CREATE_VCPU, x86_cpu->apic_id);
-     if (plane_fd < 0) {
-         fprintf(stderr, "Failed to create plane vcpu\n");
-         abort();
-@@ -586,7 +592,6 @@ void kvm_create_vcpu_plane(CPUState *cpu, unsigned plane_id, int kvm_fd)
-     kvm_alloc_vcpu_plane(cpu, plane_id, plane_fd);
+     return msg;
  }
  
--
- /**
-  * kvm_create_vcpu - Gets a parked KVM vCPU or creates a KVM vCPU
-  * @cpu: QOM CPUState object for which KVM vCPU has to be fetched/created.
-diff --git a/include/system/kvm.h b/include/system/kvm.h
-index 16597333cfa5..24a21915366f 100644
---- a/include/system/kvm.h
-+++ b/include/system/kvm.h
-@@ -221,7 +221,7 @@ int kvm_vm_ioctl(KVMState *s, unsigned long type, ...);
- int kvm_vm_plane_ioctl(KVMState *s, unsigned plane_id, unsigned long type, ...);
+diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+index 1b23eaf10079..1773f8eccae8 100644
+--- a/hw/pci/msix.c
++++ b/hw/pci/msix.c
+@@ -37,10 +37,13 @@
+ static MSIMessage msix_prepare_message(PCIDevice *dev, unsigned vector)
+ {
+     uint8_t *table_entry = dev->msix_table + vector * PCI_MSIX_ENTRY_SIZE;
++    DeviceState *dev_state= DEVICE(dev);
+     MSIMessage msg;
  
- int kvm_get_or_create_plane_fd(KVMState *s, unsigned id);
--void kvm_create_vcpu_plane(CPUState *cpu, unsigned plane, int kvm_fd);
-+void kvm_create_vcpu_plane(CPUState *cpu, unsigned plane);
- 
- void kvm_flush_coalesced_mmio_buffer(void);
- 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 9e352882c8c3..30fba9e75016 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -6524,6 +6524,60 @@ static int kvm_handle_hypercall(X86CPU *cpu, struct kvm_run *run)
-     return -EINVAL;
+     msg.address = pci_get_quad(table_entry + PCI_MSIX_ENTRY_LOWER_ADDR);
+     msg.data = pci_get_long(table_entry + PCI_MSIX_ENTRY_DATA);
++    msg.plane_id = dev_state->plane;
++
+     return msg;
  }
  
-+static CPUState *kvm_get_cpu_by_apicid(CPUState *cpu, unsigned apic_id)
-+{
-+    CPU_FOREACH(cpu) {
-+        X86CPU *x86_cpu = X86_CPU(cpu);
-+        if (x86_cpu->apic_id == apic_id) {
-+            return cpu;
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+static void create_plane_vcpu_cb(CPUState *cs, run_on_cpu_data data)
-+{
-+    int plane = data.host_int;
-+
-+    kvm_create_vcpu_plane(cs, plane);
-+}
-+
-+static int kvm_handle_plane_create_vcpu(CPUState *cpu, struct kvm_run *run)
-+{
-+    CPUState *target_cpu = NULL;
-+    int plane = -EINVAL;
-+
-+    plane = run->plane_event.plane;
-+    if (plane < 0) {
-+        return plane;
-+    }
-+
-+    target_cpu = kvm_get_cpu_by_apicid(cpu, run->plane_event.extra[0]);
-+    if (target_cpu == NULL) {
-+        return -EINVAL;
-+    }
-+
-+    bql_lock();
-+    run_on_cpu(target_cpu, create_plane_vcpu_cb, RUN_ON_CPU_HOST_INT(plane));
-+    bql_unlock();
-+
-+    return 0;
-+}
-+
-+static int kvm_handle_plane_event(CPUState *cpu, struct kvm_run *run)
-+{
-+    switch (run->plane_event.cause) {
-+        case KVM_PLANE_EVENT_CREATE_VCPU:
-+            return kvm_handle_plane_create_vcpu(cpu, run);
-+        default:
-+            fprintf(stderr, "KVM: unknown plane event %d\n", run->plane_event.cause);
-+            break;
-+    }
-+
-+    return -EINVAL;
-+}
-+
- #define VMX_INVALID_GUEST_STATE 0x80000021
+diff --git a/include/hw/pci/msi.h b/include/hw/pci/msi.h
+index abcfd1392521..6bedf97b6f03 100644
+--- a/include/hw/pci/msi.h
++++ b/include/hw/pci/msi.h
+@@ -26,6 +26,7 @@
+ struct MSIMessage {
+     uint64_t address;
+     uint32_t data;
++    uint8_t plane_id;
+ };
  
- int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-@@ -6648,6 +6702,9 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-             break;
-         }
-         ret = 0;
-+	break;
-+    case KVM_EXIT_PLANE_EVENT:
-+        ret = kvm_handle_plane_event(cs, run);
-         break;
-     default:
-         fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
+ extern bool msi_nonbroken;
 -- 
 2.53.0
 
