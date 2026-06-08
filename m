@@ -1,14 +1,14 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E73933F9A09;
-	Mon,  8 Jun 2026 14:43:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32B2C3FAE12;
+	Mon,  8 Jun 2026 14:43:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780929819; cv=none; b=jNxoDqs/AHVfKcRnQUiQAEKGUocp8PyxPdRgQJ3qm2FwjspCwLDdxs1b8BILG8ocCJS6mtOrBERNNjx4yiWyl9yy4PAhpX3+YfK0to2xwg1wvStHC5LrdXrZIL9Bl2sK4sD7zHyuxaIIpnRDGkhnVceoITNIDaAPVyp52kDTchY=
+	t=1780929819; cv=none; b=nnvWgYYOHY0Dxn6D0QR9YX0v1YqK33h61wOp1uwH8Pzb3SismH/QR35UZyZpLsX+unC9wn8aqyu3gYj81rCdcKN9ZaAjTsdahMZhm5bvgy1CyiQ1dSY0OzqmLpniuKp8X8Vb+9thYN5zJzvM6G4Z2gkHFtLUrZzOaKuc/14O3xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780929819; c=relaxed/simple;
-	bh=GBx/OmMVk+k2F/nFdgcILi6GEL5fCzCIBxKISaYFHGg=;
+	bh=vdKUQSgIcij/8GeDfa49XGndE7o0eRdSkvdRKTXeBQ8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pHgEhelDN7KPWmazymyD8Hh0kNzCGFR27kASwI3X/VsCDrXwwQD4gH1ygvYkHxGhc/01WVDtckiCvog/KrCx8zdE8PU7DGMvL0nY+dAKYZM7WaipxlOruqm0gAbq9WmNp+/DsDe1ql5GuwTLdp+GY+PxmUGVlZO48zXmtdDP/hM=
+	 MIME-Version; b=r1IPkWB5xuFCX22ivV2cNQY5qmsC2Wl4kPQKOREE++3jVGiHL2bhgNhmKds5v+SmXbvfik5lkjtDVnh+I3pc3D2DtUG61MVqD6tCqSbYEXw4sw07xoVl3/PuOhql2uRdxm7NhDpt8ITwvm3f2DCVJ0/JVFLh63KUhKHiyx1FBhQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
@@ -16,8 +16,8 @@ Received: from io.home.8bytes.org (p4ffe1d30.dip0.t-ipconnect.de [79.254.29.48])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id D88B92028DA;
-	Mon,  8 Jun 2026 16:43:16 +0200 (CEST)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 4DE0B2028DC;
+	Mon,  8 Jun 2026 16:43:17 +0200 (CEST)
 From: =?UTF-8?q?J=C3=B6rg=20R=C3=B6del?= <joro@8bytes.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	Sean Christopherson <seanjc@google.com>
@@ -38,9 +38,9 @@ Cc: Tom Lendacky <thomas.lendacky@amd.com>,
 	x86@kernel.org,
 	coconut-svsm@lists.linux.dev,
 	joerg.roedel@amd.com
-Subject: [PATCH 55/60] kvm: svm: Track vmsa_features per plane
-Date: Mon,  8 Jun 2026 16:42:47 +0200
-Message-ID: <20260608144252.351443-56-joro@8bytes.org>
+Subject: [PATCH 57/60] kvm: sev: Allow for VMPL level specification in AP create
+Date: Mon,  8 Jun 2026 16:42:49 +0200
+Message-ID: <20260608144252.351443-58-joro@8bytes.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260608144252.351443-1-joro@8bytes.org>
 References: <20260608144252.351443-1-joro@8bytes.org>
@@ -52,262 +52,301 @@ List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Joerg Roedel <joerg.roedel@amd.com>
+From: Tom Lendacky <thomas.lendacky@amd.com>
 
-Planes can have different set of SEV features enabled. Track the
-enabled features per plane instead of per VM.
+Update AP creation to support ADD/DESTROY of VMSAs at levels other than
+VMPL0 in order to run under an SVSM at VMPL1 or lower. To maintain
+backwards compatibility, the VMPL is specified in bits 16 to 19 of the
+AP Creation request in SW_EXITINFO1 of the GHCB.
 
+In order to track the VMSAs at different levels, create arrays for the
+VMSAs, GHCBs, registered GHCBs and others. When switching VMPL levels,
+these entries will be used to set the VMSA and GHCB physical addresses
+in the VMCB for the VMPL level.
+
+In order ensure that the proper responses are returned in the proper GHCB,
+the GHCB must be unmapped at the current level and saved for restoration
+later when switching back to that VMPL level.
+
+Additional checks are applied to prevent a non-VMPL0 vCPU from being able
+to perform an AP creation request at VMPL0. Additionally, a vCPU cannot
+replace its own VMSA.
+
+Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+Co-developed-by: Joerg Roedel <joerg.roedel@amd.com>
 Signed-off-by: Joerg Roedel <joerg.roedel@amd.com>
 ---
- arch/x86/kvm/svm/sev.c | 37 ++++++++++++++++++++-----------------
- arch/x86/kvm/svm/svm.c | 21 +++++++++++++++++++--
- arch/x86/kvm/svm/svm.h | 24 +++++++++++++++++++++---
- 3 files changed, 60 insertions(+), 22 deletions(-)
+ arch/x86/include/asm/svm.h      |   9 +++
+ arch/x86/include/uapi/asm/svm.h |   2 +
+ arch/x86/kvm/svm/sev.c          | 134 +++++++++++++++++++++++++-------
+ arch/x86/kvm/svm/svm.h          |   1 +
+ arch/x86/kvm/x86.c              |   9 +++
+ 5 files changed, 126 insertions(+), 29 deletions(-)
 
+diff --git a/arch/x86/include/asm/svm.h b/arch/x86/include/asm/svm.h
+index 9822b0b346ae..32a35ee10bce 100644
+--- a/arch/x86/include/asm/svm.h
++++ b/arch/x86/include/asm/svm.h
+@@ -345,6 +345,15 @@ static_assert((X2AVIC_4K_MAX_PHYSICAL_ID & AVIC_PHYSICAL_MAX_INDEX_MASK) == X2AV
+ 
+ #define VMCB_ALLOWED_SEV_FEATURES_VALID			BIT_ULL(63)
+ 
++enum {
++	SVM_SEV_VMPL0 = 0,
++	SVM_SEV_VMPL1,
++	SVM_SEV_VMPL2,
++	SVM_SEV_VMPL3,
++
++	SVM_SEV_VMPL_MAX
++};
++
+ struct vmcb_seg {
+ 	u16 selector;
+ 	u16 attrib;
+diff --git a/arch/x86/include/uapi/asm/svm.h b/arch/x86/include/uapi/asm/svm.h
+index 91395b82eadd..60b7a52f6f7e 100644
+--- a/arch/x86/include/uapi/asm/svm.h
++++ b/arch/x86/include/uapi/asm/svm.h
+@@ -123,6 +123,8 @@
+ #define SVM_VMGEXIT_HVDB_QUERY			2
+ #define SVM_VMGEXIT_HVDB_CLEAR			3
+ #define SVM_VMGEXIT_HV_IPI                      0x80000015ull
++#define SVM_VMGEXIT_AP_VMPL_MASK		GENMASK(19, 16)
++#define SVM_VMGEXIT_AP_VMPL_SHIFT		16
+ #define SVM_VMGEXIT_GET_APIC_IDS		0x80000017ull
+ #define SVM_VMGEXIT_SNP_RUN_VMPL		0x80000018ull
+ #define SVM_VMGEXIT_SAVIC			0x8000001aull
 diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
-index a23dcb081751..12b039823c1c 100644
+index c0b2879f8e9f..53cd3aba7368 100644
 --- a/arch/x86/kvm/svm/sev.c
 +++ b/arch/x86/kvm/svm/sev.c
-@@ -204,17 +204,16 @@ static inline bool is_mirroring_enc_context(struct kvm *kvm)
+@@ -3512,13 +3512,19 @@ static int sev_es_validate_vmgexit(struct vcpu_svm *svm)
+ 		if (!kvm_ghcb_sw_scratch_is_valid(svm))
+ 			goto vmgexit_err;
+ 		break;
+-	case SVM_VMGEXIT_AP_CREATION:
++	case SVM_VMGEXIT_AP_CREATION: {
++		unsigned int request;
++
+ 		if (!is_sev_snp_guest(vcpu))
+ 			goto vmgexit_err;
+-		if (lower_32_bits(control->exit_info_1) != SVM_VMGEXIT_AP_DESTROY)
++
++		request = lower_32_bits(control->exit_info_1);
++		request &= ~SVM_VMGEXIT_AP_VMPL_MASK;
++		if (request != SVM_VMGEXIT_AP_DESTROY)
+ 			if (!kvm_ghcb_rax_is_valid(svm))
+ 				goto vmgexit_err;
+ 		break;
++	}
+ 	case SVM_VMGEXIT_GET_APIC_IDS:
+ 		if (!kvm_ghcb_rax_is_valid(svm))
+ 			goto vmgexit_err;
+@@ -4151,8 +4157,26 @@ static void sev_snp_init_protected_guest_state(struct kvm_vcpu *vcpu)
+ 	/* Use the new VMSA */
+ 	svm->vmcb->control.vmsa_pa = pfn_to_hpa(pfn);
  
- static bool sev_vcpu_has_debug_swap(struct vcpu_svm *svm)
- {
--	struct kvm_vcpu *vcpu = &svm->vcpu;
--	struct kvm_sev_info *sev = to_kvm_sev_info(vcpu->kvm);
-+	struct kvm_sev_info_plane *sev_plane = to_kvm_sev_info_plane(svm->vcpu.plane);
- 
--	return sev->vmsa_features & SVM_SEV_FEAT_DEBUG_SWAP;
-+	return sev_plane->vmsa_features & SVM_SEV_FEAT_DEBUG_SWAP;
- }
- 
- static bool snp_is_secure_tsc_enabled(struct kvm *kvm)
- {
--	struct kvm_sev_info *sev = to_kvm_sev_info(kvm);
-+	struct kvm_sev_info_plane *sev_plane = to_kvm_sev_info_plane(kvm->planes[0]);
- 
--	return (sev->vmsa_features & SVM_SEV_FEAT_SECURE_TSC) &&
-+	return (sev_plane->vmsa_features & SVM_SEV_FEAT_SECURE_TSC) &&
- 	       !WARN_ON_ONCE(!sev_snp_guest(kvm));
- }
- 
-@@ -496,6 +495,7 @@ static int __sev_guest_init(struct kvm *kvm, struct kvm_sev_cmd *argp,
- 			    struct kvm_sev_init *data,
- 			    unsigned long vm_type)
- {
-+	struct kvm_sev_info_plane *sev_plane = to_kvm_sev_info_plane(kvm->planes[0]);
- 	struct kvm_sev_info *sev = to_kvm_sev_info(kvm);
- 	struct sev_platform_init_args init_args = {0};
- 	bool es_active = vm_type != KVM_X86_SEV_VM;
-@@ -534,11 +534,11 @@ static int __sev_guest_init(struct kvm *kvm, struct kvm_sev_cmd *argp,
- 
- 	sev->active = true;
- 	sev->es_active = es_active;
--	sev->vmsa_features = data->vmsa_features;
-+	sev_plane->vmsa_features = data->vmsa_features;
- 	sev->ghcb_version = data->ghcb_version;
- 
- 	if (snp_active)
--		sev->vmsa_features |= SVM_SEV_FEAT_SNP_ACTIVE;
-+		sev_plane->vmsa_features |= SVM_SEV_FEAT_SNP_ACTIVE;
- 
- 	ret = sev_asid_new(sev, vm_type);
- 	if (ret)
-@@ -576,7 +576,7 @@ static int __sev_guest_init(struct kvm *kvm, struct kvm_sev_cmd *argp,
- 	sev_asid_free(sev);
- 	sev->asid = 0;
- e_no_asid:
--	sev->vmsa_features = 0;
-+	sev_plane->vmsa_features = 0;
- 	sev->es_active = false;
- 	sev->active = false;
- 	return ret;
-@@ -931,7 +931,7 @@ static int sev_launch_update_data(struct kvm *kvm, struct kvm_sev_cmd *argp)
- static int sev_es_sync_vmsa(struct vcpu_svm *svm)
- {
- 	struct kvm_vcpu *vcpu = &svm->vcpu;
--	struct kvm_sev_info *sev = to_kvm_sev_info(vcpu->kvm);
-+	struct kvm_sev_info_plane *sev_plane = to_kvm_sev_info_plane(vcpu->plane);
- 	struct sev_es_save_area *save = svm->sev_es.vmsa;
- 	struct xregs_state *xsave;
- 	const u8 *s;
-@@ -982,7 +982,7 @@ static int sev_es_sync_vmsa(struct vcpu_svm *svm)
- 	save->xss  = svm->vcpu.arch.ia32_xss;
- 	save->dr6  = svm->vcpu.arch.dr6;
- 
--	save->sev_features = sev->vmsa_features;
-+	save->sev_features = sev_plane->vmsa_features;
++	/*
++	 * The vCPU may not have gone through the LAUNCH_UPDATE process, so mark
++	 * the guest state as protected.
++	 */
++	vcpu->arch.guest_state_protected = true;
++
++	/*
++	 * SEV-ES guest mandates LBR Virtualization to be _always_ ON. Enable it
++	 * only after setting guest_state_protected because KVM_SET_MSRS allows
++	 * dynamic toggling of LBRV (for performance reason) on write access to
++	 * MSR_IA32_DEBUGCTLMSR when guest_state_protected is not set.
++	 */
++	svm_enable_lbrv(vcpu);
++
+ 	/* Mark the vCPU as runnable */
+-	kvm_set_mp_state(vcpu, KVM_MP_STATE_RUNNABLE);
++	if (svm->sev_es.snp_ap_runnable) {
++		kvm_set_mp_state(vcpu, KVM_MP_STATE_RUNNABLE);
++	} else {
++		kvm_set_mp_state(vcpu, KVM_MP_STATE_UNINITIALIZED);
++	}
  
  	/*
- 	 * Skip FPU and AVX setup with KVM_SEV_ES_INIT to avoid
-@@ -2026,6 +2026,8 @@ static void sev_unlock_two_vms(struct kvm *dst_kvm, struct kvm *src_kvm)
+ 	 * gmem pages aren't currently migratable, but if this ever changes
+@@ -4162,36 +4186,87 @@ static void sev_snp_init_protected_guest_state(struct kvm_vcpu *vcpu)
+ 	kvm_release_page_clean(page);
+ }
  
- static void sev_migrate_from(struct kvm *dst_kvm, struct kvm *src_kvm)
+-static int sev_snp_ap_creation(struct vcpu_svm *svm)
++static unsigned int get_ap_creation_request(struct vcpu_svm *svm)
  {
-+	struct kvm_sev_info_plane *dst_plane = to_kvm_sev_info_plane(dst_kvm->planes[0]);
-+	struct kvm_sev_info_plane *src_plane = to_kvm_sev_info_plane(src_kvm->planes[0]);
- 	struct kvm_sev_info *dst = to_kvm_sev_info(dst_kvm);
- 	struct kvm_sev_info *src = to_kvm_sev_info(src_kvm);
- 	struct kvm_vcpu *dst_vcpu, *src_vcpu;
-@@ -2039,7 +2041,7 @@ static void sev_migrate_from(struct kvm *dst_kvm, struct kvm *src_kvm)
- 	dst->pages_locked = src->pages_locked;
- 	dst->enc_context_owner = src->enc_context_owner;
- 	dst->es_active = src->es_active;
--	dst->vmsa_features = src->vmsa_features;
-+	dst_plane->vmsa_features = src_plane->vmsa_features;
+-	struct kvm_sev_info_plane *sev_plane = to_kvm_sev_info_plane(svm->vcpu.plane);
+-	struct kvm_vcpu *vcpu = &svm->vcpu;
+-	struct kvm_vcpu *target_vcpu;
+-	struct vcpu_svm *target_svm;
+-	unsigned int request;
++//	struct kvm_sev_info_plane *sev_plane = to_kvm_sev_info_plane(svm->vcpu.plane);
++//	struct kvm_vcpu *vcpu = &svm->vcpu;
++	unsigned int req = lower_32_bits(svm->vmcb->control.exit_info_1);
++
++	return req & ~SVM_VMGEXIT_AP_VMPL_MASK;
++}
++
++static unsigned int get_ap_creation_vmpl(struct vcpu_svm *svm)
++{
++	unsigned int req = lower_32_bits(svm->vmcb->control.exit_info_1);
++
++	return (req & SVM_VMGEXIT_AP_VMPL_MASK) >> SVM_VMGEXIT_AP_VMPL_SHIFT;
++}
++
++static unsigned int get_ap_creation_apic_id(struct vcpu_svm *svm)
++{
++	return upper_32_bits(svm->vmcb->control.exit_info_1);
++}
++
++#define SVM_SEV_VMPL_MAX	4
++
++static int sev_snp_ap_creation(struct kvm_vcpu *vcpu)
++{
++	struct vcpu_svm *target_svm = NULL, *svm = to_svm(vcpu);
++	struct kvm_sev_info_plane *target_sev_plane = NULL;
++	struct kvm_plane *target_plane = NULL;
++	struct kvm_vcpu *target_vcpu = NULL;
+ 	unsigned int apic_id;
++	unsigned int request;
++	unsigned int vmpl;
  
- 	src->asid = 0;
- 	src->active = false;
-@@ -4157,7 +4159,7 @@ static void sev_snp_init_protected_guest_state(struct kvm_vcpu *vcpu)
+-	request = lower_32_bits(svm->vmcb->control.exit_info_1);
+-	apic_id = upper_32_bits(svm->vmcb->control.exit_info_1);
++	request = get_ap_creation_request(svm);
++	apic_id = get_ap_creation_apic_id(svm);
++	vmpl = get_ap_creation_vmpl(svm);
  
- static int sev_snp_ap_creation(struct vcpu_svm *svm)
- {
--	struct kvm_sev_info *sev = to_kvm_sev_info(svm->vcpu.kvm);
-+	struct kvm_sev_info_plane *sev_plane = to_kvm_sev_info_plane(svm->vcpu.plane);
- 	struct kvm_vcpu *vcpu = &svm->vcpu;
- 	struct kvm_vcpu *target_vcpu;
- 	struct vcpu_svm *target_svm;
-@@ -4182,9 +4184,9 @@ static int sev_snp_ap_creation(struct vcpu_svm *svm)
+-	/* Validate the APIC ID */
+-	target_vcpu = kvm_get_vcpu_by_id(vcpu->kvm, apic_id);
+-	if (!target_vcpu) {
+-		vcpu_unimpl(vcpu, "vmgexit: invalid AP APIC ID [%#x] from guest\n",
+-			    apic_id);
++	/* Validate the requested VMPL level */
++	if (vmpl >= SVM_SEV_VMPL_MAX) {
++		vcpu_unimpl(vcpu, "vmgexit: invalid VMPL level [%u] from guest\n",
++			    vmpl);
+ 		return -EINVAL;
+ 	}
++	vmpl = array_index_nospec(vmpl, SVM_SEV_VMPL_MAX);
++
++	/* Obtain the target plane and vCPU */
++	target_plane = vcpu->kvm->planes[vmpl];
++	if (target_plane) {
++		target_vcpu = plane_get_vcpu(target_plane, apic_id);
++	} else {
++		target_vcpu = NULL;
++	}
++
++	/* Request user-space to create target plane VCPU if it does not exist */
++	if (!target_plane || !target_vcpu) {
++		vcpu->arch.complete_userspace_io = sev_snp_ap_creation;
++		return kvm_request_create_plane(vcpu, vmpl, apic_id);
++	}
+ 
+ 	target_svm = to_svm(target_vcpu);
++	target_sev_plane = &to_kvm_svm_plane(target_svm->vcpu.plane)->sev_info_plane;
+ 
+ 	guard(mutex)(&target_svm->sev_es.snp_vmsa_mutex);
+ 
++	/* VMPL0 can only be replaced by another vCPU running VMPL0 */
++	if (vmpl == SVM_SEV_VMPL0 &&
++	    (vcpu == target_vcpu || vcpu->plane_level != SVM_SEV_VMPL0)) {
++		vcpu_unimpl(vcpu, "vmgexit: VMPL0 AP action not allowed\n");
++		return -EINVAL;
++	}
++
  	switch (request) {
  	case SVM_VMGEXIT_AP_CREATE_ON_INIT:
  	case SVM_VMGEXIT_AP_CREATE:
--		if (vcpu->arch.regs[VCPU_REGS_RAX] != sev->vmsa_features) {
-+		if (vcpu->arch.regs[VCPU_REGS_RAX] != sev_plane->vmsa_features) {
+-		if (vcpu->arch.regs[VCPU_REGS_RAX] != sev_plane->vmsa_features) {
++		/* Initialize target planes SEV features if necessary */
++		if (target_sev_plane->vmsa_features == 0)
++			target_sev_plane->vmsa_features = vcpu->arch.regs[VCPU_REGS_RAX];
++
++		if (vcpu->arch.regs[VCPU_REGS_RAX] != target_sev_plane->vmsa_features) {
  			vcpu_unimpl(vcpu, "vmgexit: mismatched AP sev_features [%#lx] != [%#llx] from guest\n",
--				    vcpu->arch.regs[VCPU_REGS_RAX], sev->vmsa_features);
-+				    vcpu->arch.regs[VCPU_REGS_RAX], sev_plane->vmsa_features);
+-				    vcpu->arch.regs[VCPU_REGS_RAX], sev_plane->vmsa_features);
++				    vcpu->arch.regs[VCPU_REGS_RAX], target_sev_plane->vmsa_features);
  			return -EINVAL;
  		}
  
-@@ -4815,15 +4817,16 @@ void sev_vcpu_after_set_cpuid(struct vcpu_svm *svm)
- 
- static void sev_snp_init_vmcb(struct vcpu_svm *svm)
- {
--	struct kvm_sev_info *sev = &to_kvm_svm(svm->vcpu.kvm)->sev_info;
-+	struct kvm_sev_info_plane *sev_plane = &to_kvm_svm_plane(svm->vcpu.plane)->sev_info_plane;
- 
- 	/* V_NMI is not supported when Restricted Injection is enabled */
--	if (sev->vmsa_features & SVM_SEV_FEAT_RESTRICTED_INJECTION)
-+	if (sev_plane->vmsa_features & SVM_SEV_FEAT_RESTRICTED_INJECTION)
- 		svm->vmcb->control.int_ctl &= ~V_NMI_ENABLE_MASK;
- }
- 
- static void sev_es_init_vmcb(struct vcpu_svm *svm, bool init_event)
- {
-+	struct kvm_sev_info_plane *sev_plane = to_kvm_sev_info_plane(svm->vcpu.plane);
- 	struct kvm_sev_info *sev = to_kvm_sev_info(svm->vcpu.kvm);
- 	struct vmcb *vmcb = svm->vmcb01.ptr;
- 	struct kvm_vcpu *vcpu = &svm->vcpu;
-@@ -4845,7 +4848,7 @@ static void sev_es_init_vmcb(struct vcpu_svm *svm, bool init_event)
+@@ -4226,16 +4301,18 @@ static int sev_snp_ap_creation(struct vcpu_svm *svm)
+ 		return -EINVAL;
  	}
  
- 	if (cpu_feature_enabled(X86_FEATURE_ALLOWED_SEV_FEATURES))
--		svm->vmcb->control.allowed_sev_features = sev->vmsa_features |
-+		svm->vmcb->control.allowed_sev_features = sev_plane->vmsa_features |
- 							  VMCB_ALLOWED_SEV_FEATURES_VALID;
++	/* Signal the vCPU to update its state */
++	kvm_make_request(KVM_REQ_UPDATE_PROTECTED_GUEST_STATE, target_vcpu);
++
+ 	target_svm->sev_es.snp_ap_waiting_for_reset = true;
++	target_svm->sev_es.snp_ap_runnable = (request == SVM_VMGEXIT_AP_CREATE);
  
- 	/* Can't intercept CR register access, HV can't modify CR registers */
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index 99357de14034..2ae82dc058c9 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -5304,6 +5304,23 @@ static void *svm_alloc_apic_backing_page(struct kvm_vcpu *vcpu)
- 	return page_address(page);
+-	/*
+-	 * Unless Creation is deferred until INIT, signal the vCPU to update
+-	 * its state.
+-	 */
+-	if (request != SVM_VMGEXIT_AP_CREATE_ON_INIT)
+-		kvm_make_request_and_kick(KVM_REQ_UPDATE_PROTECTED_GUEST_STATE, target_vcpu);
++	if (request == SVM_VMGEXIT_AP_CREATE)
++		kvm_make_request(KVM_REQ_PLANE_RESCHED, target_vcpu);
+ 
+-	return 0;
++	kvm_vcpu_kick(target_vcpu);
++
++	return 1;
  }
  
-+static struct kvm_plane *svm_alloc_plane(void)
-+{
-+	struct kvm_svm_plane *svm_plane = kzalloc(sizeof(*svm_plane), GFP_KERNEL_ACCOUNT);
-+
-+	if (svm_plane)
-+		return &svm_plane->plane;
-+
-+	return NULL;
-+}
-+
-+static void svm_free_plane(struct kvm_plane *plane)
-+{
-+	struct kvm_svm_plane *svm_plane = to_kvm_svm_plane(plane);
-+
-+	kfree(svm_plane);
-+}
-+
- struct kvm_x86_ops svm_x86_ops __initdata = {
- 	.name = KBUILD_MODNAME,
- 
-@@ -5446,8 +5463,8 @@ struct kvm_x86_ops svm_x86_ops __initdata = {
- 	.gmem_invalidate = sev_gmem_invalidate,
- 	.gmem_max_mapping_level = sev_gmem_max_mapping_level,
- 
--	.alloc_plane = x86_alloc_plane,
--	.free_plane = x86_free_plane,
-+	.alloc_plane = svm_alloc_plane,
-+	.free_plane = svm_free_plane,
- 	.max_planes = kvm_x86_default_max_planes,
- };
- 
+ static int snp_handle_guest_req(struct vcpu_svm *svm, gpa_t req_gpa, gpa_t resp_gpa)
+@@ -4779,12 +4856,11 @@ int sev_handle_vmgexit(struct kvm_vcpu *vcpu)
+ 		ret = snp_begin_psc(svm);
+ 		break;
+ 	case SVM_VMGEXIT_AP_CREATION:
+-		ret = sev_snp_ap_creation(svm);
+-		if (ret) {
++		ret = sev_snp_ap_creation(vcpu);
++		if (ret < 0) {
+ 			svm_vmgexit_bad_input(svm, GHCB_ERR_INVALID_INPUT);
++			ret = 1;
+ 		}
+-
+-		ret = 1;
+ 		break;
+ 	case SVM_VMGEXIT_GUEST_REQUEST:
+ 		ret = snp_handle_guest_req(svm, control->exit_info_1, control->exit_info_2);
 diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
-index 7d27ed7099a8..57033922ddcf 100644
+index 57033922ddcf..7e860f2abafb 100644
 --- a/arch/x86/kvm/svm/svm.h
 +++ b/arch/x86/kvm/svm/svm.h
-@@ -110,7 +110,6 @@ struct kvm_sev_info {
- 	unsigned long pages_locked; /* Number of pages locked */
- 	struct list_head regions_list;  /* List of registered regions */
- 	u64 ap_jump_table;	/* SEV-ES AP Jump Table address */
--	u64 vmsa_features;
- 	u16 ghcb_version;	/* Highest guest GHCB protocol version allowed */
- 	struct kvm *enc_context_owner; /* Owner of copied encryption context */
- 	struct list_head mirror_vms; /* List of VMs mirroring */
-@@ -140,6 +139,15 @@ struct kvm_svm {
- #endif
- };
+@@ -282,6 +282,7 @@ struct vcpu_sev_es_state {
  
-+struct kvm_sev_info_plane {
-+	u64 vmsa_features;
-+};
+ 	struct mutex snp_vmsa_mutex; /* Used to handle concurrent updates of VMSA. */
+ 	gpa_t snp_vmsa_gpa;
++	bool snp_ap_runnable;
+ 	bool snp_ap_waiting_for_reset;
+ 	bool snp_has_guest_vmsa;
+ 
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 0b9fa1059481..ad05350bb393 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -12165,6 +12165,15 @@ static int __kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
+ 		kvm_vcpu_block(vcpu);
+ 		kvm_vcpu_srcu_read_lock(vcpu);
+ 
++		/*
++		 * It is possible that the vCPU has never run before. If the
++		 * request is to update the protected guest state (AP Create),
++		 * then ensure that the vCPU can now run.
++		 */
++		if (kvm_test_request(KVM_REQ_UPDATE_PROTECTED_GUEST_STATE, vcpu) &&
++		    vcpu->arch.mp_state == KVM_MP_STATE_UNINITIALIZED)
++			vcpu->arch.mp_state = KVM_MP_STATE_RUNNABLE;
 +
-+struct kvm_svm_plane {
-+	struct kvm_plane plane;
-+	struct kvm_sev_info_plane sev_info_plane;
-+};
-+
- struct kvm_vcpu;
- 
- struct kvm_vmcb_info {
-@@ -394,6 +402,16 @@ static __always_inline struct kvm_svm *to_kvm_svm(struct kvm *kvm)
- 	return container_of(kvm, struct kvm_svm, kvm);
- }
- 
-+static __always_inline struct kvm_svm_plane *to_kvm_svm_plane(struct kvm_plane *plane)
-+{
-+	return container_of(plane, struct kvm_svm_plane, plane);
-+}
-+
-+static __always_inline struct kvm_sev_info_plane *to_kvm_sev_info_plane(struct kvm_plane *plane)
-+{
-+	return &to_kvm_svm_plane(plane)->sev_info_plane;
-+}
-+
- #ifdef CONFIG_KVM_AMD_SEV
- static __always_inline struct kvm_sev_info *to_kvm_sev_info(struct kvm *kvm)
- {
-@@ -413,7 +431,7 @@ static __always_inline bool ____sev_es_guest(struct kvm *kvm)
- 
- static __always_inline bool ____sev_snp_guest(struct kvm *kvm)
- {
--	struct kvm_sev_info *sev = to_kvm_sev_info(kvm);
-+	struct kvm_sev_info_plane *sev = to_kvm_sev_info_plane(kvm->planes[0]);
- 
- 	return (sev->vmsa_features & SVM_SEV_FEAT_SNP_ACTIVE) &&
- 	       !WARN_ON_ONCE(!____sev_es_guest(kvm));
-@@ -984,7 +1002,7 @@ void sev_snp_cancel_injection(struct kvm_vcpu *vcpu);
- bool sev_snp_blocked(enum inject_type type, struct kvm_vcpu *vcpu);
- static inline bool sev_snp_is_rinj_active(struct kvm_vcpu *vcpu)
- {
--	struct kvm_sev_info *sev = &to_kvm_svm(vcpu->kvm)->sev_info;
-+	struct kvm_sev_info_plane *sev = &to_kvm_svm_plane(vcpu->plane)->sev_info_plane;
- 
- 	return is_sev_snp_guest(vcpu) &&
- 		(sev->vmsa_features & SVM_SEV_FEAT_RESTRICTED_INJECTION);
+ 		if (kvm_apic_accept_events(vcpu) < 0) {
+ 			r = 0;
+ 			goto out;
 -- 
 2.53.0
 
