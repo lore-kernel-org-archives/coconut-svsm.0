@@ -1,14 +1,14 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E4753F6C3D
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80C7B3F6C52
 	for <coconut-svsm@lists.linux.dev>; Mon,  8 Jun 2026 15:21:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780932080; cv=none; b=DO+p3AW1TqRWVTszJEE/+QidPmp8CKI2hD90fK0oX02h3egD4LfkdArurlh3VqfiVIoT5uts0ImFtz8ynopIheeNk7NZCtfySd4TQ2rbSsw7110qyiYRAUHQ/S02XPh+wwPgLUziL1kzUgKC6VeSGEjtzmDm8v+77dNTU26keaA=
+	t=1780932080; cv=none; b=ekJRksb52aUMQqLuRulzAx8Ht55g1KeafaaIB/bhFUSAt6dC2V/ld4Qd5q+HSBGc+nhPT0Ir/nrW7g1GYSKjxL6mui2lGBqAs3RxnuOCOys2M1quVS9IMTY0ka7KtAfZQ0yDjGfYyPp4G5oODdjPQ6xNABoY7suu2W0gkim1xPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780932080; c=relaxed/simple;
-	bh=9q78hu6B8GVAfGu6Apodj5/jehFVFAY9WR/8j4rs9IQ=;
+	bh=TllcPOqlup7SXA5RFjoQcTQnQnLKyJxzu6NP90Sb1l0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q2dpZ7s7s4OpeXTE1+rcIEjyD/Jvef9i9iOomoq8jeReKvrd8rpM0vOgJ5hu1SifpBkPHC+a3DpeRQZq/gFpXjTaf8ti+sl3O7u5ueRYG42dZl91uSTM+KLVSTH2UimIWihwyEGs8X67XDu5OqPW02FLtJSQZebutX8hr177SFI=
+	 MIME-Version; b=ElG8qIfK0gWmKfjWXvOaLOpYmxDGV5aIgHg3gDht9wHHexJUIKI+Aws5i+/ujtkGWN1og6F/+zAlBzkdbdMYOUDEgacJ8iwqO8xF05S4SK1MMxRhvbigwrSqqf2O8xZI6Rbs/EEdgr+lhGGFmTBXLxl6CUTyJz36ZZl2UELApb0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
@@ -16,7 +16,7 @@ Received: from io.home.8bytes.org (p4ffe1d30.dip0.t-ipconnect.de [79.254.29.48])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 72292202946;
+	by mail.8bytes.org (Postfix) with ESMTPSA id C5AE5202948;
 	Mon,  8 Jun 2026 17:21:15 +0200 (CEST)
 From: =?UTF-8?q?J=C3=B6rg=20R=C3=B6del?= <joro@8bytes.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
@@ -33,9 +33,9 @@ Cc: philmd@linaro.org,
 	kvm@vger.kernel.org,
 	coconut-svsm@lists.linux.dev,
 	joerg.roedel@amd.com
-Subject: [RFC PATCH 05/10] accel/kvm: Support nr_planes call-back
-Date: Mon,  8 Jun 2026 17:21:04 +0200
-Message-ID: <20260608152109.356783-6-joro@8bytes.org>
+Subject: [RFC PATCH 07/10] hw/core/machine: Add device-plane property
+Date: Mon,  8 Jun 2026 17:21:06 +0200
+Message-ID: <20260608152109.356783-8-joro@8bytes.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260608152109.356783-1-joro@8bytes.org>
 References: <20260608152109.356783-1-joro@8bytes.org>
@@ -49,66 +49,96 @@ Content-Transfer-Encoding: 8bit
 
 From: Joerg Roedel <joerg.roedel@amd.com>
 
+Add a property to the QEMU MachineState to specify the default plane
+to send device interrupts to.
+
 Signed-off-by: Joerg Roedel <joerg.roedel@amd.com>
 ---
- accel/kvm/kvm-all.c | 19 +++++++++++++++++++
- dtc                 |  1 +
- ui/keycodemapdb     |  1 +
- 3 files changed, 21 insertions(+)
- create mode 160000 dtc
- create mode 160000 ui/keycodemapdb
+ hw/core/machine.c        | 22 ++++++++++++++++++++++
+ include/hw/core/boards.h |  3 +++
+ include/hw/core/qdev.h   |  1 +
+ 3 files changed, 26 insertions(+)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 7429e2be8ba9..dbfef63a84b0 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -4247,6 +4247,24 @@ static bool kvm_accel_has_memory(AccelState *accel, AddressSpace *as,
-     return false;
- }
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 0aa77a57e956..62ea86512645 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -1218,6 +1218,7 @@ static void machine_initfn(Object *obj)
+     ms->kernel_cmdline = g_strdup("");
+     ms->ram_size = mc->default_ram_size;
+     ms->maxram_size = mc->default_ram_size;
++    ms->device_plane = 0;
  
-+static uint8_t kvm_nr_planes(AccelState *accel, MachineState *ms)
-+{
-+    uint8_t nr_planes = 1;
+     if (mc->nvdimm_supported) {
+         ms->nvdimms_state = g_new0(NVDIMMState, 1);
+@@ -1253,6 +1254,12 @@ static void machine_initfn(Object *obj)
+                                    "ACPI Serial Port Console Redirection "
+                                    "Table (spcr)");
+ 
++    /* Default Device Plane */
++    object_property_add_uint8_ptr(obj, "device-plane", &ms->device_plane,
++                                  OBJ_PROP_FLAG_READWRITE);
++    object_property_set_description(obj, "device-plane",
++                                    "Default plane to receive device IRQs");
 +
-+    // Planes are only supported with in-kernel APIC
-+    if (kvm_irqchip_in_kernel()) {
-+	    int ret;
-+        KVMState *kvm = KVM_STATE(accel);
-+
-+        ret = kvm_vm_ioctl(kvm, KVM_CHECK_EXTENSION, KVM_CAP_PLANES);
-+        if (ret > 0) {
-+            nr_planes = ret;
-+        }
+     /* default to mc->default_cpus */
+     ms->smp.cpus = mc->default_cpus;
+     ms->smp.max_cpus = mc->default_cpus;
+@@ -1675,6 +1682,12 @@ void machine_run_board_init(MachineState *machine, const char *mem_path, Error *
+                                    "on", false);
+     }
+ 
++    if (machine->device_plane >= accel_nr_planes(machine)) {
++        error_report("Invalid plane specified: %d (highest supported plane: %d)",
++                     machine->device_plane, accel_nr_planes(machine) - 1);
++        exit(EXIT_FAILURE);
 +    }
 +
-+    return nr_planes;
+     accel_init_interfaces(ACCEL_GET_CLASS(machine->accelerator));
+     machine_class->init(machine);
+     phase_advance(PHASE_MACHINE_INITIALIZED);
+@@ -1761,6 +1774,15 @@ void qdev_machine_creation_done(void)
+     register_global_state();
+ }
+ 
++uint8_t qdev_default_plane(void)
++{
++    if (current_machine != NULL) {
++        return current_machine->device_plane;
++    } else {
++        return 0;
++    }
 +}
 +
- static void kvm_get_kvm_shadow_mem(Object *obj, Visitor *v,
-                                    const char *name, void *opaque,
-                                    Error **errp)
-@@ -4437,6 +4455,7 @@ static void kvm_accel_class_init(ObjectClass *oc, const void *data)
-     ac->init_machine = kvm_init;
-     ac->rebuild_guest = kvm_reset_vmfd;
-     ac->has_memory = kvm_accel_has_memory;
-+    ac->nr_planes = kvm_nr_planes;
-     ac->allowed = &kvm_allowed;
-     ac->gdbstub_supported_sstep_flags = kvm_gdbstub_sstep_flags;
+ static const TypeInfo machine_info = {
+     .name = TYPE_MACHINE,
+     .parent = TYPE_OBJECT,
+diff --git a/include/hw/core/boards.h b/include/hw/core/boards.h
+index b8dad0a1074d..d2d1336939ed 100644
+--- a/include/hw/core/boards.h
++++ b/include/hw/core/boards.h
+@@ -447,6 +447,9 @@ struct MachineState {
+      * Set to false by default for all regular use.
+      */
+     bool new_accel_vmfd_on_reset;
++
++    /* Default plane to receive device IRQs */
++    uint8_t device_plane;
+ };
  
-diff --git a/dtc b/dtc
-new file mode 160000
-index 000000000000..b6910bec1161
---- /dev/null
-+++ b/dtc
-@@ -0,0 +1 @@
-+Subproject commit b6910bec11614980a21e46fbccc35934b671bd81
-diff --git a/ui/keycodemapdb b/ui/keycodemapdb
-new file mode 160000
-index 000000000000..d21009b1c9f9
---- /dev/null
-+++ b/ui/keycodemapdb
-@@ -0,0 +1 @@
-+Subproject commit d21009b1c9f94b740ea66be8e48a1d8ad8124023
+ /*
+diff --git a/include/hw/core/qdev.h b/include/hw/core/qdev.h
+index f99a8979ccb1..83ad1d5f1550 100644
+--- a/include/hw/core/qdev.h
++++ b/include/hw/core/qdev.h
+@@ -560,6 +560,7 @@ void qdev_simple_device_unplug_cb(HotplugHandler *hotplug_dev,
+                                   DeviceState *dev, Error **errp);
+ void qdev_machine_creation_done(void);
+ bool qdev_machine_modified(void);
++uint8_t qdev_default_plane(void);
+ 
+ /**
+  * qdev_add_unplug_blocker: Add an unplug blocker to a device
 -- 
 2.53.0
 
