@@ -1,154 +1,197 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com [209.85.160.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56E3352034
-	for <coconut-svsm@lists.linux.dev>; Mon,  8 Jun 2026 17:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814BB378838
+	for <coconut-svsm@lists.linux.dev>; Tue,  9 Jun 2026 09:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780941559; cv=none; b=KVRI0FF/uSKgy7bYyoGROka+b+yp8i0rb0sRRC/IvZCpZe1owacn5BqRZoTO4UsGVd1M/CEnUtVsODzMJxV/kCiFhXQYZpCaElfGArT99lZdKsUaUJXRzpnchNRhFyM9zPfb6omYjOpeR7LViokJWF4HX6MWptmGMqeBSnguMXo=
+	t=1780997351; cv=none; b=SYV1djVyGjD2EvFbc48dlaW7223kC5/NSSB4cYbambgvRmjDIREIcBxA9Z1WRgNogiJ4bxPONNZBcKp247tfRUHUjwm8amuOt3waKkfFKCTHJLDVK9L+SyhfCQ7z4Mi7+XKAeB4Ck6kc5CjK3RIOuQt2VhtZF1oF0Nnj8nLXz6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780941559; c=relaxed/simple;
-	bh=Yh2vF4TIAGag+raZttED/lbT/nnkLgvDu0weKA8pAqo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZpDdfEjko6qOzL06t3hQfsxLzsno/aTiRoNMMPanLDK1B/8Aq7Bygato4hHXfomAqIf8mwTcpEeQwnnCPQk1/dgUPUiMe16ZfxKph96/INsj+U6Qg8RQtwnv5/8h8e55yu0K4pIB6nhdka6IDC+tSUUxZLZ2y2G3TfpFtFPAfCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iuRaIeDC; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iuRaIeDC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780941557;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=B8d2xpklGhwQZIXzXL6uTt/rbyfEnaEp9dTHG5HoHQ0=;
-	b=iuRaIeDCE6C2vg4OsQ/bxn0KOdr2IzkYEe4lTXR3vnMaxqefdNwRc53O/JR2JXj2Quj8Cw
-	9E8lWcKT3oh2fgrMjvCGD5XJMAhu204ruIUM4fiOPjnOFyY6G9ui2j1ewzpwGWmv4jnLU6
-	1k8zC92Nkdo5DgJvJDn0RDjQtiWk6DI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-623-dklIBrszMI29rBIo5fbtcA-1; Mon, 08 Jun 2026 13:59:16 -0400
-X-MC-Unique: dklIBrszMI29rBIo5fbtcA-1
-X-Mimecast-MFC-AGG-ID: dklIBrszMI29rBIo5fbtcA_1780941555
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-490b93debc8so36682565e9.1
-        for <coconut-svsm@lists.linux.dev>; Mon, 08 Jun 2026 10:59:16 -0700 (PDT)
+	s=arc-20240116; t=1780997351; c=relaxed/simple;
+	bh=FcCAg8VdrQBhc3e9Aqg/PJ3XfA/85D0+dFBWko2gRiE=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=YHJ+dASYBw13a1U/nZquF52xnhBtJJokbp7NVkbZf/c1s4u6NunFUmKNORutusDzbZvyQrAld2+8ya22G1pq45smPg7HYeMIaDJXdifPneJftg0eF/uI7K/efhfMVDzMshjeJPE40wqQQelxA/CWgzZ0nfYzaKMOHjDMNhWueJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-440f84a2f62so8092058fac.3
+        for <coconut-svsm@lists.linux.dev>; Tue, 09 Jun 2026 02:29:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780941555; x=1781546355;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=B8d2xpklGhwQZIXzXL6uTt/rbyfEnaEp9dTHG5HoHQ0=;
-        b=cBe/NBZWkjdGwaPxYDmkXmMFpm56/JvZ+skDf4xwOoHlpPdVhvJd0vSuXsJu2tf05D
-         K1JzLThOWmxZOrcFKIL+nquJH1iOJ1mt212PmyzOlEru0XAJfWFBkHj8diHsQOJsmtgs
-         3GMUU5xfI60K23fIm91wVxaQMHnVTbNDherR+XMoNwZce/K8CcYJypO8tgKPERWoP1uF
-         nmErskAUpds12BYWGTRSOh0bLHxWFpnP9DlTqD48aQotYANReqXvmUFjvFlqZ4Ohr9eF
-         K84iDwBY/PByZd4P/ZF9QyblPlD26FLGFLw1lnCJKv06U3p+i/cP6PaNyB1Emtg+8x54
-         54TA==
-X-Forwarded-Encrypted: i=1; AFNElJ+8asoFAQAEsCUk3zwZFjErC3J7t16l7vfUkOh9KFDQqmoO0N4W0wIr4CWxo2dK9/Tg+P43VBa/UvaKAAg=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+c9tK+XlvSS7p8kwz4ZReLWRE1CshhhPJPiZWxuuNRXsHZNgH
-	/wW+eyy+6R74L/laXYJeVbjalZtXLe0RWnG50srkc8AaoW1slSaOBIR0tPTd+QU1OOcs1CrLBMO
-	d3cTiit6dLz9dquxPuJc0eea25DJ7O/eaJZNWDS489Sz6vUITAtrYHfUFikLaFx2pPiILQpNnNN
-	aodKQgwazNe3Oxrt6BIdYrMMMNz5VH7k27zYGDHHKk
-X-Gm-Gg: Acq92OGp7dIrP2JpAu/+peIU+KWPn7vvPBdpxm3i8mB9zT3kdlL89rwC/BXWaoJMUui
-	eL5tlw7WZ4m6T5fCkbHrFYhpD/wLaBU0eSFAJVUXgH7KyBNryHZS7QEmhVyGZJuhykJ36D1fviz
-	NfQolg2HqkQqIsHYy5S9RyDWEtsiq7tSHqAqh7ow88SzMfDWm5MgcCkEqyC+b5UghVVRLBMTDn1
-	1dLxWF+c5nJ12WOE7r6oZhp0+yodg6K9Ob4nDz/rnYRrBl67uZnzWuNyRac4Ag8grb5KbwBr8Hc
-	WQ6KCaVaSTJPRZQG
-X-Received: by 2002:a05:600c:1908:b0:490:b5d0:598f with SMTP id 5b1f17b1804b1-490c25b5f6cmr285228225e9.13.1780941555098;
-        Mon, 08 Jun 2026 10:59:15 -0700 (PDT)
-X-Received: by 2002:a05:600c:1908:b0:490:b5d0:598f with SMTP id
- 5b1f17b1804b1-490c25b5f6cmr285227865e9.13.1780941554714; Mon, 08 Jun 2026
- 10:59:14 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780997348; x=1781602148;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tDtntZKOvf+QgM91JxUiEGn+OVlpeQ6B56aULm94QfI=;
+        b=lhB/gYdsIQ3DDvDiPwPqHwp/0mLFSJsflW3tPA+p1iTdGuITjSXkj9J5zhPvXkG2Kr
+         AO9e5B74l7gyWLr28/f4oUUu+EUboiLgmZ9sjgOj+UnkacZuLUYGVkKU/ejLvuvndIAn
+         jL49kxO6Ubs/XpvxWQBr4k9vKKu8VR1fOnS+BltohimQm36A6/Xy0ict4YSTtcnNtwRR
+         oK3AR3Ndz6eUMqM/2QGXMTYfUO/fW4RFlVDs4XSha3Grr5c1H9o1VlDtxoNOdGzuOZDw
+         FwhX9DPlR9twvYck6VipeNKVsRC7ifZGf7yE48rPPmAmov83wFZfVbsS2S42h0dYcSWa
+         GELg==
+X-Forwarded-Encrypted: i=1; AFNElJ/LXbLuvDD3W6HrfqEF9fj79w+eaxNUpPNmJ0+MgPddkfj013egQ/owCg07wrgjtsYgFpSFfsvybqj1yi4=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy6X8D/xD0WlTYjTv6tlKoY5wpAmYaDJXrvXvwUPmhroEnh7zv0
+	yGWThE7rg4A3x1lHQRXRbDWYm7AjTWHIAhfTM7TdDD5667ugm30V7zndZxeQXq2kpQHPjeooxlF
+	XN+G6eEA4RE8Q61hjtMxv2K7+4xps9to3aoRDce7rROG8vM/kGp1sJxg9yRw=
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260608144252.351443-1-joro@8bytes.org> <20260608144252.351443-36-joro@8bytes.org>
- <e7eb0dba-790a-4644-9895-5c9a7420d7fe@redhat.com> <aib8n5lO6HKbLC4Y@8bytes.org>
-In-Reply-To: <aib8n5lO6HKbLC4Y@8bytes.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Mon, 8 Jun 2026 19:58:43 +0200
-X-Gm-Features: AVVi8CcaSI98hh9wFoB_n6cKHV5EHNPF6kPS5m5gs3YdhiTjEhtRfK4vGBfAwzg
-Message-ID: <CABgObfbUsDeStnZF-7oyR-W-Bvd4qTMoeUwGizgn10UTdKtZ2A@mail.gmail.com>
-Subject: Re: [PATCH 35/60] kvm: Add VCPU plane-scheduling state and helpers
-To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-Cc: Sean Christopherson <seanjc@google.com>, Tom Lendacky <thomas.lendacky@amd.com>, ashish.kalra@amd.com, 
-	michael.roth@amd.com, nsaenz@amazon.com, anelkz@amazon.de, 
-	James.Bottomley@hansenpartnership.com, Melody Wang <huibo.wang@amd.com>, 
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, 
-	loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, kvm-riscv@lists.infradead.org, x86@kernel.org, 
-	coconut-svsm@lists.linux.dev, joerg.roedel@amd.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: r1OP8M8392AlhBXU_ructoNPxJZ7DizTx1h9uhn8E10_1780941555
-X-Mimecast-Originator: redhat.com
+X-Received: by 2002:a05:6820:818f:b0:69e:424a:8df1 with SMTP id
+ 006d021491bc7-69e68b4b285mr10545972eaf.19.1780997348483; Tue, 09 Jun 2026
+ 02:29:08 -0700 (PDT)
+Date: Tue, 09 Jun 2026 02:29:08 -0700
+In-Reply-To: <20260608144252.351443-1-joro@8bytes.org>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a27dce4.39669fcc.33b062.0090.GAE@google.com>
+Subject: [syzbot ci] Re: KVM Planes + SEV-SNP Support
+From: syzbot ci <syzbot+ci5127b91b8837842d@syzkaller.appspotmail.com>
+To: anelkz@amazon.de, ashish.kalra@amd.com, clopez@suse.de, 
+	coconut-svsm@lists.linux.dev, huibo.wang@amd.com, 
+	james.bottomley@hansenpartnership.com, joerg.roedel@amd.com, joro@8bytes.org, 
+	kvm-riscv@lists.infradead.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev, 
+	michael.roth@amd.com, nsaenz@amazon.com, pbonzini@redhat.com, 
+	seanjc@google.com, thomas.lendacky@amd.com, x86@kernel.org
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 8, 2026 at 7:52=E2=80=AFPM J=C3=B6rg R=C3=B6del <joro@8bytes.or=
-g> wrote:
-> On Mon, Jun 08, 2026 at 06:47:54PM +0200, Paolo Bonzini wrote:
-> > On 6/8/26 16:42, J=C3=B6rg R=C3=B6del wrote:
-> > > The algorithm is to always run the lowest runnable plane. Plane
-> > > switches are done by stopping the current plane and setting another
-> > > runnable.
-> >
-> > This was left arbitrary in my version because for example Hyper-V VTLs =
-use
-> > highest-runnable instead.  It also made pure userspace scheduling possi=
-ble,
-> > though that may not be very important in the grand scheme of things.
->
-> IIRC what Hyper-V does is always the run the highest-privileged runnable =
-level,
-> no?  Maybe in their numbering level 0 has the least privileges?
+syzbot ci has tested the following series
 
-Yes, exactly.
+[v1] KVM Planes + SEV-SNP Support
+https://lore.kernel.org/all/20260608144252.351443-1-joro@8bytes.org
+* [PATCH 01/60] x86/sev: Define the #HV doorbell page structure
+* [PATCH 02/60] KVM: SVM: Add support for the SEV-SNP #HV doorbell page NAE event
+* [PATCH 03/60] KVM: SVM: Inject #HV when Restricted Injection is active
+* [PATCH 04/60] KVM: SVM: Inject NMIs when Restricted Injection is active
+* [PATCH 05/60] KVM: SVM: Inject MCEs when Restricted Injection is active
+* [PATCH 06/60] KVM: SVM: Enable Restricted Injection for an SEV-SNP guest
+* [PATCH 07/60] KVM: SVM: Add support for the SEV-SNP #HV IPI NAE event
+* [PATCH 08/60] Documentation: kvm: introduce "VM plane" concept
+* [PATCH 09/60] kvm: Introduce struct kvm_plane
+* [PATCH 10/60] kvm: Move vcpu_array to struct kvm_plane
+* [PATCH 11/60] kvm: Introduce struct kvm_vcpu_common
+* [PATCH 12/60] kvm: Move vcpu accounting to struct kvm_vcpu_common
+* [PATCH 13/60] kvm: Add read accessors for kvm_vcpu scheduling state
+* [PATCH 14/60] kvm: Make kvm_running_vcpus point to struct kvm_vcpu_common
+* [PATCH 15/60] kvm: Move VCPU scheduling state to struct kvm_vcpu_common
+* [PATCH 16/60] kvm: Add accessors for kvm_vcpu->mutex
+* [PATCH 17/60] kvm: Move VCPU locking to struct kvm_vcpu_common
+* [PATCH 18/60] kvm: Move kvm_vcpu->rcuwait to struct kvm_vcpu_common
+* [PATCH 19/60] kvm: Introduce accessors for kvm_vcpu->mode
+* [PATCH 20/60] kvm: Move kvm_vcpu mode and requests field to struct kvm_vcpu_common
+* [PATCH 21/60] kvm: Introduce per-plane VCPU requests
+* [PATCH 22/60] kvm: Move kvm_vcpu pid members to struct kvm_vcpu_common
+* [PATCH 23/60] kvm: Move kvm_vcpu sigset members to struct kvm_vcpu_common
+* [PATCH 24/60] kvm: Move kvm_vcpu spinloop members to struct kvm_vcpu_common
+* [PATCH 25/60] kvm: Move kvm_vcpu->dirty_ring to struct kvm_vcpu_common
+* [PATCH 26/60] kvm: Introduce arch-specific plane state
+* [PATCH 27/60] kvm: Introduce arch-specific part of struct kvm_vcpu_common
+* [PATCH 28/60] kvm: Implement KVM_CAP_PLANES
+* [PATCH 29/60] kvm: Implement KVM_CREATE_PLANE ioctl
+* [PATCH 30/60] kvm: Add KVM_EXIT_PLANE_EVENT
+* [PATCH 31/60] kvm: Allocate struct kvm_plane in architecture code
+* [PATCH 32/60] kvm: Allocate struct kvm_run only for struct kvm_vcpu_common
+* [PATCH 33/60] KVM: Implement KVM_CREATE_VCPU ioctl for planes
+* [PATCH 34/60] kvm: Keep track of plane VCPUs in struct kvm_vcpu_common
+* [PATCH 35/60] kvm: Add VCPU plane-scheduling state and helpers
+* [PATCH 36/60] kvm: Add plane_level to kvm_kernel_irq_routing_entry
+* [PATCH 37/60] kvm: Pass plane_level to kvm_set_routing_entry()
+* [PATCH 38/60] kvm: Make KVM_SIGNAL_MSI per plane
+* [PATCH 39/60] kvm: Make KVM_SET_GSI_ROUTING per plane
+* [PATCH 40/60] kvm: x86: Handle IOAPIC EOIs per plane
+* [PATCH 41/60] kvm: x86: Make apic_map per plane
+* [PATCH 42/60] kvm: x86: Make local APIC code aware of planes
+* [PATCH 43/60] kvm: x86: Move CPUID state to struct kvm_vcpu_arch_common
+* [PATCH 44/60] kvm: x86: Move cpu_caps to struct kvm_vcpu_arch_common
+* [PATCH 45/60] kvm: x86: Update state for all plane VCPUs after CPUID update
+* [PATCH 46/60] kvm: x86: Share MTRR state across planes
+* [PATCH 47/60] kvm: x86: Select a plane to run
+* [PATCH 48/60] kvm: x86: Make event injection VCPU requests per-plane
+* [PATCH 49/60] kvm: x86: Allow hardware backend to overwrite struct kvm_plane allocation
+* [PATCH 50/60] kvm: x86: Make KVM_REQ_UPDATE_PROTECTED_GUEST_STATE per plane
+* [PATCH 51/60] kvm: x86: Share pio_data across planes
+* [PATCH 52/60] kvm: x86: Switch to plane0 if it has events
+* [PATCH 53/60] kvm: x86: Introduce max_planes x86-op
+* [PATCH 54/60] kvm: x86: Restrict KVM planes support to KVM_IRQCHIP_SPLIT
+* [PATCH 55/60] kvm: svm: Track vmsa_features per plane
+* [PATCH 56/60] kvm: svm: Implement GET_AP_APIC_IDS NAE event
+* [PATCH 57/60] kvm: sev: Allow for VMPL level specification in AP create
+* [PATCH 58/60] kvm: svm: Invoke a specified VMPL level VMSA for the vCPU
+* [PATCH 59/60] kvm: svm: Implement max_planes x86 operation
+* [PATCH 60/60] kvm: svm: Advertise full multi-VMPL support to the SNP guest
 
-> Anyway, I am happy to make changes here, also based on input from the VSM=
- side.
+and found the following issue:
+WARNING in __kvm_plane_ioctl
 
-Related to this, let me know if you want me to pick up again the
-common part, especially with Sashiko being hard at work on it.
+Full report is available here:
+https://ci.syzbot.org/series/7426b4e7-e1df-4f2e-8464-acda36316e29
 
-> > Did you drop it because it didn't work, or just for simplicity?
->
-> The user-space scheduling worked, my 6.17 planes implementation used it. =
-But
-> there are some problems with it going forward, because TDX Partitioning (=
-and
-> likely ARM CCA Planes as well) do not allow arbitrary switches forced by =
-the
-> hypervisor. All they allow is a forced switch to the highest privileged p=
-lane,
-> the SVSM on SNP will force the same constraints by making lower-privilege=
- VMSAs
-> not-runnable when it executes.
+***
 
-The idea of the userspace scheduling was that you're not forced to use
-it - the kernel can always choose to override it if it's using an
-accelerated implementation of planes (and of plane switching). But it
-also leaves some leeway to different accelerated implementations, each
-of which can pick their own algorithm.
+WARNING in __kvm_plane_ioctl
 
-Conceptually I'd rather keep the possibility of userspace scheduling.
-But maybe it doesn't add much.
+tree:      torvalds
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
+base:      2d3090a8aeb596a26935db0955d46c9a5db5c6ce
+arch:      amd64
+compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+config:    https://ci.syzbot.org/builds/f9f7af87-a544-413f-b7e0-662f92794f11/config
+syz repro: https://ci.syzbot.org/findings/751865bf-494c-4000-9b11-d8aa15f03893/syz_repro
 
-Paolo
+------------[ cut here ]------------
+r == -EBUSY
+WARNING: arch/x86/kvm/../../../virt/kvm/kvm_main.c:4412 at kvm_plane_ioctl_create_vcpu virt/kvm/kvm_main.c:4412 [inline], CPU#1: syz.2.19/5809
+WARNING: arch/x86/kvm/../../../virt/kvm/kvm_main.c:4412 at __kvm_plane_ioctl+0x8bd/0xa70 virt/kvm/kvm_main.c:4908, CPU#1: syz.2.19/5809
+Modules linked in:
+CPU: 1 UID: 0 PID: 5809 Comm: syz.2.19 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:kvm_plane_ioctl_create_vcpu virt/kvm/kvm_main.c:4412 [inline]
+RIP: 0010:__kvm_plane_ioctl+0x8bd/0xa70 virt/kvm/kvm_main.c:4908
+Code: e8 c8 0a 09 00 4c 89 f7 e8 80 a3 ff ff 48 8b 3d a9 a8 fd 11 4c 89 f6 e8 c1 35 e7 00 49 63 c7 e9 8c fc ff ff e8 94 2f 87 00 90 <0f> 0b 90 41 bf f0 ff ff ff eb bc e8 e3 eb 68 0a 89 f9 80 e1 07 80
+RSP: 0018:ffffc9000318f940 EFLAGS: 00010293
+RAX: ffffffff813f480c RBX: ffff8881ba113410 RCX: ffff88810d4f4a80
+RDX: 0000000000000000 RSI: ffffffff8e6fa0b0 RDI: 00000000fffffff0
+RBP: ffffc9000318fa70 R08: ffff88810d4f4a80 R09: 0000000000000002
+R10: 00000000fffffff0 R11: 0000000000000000 R12: 1ffff92000631f34
+R13: dffffc0000000000 R14: ffff8881b446cb18 R15: 00000000fffffff0
+FS:  00007f13e64ad6c0(0000) GS:ffff8882a929c000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f13e64acff8 CR3: 00000001a6053000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ kvm_vm_ioctl+0x88e/0xbf0 virt/kvm/kvm_main.c:5546
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f13e559ce59
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f13e64ad028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f13e5816090 RCX: 00007f13e559ce59
+RDX: 0000000000000000 RSI: 000000000000ae41 RDI: 0000000000000004
+RBP: 00007f13e5632d6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f13e5816128 R14: 00007f13e5816090 R15: 00007fff90c39748
+ </TASK>
 
-> So exposing an interface for user-space to chose which plane to run does =
-seem
-> to gain some weird, platform dependent semantics going forward. TDX and C=
-CA
-> also require in-kernel switching as they can switch planes without a VMEX=
-IT, so
-> I decided to have it from the start.
->
->
-> -Joerg
->
 
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+
+To test a patch for this bug, please reply with `#syz test`
+(should be on a separate line).
+
+The patch should be attached to the email.
+Note: arguments like custom git repos and branches are not supported.
