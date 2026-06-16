@@ -1,14 +1,14 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BD27331EBF
-	for <coconut-svsm@lists.linux.dev>; Mon, 15 Jun 2026 15:12:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 728A945BD6F;
+	Tue, 16 Jun 2026 16:10:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781536324; cv=none; b=S07sF3+qsynKikC5fNKlba2e6ZlFcQv6WTnHu9ODglizLu3MvE2GBE0oyiOEIzlTsZyvFo2yOiruwD6QP5BvrIXL/YAtgQDqJ51canoZI8K2J1oawlfplkVlTjV8gdWYPn1MEO0pIqxzjdRDW/5CkZABNKq8oBR4yHC5I37RPBA=
+	t=1781626228; cv=none; b=s/rBcLipONqPf+8d7eBR9k5tfrLo6bnlehazxcuX4oOpjq0RWy4AYKDK/xZr+ubuCVp1ocuHkjNZc94K98yJJgzfErWnMtF1yLGV/O+4zhh68OQWy1ZsSk/ZeFnOa3+QwFSWv4luoTq2/LH9gfMHwLYeiPq2KtlFWCxoU6yczNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781536324; c=relaxed/simple;
-	bh=v7TF+sifwWP4TAcwv4/1xzi61ZwYcTHqMev11uJRnSA=;
+	s=arc-20240116; t=1781626228; c=relaxed/simple;
+	bh=aTy8W7SgWTy9MJdjHu3wk/HtiWHlpjo1ZfaA7EhmecI=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GAoyXzmViSrodO/y7zHi3SfiQffmxjd/ASk4royS7qzfYZV4tAz5mWD0d7XuiRvDtogcp2Y/TosMOTbjruGn0YF+qwc5W0Kwdojf+dj20ZM4UvXpzeN9FCdHFrI0PtIwbeV0HgBO6+WDY99xRryNrOxaT5AXRbs/JmK1PNS+KFc=
+	 Content-Disposition; b=MuGc4gxTmJYmorjTcbOLCtJRA0p1AKa7CsfUDKcp3lLNoYUFXI2WHXWEu6cC3dTZAGtkl3ZX62FkPlhi1IcNDAGxeS/tFGIxeKNEG2yDfFb1UbgDgPrhb/h8+ebGR58guFZSLkbAt7bt6CDRltzm9vAsHCLMtUm6whzvZLkMJSM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
@@ -16,13 +16,13 @@ Received: from 8bytes.org (p4ffe1d30.dip0.t-ipconnect.de [79.254.29.48])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 8B7E5201C37
-	for <coconut-svsm@lists.linux.dev>; Mon, 15 Jun 2026 17:11:55 +0200 (CEST)
-Date: Mon, 15 Jun 2026 17:11:54 +0200
+	by mail.8bytes.org (Postfix) with ESMTPSA id D18B8201DF1;
+	Tue, 16 Jun 2026 18:10:18 +0200 (CEST)
+Date: Tue, 16 Jun 2026 18:10:17 +0200
 From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-To: coconut-svsm@lists.linux.dev
-Subject: KVM Planes Branches
-Message-ID: <ajATgJlCiOvKbCr4@8bytes.org>
+To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
+Subject: SVSM Development Call June 17th, 2026
+Message-ID: <ajF1XEHc42IG07Qw@8bytes.org>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
@@ -33,35 +33,23 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-Hi all,
+Hi,
 
-Now that Linux 7.1 is out the door I rebased the KVM planes patches and
-prepared the updates for our downstream Linux kernel and QEMU branches.
+Here is the call for agenda items for this weeks SVSM development call.  Please
+send any agenda items you have in mind as a reply to this email or raise them
+in the meeting.
 
-For now I pushed the updates to separate branches for everyone to do some final
-testing. Later this week I will update the svsm (Linux) and svsm-igvm (QEMU)
-branches which our documentation points to.
+We will use the LF Zoom instance. Details of the meeting  can be found in our
+governance repository at:
 
-The code is here:
+	https://github.com/coconut-svsm/governance
 
-	Linux: https://github.com/coconut-svsm/linux/tree/svsm-v7.1
+The link to the COCONUT-SVSM calendar is:
 
-	QEMU: https://github.com/coconut-svsm/qemu/tree/svsm-igvm-linux-v7.1
+	https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=week
 
-Besides the KVM planes support these branches also include the patches to
-support direct VMSA setting from the IGVM file, so if you run test-in-svsm with
-these branches the launch measrement should be correct.
+The meeting will be recorded and the recording eventually published.
 
-Note that there are slight changes to the QEMU command line required. The
--machine specification needs to additional properties:
-
-	kernel-irqchip=split,device-plane=2
-
-Without either QEMU will not initialize or the Linux guest will get stuck
-during boot.
-
-So please give the changes a final test and report any issues.
-
-Thanks,
+Regards,
 
 	Jörg
