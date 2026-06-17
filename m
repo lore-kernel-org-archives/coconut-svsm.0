@@ -1,96 +1,88 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8818039E191
-	for <coconut-svsm@lists.linux.dev>; Wed, 17 Jun 2026 13:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7882C15A0
+	for <coconut-svsm@lists.linux.dev>; Wed, 17 Jun 2026 13:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781703475; cv=none; b=mbHlfML0y7nVj3rOVSYXABePiw/CDYz13BWOA2MADJjamgN+fwK0i6XdkANdaE+rF0fH+j1jezLKYv14DfKRDboJlLVvcmhUh9e1C1OLAJsdWVNvvEdkmde/7WaP150eoFqQt9bqDom8bt3lkdGgbGjbtA0O5t/v3X+KqJ8Qp3Q=
+	t=1781703952; cv=none; b=ad5C21rz+XDik/P3XlhmD4iLRP+VCVc+QgkJfKgDcaQPUlQgxZR23/4/pfi8D7PcrglNjqSrbpkH074jydhg7Gzz7Wpq1+CGabo2uY3wbwrhGtlf7IP2VSxEQB7Pf7xiRGnxD5Mqlke6Dc/Jpw+LJI2DqzUZkcQKpev8u9rZ/fY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781703475; c=relaxed/simple;
-	bh=7jvheL/qAmaTTHS5xK+l/tVp5Gsh72Hu0Hh7hsIjBG4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=XgvLY1oYTvAUqRHMsoYCtO+JZaUEFQnIBElHTzvjKcXuL+73PgsjUsU6rEWgkwMOVPK01JSXmkkllt20ArQK9UAl7oZbxaR+YXIoYNBsPIq6uOQ14aJoEawjono+Y5K9OJcLGdDB9/iidzn2ZCk3trS8VCcuWKecAp2m9/npEPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cQdFMVKb; arc=none smtp.client-ip=209.85.215.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1781703952; c=relaxed/simple;
+	bh=GHbpxhI4ZgYxcZb8FC0vm3p/f6kLT6E2UkZVwM3g9Nk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=THY7R4rOJKn2JRuKDIETVQu9+lje2RFvOaeK9JDBeuevo5PRSX7AVMHghnniWX/7JmiluGiFeyepxgwFsUan2TVUAFR4K3yBTdLH8vnZ4ao0X1n81h7Ej4orNMk+oF9QA0gSKfsSOHlCXoawJUPl6escDreAv/Lbdkub1AWWNlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=f/UIGDWZ; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cQdFMVKb"
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c85edbb10dfso661502a12.0
-        for <coconut-svsm@lists.linux.dev>; Wed, 17 Jun 2026 06:37:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781703474; x=1782308274; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xafrOaxeWuRZe0/2sgztMbGOHrwrXJkZEqKtZ2nD9W4=;
-        b=cQdFMVKbmHC+2mk4K96+hh8mJKykDWPSpXI80VVotbR+Wh6BKkgW7v8QdKPQNHy9YJ
-         Ve7BbC9hJevHeNeIeL7aRYk0agpn1Ib72YTdUY+DzkLtS1r7qr5Gdil5d6ay/H9aobg8
-         /X+DmtrH4n9TQ7utjbgmR2ipViT7BCpGR2iyjqKi4rjSQilx96xLcSppsS4YmidlCI4Q
-         quuJpwlGHdrJ+JW+kIcV7j6WwV3D/3n4GwhBkUkjmJOdz2+RqY6xKIZdfRwmbJ/2pqOv
-         zSydzeHC0kE40ChDOflR0NzWbkHQaHXD9fEVMP6cqJjDhBs78A35sC9luZqIyFv9E/vi
-         +gUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781703474; x=1782308274;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xafrOaxeWuRZe0/2sgztMbGOHrwrXJkZEqKtZ2nD9W4=;
-        b=KF45zeplmv6/c4gCscYf6FivbeNqcTU0kvl25X2PypJ/XhjGxi7WcjRhrFrDXYvMvX
-         iqy2rY0vgoR0H3RNKQ5T45ckOkH+1z4EyuXuYSL/HiHLpw37JEIMLw4XvLhWYaHTpqqu
-         Zg4aFPxzTxxb25FNZdi21ehOJaM6XembxHi5313SEuOiub+xX57vY40y4vd36xZcZ8pC
-         MEDEr/gOjsOGeYoCXfezsqDnZkc3KwD1hi+NhZ5Qta+tSolryhlXbu4cJBlDVcf6qzXt
-         ncV703SlcBVDXbpMVG3u8rYxco0sAnC59NNBGDR75WaCfy9HJNZjJ314BtpcJaoROEy+
-         aBOQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+sKaemG3H7uOORhVLmwtjrodp9pQjPg35SzUD9sk+XaPc/Ctl53gmY6PnimKyHVhURpEJ3Ldadpx2IgW4=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJ2hnR2VmOS7Mksm55yuHhLgTzQE595+1QsCDrRPDjrtjzFX4A
-	9KC+gbrEDpT7VT45Gg+KP836HwLitxN4K/3GNR78JpL30b6W0i30hEDGentZhoTQsLrzY97k+AN
-	cz+gSow==
-X-Received: from pgbcr2.prod.google.com ([2002:a05:6a02:4102:b0:c86:93b:4965])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:4307:b0:3b4:731e:6fad
- with SMTP id adf61e73a8af0-3b8db0d66bbmr3049921637.16.1781703473551; Wed, 17
- Jun 2026 06:37:53 -0700 (PDT)
-Date: Wed, 17 Jun 2026 06:37:52 -0700
-In-Reply-To: <ajKe-oboTRowcO_i@8bytes.org>
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="f/UIGDWZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1781703947;
+	bh=GHbpxhI4ZgYxcZb8FC0vm3p/f6kLT6E2UkZVwM3g9Nk=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=f/UIGDWZzfoVhtISo6NYM906z0Z4jkqBt2xb7bu82dXkBbfMemfnap+QZmSpYnZnM
+	 DpLJqEkLsHLe7RbADGflgzOXorZ8vd6Vj3SFV2o/atQ+36QngZv9H7Ldlg+srMu1DF
+	 POIqSmPcREL7d0R1+KajfxM6o2LALJjqsMSXz72U=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4300:d341::8c71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 65BFA1C0050;
+	Wed, 17 Jun 2026 09:45:47 -0400 (EDT)
+Message-ID: <ce27a795148335f50cd7f11a0f24da8b63f751a9.camel@HansenPartnership.com>
+Subject: Re: [PATCH 4/4] kvm: svm: Support KVM_SEV_SNP_PAGE_TYPE_VMSA at
+ SNP_LAUNCH_UPDATE
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: =?ISO-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
+Cc: Sean Christopherson <seanjc@google.com>, Paolo Bonzini
+ <pbonzini@redhat.com>,  x86@kernel.org, Tom Lendacky
+ <thomas.lendacky@amd.com>, Michael Roth <michael.roth@amd.com>,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ coconut-svsm@lists.linux.dev, Joerg Roedel <joerg.roedel@amd.com>, Jethro
+ Beekman <jethro@fortanix.com>
+Date: Wed, 17 Jun 2026 09:45:46 -0400
+In-Reply-To: <ajKgbpVpMMP2a5nG@8bytes.org>
+References: <20260611123528.572255-1-joro@8bytes.org>
+	 <20260611123528.572255-5-joro@8bytes.org> <aiqtWVMqTK6vDoZ8@google.com>
+	 <aiqwjn2DVOumfr3T@8bytes.org> <ajGOELiYwKByXbVP@google.com>
+	 <ajJAYZAPxNrrsiYp@8bytes.org>
+	 <64383a438eb79a30588f2737a6df84f9d4cd5b7d.camel@HansenPartnership.com>
+	 <ajKgbpVpMMP2a5nG@8bytes.org>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260611123528.572255-1-joro@8bytes.org> <20260611123528.572255-5-joro@8bytes.org>
- <aiqtWVMqTK6vDoZ8@google.com> <aiqwjn2DVOumfr3T@8bytes.org>
- <ajGOELiYwKByXbVP@google.com> <ajJAYZAPxNrrsiYp@8bytes.org>
- <ajKadxZEMI253AoT@google.com> <ajKe-oboTRowcO_i@8bytes.org>
-Message-ID: <ajKjMIBb21qB46fh@google.com>
-Subject: Re: [PATCH 4/4] kvm: svm: Support KVM_SEV_SNP_PAGE_TYPE_VMSA at SNP_LAUNCH_UPDATE
-From: Sean Christopherson <seanjc@google.com>
-To: "=?utf-8?B?SsO2cmcgUsO2ZGVs?=" <joro@8bytes.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, x86@kernel.org, 
-	Tom Lendacky <thomas.lendacky@amd.com>, Michael Roth <michael.roth@amd.com>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, coconut-svsm@lists.linux.dev, 
-	Joerg Roedel <joerg.roedel@amd.com>, Jethro Beekman <jethro@fortanix.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 
-On Wed, Jun 17, 2026, J=C3=B6rg R=C3=B6del wrote:
-> On Wed, Jun 17, 2026 at 06:00:39AM -0700, Sean Christopherson wrote:
-> > On Wed, Jun 17, 2026, J=C3=B6rg R=C3=B6del wrote:
-> > > (which has happened a couple of times already).
-> >=20
-> > Examples?  The SEV features thing jumps to mind, but I don't recall any=
- others
-> > off the top of my head.
+On Wed, 2026-06-17 at 15:28 +0200, J=C3=B6rg R=C3=B6del wrote:
+> Hi James,
 >=20
-> I was referring to KVM-induced changes to SEV features, but thought this
-> happened more than once?
+> On Wed, Jun 17, 2026 at 09:18:14AM -0400, James Bottomley wrote:
+> > That's true for the launch measure, but you do have a vTPM inside
+> > the SVSM which you could use to measure an updated GHCB if we could
+> > decide on a PCR to use (and a logging specification).
+>=20
+> I guess you mean an updated VMSA? The guest-created VMSAs are trusted
+> because they are created by trusted code from within the TEE. There
+> is no need to runtime-measure their content, no?
 
-Ok, so it took us a few times to learn our lesson.  I still don't see that =
-as a
-strong argument for new uAPI, especially not for VMSA pages.  I am very fir=
-mly
-of the opinion that letting anything but the host kernel configure the VMSA=
- is
-beyond stupid, but unfortunately we're stuck with AP_CREATION.  Expanding t=
-hat
-surface has a very, very, VERY high bar to get over.
+Well if the guest policy is I don't care how many CPUs you give me then
+certainly, yes.  However, if the guest does care, they may want an
+attestable record of it somewhere.  Since clouds do charge somewhat
+per-vCPU I can see this mattering to some tenants.
+
+Regards,
+
+James
+
