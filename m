@@ -1,266 +1,159 @@
 Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E0B1DE4FB
-	for <coconut-svsm@lists.linux.dev>; Tue, 23 Jun 2026 21:29:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C7B3A8721
+	for <coconut-svsm@lists.linux.dev>; Tue, 23 Jun 2026 21:43:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782250144; cv=none; b=SC6GfP6owB5Nmj2S/TBn5nbMdmjjHk71XNETWu/lfeJS1rXUAwdbQbOyBlDTPpR9+4V3aqk7ZXmhhSX/fRw66xM3HVCxIEDushsm/3DGbLh12uudgNbwEgn1koKknpdBOmdEyw2e0IvP4ru14Wm/ImCThjVSQblfnB+/zTOegGY=
+	t=1782251013; cv=none; b=YXIlYOHOCY/7VybRTWhICVy3tIOILGtZg5rAw4B6GEgt0f0XlI8vgZqal1YVxNLkhMVN0uDacor5zUjJO0FqYyMlDuioGUPmeQYEJ+sRC4pM4F3UBuhKNt2oxEqJf8iQSeWudhIiTftLPfrW/IwG7ZbhbjfS4S3e2af0AvwTr4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782250144; c=relaxed/simple;
-	bh=3cQMzhfg+25nxUHNtM7RtBNw+Rwmo7PzddlXDBN8VX8=;
+	s=arc-20240116; t=1782251013; c=relaxed/simple;
+	bh=KYkOXRc6PtHkDuTF07+UlSONzn0N44Bv/OO52rl5wU4=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=drLs3k9ue0BbrrdbIGYZiV8gYDf2zm4rhckFu+lwsIXB2LAzkHBEvZmc5fmuJSdn6OWDrEv8bsUW7qIPHL+E8wWkS+apEFR6wmhTG+BCQSVbh3goUST6wkM7ej3fyhOmJhHlOEM6H0QfM3lR57U0vo3Sgun6C2d99BQLgm+vGB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EX9XgrvR; arc=none smtp.client-ip=209.85.210.201
+	 To:Cc:Content-Type; b=C9ybaXOz8mNaKU3E0TXmSr140S9YHJ9t3k7ARmqTd56utZ+2FrqosEuPNVKvjsI+e5lE3xpRbfPwDC6azhBgIo/hmvhZrBVy0Lyzd3IgMAPdXm57+4cvk4sjftIPQJsVMpie2QUBzWJHPrDeXuKej/OG1F8nHZt1k0BAsiki7I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Qoe2f40E; arc=none smtp.client-ip=209.85.210.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EX9XgrvR"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-8423f1fe39eso424653b3a.1
-        for <coconut-svsm@lists.linux.dev>; Tue, 23 Jun 2026 14:29:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Qoe2f40E"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-8453a81b846so483465b3a.2
+        for <coconut-svsm@lists.linux.dev>; Tue, 23 Jun 2026 14:43:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782250143; x=1782854943; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1782251011; x=1782855811; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jkKWV5gdIkZ54834rDAP307RtZTIdKimOOX+hiOYKSU=;
-        b=EX9XgrvRskP0Vwp1gNUN4op4QnLAq8g3ykyhl7KUlUa+HtpHVrxTRbNt4TJ9Lo278+
-         mpDYz19YAOmWFKaXX+wwc6nLRRP97cqZpF+bfOEk2zqqeGSwIEePXyJKaLuea1cIAL5p
-         aK4aaPDaAcbR9R9JSwE2zggF3x5xR+TcHFL1ejbHCvRE3ePpCWJrBFvxe70GobHRdpIT
-         n10Xhc1Dg2hCuJtL2xrxgrIuOpuSE/Rbj9ONTpZ1qJCqQwRjYOG7iAssMaOSNif3ZUI+
-         nxQWFjHZcd3cfQZ6NzF5TecHvGGyq1Cj36iKAQh6ZzK/eZAojMNs3Vp/9rtO8xoRzmnd
-         Lc3w==
+        bh=+BoYHhvq061mNBm0pBIKHfokYEtu2W0R/oyRcYiSNgQ=;
+        b=Qoe2f40Eqj/xsuHU1ZAegwKw/8jEzKWftU91mjE7ax+GzCUiebiZhaGfNKdsgOhEBH
+         Ao9wyyFeR4PJ2F379c3ezHMrexLREb7mP79aCOKqxScCW65nsiiS1MbeFh3eBzB6m80u
+         8ONmNxKzwkCQXc0pSF/D7rP0H2Q9oK4KE9OukpH0NDJKuEnyv/3C1A0LWDjXJvYLwFeG
+         sOe/kzNTcgZku8TBK/3tFss9pcZPlFtl5zCbz6y+ixY4CpM617iKjG7sUc+a/9uSBrIm
+         w/sLVIUIhs2q/puekv9SATPBm4C8uwSv8SHY58/jeM7zWgKGlijQnoi9EbrMI4vhEowG
+         lMow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782250143; x=1782854943;
+        d=1e100.net; s=20251104; t=1782251011; x=1782855811;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=jkKWV5gdIkZ54834rDAP307RtZTIdKimOOX+hiOYKSU=;
-        b=MyYmw9ixdc9CM6cvPqcjviz2LCxPPqCz2pwwSbdOM6lTB7ml0+sLNyv1pPdJDXQiAe
-         MqBAH21yGiQeQrMYZ5/yERLy36dGuryAnz7XEBQRK4khAKentm3q6MHA4JACrXfKH8yZ
-         ysdF3VYGCz3BS2RxRJn8dPwkUSYzkX3yNYZMFRwMTVI46yNNJOdgqNynppnZHUyxc/Or
-         w7EJYh7oEsmGa/mrNSrjAUdr0u0rBeMg7tmshNqHEKlW0rJw0dLxCmaCtvosxf1CVeyz
-         DwsfeXjhadjxzaJltHJash71QvbG0pqykmsKtMMbWkTOE+UCFYVl5v2V0aftVTWNMzNp
-         wuSQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+cPareld9bUDHNHZdD4hdikjcxNIjqdfljdBcsEqhM6oRuitFkBIddwixvE639H9qJXrpNKr5akgJfR1g=@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywr/PrJ8URKgPcvD+9dBc0hV82asSK3x84vARxr/ZXLXtjA1Z8r
-	IhOOL9E7nfDboJtUxX91lYXeeJKPDNXy6yBisi/dn7Ze2HDc4WtBjuKknEx/1o/b8Q0mlcAGTkL
-	u2FkfSw==
-X-Received: from pfbjt37.prod.google.com ([2002:a05:6a00:91e5:b0:842:6be9:dfb1])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:b4a:b0:843:49f0:f5a0
- with SMTP id d2e1a72fcca58-845a2caa198mr862492b3a.32.1782250142206; Tue, 23
- Jun 2026 14:29:02 -0700 (PDT)
-Date: Tue, 23 Jun 2026 14:29:01 -0700
-In-Reply-To: <20260611123528.572255-5-joro@8bytes.org>
+        bh=+BoYHhvq061mNBm0pBIKHfokYEtu2W0R/oyRcYiSNgQ=;
+        b=SMaQbt9y/W330XnRIDQ4Dq9PsSDEPuaRjZ9eiY2AMgc8fd5erenDwYq64wckJIaVC9
+         qpvvopI++jlnVGlVkLYnHx+XtoEDqYOWTxbqIgfvmL4yf7fmc6EVHCb3GPqfQrqfrmA6
+         SrznfB6LCGiNccJgpT+75gv06JEi37CRMyYikrPtrHrl+gWzD8dxv1bLz9PdOHg2iLqG
+         Nk6GYZmhQSz1DeF3SoptQ2GXMq+nQmByn+xu4iYDL/tQCZtiRKqnTuxTHFJ5tnMn1k6l
+         9Py8Fah7yDSJ1Gwf4G1YxJv020b2Plp/wCEdsWFP7JEAHYm6oPvXa9VfW+HGmC8Yj5sB
+         jW0w==
+X-Forwarded-Encrypted: i=1; AFNElJ+I9LhR6VVBZhIwXgwaW2KMY54NvhrmMfUh5w4q8SUHy68/QFwz7hfkGSAlmF+0G7G3+YyuUR0ifrzQiG4=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUXBXF+3ShTQ1KjIpOd2zGp8INvLGWLmyaROug+f9GK0jAdF87
+	a2YSmU2z5Zo2r4odr7jJjJVqo7QkxTu2P/FGSTZczM/Ang7C4y1ddDRcSU014mbBwxBrap9hTsI
+	BOs2CpQ==
+X-Received: from pfnj18.prod.google.com ([2002:aa7:83d2:0:b0:845:47bc:59e8])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:39a4:b0:842:1052:5fe7
+ with SMTP id d2e1a72fcca58-845a26a23c9mr1038347b3a.6.1782251011259; Tue, 23
+ Jun 2026 14:43:31 -0700 (PDT)
+Date: Tue, 23 Jun 2026 14:43:30 -0700
+In-Reply-To: <0657500d-a8bd-4dec-80a5-807e857a4306@fortanix.com>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-References: <20260611123528.572255-1-joro@8bytes.org> <20260611123528.572255-5-joro@8bytes.org>
-Message-ID: <ajr6nW11Ss9IP4gp@google.com>
-Subject: Re: [PATCH 4/4] kvm: svm: Support KVM_SEV_SNP_PAGE_TYPE_VMSA at SNP_LAUNCH_UPDATE
+References: <aiqwjn2DVOumfr3T@8bytes.org> <ajGOELiYwKByXbVP@google.com>
+ <ajJAYZAPxNrrsiYp@8bytes.org> <ajKadxZEMI253AoT@google.com>
+ <ajKe-oboTRowcO_i@8bytes.org> <ajKjMIBb21qB46fh@google.com>
+ <ajKnKeo1FV3zbjEt@8bytes.org> <ajqMvQLMGONiLn1S@google.com>
+ <LV0PR21MB6859D1AEF99FB84228C23620CAEE2@LV0PR21MB6859.namprd21.prod.outlook.com>
+ <0657500d-a8bd-4dec-80a5-807e857a4306@fortanix.com>
+Message-ID: <ajr-AigoW2cJY5k3@google.com>
+Subject: Re: [EXTERNAL] Re: [PATCH 4/4] kvm: svm: Support KVM_SEV_SNP_PAGE_TYPE_VMSA
+ at SNP_LAUNCH_UPDATE
 From: Sean Christopherson <seanjc@google.com>
-To: "=?utf-8?B?SsO2cmcgUsO2ZGVs?=" <joro@8bytes.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, x86@kernel.org, 
-	Tom Lendacky <thomas.lendacky@amd.com>, Michael Roth <michael.roth@amd.com>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, coconut-svsm@lists.linux.dev, 
-	Joerg Roedel <joerg.roedel@amd.com>
+To: Jethro Beekman <jethro@fortanix.com>
+Cc: Jon Lange <jlange@microsoft.com>, "=?utf-8?B?SsO2cmcgUsO2ZGVs?=" <joro@8bytes.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"thomas.lendacky" <thomas.lendacky@amd.com>, Michael Roth <michael.roth@amd.com>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"coconut-svsm@lists.linux.dev" <coconut-svsm@lists.linux.dev>, Joerg Roedel <joerg.roedel@amd.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 11, 2026, J=C3=B6rg R=C3=B6del wrote:
-> From: Joerg Roedel <joerg.roedel@amd.com>
+On Tue, Jun 23, 2026, Jethro Beekman wrote:
+> On 2026-06-23 16:51, Jon Lange wrote:
+> > On Tuesday, June 23, 2026 6:40 AM, Sean Christopherson wrote:
+> >> On Wed, Jun 17, 2026, J=C3=B6rg R=C3=B6del wrote:
+> >>> On Wed, Jun 17, 2026 at 06:37:52AM -0700, Sean Christopherson wrote:
+> >>>> Ok, so it took us a few times to learn our lesson.  I still don't se=
+e that as a
+> >>>> strong argument for new uAPI, especially not for VMSA pages.  I am v=
+ery firmly
+> >>>> of the opinion that letting anything but the host kernel configure t=
+he VMSA is
+> >>>> beyond stupid, but unfortunately we're stuck with AP_CREATION.  Expa=
+nding that
+> >>>> surface has a very, very, VERY high bar to get over.
+> >>>
+> >>> The strongest argument in my view (and the main reason we are doing t=
+his) is
+> >>> actually the predictable launch measurement. On SEV-SNP this is a req=
+uirement
+> >>> to use platform VM-identity features like the ID Block.
+> >>
+> >> And I'm saying that unless KVM *can't* provide a predictable launch me=
+asurement,
+> >> which AIUI isn't the case, then the launch measurement *must* be stabl=
+e across
+> >> kernels because it's part of KVM's ABI.  So as I see it, the issue isn=
+'t that
+> >> KVM is inherently unpredictable, it's that we lack tests to validate a=
+ thorny,
+> >> subtle piece of KVM's ABI.
+> >=20
+> > Joerg is suggesting that we need a launch measurement that is stable no=
+t
+> > just across multiple launches on the same system, but across multiple
+> > hypervisors.
 >=20
-> Support setting a VMSA in guest physical memory during the SEV-SNP
-> launch process. Only one VMSA can be provided which will then be used
-> for the BSP. All of the APs will not have a VMSA allocated or assigned
-> when this feature is used.
->=20
-> This ensures stable launch measurements on SEV-SNP which are
-> independent of the number of VCPUs the VM is launched with.
->=20
-> Signed-off-by: Joerg Roedel <joerg.roedel@amd.com>
-> ---
->  arch/x86/include/uapi/asm/kvm.h |  1 +
->  arch/x86/kvm/svm/sev.c          | 44 ++++++++++++++++++++++++++++++++-
->  arch/x86/kvm/x86.c              |  1 +
->  include/uapi/linux/kvm.h        |  1 +
->  4 files changed, 46 insertions(+), 1 deletion(-)
->=20
-> diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/=
-kvm.h
-> index 5f2b30d0405c..fc87a5ba295b 100644
-> --- a/arch/x86/include/uapi/asm/kvm.h
-> +++ b/arch/x86/include/uapi/asm/kvm.h
-> @@ -885,6 +885,7 @@ struct kvm_sev_snp_launch_start {
->  /* Kept in sync with firmware values for simplicity. */
->  #define KVM_SEV_PAGE_TYPE_INVALID		0x0
->  #define KVM_SEV_SNP_PAGE_TYPE_NORMAL		0x1
-> +#define KVM_SEV_SNP_PAGE_TYPE_VMSA		0x2
->  #define KVM_SEV_SNP_PAGE_TYPE_ZERO		0x3
->  #define KVM_SEV_SNP_PAGE_TYPE_UNMEASURED	0x4
->  #define KVM_SEV_SNP_PAGE_TYPE_SECRETS		0x5
-> diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
-> index 88db83b3ff8e..90399d5d0358 100644
-> --- a/arch/x86/kvm/svm/sev.c
-> +++ b/arch/x86/kvm/svm/sev.c
-> @@ -2520,6 +2520,20 @@ static int snp_launch_start(struct kvm *kvm, struc=
-t kvm_sev_cmd *argp)
->  	return rc;
->  }
-> =20
-> +static bool snp_check_launch_vmsa(struct kvm_sev_info *sev,
-> +				  struct sev_es_save_area *vmsa)
-> +{
-> +	/* VMSA sev_features must match VMs vmsa_features */
-> +	if (vmsa->sev_features !=3D sev->vmsa_features)
-> +		return false;
-> +
-> +	/* Must always boot from VMPL0 */
+> If this is now suddenly an acceptable argument, please also merge https:/=
+/lkml.org/lkml/2021/4/12/625
 
-Why?
+No, that's not how this works.  Dave and Jarkko both have unanswered questi=
+ons
+regarding the use case.  Answer their questions, and I'm confident you'll g=
+et
+traction.
 
-> +	if (vmsa->vmpl !=3D 0)
-> +		return false;
-> +
-> +	return true;
-> +}
-> +
->  struct sev_gmem_populate_args {
->  	__u8 type;
->  	int sev_fd;
-> @@ -2532,7 +2546,9 @@ static int sev_gmem_post_populate(struct kvm *kvm, =
-gfn_t gfn, kvm_pfn_t pfn,
->  	struct sev_gmem_populate_args *sev_populate_args =3D opaque;
->  	struct sev_data_snp_launch_update fw_args =3D {0};
->  	struct kvm_sev_info *sev =3D to_kvm_sev_info(kvm);
-> +	gpa_t gpa =3D gfn << PAGE_SHIFT;
->  	bool assigned =3D false;
-> +	u64 sev_features =3D 0;
->  	int level;
->  	int ret;
-> =20
-> @@ -2550,14 +2566,27 @@ static int sev_gmem_post_populate(struct kvm *kvm=
-, gfn_t gfn, kvm_pfn_t pfn,
->  	if (src_page) {
->  		void *src_vaddr =3D kmap_local_page(src_page);
->  		void *dst_vaddr =3D kmap_local_pfn(pfn);
-> +		struct sev_es_save_area *vmsa =3D dst_vaddr;
-> +		bool accept_page =3D true;
-> =20
->  		memcpy(dst_vaddr, src_vaddr, PAGE_SIZE);
-> =20
-> +		if (sev_populate_args->type =3D=3D KVM_SEV_SNP_PAGE_TYPE_VMSA) {
-> +			accept_page =3D snp_check_launch_vmsa(sev, vmsa);
+ : I don't believe we necessarily *WANT* or need Linux to support "all
+ : possible ECREATE, EADD, EEXTEND, EINIT sequences".  Yet, it's what is
+ : being used to justify this series without any other justification.
+ :=20
+ : It's going to be a different story if you bring me a real enclave that
+ : *REALLY* wants to do this for good reasons.
 
-Isn't this technically a breaking change?  AFAICT, nothing prevents userspa=
-ce
-from adding a VMSA page today.  Ah, never mind, snp_launch_update() does th=
-e
-check.
-
-Anyways, given that SVM_VMGEXIT_AP_CREATE doesn't check the actual memory, =
 and
-that control.allowed_sev_features is what provides the "real" protection, I=
- would
-rather either trust userspace to not screw up (first choice), or have users=
-pace
-provide the requested features as a param to the ioctl (second choice, beca=
-use
-it's purely a nice-to-have for userspace).
 
-Then, assuming we don't *need* to enforce the VMPL0 thing, there's no need =
-to
-modify sev_gmem_post_populate().  I.e. decouple adding VMSA page(s) to the =
-image
-from associating a vCPU with a VMSA.
+ : What specifically are you referring as the "rest of the world"?
+ :=20
+ : That would be mean that there is reviewable workload "out there".
 
-> +			if (accept_page)
-> +				sev_features =3D vmsa->sev_features;
-> +		}
-> +
->  		kunmap_local(src_vaddr);
->  		kunmap_local(dst_vaddr);
-> +
-> +		if (!accept_page) {
-> +			ret =3D -EINVAL;
-> +			goto out;
-> +		}
->  	}
-> =20
-> -	ret =3D rmp_make_private(pfn, gfn << PAGE_SHIFT, PG_LEVEL_4K,
-> +	ret =3D rmp_make_private(pfn, gpa, PG_LEVEL_4K,
->  			       sev_get_asid(kvm), true);
->  	if (ret)
->  		goto out;
-> @@ -2593,6 +2622,9 @@ static int sev_gmem_post_populate(struct kvm *kvm, =
-gfn_t gfn, kvm_pfn_t pfn,
->  		kunmap_local(dst_vaddr);
->  	}
-> =20
-> +	if (ret =3D=3D 0 && sev_populate_args->type =3D=3D KVM_SEV_SNP_PAGE_TYP=
-E_VMSA)
-> +		sev->initial_vmsa_gpa =3D gpa;
-> +
->  out:
->  	if (ret)
->  		pr_debug("%s: error updating GFN %llx, return code %d (fw_error %d)\n"=
-,
-> @@ -2620,12 +2652,22 @@ static int snp_launch_update(struct kvm *kvm, str=
-uct kvm_sev_cmd *argp)
-> =20
->  	if (!params.len || !PAGE_ALIGNED(params.len) || params.flags ||
->  	    (params.type !=3D KVM_SEV_SNP_PAGE_TYPE_NORMAL &&
-> +	     params.type !=3D KVM_SEV_SNP_PAGE_TYPE_VMSA &&
->  	     params.type !=3D KVM_SEV_SNP_PAGE_TYPE_ZERO &&
->  	     params.type !=3D KVM_SEV_SNP_PAGE_TYPE_UNMEASURED &&
->  	     params.type !=3D KVM_SEV_SNP_PAGE_TYPE_SECRETS &&
->  	     params.type !=3D KVM_SEV_SNP_PAGE_TYPE_CPUID))
->  		return -EINVAL;
-> =20
-> +	if (params.type =3D=3D KVM_SEV_SNP_PAGE_TYPE_VMSA) {
-> +		/* VMSA page are allowed only once */
+The start of that thread is *exactly* what's playing out here.  The big dif=
+ference,
+and why this one's likely getting a different result, is that Jon provided =
+a very
+thorough explanation of exactly what use case Joerg and company want to sup=
+port.
+The only "assumed knowledge" is why it's desirable for the measurement to b=
+e stable
+across hypervisors, but I'm comfortable stitching that together on my own.
 
-Why?  What would go wrong if a VM image has a pile of pre-baked VMSAs?
+In other words, they aren't asking KVM to support every possible way/time a=
+ VMSA
+could be associated with a vCPU, they're asking to extend KVM to support a =
+concrete
+use case, with meaningful real world impact.  In fact, I actually think thi=
+s series
+is *too* narrowly focused on their use case.
 
-> +		if (sev->initial_vmsa_gpa !=3D INVALID_PAGE)
-> +			return -EBUSY;
-> +		/* Can only deploy a single page as VMSA */
-> +		if (params.len !=3D PAGE_SIZE)
-> +			return -EINVAL;
-> +	}
-> +
->  	src =3D params.type =3D=3D KVM_SEV_SNP_PAGE_TYPE_ZERO ? NULL : u64_to_u=
-ser_ptr(params.uaddr);
-> =20
->  	if (!PAGE_ALIGNED(src))
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 0550359ed798..dc9abe62476e 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -4870,6 +4870,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, l=
-ong ext)
->  	case KVM_CAP_MEMORY_FAULT_INFO:
->  	case KVM_CAP_X86_GUEST_MODE:
->  	case KVM_CAP_ONE_REG:
-> +	case KVM_CAP_SNP_DIRECT_VMSA:
->  		r =3D 1;
->  		break;
->  	case KVM_CAP_PRE_FAULT_MEMORY:
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 6c8afa2047bf..bf034435f98c 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -996,6 +996,7 @@ struct kvm_enable_cap {
->  #define KVM_CAP_S390_USER_OPEREXEC 246
->  #define KVM_CAP_S390_KEYOP 247
->  #define KVM_CAP_S390_VSIE_ESAMODE 248
-> +#define KVM_CAP_SNP_DIRECT_VMSA 249
-> =20
->  struct kvm_irq_routing_irqchip {
->  	__u32 irqchip;
-> --=20
-> 2.53.0
->=20
+FWIW, KVM_TDX_INIT_MEM_REGION has almost the exact same ABI that SGX has: p=
+ages
+contents are measured immediately after they're added.
