@@ -1,28 +1,28 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19CCC43C048;
-	Tue, 30 Jun 2026 14:51:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B91F21ABED9;
+	Tue,  7 Jul 2026 16:20:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782831102; cv=none; b=iBB1HVhjOeIbIH8nkDAUPIvjt+e05xOQSXKG5pItmUkjs4X2E4N7L9kAZL6xlMW0wZrFHH4s1LbttvChoCMbVZTfvV91YSYAiMM+gD4F91AoLYKuxsDrX2uyzn+6Ds9meniUvJODV/IBaa37VG+aQsehG+REBpVw5osm+by6/+E=
+	t=1783441205; cv=none; b=gkbFB0bhlGoTr0xlCksIS6PFQ3jPjvoigyCENuJ9leYi48X0YQumMikJUuG7gFriTk9ieKGPMlAGUwj7w6CBVx7VjjNIhzwsG1ObwKL2PhdgOKSmA7N68aUDpwAwwSd3E310KPNQ5oCLjypXT1pe96GjqsbBbs5Uub870yNvS0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782831102; c=relaxed/simple;
+	s=arc-20240116; t=1783441205; c=relaxed/simple;
 	bh=aTy8W7SgWTy9MJdjHu3wk/HtiWHlpjo1ZfaA7EhmecI=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nA/hyjAeaH1sRBJ5Mt2JGQ8QUv6sOg+hdiCe+EDt+Z744Rsa8Lc6hovsIjL/SF8ryoBbW6VymxrhAjdBbR40FBQPz2ym7QuwoRlOyA0XIxD2UDy/Ms9AXNW8Yf6JpMlV/L3YO4I/M53ogOX4sSoJmMBTOy5FTfJUePkT88Jnh8c=
+	 Content-Disposition; b=jIk2nBb0nocKH0W+LIE+E0XZ9BJjQRx5xKWPnTZQMVhntWkA5cAWopQvFiw+Gpx5cMFwb2mWonNZMMZZcoT3ddkPF1AQSD+8aUmZggYkK1Rx1fT4Wnr3KRBRhaLtbl0FpMsKpCQEOgBGSH9iVtA5dG1gcbxGSIKepBSwqr0F4Q8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Received: from 8bytes.org (p200300f6af4fc50071425139c0cd566f.dip0.t-ipconnect.de [IPv6:2003:f6:af4f:c500:7142:5139:c0cd:566f])
+Received: from 8bytes.org (p200300f6af4fc5009ee7c35faac12b34.dip0.t-ipconnect.de [IPv6:2003:f6:af4f:c500:9ee7:c35f:aac1:2b34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 22AA62051F0;
-	Tue, 30 Jun 2026 16:51:33 +0200 (CEST)
-Date: Tue, 30 Jun 2026 16:51:31 +0200
+	by mail.8bytes.org (Postfix) with ESMTPSA id 81150202F94;
+	Tue,  7 Jul 2026 18:19:56 +0200 (CEST)
+Date: Tue, 7 Jul 2026 18:19:55 +0200
 From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
 To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
-Subject: SVSM Development Call July 1st, 2026
-Message-ID: <akPX2IZWTVFOwbGn@8bytes.org>
+Subject: SVSM Development Call July 8th, 2026
+Message-ID: <ak0nGPsnLf6Rn4Kx@8bytes.org>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
