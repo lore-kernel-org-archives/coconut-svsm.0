@@ -1,54 +1,62 @@
 Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 326D842A16A;
-	Fri, 17 Jul 2026 14:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54DD036C588;
+	Fri, 17 Jul 2026 15:56:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784298914; cv=none; b=Qto+jqG0tbCL4woK7zIj4GaxHU6ikQwcC3eHRi7b2hgLmLPV7PBLdcXKPw8iVt2aKBogVaUET5EQwAaFgmRXquaT+AejrCnFbPeG74qQQuh5sRdVDrcOVBiCc2BYwgKHBGt5nC1FMhi7VGwb3TcD7uIAE6oQby/V7szwxDxaVyM=
+	t=1784303779; cv=none; b=Dql+tDdlH5ZQD7v342z9gPUqEE78WrzlezDgvsN0VpVPTLVEtlWKX9EVb9572kAYWxzSAsAuj0g5oz8SRAAk7bcj31BYys4zrF/T7SivE4IpMlG3DO3UJqQCmf4o6IJgWgDM2pHWj+0q+UAepR8d7RBlRhcLACEH3yGWtTBQgZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784298914; c=relaxed/simple;
-	bh=hxGmcHmTQSG/tdRRf+oOX+HiB6sZ5o3RY6F7qAn0Qg8=;
+	s=arc-20240116; t=1784303779; c=relaxed/simple;
+	bh=8E/aCvafBerjGcyt/czXHn8A+QbSJiP1ZLClAh2Nqf8=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=tWwwPwlETNarimWjokbm5xoUf9ANjKC3uLwU2fDayEY6fHO2mN36WuvAuj2qQOzK3eZbpQHgBiXFWVBNyvadwARYYtDuTK6p1kjzx5IS6KpM0avmcoRwSSVAB95cwWwjZ1Ihch1TOlocV6PYQ/W2LmOJf0IXphIdNN8J/n/lT+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=podJ7VXE; arc=none smtp.client-ip=198.37.111.173
+	 Content-Type:MIME-Version; b=J12Q+7rjzK002YgS3po8G6mizmeQugLrZ1NDPnUmSc0vEToqW472ZgnyF1wxg59DvWO6E2DNm7JBI0lJsw/ON7C87pFA58Kz5BV8tdd4eOAWKFT/f77XNS4sjMgx4qz1jHfhoVTxNDJ58qyfXXGCQ/EJPPagzohjIS21XmIGYWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=pE4JSA7L; arc=none smtp.client-ip=198.37.111.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="podJ7VXE"
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="pE4JSA7L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1784298912;
-	bh=hxGmcHmTQSG/tdRRf+oOX+HiB6sZ5o3RY6F7qAn0Qg8=;
+	d=hansenpartnership.com; s=20151216; t=1784303776;
+	bh=8E/aCvafBerjGcyt/czXHn8A+QbSJiP1ZLClAh2Nqf8=;
 	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=podJ7VXEOrozW0/nEkVk5DUdZHQ+jKSQ6mLUbZdvS3I1Wu4OjMzk94KILfZv/XDzH
-	 Ec/FKjwkDHi4qBngcOq9TDTwLIi7MsReMG/FnZhBNLpB6oXFaxJIMafGhoAw1chHHg
-	 m2Heto7gdDUeUaH+Dkyw2JU4hBcyj2zcgXY27FjQ=
+	b=pE4JSA7LDo31TtOH6lVhRGLmgo69Rq7uIrlsGvhRqaaCuqGH7NIbVKEBzPNgbzlr0
+	 HfhhSUxH3Jy6Mco8uMYCXMhJUMKRW6EZYi47aVY5QkDAHN2pfU1WiTnh9hqOrO5bQR
+	 i7p7VxY4n38UceajEGhvjud0cMrlCjcs/V9aUfxM=
 Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4300:d341::8c71])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519MLKEM768 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 6AF891C0278;
-	Fri, 17 Jul 2026 10:35:11 -0400 (EDT)
-Message-ID: <570f82e8b8bc968a31a4ba859145f6c324e41247.camel@HansenPartnership.com>
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id AA4091C029F;
+	Fri, 17 Jul 2026 11:56:15 -0400 (EDT)
+Message-ID: <976f1a8316438d5b7c2f446a0369dcda3289cc92.camel@HansenPartnership.com>
 Subject: Re: [PATCH 35/60] kvm: Add VCPU plane-scheduling state and helpers
 From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: =?ISO-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>, Paolo Bonzini
-	 <pbonzini@redhat.com>
+To: "Saenz Julienne, Nicolas" <nsaenz@amazon.es>, 
+ =?ISO-8859-1?Q?J=F6rg_R=F6del?=
+	 <joro@8bytes.org>, Paolo Bonzini <pbonzini@redhat.com>
 Cc: Sean Christopherson <seanjc@google.com>, Tom Lendacky	
- <thomas.lendacky@amd.com>, ashish.kalra@amd.com, michael.roth@amd.com, 
-	nsaenz@amazon.com, anelkz@amazon.de, Melody Wang <huibo.wang@amd.com>, 
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, 
-	loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, kvm-riscv@lists.infradead.org,
- x86@kernel.org, 	coconut-svsm@lists.linux.dev, joerg.roedel@amd.com
-Date: Fri, 17 Jul 2026 10:35:10 -0400
-In-Reply-To: <aigE2EvJyZlYDz0V@8bytes.org>
+ <thomas.lendacky@amd.com>, "ashish.kalra@amd.com" <ashish.kalra@amd.com>, 
+ "michael.roth@amd.com"	 <michael.roth@amd.com>, "Orazgaliyeva, Anel"
+ <anelkz@amazon.de>, Melody Wang	 <huibo.wang@amd.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>,
+ "kvmarm@lists.linux.dev"	 <kvmarm@lists.linux.dev>,
+ "loongarch@lists.linux.dev"	 <loongarch@lists.linux.dev>,
+ "linux-mips@vger.kernel.org"	 <linux-mips@vger.kernel.org>,
+ "linuxppc-dev@lists.ozlabs.org"	 <linuxppc-dev@lists.ozlabs.org>,
+ "kvm-riscv@lists.infradead.org"	 <kvm-riscv@lists.infradead.org>,
+ "x86@kernel.org" <x86@kernel.org>,  "coconut-svsm@lists.linux.dev"	
+ <coconut-svsm@lists.linux.dev>, "joerg.roedel@amd.com"
+ <joerg.roedel@amd.com>
+Date: Fri, 17 Jul 2026 11:56:15 -0400
+In-Reply-To: <DK0W6G329B6W.2KGT7FAVSKNYS@amazon.com>
 References: <20260608144252.351443-1-joro@8bytes.org>
 	 <20260608144252.351443-36-joro@8bytes.org>
 	 <e7eb0dba-790a-4644-9895-5c9a7420d7fe@redhat.com>
 	 <aib8n5lO6HKbLC4Y@8bytes.org>
 	 <CABgObfbUsDeStnZF-7oyR-W-Bvd4qTMoeUwGizgn10UTdKtZ2A@mail.gmail.com>
-	 <aigE2EvJyZlYDz0V@8bytes.org>
+	 <aigE2EvJyZlYDz0V@8bytes.org> <DK0W6G329B6W.2KGT7FAVSKNYS@amazon.com>
 Autocrypt: addr=James.Bottomley@HansenPartnership.com;
  keydata=mQENBE58FlABCADPM714lRLxGmba4JFjkocqpj1/6/Cx+IXezcS22azZetzCXDpm2MfNE
  lecY3qkFjfnoffQiw5rrOO0/oRSATOh8+2fmJ6el7naRbDuh+i8lVESfdlkoqX57H5R8h/UTIp6gn
@@ -86,52 +94,86 @@ List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
-On Tue, 2026-06-09 at 14:37 +0200, J=C3=B6rg R=C3=B6del wrote:
-> I read a bit more about VSM and it seems their prioritization of VTLs
-> is a bit more complicated. VTL0 has the least privileges but boots
-> first, then sets up VTL1. But VTL1 is only higher-privileged once it
-> is locked by VTL0. Another way to look at it is that VTL0 de-
-> prioritizes itself.
+On Fri, 2026-07-17 at 13:48 +0000, Saenz Julienne, Nicolas wrote:
+> Hi Joerg, I'm a bit late to the discussion hope it helps nonetheless,
+>=20
+> On Tue Jun 9, 2026 at 2:37 PM CEST, J=C3=B6rg R=C3=B6del wrote:
+> > CAUTION: This email originated from outside of the organization. Do
+> > not click links or open attachments unless you can confirm the
+> > sender and know the content is safe.
+> >=20
+> > > The idea of the userspace scheduling was that you're not forced
+> > > to use it - the kernel can always choose to override it if it's
+> > > using an accelerated implementation of planes (and of plane
+> > > switching). But it also leaves some leeway to different
+> > > accelerated implementations, each of which can pick their own
+> > > algorithm.
+> > >=20
+> > > Conceptually I'd rather keep the possibility of userspace
+> > > scheduling. But maybe it doesn't add much.
+> >=20
+> > My preference is to keep plane scheduling at one place (in the
+> > kernel) to keep it simple. But if you see a need for user-mode to
+> > interact there as well (only really works for VSM), then I can add
+> > it.
+>=20
+> The responsibility split we had in mind when we built a VSM emulation
+> prototype [1] was to keep all VTL policing in user-space. This
+> includes VTL switching, Cross VTL IPIs, Intercepts (Memory, MSRs,
+> Insns, CPU regs), VTL aware SMP bring-up, etc. Even with KVM Planes
+> in place, my thinking was to keep it as such. While all this could be
+> implemented in the kernel, in practical terms, I think it'll be
+> easier to get VSM support upstream the more we move the
+> implementation into user-space.
 
-Actually, I don't think we have to follow the VSM model.  All we at
-Microsoft care about is that we can emulate VSM with the planes
-primitives provided.
+I looked at the kernel bit.  The vsm/dev branch contains 72 patches
+over 6.12 which is quite a lot ...
 
-There's a definite reason not to do strict VTL privilege in that one
-can see two mutually distrusting planes sharing a common communication
-area.  This is definitely possible with TDX and so planes shouldn't
-disallow it.
+However, from a quick skim, the main thing is that you used multiple
+KVM structures to manage the planes which means each plane naturally
+gets its own address space.  In the current planes model so far there's
+only one address space (or two if you have SMM).  SNP doesn't need
+anything above this because the VMPL protection is naturally managed
+inside the guest (so not really visible to the host) but a VTL
+implementation will.  So I think the big question becomes how are we
+going to achieve address space separation for planes?  It's tempting to
+say simply one address space per plane and make SMM its own plane with
+different switching but it's an awful lot of overhead especially as
+most VMs won't even use planes, so it looks like there has to be a more
+opportunistic model for planes address spaces.
 
-> The patches here are built around the assumption that plane0 is the
-> highest privileged one and is always runnable. Running any lower-
-> privilege plane must be triggered by the guest. This is clearly not
-> sufficient for VSM, the question is how to solve that.
+> More importantly, I think the area of Virtualization Based Security
+> would benefit from a versatile Planes implementation. Forcing
+> specific plane switching semantics might prevent the introduction VSM
+> alternatives or extensions. Heki and lVBS come to mind here.
+>=20
+> > I read a bit more about VSM and it seems their prioritization of
+> > VTLs is a bit more complicated. VTL0 has the least privileges but
+> > boots first, then sets up VTL1. But VTL1 is only higher-privileged
+> > once it is locked by VTL0. Another way to look at it is that VTL0
+> > de-prioritizes itself.
+> >=20
+> > The patches here are built around the assumption that plane0 is the
+> > highest privileged one and is always runnable. Running any lower-
+> > privilege plane must be triggered by the guest. This is clearly not
+> > sufficient for VSM, the question is how to solve that.
+>=20
+> I'd suggest inverting the priorities, with higher planes being more
+> privileged. It'll make introducing higher privilege levels easier.
+> This is especially useful with VSM, where it's not possible to know
+> how many levels will be enabled before launching the VM.
 
-So this all depends how the planes are started.  If you're starting
-them from an IGVM file that loads the most privileged code and then
-runs the guest in a different plane, absolutely, it can work as you
-describe.  However, the common use case for serviceable security
-enclaves is you start the kernel first (necessarily in plane 0) and
-then bring up the enclaves later which means the planes > 0 are
-technically higher privilege since they're running hidden security
-code.  HOWEVER, there's no reason at all to trust a security enclave
-that's doing something like guarding private keys to be able to poke
-anywhere it wants in the guest ... that's a security breach waiting to
-happen, so it would really be better if the model were not
-hierarchical, but more akin to the ability to seal planes off from each
-other, so the kernel can start the enclave, which would then set itself
-and the communication area up, but then the plane 0 kernel would remove
-access to most memory from the enclave.
+I already addressed this in a different reply
 
-In this sealing model, there's no absolute privilege levels; each plane
-would decide what the other planes can see of its memory space and, on
-security grounds, we'd likely configure the enclaves to have the least
-possible privilege.
+https://lore.kernel.org/kvm/570f82e8b8bc968a31a4ba859145f6c324e41247.camel@=
+HansenPartnership.com/
 
-Now, Windows applications expect VSM to be strictly hierarchical in
-terms of privilege, but if we create a sealing primitive as described
-above, we can get it to build the strict VSM privilege hierarchy in the
-hyper-v driver.
+but basically I think hierarchical privilege will be too limiting.  I
+agree we need to have enough primitives to bring up hierarchical VSMs
+if that's what the guest wants (Windows definitely will) but this
+shouldn't be the only thing we can arrange planes as.  The mutually
+distrusting model has a lot going for it in terms of security
+properties.
 
 Regards,
 
