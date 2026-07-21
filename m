@@ -1,141 +1,99 @@
-Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5492F8EB4;
-	Fri, 17 Jul 2026 18:26:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489CA46A5FB
+	for <coconut-svsm@lists.linux.dev>; Tue, 21 Jul 2026 15:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784312806; cv=none; b=Qgvv6MCf3FCCyV4Slc5gsgBxlIubruqVHgE1vLbHcIvdkbM0zELtastbsc6rEpeVRXvDIaM0MjypAu3720d6PudSjBL4zpQH2okxCVhZFT4p8MBXUeOfFewLu+q2oYbeVUA10XI9Z2h0QtlweXHOdwWxY0+J+o6Wrf7UEofACz0=
+	t=1784649572; cv=none; b=hAqvroXMqlrrBmKD2j3QDL/SBebsZ+0zsZLhmaBVQmeq6kyfz1bNqv+6p60Kt7RdmhZ86SNI59PDGyGDBSTCpKU1kMqWL1KJpfpsfsUC9k3Bq8rE8LqO6kuS0pKVoRYPhUaUByr1vz7CiL1381RKM/Lp67yZ/RZhluxdNnvX8PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784312806; c=relaxed/simple;
-	bh=j9EW4FIwSUEDfQEZzduIwipOWgGQyApHfWxvJ08O9xk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TXgf2KhoLDeJRxF3Vxht1HccwMwJuaJaEkDXnXKqNfU6n7H4q9Qrs6XdJirIqdoCuQECGUdUHcW9W5djO/5tL8OChWs2ksQNfliVq081yjw+cHdtC8K1J5FEDuSt5Cjx+kCC1dO86vnOwv5+TLs9pxs2QkVEiDvFdoSNcx1+pTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=H5D2LU12; arc=none smtp.client-ip=198.37.111.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
+	s=arc-20240116; t=1784649572; c=relaxed/simple;
+	bh=kQ6MFm1RcBK5lthrtsS3tKwgEUgIjQSVP8M3aj6hNVQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=JxAfBLA4wmZcQgtOe1u+FXDNos+dCU3U9YWL80fhAMEntZKWDMaYHoHttcR7lVnCjRo9yOxWJ3e3SxdD/ejSpU+E/rD9dxngMUaJ42fV+nfPdBkfj+K/BWhPOGztOG1JJKsBgGZHACOyv4HOBqTskaNqUarzGJ7iVzFhY7ZeNL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a0Bz5iwO; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="H5D2LU12"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1784312803;
-	bh=j9EW4FIwSUEDfQEZzduIwipOWgGQyApHfWxvJ08O9xk=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=H5D2LU12iBOHilk/nOzeUp4ZvKBs+i7bbfPhCzAA721rNfph60WER/+r4o7ApVPjk
-	 wn9U4Sko57CiVWMYgrkUEqUQQf5XAbU95LhUdz6jMPiMc04p0wX4T/xVxhNPirMzjz
-	 jGgvP8X9Myk6XD3stu/upYGy99g06ADfkdYj6fgM=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4300:d341::8c71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 186CA1C0276;
-	Fri, 17 Jul 2026 14:26:43 -0400 (EDT)
-Message-ID: <1f06c5c65fcf00d45ce93c97e1434f70626997fa.camel@HansenPartnership.com>
-Subject: Re: [PATCH 35/60] kvm: Add VCPU plane-scheduling state and helpers
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: "Saenz Julienne, Nicolas" <nsaenz@amazon.es>, 
- =?ISO-8859-1?Q?J=F6rg_R=F6del?=
-	 <joro@8bytes.org>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: Sean Christopherson <seanjc@google.com>, Tom Lendacky	
- <thomas.lendacky@amd.com>, "ashish.kalra@amd.com" <ashish.kalra@amd.com>, 
- "michael.roth@amd.com"	 <michael.roth@amd.com>, "Orazgaliyeva, Anel"
- <anelkz@amazon.de>, Melody Wang	 <huibo.wang@amd.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>,
- "kvmarm@lists.linux.dev"	 <kvmarm@lists.linux.dev>,
- "loongarch@lists.linux.dev"	 <loongarch@lists.linux.dev>,
- "linux-mips@vger.kernel.org"	 <linux-mips@vger.kernel.org>,
- "linuxppc-dev@lists.ozlabs.org"	 <linuxppc-dev@lists.ozlabs.org>,
- "kvm-riscv@lists.infradead.org"	 <kvm-riscv@lists.infradead.org>,
- "x86@kernel.org" <x86@kernel.org>,  "coconut-svsm@lists.linux.dev"	
- <coconut-svsm@lists.linux.dev>, "joerg.roedel@amd.com"
- <joerg.roedel@amd.com>
-Date: Fri, 17 Jul 2026 14:26:42 -0400
-In-Reply-To: <DK10YP78VVQO.7BFETGMA9P4F@amazon.com>
-References: <20260608144252.351443-1-joro@8bytes.org>
-	 <20260608144252.351443-36-joro@8bytes.org>
-	 <e7eb0dba-790a-4644-9895-5c9a7420d7fe@redhat.com>
-	 <aib8n5lO6HKbLC4Y@8bytes.org>
-	 <CABgObfbUsDeStnZF-7oyR-W-Bvd4qTMoeUwGizgn10UTdKtZ2A@mail.gmail.com>
-	 <aigE2EvJyZlYDz0V@8bytes.org> <DK0W6G329B6W.2KGT7FAVSKNYS@amazon.com>
-	 <976f1a8316438d5b7c2f446a0369dcda3289cc92.camel@HansenPartnership.com>
-	 <DK10YP78VVQO.7BFETGMA9P4F@amazon.com>
-Autocrypt: addr=James.Bottomley@HansenPartnership.com;
- keydata=mQENBE58FlABCADPM714lRLxGmba4JFjkocqpj1/6/Cx+IXezcS22azZetzCXDpm2MfNE
- lecY3qkFjfnoffQiw5rrOO0/oRSATOh8+2fmJ6el7naRbDuh+i8lVESfdlkoqX57H5R8h/UTIp6gn
- 1mpNlxjQv6QSZbl551zQ1nmkSVRbA5TbEp4br5GZeJ58esmYDCBwxuFTsSsdzbOBNthLcudWpJZHU
- RfMc0ew24By1nldL9F37AktNcCipKpC2U0NtGlJjYPNSVXrCd1izxKmO7te7BLP+7B4DNj1VRnaf8
- X9+VIApCi/l4Kdx+ZR3aLTqSuNsIMmXUJ3T8JRl+ag7kby/KBp+0OpotABEBAAG0N0phbWVzIEJvd
- HRvbWxleSA8SmFtZXMuQm90dG9tbGV5QEhhbnNlblBhcnRuZXJzaGlwLmNvbT6JAVgEEwEIAEICGw
- MGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAhkBFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAml2ZBI
- FCS3GUMIACgkQgUrkfCFIVNZKjQf/deRzlXZClKxTC/Ee2yEPqqS7mm/INUA49KdQQ5oIhSxkUBy0
- 9J4qjMIo5F8ZFkFTqikBqeL35LKu7O7rn8WETfX8Bxvos3HUsl3jHo34DES4MUFIpoQPgtiLRGwLb
- K0cVCAArR2u2qj4ABmTRrs1I1kvdjEw6gatOuXtEe/j5O2fvfzTq9GBr0Q3n2IAsFXi4hLlx6VPE8
- tyWUZ8BWJKtih3JAeUiXFvASL3McV0rV9RnU0VbjEQEhSE7PMYhWpnDC9AyBb0lXJllQRvC3NSkUB
- 8KVQgNNxRPss0WE/nBoZ4dFA42jTyzTz8lNylxZoAWV7WJb3QxVg4oCodRVrxxrQhSmFtZXMgQm90
- dG9tbGV5IDxqZWpiQGtlcm5lbC5vcmc+iQFVBBMBCAA/AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeA
- QIXgBYhBNVgbnPItGJxvq2a34FK5HwhSFTWBQJgS5mYBQkbNYS9AAoJEIFK5HwhSFTWBpwIAL5Bk3
- 5FB34U6iHmDzzgdCbxLTs43T/YQyJpcGIvopBvnI/fDY8oSG6Df64/O6B+1R+A8TDp6ZG5ysUWnCC
- 6GuIaEHemBYkitMPglR6+sGCMQY7O0mlsPvdssvKK1KI9Bno4VU6ogaF2qVzefSqg1Djmf/DcsxWP
- rI/jdJ8FB5AYR2rjIdDFc+zRdAJuavo1/anyY2wgpFh/3R8IOYAEfWV9nGgYkf9+tA4EIn1sxE0I3
- L5oW2N3mbyRrkzuBwO8ztMCwqEPk7moWzhokcZqMXiAIahaZdkashJC+s2X2RZSGCy+g+pvY5NN4B
- BVG5XwLgVBqbHMTcxE0fbmPqz+q6O0LEphbWVzIEJvdHRvbWxleSA8amVqYkBoYW5zZW5wYXJ0bmV
- yc2hpcC5jb20+iQFXBBMBCABBFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAmODZ5ACGwMFCRs1hL0F
- CwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQgUrkfCFIVNZu0Af/TzvL2/NdgAcw9uN3x60H8
- jc4QUq14VpxcFEFEMpcj1morkX/G93V+56HBBaXZj+yK8PhxIA/SIz+sU7C/0YvKuvzakP8ZX/7WJ
- e32SOUtjfr/VTaqjIBzNj6OxLvZpmNbBw7s6DwhhNpHOWqJ/1ml+PtDRDV71IB58yVqQjp1xlNKVl
- ZppcJ5908EJzsFnRIVjiQiDSKoppqB2BCibBbrWcln7CiWMyOC/cco6SIn6twH+f7+aivJ3xGcOE2
- a9gBKF5rNi9TBoX9oyPmshv/TDmnohsVrH7AYXlGYfZTk15SWEiROh1QX8/uD9wl/gcIv5EDUpT/F
- L2jzOsA5663bw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a0Bz5iwO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784649568;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=coBt7Zb3aZ3ZG0mTYJhcJ0JzfkK/zs88iplrFlJsbyY=;
+	b=a0Bz5iwOsdFK1TBWd/HQDuJgFNkUHuxb0o0AykmzX6BFTFeBh1j1w09gyRdcJsC6fDOXYv
+	KAsm0D/CRz/t1rI7DyzvNq2wSJUjDrtL7RU1UQM+kBxZWMTie65/d0bPwpiWD58OojCByt
+	07l8MJWQTPdOPaKpaFQA84nqCBHeENc=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-338-f1hC9ZQHOr-DyfRe01wBGQ-1; Tue, 21 Jul 2026 11:59:26 -0400
+X-MC-Unique: f1hC9ZQHOr-DyfRe01wBGQ-1
+X-Mimecast-MFC-AGG-ID: f1hC9ZQHOr-DyfRe01wBGQ_1784649566
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-84e024d2129so1994886b3a.2
+        for <coconut-svsm@lists.linux.dev>; Tue, 21 Jul 2026 08:59:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784649566; x=1785254366;
+        h=content-type:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=coBt7Zb3aZ3ZG0mTYJhcJ0JzfkK/zs88iplrFlJsbyY=;
+        b=C2GZfU17KWtat9jRjvo2Y5s5ll/Rchz1GzAh7IrKMu/ZfPEJQQ/q9s/F1qB9KIzjqM
+         gLaBmsTeYY4C1W7sJo/4e+PZDP32zoMDi3hBFGSpx6PdN1mXSk0RLtOhXYjJgMIQn0C8
+         SyhuUNWW+MbW7Ha+ywtbUcsgyNoGGh78oJZjwHvObMHXzPdAdHoI24DTASHyeWQ10smB
+         Obsnyyqs+QXOnGqV3H9Cf802I8TgIPiNvL9KToGHXs5ZfSEiWwzYlnGt/CMEQrm7YyFN
+         KQ3zE/5jpcG71s8knF4LmCRf86Ji37q7aNLUZyNh3MXrOhE3Zhptg0jzJaj6ref+PliM
+         hnkg==
+X-Gm-Message-State: AOJu0Yw0D5KyvtJeITBVBN4JxXeZoFM6BoWh6h4NAyWdUlZKpLoLV6UQ
+	lEASblO4280BwJ/nrUoX70MDyA2FrHfi/X1dD+0GfhVrO8F94eo0QirNn7NKe9zhqjDCC7YnfY3
+	aadynbtovW+2lFAfuepYwyiBiUR55fKNz8jdF5OeZ13NQnFjMiet2K80zkKs1ioqsBjoEzWkGI/
+	YnBaLduIsRVxuBkbPoPU87bJrzpVvkSLFEAi14KlU0c1JL78KK
+X-Gm-Gg: AR+sD113cZgBYmW446Md/hFuxLTRgi0xk5Hlrc/TKlnBZ4d5WVHRF5qjAU9jqKDbSZb
+	lDmq+kBofo0iuKiBkI1+yaLBxOi4mZ8mGdcmZJmzDH5HG5NSDPi6sKVKkgwGBRve4zPFBYls9eS
+	iEV8PRdPlG1lWJxsuBaYo/rPUgv197trD6mIWRjSC3PajA95rGe96+3RM=
+X-Received: by 2002:a05:6a00:886:b0:847:e4c7:8ca1 with SMTP id d2e1a72fcca58-84c294d4d7cmr20505418b3a.43.1784649565616;
+        Tue, 21 Jul 2026 08:59:25 -0700 (PDT)
+X-Received: by 2002:a05:6a00:886:b0:847:e4c7:8ca1 with SMTP id
+ d2e1a72fcca58-84c294d4d7cmr20505389b3a.43.1784649564955; Tue, 21 Jul 2026
+ 08:59:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <CAGxU2F5hP=7pA1rKRvq5sgr0t2y1YoUzYCmH8hzaCS58U4+Y3A@mail.gmail.com>
+ <CAGxU2F6ko6Ojyu138cB7szTszoYkx1AEw5oK6EMMaUoi=m7+sw@mail.gmail.com>
+In-Reply-To: <CAGxU2F6ko6Ojyu138cB7szTszoYkx1AEw5oK6EMMaUoi=m7+sw@mail.gmail.com>
+From: Stefano Garzarella <sgarzare@redhat.com>
+Date: Tue, 21 Jul 2026 17:59:13 +0200
+X-Gm-Features: AUfX_mycc19fDRYGIXFAJUJP8E2TJYsiUEBl2zVyI5gpeplWRXhlWTC5mJZQRWI
+Message-ID: <CAGxU2F5EtQ7tnF28i3Z3onJYMf30OBCBCz9piTinK013sh+Eig@mail.gmail.com>
+Subject: SVSM Development Call July 22nd, 2026
+To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: qmFQ91rzZm9_nAQ3hnvrDOPMZIwO6bxbrdyfD4zlWpE_1784649566
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 2026-07-17 at 17:33 +0000, Saenz Julienne, Nicolas wrote:
-> On Fri Jul 17, 2026 at 5:56 PM CEST, James Bottomley wrote:
-[...]
-> > However, from a quick skim, the main thing is that you used
-> > multiple KVM structures to manage the planes which means each plane
-> > naturally gets its own address space.=C2=A0 In the current planes model
-> > so far there's only one address space (or two if you have SMM).=C2=A0
-> > SNP doesn't need anything above this because the VMPL protection is
-> > naturally managed inside the guest (so not really visible to the
-> > host) but a VTL implementation will.=C2=A0 So I think the big question
-> > becomes how are we going to achieve address space separation for
-> > planes?=C2=A0 It's tempting to say simply one address space per plane
-> > and make SMM its own plane with different switching but it's an
-> > awful lot of overhead especially as most VMs won't even use planes,
-> > so it looks like there has to be a more opportunistic model for
-> > planes address spaces.
->=20
-> While adress spaces are per VM, KVM memory attributes are per plane.
-> It should be enough to implement VSM's memory protections as well as
-> the enclaves design you mentioned. We have a series in-flux
-> implementing RWX memory attributes [1].
+Hi,
 
-We might get this to work if we're careful.  It just means when two
-planes agree on chunks of memory to seal and share it's helpful if
-they're guest physically contiguous.
+Here is the call for agenda items for this weeks SVSM development
+call. Please send any agenda items you have in mind as a reply to this
+email or raise them in the meeting.
 
-> The only thing that's not feasible "naturally" with attributes are
-> memory overlays or any situation where we'd need to change the
-> backing memory of a guest physical address range just for a single
-> plane. From a VSM perspective it's fine. The only use-case from a VSM
-> perspective are memory overlays (and those, from my experience, are
-> useless). I don't know that's a deal-breaker the mutually distrusting
-> model.
+We will use the LF Zoom instance. Details of the meeting can be found
+in our governance repository at:
 
-I don't think so.  I don't see it as a problem that the guest physical
-memory map looks the same to every plane even if the page protections
-might be different.  This is slightly different from SMM where the smm
-memblock is missing from the guest map, so it might be the case that we
-don't need different address spaces to cope with this.
+        https://github.com/coconut-svsm/governance
+
+The link to the COCONUT-SVSM calendar is:
+
+        https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=week
+
+The meeting will be recorded and the recording eventually published.
 
 Regards,
+Stefano
 
-James
