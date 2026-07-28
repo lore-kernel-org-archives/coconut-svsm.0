@@ -1,44 +1,55 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 618473EB80E;
-	Mon, 27 Jul 2026 11:21:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66471363C5E;
+	Tue, 28 Jul 2026 16:08:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785151264; cv=none; b=Qb2kiztByqX/lsQr535E/uoFUQRz4QMo1ATXWxGU7glsjJ84oXSPcbfp8mANR7LCBjqCTGTurWaXGA9N8tpjYCq45QoHH96HHFy6lZnaqLznW1c3CCZl0iIE+NGQpqWJUtlQUDt2U5wIq0TjjE4DD+giUlnZyYGV+Uo9jgx9mUI=
+	t=1785254933; cv=none; b=pnXy2oHzNY7jz5Na6i4ttCGS6oaOfMU5A95yxwqgH8UGgzNLhO357zZZHBJhv29dlX5tErMepT4sh2MyhesPrQDq9WFymtOtrSaGLAW9nxnXwMtImJV0MmbsfNjuypnbI+jamnkAf9SGTM81dGDzJFiEMG4dwZ03ct9cQXBe0Hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785151264; c=relaxed/simple;
-	bh=TrPxqFhSrg/g7OLjUrUNoJnRoZ3It55mzjGgNESWyRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lJk6sa5/BaH+tojIoWELQ2gFlqCGCAmeOufoGJduJUhzx368KJJvFTd3EtreM4a59kSeLKZLGCQcHGhGxkzlG8WRksdYR5GxZi1L5QV3BzxqrnbwfgmtXMqt2IaiJZrxCl4Fiug9b7iQq49natb2z0HSey0EyxFXf92s0mdESPw=
+	s=arc-20240116; t=1785254933; c=relaxed/simple;
+	bh=aTy8W7SgWTy9MJdjHu3wk/HtiWHlpjo1ZfaA7EhmecI=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IWOLPFkm7K0OZ0178I17eyKADWTRoSSzIwNmuydF3i5V2vY1CeoiO1hLnxDr4sKHX79LvqrL4E0ARPb8SEiSMHWRVcos6XFiSbgS7TEyYr51Mw4uZTD9JTpOabUZvMCPPBNtV7REU7GiL2Cg18QSyVZL3Pjv1t2xi8cU/SImIFA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Received: from 8bytes.org (p200300f6af4fc500ebaed89d31e83d28.dip0.t-ipconnect.de [IPv6:2003:f6:af4f:c500:ebae:d89d:31e8:3d28])
+Received: from 8bytes.org (p200300f6af4fc50076d79898b4e226b9.dip0.t-ipconnect.de [IPv6:2003:f6:af4f:c500:76d7:9898:b4e2:26b9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 001662409C1;
-	Mon, 27 Jul 2026 13:21:00 +0200 (CEST)
-Date: Mon, 27 Jul 2026 13:20:59 +0200
+	by mail.8bytes.org (Postfix) with ESMTPSA id 2DA71240983;
+	Tue, 28 Jul 2026 18:08:44 +0200 (CEST)
+Date: Tue, 28 Jul 2026 18:08:43 +0200
 From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
-Subject: Re: SVSM Development Call July 22nd, 2026
-Message-ID: <amc-4PUaf39ZALPi@8bytes.org>
-References: <CAGxU2F5hP=7pA1rKRvq5sgr0t2y1YoUzYCmH8hzaCS58U4+Y3A@mail.gmail.com>
- <CAGxU2F6ko6Ojyu138cB7szTszoYkx1AEw5oK6EMMaUoi=m7+sw@mail.gmail.com>
- <CAGxU2F5EtQ7tnF28i3Z3onJYMf30OBCBCz9piTinK013sh+Eig@mail.gmail.com>
+To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
+Subject: SVSM Development Call July 29th, 2026
+Message-ID: <amjT8oarGUmnYVk_@8bytes.org>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAGxU2F5EtQ7tnF28i3Z3onJYMf30OBCBCz9piTinK013sh+Eig@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Meeting minutes for the calls on July 14 and 21 are now available:
+Hi,
 
-	https://github.com/coconut-svsm/governance/pull/116
+Here is the call for agenda items for this weeks SVSM development call.  Please
+send any agenda items you have in mind as a reply to this email or raise them
+in the meeting.
 
--Joerg
+We will use the LF Zoom instance. Details of the meeting  can be found in our
+governance repository at:
+
+	https://github.com/coconut-svsm/governance
+
+The link to the COCONUT-SVSM calendar is:
+
+	https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=week
+
+The meeting will be recorded and the recording eventually published.
+
+Regards,
+
+	Jörg
