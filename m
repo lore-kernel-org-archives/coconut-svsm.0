@@ -1,48 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7059A4A8FEC;
-	Fri, 11 Sep 2026 17:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C397F35C19F
+	for <coconut-svsm@lists.linux.dev>; Tue, 15 Sep 2026 11:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789149284; cv=none; b=aKtg2rgat9HzkwiE8jha72lJSaC6NVuFk80iGZUBJQxVP1GRdMaX6QQtR9m0Gy5UgrWzv/iVr0+79KgFDPNA7ZkHWNZeIAvRO5boYJkdDoBAV15pQQkHo7NnleJqSkNhVkYffFYcV3QDRpuc6d11FTQhOJaiT1+9LlAyqKYD0xE=
+	t=1789471848; cv=none; b=utPHLQR3LLq5yIP/v/ZJoXwshSEURCOFpVY1bovCBK6RcityVrmCOngfPOibPi7sBa/C6Srx5wiY5Xg3TCfXdyv3N08AXKg1YsIeV5kWtYMXA0T2/bvDgXrgLnYXigVDiHsFmYp0gMeb3KzZLqpFLhUDkI+VR+5dLDmv/lHTR4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789149284; c=relaxed/simple;
-	bh=oT2HAQRYlBxYWXZEJgDhIx6sNDjZsCE9IaHCPNajnNI=;
+	s=arc-20240116; t=1789471848; c=relaxed/simple;
+	bh=odVPNm+7LRHp0tjKuPnp4sfEi1fdkqz/WFeeAWo6QFA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gMGV6YWZF2aFmna3PGzcIZN+DzjlO9t+JSuAex66A6+rQRicnrPQRFwtmwRBhLA8tMw78HbaZuoCmNA97Hmv9AJuuqH+D6jHHEA6aAjNwNUFGcaOqR+5YoTgmpgP+n6xQKDhkuJFP44fGgDojbUQWXZiMHBHAGMasQ+NbOt10x8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R/PEF628; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=VeW9ZZAzP4bC1O7cEf+b6GEwn6NlkNd/hDJGI5XBWERlf5er0YmIZyywF8QIJzx0+lxei5AOoxicSt8wllxAfo/Mi1cZMBGSPP3w4rCf5TsP7BRNbptxfOZUGROjIMqBD/6Bs8XosE5qtaZ3aj5XZs96NiKjkBPHcc0rJADR+X4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jgHCyQAl; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R/PEF628"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45E7A1F000FF;
-	Fri, 11 Sep 2026 17:54:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789149283;
-	bh=4FwTYwpGmaK+5ispCEK7HH92jJqAfeRrVmWamTSNnqs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=R/PEF628C82R18CCBiTVgSxDDQxOmmbSQCnHAqmpckaTKvXRHHjbFndk35q0VJwbm
-	 kb2jEKyMa0SLgFgUCZjypSy8TU4f91YFYaL79LnYDkmD5YZ7AL7XoikZdUl97oCh3x
-	 QlUxYbS81ijVUF5fVhlk944TP7D2LmZtxTQuDrzP5dxAVnzOZPYc7bhPn+cxm0sUWh
-	 B4hxxUT5Cc5n6F5+/wjf5RtfTI0VG6FXcU6ZU4ZIB3MMKn1qFBNrVgDZdCZnR5hRoj
-	 ktqkGCSA0q7dC/KO31sDOWJ1h+hudAjLc0nPKfhMCyskclXeDI5VaQY7ZPVta2w4Q2
-	 g7mHI+jtqwWgA==
-Date: Fri, 11 Sep 2026 12:54:37 -0500
-From: Serge Hallyn <sergeh@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jgHCyQAl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789471846; x=1821007846;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=odVPNm+7LRHp0tjKuPnp4sfEi1fdkqz/WFeeAWo6QFA=;
+  b=jgHCyQAlFd1IU9RO337FWJ/aIZIL1T92wdb5MGeVEEBjnHEcpa381rG8
+   eBTyPiL3i6KidPS4IQI9MRL8T6I6Gx74yOPN7OLZsSgfhwmzbOL1E6mTK
+   pF+0YafUzr6swhjCVA9mNEAlnhk9HUHTZvogTue6Ggb3nyxfn4fN+YBFN
+   GshiPEr6+BVI64iklwU+7kK4aMjKSJZkRx5IV4FGPCngGevo2oA/6qakB
+   AD0tYH839L80Qw03RzhNEdx9zrqkpu/v6WYYj5vbRRb0bDoH8Uo5eNMfB
+   EznSjpPqDfSaSefzlATMxtidycSL7ky9FopJGhqRHYtEauHNCA4qDALf/
+   Q==;
+X-CSE-ConnectionGUID: NXlj+fZcRwOAe7BaMO3f9Q==
+X-CSE-MsgGUID: rhRiV+enT5aV3mXeRJQt2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100495588"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="100495588"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 04:30:45 -0700
+X-CSE-ConnectionGUID: qWT5UoJmQryOQlPvSltQgg==
+X-CSE-MsgGUID: EEBG6GS1QbCdK3y/0gtbZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="270348266"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.253])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 04:30:40 -0700
+Date: Tue, 15 Sep 2026 14:30:36 +0300
+From: Tony Lindgren <tony.lindgren@linux.intel.com>
 To: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
 	Sean Christopherson <seanjc@google.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>, ashish.kalra@amd.com,
-	michael.roth@amd.com, nsaenz@amazon.com, anelkz@amazon.de,
-	James.Bottomley@hansenpartnership.com,
-	Melody Wang <huibo.wang@amd.com>, kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev,
-	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, kvm-riscv@lists.infradead.org,
-	x86@kernel.org, coconut-svsm@lists.linux.dev, joerg.roedel@amd.com
-Subject: Re: [PATCH 29/60] kvm: Implement KVM_CREATE_PLANE ioctl
-Message-ID: <aqRAXTdtUY_Yt8zJ@shallyn-amd>
-References: <20260608144252.351443-1-joro@8bytes.org>
- <20260608144252.351443-30-joro@8bytes.org>
+	Michael Roth <michael.roth@amd.com>,
+	Liam Merwick <liam.merwick@oracle.com>,
+	Vishal Annapurve <vannapurve@google.com>,
+	Ninad Naik <ninadnaik07@gmail.com>,
+	Joerg Roedel <joerg.roedel@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	coconut-svsm@lists.linux.dev
+Subject: Re: [PATCH v2 6/8] KVM: SEV: Add SNP vCPU state get and set commands
+Message-ID: <aqksXLLcmFDkM9Xj@tlindgre-MOBL1>
+References: <20260908103338.427254-1-joro@8bytes.org>
+ <20260908103338.427254-7-joro@8bytes.org>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
@@ -52,148 +71,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260608144252.351443-30-joro@8bytes.org>
+In-Reply-To: <20260908103338.427254-7-joro@8bytes.org>
 
-On Mon, Jun 08, 2026 at 04:42:21PM +0200, Jörg Rödel wrote:
-> From: Paolo Bonzini <pbonzini@redhat.com>
-> 
-> Add a new VM ioctl to create a new plane. It returns a new file
-> descriptor which supports per-plane ioctls.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> Co-developed-by: Joerg Roedel <joerg.roedel@amd.com>
-> Signed-off-by: Joerg Roedel <joerg.roedel@amd.com>
-> ---
->  include/uapi/linux/kvm.h |  2 ++
->  virt/kvm/kvm_main.c      | 75 ++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 77 insertions(+)
-> 
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 813f964a6dc1..24e34b8e4819 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -1355,6 +1355,8 @@ struct kvm_s390_keyop {
->  #define KVM_GET_DEVICE_ATTR	  _IOW(KVMIO,  0xe2, struct kvm_device_attr)
->  #define KVM_HAS_DEVICE_ATTR	  _IOW(KVMIO,  0xe3, struct kvm_device_attr)
->  
-> +#define KVM_CREATE_PLANE	  _IO(KVMIO, 0xe4)
-> +
->  /*
->   * ioctls for vcpu fds
->   */
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 5a0277e2ac7c..03a44ff62f0f 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -4843,6 +4843,34 @@ static long kvm_vcpu_compat_ioctl(struct file *filp,
->  }
->  #endif
->  
-> +static long kvm_plane_ioctl(struct file *filp, unsigned int ioctl,
-> +			    unsigned long arg)
+On Tue, Sep 08, 2026 at 12:33:36PM +0200, Jörg Rödel wrote:
+> From: Joerg Roedel <joerg.roedel@amd.com>
+> --- a/arch/x86/kvm/svm/sev.c
+> +++ b/arch/x86/kvm/svm/sev.c
+...
+> +static int snp_get_vcpu_state(struct kvm_vcpu *vcpu,
+> +			      struct kvm_sev_cmd *argp)
 > +{
-> +	struct kvm_plane *plane = filp->private_data;
+> +	struct vcpu_svm *svm = to_svm(vcpu);
+> +	struct kvm *kvm = vcpu->kvm;
+> +	struct kvm_sev_snp_vcpu_state state = {};
 > +
-> +	if (plane->kvm->mm != current->mm || plane->kvm->vm_dead)
-> +		return -EIO;
-> +
-> +	switch (ioctl) {
-> +	default:
+> +	if (!is_sev_snp_guest(vcpu))
 > +		return -ENOTTY;
+> +	if (!to_kvm_sev_info(kvm)->snp_context)
+> +		return -EINVAL;
+> +
+> +	guard(mutex)(&svm->sev_es.snp_vmsa_mutex);
+> +
+> +	if (VALID_PAGE(svm->sev_es.snp_guest_vmsa_gpa) &&
+> +	    VALID_PAGE(svm->vmcb->control.vmsa_pa)) {
+> +		state.vmsa_gpa = svm->sev_es.snp_guest_vmsa_gpa;
+> +		state.valid_fields |= KVM_SEV_SNP_VCPU_STATE_VMSA_VALID;
 > +	}
-> +}
 > +
-> +static int kvm_plane_release(struct inode *inode, struct file *filp)
-> +{
-> +	struct kvm_plane *plane = filp->private_data;
+> +	if (VALID_PAGE(svm->vmcb->control.ghcb_gpa)) {
+> +		state.ghcb_gpa = svm->vmcb->control.ghcb_gpa;
+> +		state.valid_fields |= KVM_SEV_SNP_VCPU_STATE_GHCB_VALID;
+> +	}
 > +
-> +	kvm_put_kvm(plane->kvm);
+> +	if (copy_to_user(u64_to_user_ptr(argp->data), &state, sizeof(state)))
+> +		return -EFAULT;
+> +
 > +	return 0;
 > +}
 > +
-> +static struct file_operations kvm_plane_fops = {
-> +	.unlocked_ioctl = kvm_plane_ioctl,
-> +	.release = kvm_plane_release,
-> +	KVM_COMPAT(kvm_plane_ioctl),
-> +};
-> +
->  static int kvm_device_mmap(struct file *filp, struct vm_area_struct *vma)
->  {
->  	struct kvm_device *dev = filp->private_data;
-> @@ -5288,6 +5316,49 @@ static int kvm_vm_ioctl_get_stats_fd(struct kvm *kvm)
->  	return fd;
->  }
->  
-> +static int kvm_vm_ioctl_create_plane(struct kvm *kvm, unsigned id)
+> +static int snp_set_vcpu_state(struct kvm_vcpu *vcpu,
+> +			      struct kvm_sev_cmd *argp)
 > +{
-> +	struct kvm_plane *plane;
-> +	struct file *file;
-> +	int r, fd;
+> +	struct vcpu_svm *svm = to_svm(vcpu);
+> +	struct kvm *kvm = vcpu->kvm;
+> +	struct kvm_sev_info *sev = to_kvm_sev_info(kvm);
+> +	struct kvm_sev_snp_vcpu_state state;
+> +	int ret;
 > +
-> +	if (id >= kvm_arch_max_planes(kvm) ||
-> +	    WARN_ON_ONCE(id >= KVM_MAX_PLANES))
+> +	if (!is_sev_snp_guest(vcpu))
+> +		return -ENOTTY;
+> +	if (!sev->snp_direct_vmsa)
+> +		return -EINVAL;
+> +	if (!sev->snp_context || kvm->arch.pre_fault_allowed)
 > +		return -EINVAL;
 > +
-> +	guard(mutex)(&kvm->lock);
-> +	if (kvm->planes[id])
-> +		return -EEXIST;
+> +	if (copy_from_user(&state, u64_to_user_ptr(argp->data), sizeof(state)))
+> +		return -EFAULT;
 > +
-> +	fd = get_unused_fd_flags(O_CLOEXEC);
-> +	if (fd < 0)
-> +		return fd;
+> +	if (memchr_inv(state.pad, 0, sizeof(state.pad)) ||
+> +	    state.valid_fields & ~(KVM_SEV_SNP_VCPU_STATE_VMSA_VALID |
+> +				   KVM_SEV_SNP_VCPU_STATE_GHCB_VALID))
+> +		return -EINVAL;
 > +
-> +	plane = kvm_create_plane(kvm, id);
-> +	if (!plane) {
-> +		r = -ENOMEM;
-> +		goto put_fd;
+> +	if (state.valid_fields & KVM_SEV_SNP_VCPU_STATE_VMSA_VALID) {
+> +		if (!PAGE_ALIGNED(state.vmsa_gpa) ||
+> +		    !page_address_valid(vcpu, state.vmsa_gpa) ||
+> +		    IS_ALIGNED(state.vmsa_gpa, PMD_SIZE))
+> +			return -EINVAL;
 > +	}
 > +
-> +	kvm_get_kvm(kvm);
-> +	file = anon_inode_getfile("kvm-plane", &kvm_plane_fops, plane, O_RDWR);
-> +	if (IS_ERR(file)) {
-> +		r = PTR_ERR(file);
-> +		goto put_kvm;
+> +	guard(mutex)(&svm->sev_es.snp_vmsa_mutex);
+> +
+> +	if (state.valid_fields & KVM_SEV_SNP_VCPU_STATE_VMSA_VALID) {
+> +		ret = sev_snp_install_guest_vmsa(svm, state.vmsa_gpa);
+> +		if (ret)
+> +			return ret;
+> +	} else {
+> +		svm->sev_es.snp_has_guest_vmsa = true;
+> +		svm->sev_es.snp_guest_vmsa_gpa = INVALID_PAGE;
+> +		svm->vmcb->control.vmsa_pa = INVALID_PAGE;
 > +	}
 > +
-> +	fd_install(fd, file);
-> +	return fd;
+> +	if (state.valid_fields & KVM_SEV_SNP_VCPU_STATE_GHCB_VALID)
+> +		svm->vmcb->control.ghcb_gpa = state.ghcb_gpa;
+> +	else
+> +		svm->vmcb->control.ghcb_gpa = INVALID_PAGE;
 > +
-> +put_kvm:
-> +	kvm_put_kvm(kvm);
-> +	kvm_destroy_one_plane(plane);
-
-I believe shashiko is right here, and I don't see it changed in a later
-patch:  kvm->planes[id] will still point to the now-freed plane.
-Probably best if kvm_destroy_one_plane(plane) sets that to NULL itself
-after freeing the plane.
-
-> +put_fd:
-> +	put_unused_fd(fd);
-> +	return r;
+> +	vmcb_mark_all_dirty(svm->vmcb);
+> +	return 0;
 > +}
 > +
-> +
->  #define SANITY_CHECK_MEM_REGION_FIELD(field)					\
->  do {										\
->  	BUILD_BUG_ON(offsetof(struct kvm_userspace_memory_region, field) !=		\
-> @@ -5306,6 +5377,9 @@ static long kvm_vm_ioctl(struct file *filp,
->  	if (kvm->mm != current->mm || kvm->vm_dead)
->  		return -EIO;
->  	switch (ioctl) {
-> +	case KVM_CREATE_PLANE:
-> +		r = kvm_vm_ioctl_create_plane(kvm, arg);
-> +		break;
->  	case KVM_CREATE_VCPU:
->  		r = kvm_vm_ioctl_create_vcpu(kvm, arg);
->  		break;
-> @@ -6676,6 +6750,7 @@ int kvm_init(unsigned vcpu_size, unsigned vcpu_align, struct module *module)
->  	kvm_chardev_ops.owner = module;
->  	kvm_vm_fops.owner = module;
->  	kvm_vcpu_fops.owner = module;
-> +	kvm_plane_fops.owner = module;
->  	kvm_device_fops.owner = module;
->  
->  	kvm_preempt_ops.sched_in = kvm_sched_in;
-> -- 
-> 2.53.0
-> 
+
+Nice, looks like snp_get/set_vcpu_state() could quite easily make use
+of KVM_EXPORT/IMPORT_VCPU?
