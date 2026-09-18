@@ -1,64 +1,103 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8A575A984C
-	for <coconut-svsm@lists.linux.dev>; Thu, 17 Sep 2026 14:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789657204; cv=none; b=fYFynRhjEh1Ht3/fWcUzI3uc5IZKKPpSMijpbtP8a1cbtqCOA9a5Pw/lsDyfP1v6fLrkC8JzIOMSNBymfoeUnrX1VrlkzhL19SVWcm4zp1P3rtmZqmUYhHndeGAjpUPa7wFGf8VwUNYne4b8X7J0aLpLruiCtvSb6BLSDXSoCAo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789657204; c=relaxed/simple;
-	bh=53aCEGHYwukAZTl86DipUp2yXojCNqH9CDncsz1xdks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N8gQ2WbWWKRFbXJ0hpiesHBJtT0f5wQHRsL8QyrCizZLgjc38+AfLr6eJnMYLvJaECkOZoc1bS70W5u+MOx7d1suQ6UfJAN3qmK5BspyeQYXMWD4u+rHEWUJdy4nvny3OZlpyT6BMXjqD3GaYhrGWv9SgGP7oGZ0LaPEWk3iagU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Received: from 8bytes.org (p200300f6af404a00d97e11a7b5d1f70d.dip0.t-ipconnect.de [IPv6:2003:f6:af40:4a00:d97e:11a7:b5d1:f70d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 8DCCB1C1C39;
-	Thu, 17 Sep 2026 16:59:38 +0200 (CEST)
-Date: Thu, 17 Sep 2026 16:59:37 +0200
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-To: Tony Lindgren <tony.lindgren@linux.intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Michael Roth <michael.roth@amd.com>, 
-	Liam Merwick <liam.merwick@oracle.com>, Vishal Annapurve <vannapurve@google.com>, 
-	Ninad Naik <ninadnaik07@gmail.com>, Joerg Roedel <joerg.roedel@amd.com>, 
-	Tom Lendacky <thomas.lendacky@amd.com>, James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, coconut-svsm@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02E637E5C5
+	for <coconut-svsm@lists.linux.dev>; Fri, 18 Sep 2026 05:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789709915; cv=none; b=DUfykuvP4CfEFybOoJy91ppiPHLcWVxlD4Q4qfemr0v9rXgdMKFikiOpvqXBCQn+Fcu6pS+3pMOxG6Jq1BHJF8/XLHDL2N5dtOII1jkE5SkI8Tmw4iWz/7fyae5fnzJxG9D5gh3ewXqj3BZGaxLzccvOK6qvtiNf1x95rDt0etM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789709915; c=relaxed/simple;
+	bh=t2ClplML9zkcPCXZKC8gHHRapTDjWXKKbzD2Gn6eQVc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Iu6zedC7WixwLtr/YeiY6uZZJbW3dmzMmIwXczkvr3G89ppMchbcT6h3445JSYCsAJbBnZguPI2hPmRJqYfJSoIsf7bUl9+c/Mmt7H5x8bqLbpQTvoJ5hy/uVC+Mv3eP7z4dr+75pKg16vpGDs+o6zY4J6MjPPaAaq7ualy/V88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYzdrC0o; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYzdrC0o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789709914; x=1821245914;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=t2ClplML9zkcPCXZKC8gHHRapTDjWXKKbzD2Gn6eQVc=;
+  b=JYzdrC0o3ZvIgTWXGUlCbsk9OgiDl2pXs+mVU5Ucu0A7MFne2xJtKy/Y
+   GIcrwizOUdLqBsG7ohcdfwPMxBzvkWgC+i/+Og5Zq8jWWJ8490kN3lI/P
+   himhQGzkU64IiGa1uh7cuIK09s9rfECXM6kDQGkIvczsa9kuZFKzbvO0w
+   iKMeRCtiL6Mea3n/DLs4sLaBHzqxh9BuwVblRBxLnBTkb//114OkGdkus
+   4anELqby0PGJJA4WWbV8Abj6tIQhzMLcHMbapOGRoWjgdHr5UAzQ1q+G6
+   9TwgWC77AzjtCG4y9HsllrCKPRHnEF1/KlcHxsvPJr+XacPWjWBjktSTr
+   A==;
+X-CSE-ConnectionGUID: 7/BnrrxERXuxaqdQKWaUSw==
+X-CSE-MsgGUID: ba9ScI/HQoKN6aXcA7yGmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="94024579"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="94024579"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 22:38:33 -0700
+X-CSE-ConnectionGUID: hOPFj521SaCpoVOQSvCFZA==
+X-CSE-MsgGUID: PAqmF9ZgRZKu1G5YeZANdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="271550870"
+Received: from wgawrons-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.112])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 22:38:28 -0700
+Date: Fri, 18 Sep 2026 08:38:25 +0300
+From: Tony Lindgren <tony.lindgren@linux.intel.com>
+To: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Liam Merwick <liam.merwick@oracle.com>,
+	Vishal Annapurve <vannapurve@google.com>,
+	Ninad Naik <ninadnaik07@gmail.com>,
+	Joerg Roedel <joerg.roedel@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	coconut-svsm@lists.linux.dev
 Subject: Re: [PATCH v2 6/8] KVM: SEV: Add SNP vCPU state get and set commands
-Message-ID: <aqv-FtT1v1FjDZJD@8bytes.org>
+Message-ID: <aqzOUb1m-v-kG5v-@tlindgre-MOBL1>
 References: <20260908103338.427254-1-joro@8bytes.org>
  <20260908103338.427254-7-joro@8bytes.org>
  <aqksXLLcmFDkM9Xj@tlindgre-MOBL1>
  <aqrDUgB7nfdgzXpQ@8bytes.org>
  <aquIYzwDOx6jzy3T@tlindgre-MOBL1>
+ <aqv-FtT1v1FjDZJD@8bytes.org>
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <aquIYzwDOx6jzy3T@tlindgre-MOBL1>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aqv-FtT1v1FjDZJD@8bytes.org>
 
-Hi Tony,
+On Thu, Sep 17, 2026 at 04:59:37PM +0200, Jörg Rödel wrote:
+> Hi Tony,
+> 
+> On Thu, Sep 17, 2026 at 09:27:47AM +0300, Tony Lindgren wrote:
+> > Oh OK, so calling for both hypervisor and confidential VCPU state would be
+> > needed. The difference could be specified in the struct kvm_vcpu_transfer
+> > flags?
+> 
+> Or hypervisor state is migrated outside of the CVM live migration interface? From QEMUs
+> perspective it is not different to other state like for emulated devices and
+> such. Does TDX also have per-cpu hypervisor state that needs to be migrated?
+>
+> In any case, for SNP this state must be settable from QEMU to correctly support
+> IGVM loading, so an interface outside of live migration is needed :)
 
-On Thu, Sep 17, 2026 at 09:27:47AM +0300, Tony Lindgren wrote:
-> Oh OK, so calling for both hypervisor and confidential VCPU state would be
-> needed. The difference could be specified in the struct kvm_vcpu_transfer
-> flags?
+Oh OK so the per-cpu hypervisor state is part of the IGVM loading.
 
-Or hypervisor state is migrated outside of the CVM live migration interface? From QEMUs
-perspective it is not different to other state like for emulated devices and
-such. Does TDX also have per-cpu hypervisor state that needs to be migrated?
+Yes the per-vcpu migration is a bit different for TDX. No two separate
+steps like you're describing for vCPU migration (per-cpu for vCPU
+registers and per-cpu for hypervisor state).
 
-In any case, for SNP this state must be settable from QEMU to correctly support
-IGVM loading, so an interface outside of live migration is needed :)
-
-Regards,
-
-	Joerg
+After stopping the TDX source, the VM state is migrated. And then the
+per-cpu state. The per-vcpu state is just a QEMU VMState for TDX too,
+and it needs the help of KVM to export the state into an encrypted blob.
