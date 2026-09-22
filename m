@@ -1,103 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02E637E5C5
-	for <coconut-svsm@lists.linux.dev>; Fri, 18 Sep 2026 05:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DC535CB7F
+	for <coconut-svsm@lists.linux.dev>; Tue, 22 Sep 2026 15:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789709915; cv=none; b=DUfykuvP4CfEFybOoJy91ppiPHLcWVxlD4Q4qfemr0v9rXgdMKFikiOpvqXBCQn+Fcu6pS+3pMOxG6Jq1BHJF8/XLHDL2N5dtOII1jkE5SkI8Tmw4iWz/7fyae5fnzJxG9D5gh3ewXqj3BZGaxLzccvOK6qvtiNf1x95rDt0etM=
+	t=1790092787; cv=none; b=V3LyVwZa9ZPd3Whdtjf/2lbeiDmY+LTrKyrpVIkWkKJ2fL1BiN4t2wbJWg7/QXK6zN8eVCoRvzJgvirbb9wjPy4P5Io4/Y7fCvbb7S7sPtS2NUjEasTTlCeCc2ekkU9vHarIJM/EvQD9tIqMuwqp3AT7VkKX+tpUDHwCMrdp1SE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789709915; c=relaxed/simple;
-	bh=t2ClplML9zkcPCXZKC8gHHRapTDjWXKKbzD2Gn6eQVc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Iu6zedC7WixwLtr/YeiY6uZZJbW3dmzMmIwXczkvr3G89ppMchbcT6h3445JSYCsAJbBnZguPI2hPmRJqYfJSoIsf7bUl9+c/Mmt7H5x8bqLbpQTvoJ5hy/uVC+Mv3eP7z4dr+75pKg16vpGDs+o6zY4J6MjPPaAaq7ualy/V88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYzdrC0o; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1790092787; c=relaxed/simple;
+	bh=E8MOFpzbt1QnCvl7PyBeS49aMyS3+spMzp0KDWR4X+E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=gnRSYkaOtNIWm2kzf3b/8dPeitQwkkNBts95l9MnjrzBahBetk5AS5rrXQ4Ewxm6SfP22jb3e4UFiSb8AhHo8cxJbeds9IIHMrbpnnrTm5DSt9y5hqAV4brViZ+3t9nmQIUWCGCfDioRqja4HRI1WKzrfr7yjQRAPR3A7gCZy0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YmccH4Ip; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYzdrC0o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789709914; x=1821245914;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=t2ClplML9zkcPCXZKC8gHHRapTDjWXKKbzD2Gn6eQVc=;
-  b=JYzdrC0o3ZvIgTWXGUlCbsk9OgiDl2pXs+mVU5Ucu0A7MFne2xJtKy/Y
-   GIcrwizOUdLqBsG7ohcdfwPMxBzvkWgC+i/+Og5Zq8jWWJ8490kN3lI/P
-   himhQGzkU64IiGa1uh7cuIK09s9rfECXM6kDQGkIvczsa9kuZFKzbvO0w
-   iKMeRCtiL6Mea3n/DLs4sLaBHzqxh9BuwVblRBxLnBTkb//114OkGdkus
-   4anELqby0PGJJA4WWbV8Abj6tIQhzMLcHMbapOGRoWjgdHr5UAzQ1q+G6
-   9TwgWC77AzjtCG4y9HsllrCKPRHnEF1/KlcHxsvPJr+XacPWjWBjktSTr
-   A==;
-X-CSE-ConnectionGUID: 7/BnrrxERXuxaqdQKWaUSw==
-X-CSE-MsgGUID: ba9ScI/HQoKN6aXcA7yGmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="94024579"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="94024579"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 22:38:33 -0700
-X-CSE-ConnectionGUID: hOPFj521SaCpoVOQSvCFZA==
-X-CSE-MsgGUID: PAqmF9ZgRZKu1G5YeZANdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="271550870"
-Received: from wgawrons-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.112])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 22:38:28 -0700
-Date: Fri, 18 Sep 2026 08:38:25 +0300
-From: Tony Lindgren <tony.lindgren@linux.intel.com>
-To: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Liam Merwick <liam.merwick@oracle.com>,
-	Vishal Annapurve <vannapurve@google.com>,
-	Ninad Naik <ninadnaik07@gmail.com>,
-	Joerg Roedel <joerg.roedel@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	coconut-svsm@lists.linux.dev
-Subject: Re: [PATCH v2 6/8] KVM: SEV: Add SNP vCPU state get and set commands
-Message-ID: <aqzOUb1m-v-kG5v-@tlindgre-MOBL1>
-References: <20260908103338.427254-1-joro@8bytes.org>
- <20260908103338.427254-7-joro@8bytes.org>
- <aqksXLLcmFDkM9Xj@tlindgre-MOBL1>
- <aqrDUgB7nfdgzXpQ@8bytes.org>
- <aquIYzwDOx6jzy3T@tlindgre-MOBL1>
- <aqv-FtT1v1FjDZJD@8bytes.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YmccH4Ip"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790092785;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vnzxIkFjO/uws6giHzZ1s0Tl8JvX28Ubm/U0YTfgZHA=;
+	b=YmccH4Ip0DMlNr7+EU0LYFOCxdkDLxR8xboVSjwatFtOGeNAcMHBko7fozucIGnDfaqYos
+	cGtd3N1JvaDlVYAOLeKAkOSlPHsfgzL2UdFuGGydH30rjl1vqoQhFnEamtP9op0rBVl47h
+	cF5m/1+CwPqVXQPLmvVIMj6XG2z9CS4=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-104-4XX5jNHWNAWdQKdDtfchvQ-1; Tue, 22 Sep 2026 11:59:42 -0400
+X-MC-Unique: 4XX5jNHWNAWdQKdDtfchvQ-1
+X-Mimecast-MFC-AGG-ID: 4XX5jNHWNAWdQKdDtfchvQ_1790092781
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-ca8aee88725so102858a12.3
+        for <coconut-svsm@lists.linux.dev>; Tue, 22 Sep 2026 08:59:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790092781; x=1790697581;
+        h=content-type:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vnzxIkFjO/uws6giHzZ1s0Tl8JvX28Ubm/U0YTfgZHA=;
+        b=wKq8iZsudVIb7B6GdNg2AUV3d3xFE8uqD0wfynNkp3FO/G3U83O8NTd06RAgk0zyKp
+         g9qm0Ekfg/QxetO8RPgYYF0GvAa2/RC8eaDAtsAALOBwf1sMVW+XI8vyiRvFLKbUkA/Q
+         lyG11MxEHRpbT82QlHLDrmV/AnP//iSCCk0pL61533uORegsPYQ+d6kCCf9wIK3bwm8G
+         Exi8Yet5Nq1oOoiJRcy3nvW4lmgDnzYIqS5Z6QFV57M0IdpHvUQnnfrYrVkvU3/UhKeD
+         JQ4rRyZM1XEeD06XrvavDxlPyOaCNFepX1DcpaEYpSafrWNsEGBZVaoFcs0pkCeoqFmC
+         FFkA==
+X-Gm-Message-State: AFuF++lnOk+dm8YHs0848+oNsg0JD2yDZVmxyKxNAlU59W9fictInvL/
+	YmM1Slntdl1cJHxPDeRAAkEW3sYwpfmXR1vKgydzU8adPSUF6x0JiIE9zgvpLQcuyVErT4yOT1B
+	fRju3Yf4/7uwVFZir0r6iZ/kvuMEMC6JgSLgvzjlxzb9ySl1LF8GVOs1Enu5ymiY8vhP+voL86W
+	gohQCOaT5N1Uk3k0h1omOS3gpgNF1KZ0rsHEVUlJohD4dZdu0y
+X-Gm-Gg: AYBFou1CJStV4aOnSeUV0e2iv8cB3rJFQH6HaMEc9s1X8P/CcmZzTXXNjlrQHCqlnuL
+	b/exm7y30X+rUBcH/XXqr6Ug/XDci+lVRDeCfpvFDcNiZbRzy7K4e7xsJOc9234ClxrB1rxs0yI
+	V5JmV2WYIcTIu8vO0L5sWbuXmZGE9ijY2T2qz8k2uAJSb/qx180nsQgXAu
+X-Received: by 2002:a05:6a20:d526:b0:3dd:85a8:4c66 with SMTP id adf61e73a8af0-3ddec802477mr2206226637.45.1790092781107;
+        Tue, 22 Sep 2026 08:59:41 -0700 (PDT)
+X-Received: by 2002:a05:6a20:d526:b0:3dd:85a8:4c66 with SMTP id
+ adf61e73a8af0-3ddec802477mr2206192637.45.1790092780548; Tue, 22 Sep 2026
+ 08:59:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Subscribe: <mailto:coconut-svsm+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aqv-FtT1v1FjDZJD@8bytes.org>
+References: <aqlXypyTlhuLRVmD@8bytes.org>
+In-Reply-To: <aqlXypyTlhuLRVmD@8bytes.org>
+From: Stefano Garzarella <sgarzare@redhat.com>
+Date: Tue, 22 Sep 2026 17:59:28 +0200
+X-Gm-Features: AcwNN1UzOxzA_QV00w6WlKEqf_x9wUBx7h1CvyARLQDIWsvRBVgvTGxmza6xyLw
+Message-ID: <CAGxU2F4VaSUGe7QkhqCm2=AzcYxzZqgxm+yjk=QTRkUTxq_3Ew@mail.gmail.com>
+Subject: SVSM Development Call September 23rd, 2026
+To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: _OrbnLaNPvucgsUMdiWIrw9JGlFKX_89PDGC6cau2wE_1790092781
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 17, 2026 at 04:59:37PM +0200, Jörg Rödel wrote:
-> Hi Tony,
-> 
-> On Thu, Sep 17, 2026 at 09:27:47AM +0300, Tony Lindgren wrote:
-> > Oh OK, so calling for both hypervisor and confidential VCPU state would be
-> > needed. The difference could be specified in the struct kvm_vcpu_transfer
-> > flags?
-> 
-> Or hypervisor state is migrated outside of the CVM live migration interface? From QEMUs
-> perspective it is not different to other state like for emulated devices and
-> such. Does TDX also have per-cpu hypervisor state that needs to be migrated?
->
-> In any case, for SNP this state must be settable from QEMU to correctly support
-> IGVM loading, so an interface outside of live migration is needed :)
+Hi,
 
-Oh OK so the per-cpu hypervisor state is part of the IGVM loading.
+Here is the call for agenda items for this weeks SVSM development call.  Please
+send any agenda items you have in mind as a reply to this email or raise them
+in the meeting.
 
-Yes the per-vcpu migration is a bit different for TDX. No two separate
-steps like you're describing for vCPU migration (per-cpu for vCPU
-registers and per-cpu for hypervisor state).
+We will use the LF Zoom instance. Details of the meeting  can be found in our
+governance repository at:
 
-After stopping the TDX source, the VM state is migrated. And then the
-per-cpu state. The per-vcpu state is just a QEMU VMState for TDX too,
-and it needs the help of KVM to export the state into an encrypted blob.
+        https://github.com/coconut-svsm/governance
+
+The link to the COCONUT-SVSM calendar is:
+
+        https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=week
+
+The meeting will be recorded and the recording eventually published.
+
+Ciao,
+Stefano
+
