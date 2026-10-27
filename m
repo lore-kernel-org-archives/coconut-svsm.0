@@ -1,42 +1,42 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=85.214.250.239
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793098375;
-	b=P/sLtvDW+DOPGYJZ2E6pjCbzP6WTVAMOjSAov4Mhhcpp+5/NWoEX7OSzs/NF4udo+2UH
-	 ayEcIwfpyy/W1l60bZVJRSnueyo4n+6agEGgq0h1a4Nlh1x2bB7hXUar1PfXPdfr53mdI
-	 UNhyJOzJfccObmFEWpLBQ7r7hIU1cEyfLnFhE0Mf7TQhnOepngMihUoNE97jvQVffouGb
-	 +3U15H3FBDBeBOYUAqB/k4homBHiGZXMotf3//NgUhbXz2RnQ1zrhimrqIqgqkM4vN4cq
-	 XT9T/WTEnB8mlzv60oNeVUj0b+R7lLloicSOzMBw1NLMoRxvK2yJmjTXrBoYv1Fp65A==
+	t=1793115686;
+	b=G9XXYMRnDgaSfTlYX6Wqpza21RxZqCS6m5kL8V6/NPB011BhsNGjKCVXBqA9Yyh5ZQaN
+	 og92v/agGrUEzOXtHVkz/ihSlIHOxOBVYbA7731jptPy65R3bCBDzGnsmkdhUdpZvwn6v
+	 t7xuDC+hcyGInVsjHGaBNYwvGqANfyIltl8MK3LMAe4NVnk5m81/H5pqYa0pDUSMNAJ2k
+	 JTiz+8lVh4UgVpEMNLsR4iztn/tZV6imycCs4FRrvagbwtdx5wU4+AB1Z4XQBtVCHMLl9
+	 3xoNy+A4QP9Q9DeYF/VogLmMLW/7M1GSTwK1q9rJWlx8znzzMBn5sipi8bHCmLt4Mww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793098375;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793115686;
 	h=DMARC-Filter:Received:Date:From:To:Subject:Message-ID:MIME-Version:
 	 Content-Type:Content-Disposition:Content-Transfer-Encoding;
-	bh=o8F1K2/jIqNA+uVQ9PF8zXJgsC0lQGajgm5OQ5zE4qw=;
-	b=uxt7GS9oxC7EEUHQS3/Wlve876Etety1LGwjUQRPYTigNsNHt9WJunm5B7gJ+BJbZZv5
-	 MsqvPxrtCF4r7VXLrvlCloncZO3V9C07ELcehtHMdSvSXHLeCIl4V6nK1DThUMwcbz4yS
-	 1Anm1hXXWqwnr4ix7boc2D5DWtcfrJVuBjiA26ciPmYIpqHEK/uMlgvPldlZO5nRodrBM
-	 h4laKOI0QcjXX+wKSvce/mhG0X99TsknzfBKNObR7d1GVhgiosk8rYEmzp3ZcpVuXUKu1
-	 Q6v8E7g9sOq2WPs6QGp0x0gISTrVwb5Ikiao0TNlwBdBNYCM7PoLpY00CXimxmm1srw==
+	bh=xmi6trzU/nsjJ3ZgFzPKSEwMeexi0/WtDAcZwDJqx3M=;
+	b=wepWiFY2DwGWz+HOSIvF/4HV3Le/Bk08xg4W4ud7+QvOYhCQtPP9XBjEcy8++f6IC9hC
+	 Q5yFmYg4pD9+RpD2x+1L7iwv6kTnHFx+hgXnIcIWLsYiHu6IAWcfg3+YojPePgQPhtphq
+	 e13XbcJA1MaYXAmfuxTky8NkoWxIYrLG0XGGgTLIi5nC+jaLessufZCperFw6K5c++/P5
+	 gapG5xJn7GeS/SbUtQ56tN2f1PFaOoNz3u6eCDDlFFBXRzj4+mzts5TZewXyeex/UOu1m
+	 zL2aKOKW2cgywN3A3D4fkFeLd2iCVygkG8e+fNSx8JGRxTJFKCC9sKNfPIS0W7q+qcg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=8bytes.org;
 	spf=pass smtp.mailfrom=8bytes.org;
 	arc=none smtp.remote-ip=85.214.250.239
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C65A8606B78B;
-	Tue, 27 Oct 2026 10:52:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C65A8606B78B
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B402606A31A;
+	Tue, 27 Oct 2026 15:41:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B402606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Received: from 8bytes.org (p200300f6af404a007f96e19db8f88024.dip0.t-ipconnect.de [IPv6:2003:f6:af40:4a00:7f96:e19d:b8f8:8024])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 7F3961C7802;
-	Tue, 27 Oct 2026 11:52:48 +0100 (CET)
-Date: Tue, 27 Oct 2026 11:52:47 +0100
+	by mail.8bytes.org (Postfix) with ESMTPSA id 33EB11C7802;
+	Tue, 27 Oct 2026 16:41:24 +0100 (CET)
+Date: Tue, 27 Oct 2026 16:41:23 +0100
 From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
 To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
-Subject: COCONUT-SVSM Development Release v2026.10-devel
-Message-ID: <auCCf9ScqKH2xBty@8bytes.org>
+Subject: SVSM Development Call October 28th, 2026
+Message-ID: <auDFXgVCzNA-AeRk@8bytes.org>
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Post: <mailto:coconut-svsm@lists.linux.dev>
@@ -52,99 +52,25 @@ Content-Transfer-Encoding: 8bit
 
 Hi,
 
-Another small COCONUT-SVSM release is out: 2026.10-devel. This development
-snapshot release contains 49 non-merge commits from 4 contributors. The
-highlights in this release are:
+Here is the call for agenda items for this weeks SVSM development call.  Please
+send any agenda items you have in mind as a reply to this email or raise them
+in the meeting.
 
-  * New per-CPU storage infrastructure: Added linker-backed per-CPU keys with
-    GS-relative access, runtime initialization, and assembly support.
+Note that the meeting is scheduled in a European timezone which has switched to
+winter time already. If you join from a region still on summer time there is an
+one-hour offset to the usual meeting time.
 
-  * Exception handling: Added GS-base switching on exception and interrupt
-    entry from userspace, including special handling for NMI, machine-check,
-    double-fault, and #HV paths.
+We will use the LF Zoom instance. Details of the meeting  can be found in our
+governance repository at:
 
-  * Page-table correctness: Fixed memory-management operations to use the
-    currently active page table after switching into task context. Added
-    immutable page-table walking and reader-writer locking for task page
-    tables.
+	https://github.com/coconut-svsm/governance
 
-  * APIC emulation: Corrected processor-priority calculation when an in-service
-    interrupt determines the priority. Added unit tests for interrupt
-    priorities, guest IRQ delivery, EOI handling, and #HV doorbell
-    interactions.
+The link to the COCONUT-SVSM calendar is:
 
-  * CPU feature detection: Improved handling of multi-bit CPUID fields and
-    corrected C-bit and INVLPGB capability detection.
+	https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=week
 
-  * Panic handling: Prevented recursive panics and routed SEV-SNP GHCB I/O
-    failures through the panic handler so termination includes secrets-page
-    scrubbing.
+The meeting will be recorded and the recording eventually published.
 
-  * Dependency updates: Updated P-384, crypto-bigint, and Tokio to address
-    audit findings affecting constant-time arithmetic and AsyncFd I/O safety.
+Regards,
 
-The full shortlog of the non-merge commits is attached.
-
-Happy testing!
-
-Cheers,
-
-	Joerg
-
-Carlos López (20):
-      kernel: mm/pagetable: rename methods to reflect mutability
-      kernel: mm/pagetable: add immutable page table walking methods
-      kernel: task: deduplicate current_task()
-      kernel: task: always get active task via current_task()
-      kernel: task: replace pagetable spinlock with RWLock
-      kernel: cpu/percpu: store page table in AtomicPtr
-      kernel: cpu/percpu: explicitly install page table
-      kernel: cpu/percpu: add PerCpu::new_pgtable()
-      kernel: cpu/percpu: fix current page table accesses
-      kernel: prevent reentrant panicking
-      kernel: platform/snp: route GHCB I/O port failures through panic handler
-      kernel: cpu/features: allow arbitrary feature presence detection
-      kernel: cpu/apic: mask priority subclass if ISR determines PPR
-      kernel: cpu/apic: abstract away CPU APIC state
-      kernel: cpu/apic: introduce APIC testing infrastructure
-      kernel: cpu/apic: add basic APIC tests
-      kernel: cpu/apic: add guest IRQ delivery tests
-      kernel: cpu/apic: add EOI tests
-      kernel: cpu/apic: add #HV doorbell tests
-      xbuild: preserve build artifacts before objcopy
-
-Joerg Roedel (25):
-      kernel: cpu/idt: Handle GS swaps on exception entry and return
-      kernel/percpu: Add linker-backed per-CPU keys
-      kernel/percpu: Install CPU-local GS areas
-      kernel/percpu: Support runtime CPU-local initialization
-      kernel/percpu: Add assembly-visible per-CPU keys
-      kernel/vmsa: Move reset IP to a per-CPU key
-      kernel/irq: Move IRQ state to a per-CPU key
-      kernel/apic: Move the x86 APIC to a per-CPU key
-      kernel/apic: Move guest APIC state to a per-CPU key
-      kernel/mm: Move the 4K virtual-range allocator to a per-CPU key
-      kernel/mm: Move the 2M virtual-range allocator to a per-CPU key
-      kernel/hyperv: Move hypercall pages to a per-CPU key
-      kernel/sev: Move the GHCB page to a per-CPU key
-      kernel/percpu: Move context switch stack to a per-CPU key
-      kernel/percpu: Move paging root to a per-CPU key
-      kernel/smp: Move shared CPU state to a per-CPU key
-      kernel/sev: Move the HV doorbell to a per-CPU key
-      kernel/percpu: Move current stack to a per-CPU key
-      kernel/percpu: Move TSS to a per-CPU key
-      kernel/percpu: Move ISST to a per-CPU key
-      kernel/percpu: Move initial shadow stack to a per-CPU key
-      kernel/percpu: Move IST stacks to per-CPU keys
-      kernel/percpu: Move legacy per-CPU state into the percpu directory
-      deps: Update p384 and Tokio to resolve audit findings
-      COCONUT-SVSM Release 2026.10-devel
-
-Luigi Leonardi (2):
-      kernel: make block and vsock imply virtio-drivers
-      verification/verus_macro_stub: remove unused proc-macro2 dependency
-
-Stefano Garzarella (2):
-      docs/RELEASE-TESTPLAN: add persistence test
-      build: remove legacy wrapper script
-
+	Jörg
