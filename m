@@ -1,99 +1,42 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792562149;
-	b=0AgftOa1ZF/Z4ht5tkCOa8s0kufVWMaXfVwOUeElwEFjMcRAkKk2LhEHhhrI0N6eApPP
-	 xSVxNovd+8xvlLmzHh/lWeNNVMh4823o2o32yZbrNb061K+k5eh0Wu4JZnX3G3zx4aU5i
-	 LP8X5Ga1WnOeZyS8pJGviSfOqaZ/X62YAQwCUFYBCe3sP+Hgf3ftWwHBQbjhP/Vk3uVZ8
-	 4S+FhavOjr/h/fBDoJMPlf4rkKDkQpgCv4kezDSY/Ex2UZAZgq/3QLhDhXWaGCjylBlJJ
-	 uqlJF9gYP7A1oyMvxinGDRkkryHCfjQ0VoBuOCiFs5SH1/fBaGnhyC8icC1JkhOJgcg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792562149;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=/FFdfdrN7aRadLX6ARmxlIn/ghwJAMUWoAakxkec6W4=;
-	b=uur93p6AUm1qpZk7M+NA0on2SJaqt2/HmXyj/h5QF2qgUwD5tdXRiTo0anOsgg+6PmYQ
-	 1f4Y16DCLkvCvPFqVzVCsR+19R5YmpCDeyf9VwEYCaFyBJwHG+QwC+mKuztq1lRdCs3Fy
-	 m5+T6eXe4u1ABgx9C6HNDD+tGy3GE56K3fnItjuKLNapsaLqITSvxCbKghuysPBYcPWmJ
-	 lD8DRWIrUeoupVM2iqhN87Ez56RfQNMEMnFuL8ZOeBSj1QR9p0ggB1ecAfpVBC9hbBXJN
-	 GhU/dv8qIwzi5MiCmrrlZwKP7lNYhjvjWQNJ44/oER0b4iKmNbSf1+/4JQuxWNXiVDA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=vtVOiKeo;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=85.214.250.239
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793098375;
+	b=P/sLtvDW+DOPGYJZ2E6pjCbzP6WTVAMOjSAov4Mhhcpp+5/NWoEX7OSzs/NF4udo+2UH
+	 ayEcIwfpyy/W1l60bZVJRSnueyo4n+6agEGgq0h1a4Nlh1x2bB7hXUar1PfXPdfr53mdI
+	 UNhyJOzJfccObmFEWpLBQ7r7hIU1cEyfLnFhE0Mf7TQhnOepngMihUoNE97jvQVffouGb
+	 +3U15H3FBDBeBOYUAqB/k4homBHiGZXMotf3//NgUhbXz2RnQ1zrhimrqIqgqkM4vN4cq
+	 XT9T/WTEnB8mlzv60oNeVUj0b+R7lLloicSOzMBw1NLMoRxvK2yJmjTXrBoYv1Fp65A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793098375;
+	h=DMARC-Filter:Received:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding;
+	bh=o8F1K2/jIqNA+uVQ9PF8zXJgsC0lQGajgm5OQ5zE4qw=;
+	b=uxt7GS9oxC7EEUHQS3/Wlve876Etety1LGwjUQRPYTigNsNHt9WJunm5B7gJ+BJbZZv5
+	 MsqvPxrtCF4r7VXLrvlCloncZO3V9C07ELcehtHMdSvSXHLeCIl4V6nK1DThUMwcbz4yS
+	 1Anm1hXXWqwnr4ix7boc2D5DWtcfrJVuBjiA26ciPmYIpqHEK/uMlgvPldlZO5nRodrBM
+	 h4laKOI0QcjXX+wKSvce/mhG0X99TsknzfBKNObR7d1GVhgiosk8rYEmzp3ZcpVuXUKu1
+	 Q6v8E7g9sOq2WPs6QGp0x0gISTrVwb5Ikiao0TNlwBdBNYCM7PoLpY00CXimxmm1srw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=8bytes.org;
+	spf=pass smtp.mailfrom=8bytes.org;
+	arc=none smtp.remote-ip=85.214.250.239
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C65A8606B78B;
+	Tue, 27 Oct 2026 10:52:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C65A8606B78B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
+Received: from 8bytes.org (p200300f6af404a007f96e19db8f88024.dip0.t-ipconnect.de [IPv6:2003:f6:af40:4a00:7f96:e19d:b8f8:8024])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D51C606A319
-	for <coconut-svsm@lists.linux.dev>; Wed, 21 Oct 2026 05:55:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D51C606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=vtVOiKeo
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6ae14cdc63aso5059a12.1
-        for <coconut-svsm@lists.linux.dev>; Tue, 20 Oct 2026 22:55:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792562148; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KtMxdZsr3zAXunZBD50txDifFPVTs8c6FJ+uaSFJ/cYfmslIObl5JEXYuf9rq2EQO8
-         MQf5sheaPcL5XaCVCyLn9v/KKKUxZXdntPhUUsnmAVglsgHuvGkg+tNNPgp4QJAlUDFY
-         /V2TdZz0AFSHcve2Ka+3HbO7Jg2Q17cJ12q6WAT6aw6915aGMoqMkouT4+3hi8neb/vM
-         ZO9jp8xJmsO3EJNbY/+7QK8mCuhoff2NQfDQrrPpVNUaXUQLUiMLlmlJbiad7oKyVE60
-         47fO+9g0Sz/Wkk8SUwFzowR7vP4qELsjo7zDxawBI/IjeK86msRNjx6CduGGKAaJjLKt
-         Nhtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=/FFdfdrN7aRadLX6ARmxlIn/ghwJAMUWoAakxkec6W4=;
-        fh=13pJRPVV00EwCTSt1Ewy/B+PqjhInIfd8t2I2le6UCU=;
-        b=F+zhINQvXwTe6iUqn4H8Sp1H9RiPlE5kVYDTS9BWNo1XL9Mfec/MxdGn4Mytib13ZL
-         oAMA3DWcaSiWpoTMGHeG8vevRfHxBFwLqy7RU7aznWdv/LjOF84KCTmESvQWiBnWqQoP
-         93rtJvKpH/cOspgoqybSffQWvN6CyuMBi3OSqVXDpU850qzyvcn31VKdhMByDrM22C6k
-         FOH4ztLuIeG+jKqidWHyG2p1InZuwrZpydbz/V5J3Sd9pNTpnXhGoauu/aTeBrGa+07q
-         JKzlOsbHjFEIwW4TnMoDNqe+ydEX9UWCgffmBu3jQrLe6j/CdRjSDNYukVGMfEYdKJHA
-         JsDw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792562148; x=1793166948; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/FFdfdrN7aRadLX6ARmxlIn/ghwJAMUWoAakxkec6W4=;
-        b=vtVOiKeoaxiHdaXO5FHdmjAqyPZqbau5OoyRPI/3NlpIITy36Qa/YBzLXRIf0MEBaM
-         I8OF5QuzHOvqw3Sl2Vv4G+lD6022yO10N9acQv0J/f25/B8OkR70Lewtpx7lmvM5jN6t
-         JF2JfSa0HJ9L9vn6QB1Q6YQ7ZjCEVR1IR5l8TuyNUN9+H/T0o2xPoUlzGdU84Niwzbma
-         bNI1He0xWLVMvnZ7vo1U0eQpEPoa8JjbA594IJGdmx/N8g+UquFtJBEqTNN5KfYousX3
-         Xjx3A9045kPh6KvHoBKLx4QPPWeizqq4IJCMtMK9wzlg21IVcfWMcdZy2RKI8Gs1LBKl
-         lqDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792562148; x=1793166948;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/FFdfdrN7aRadLX6ARmxlIn/ghwJAMUWoAakxkec6W4=;
-        b=pBel0njJZp8N0LAfjQRaDtoHpzwjkaASfKluiV0RSbLK/JXeavW7ZoROdC0omBlQ+L
-         rfE7QhJ+l9MXuBTSvCQOwqz9jII5/reyVM0rEj96CnEPCk55UhbnAQB+bzSxVGX8QyAh
-         nu9DTb0KgkUyfsuj4MeH3ZlnBMKejKcbaD2MAXfi3HWEJHEEZb/fpWAUu8UlCQGCm6Z5
-         nX6z0ixJXZ6jDFv4S1PtUdaf9aLU9u/7yuZ/iLcvR61ha8jm9AUMsFJ2SgHdZN3tit+Q
-         9quy1r2Vrxa9fcgaTr2dmK17u9uRBaKoqbKiva1tFn8PiU1lDQoOTVi4agMihOZa4WoV
-         sc4g==
-X-Gm-Message-State: AFq9FYI0R91ShbSqBePn8WuhAjJEhc77a4l+9X/s5ZmNsQxtX5YnSl8u
-	CiquTJOzjslGlvCfBrIQJpGsLA0i+TaeZ5xn4Uh6ywqBK7sQj76GjDMm6g91KZh6/ov+jgNjHAB
-	PpvDH8VMVMDLsNA4WXt3/FXCBq8AQbh1bLJNY8KMgndXlNUZsXEnuysEU
-X-Gm-Gg: AYBFou1+pxwg1/i3HybgNs+Q0/WxTe4+GtJRBjMZExanut/HqbY+z2eVvzpTQ6a5fSk
-	UzGpqxllHCEnPuXWJI14ftJu5imzXlBS5gd+iXlGzo8oUipQAB2aAsaFMO4q1j0ybGdENyQ77nM
-	XkUS6EdlOTmhHvFg0GlOsg8ZvaNtY8ccydHJVRN5hQ6++19iL3ZhiS28eKAiHq8XirtR8HAeTEj
-	/V+FsfND7om6j5t9tMPt/bfWGaiVgsdr/BcB48e/UpVpbeX2yJtbId7YC2y/3vTurfFBH/qF5fF
-	y6FM19vhBKNCA1s1ok96jPYAaneeKDJxMKFm22M5OLXifmF6eDWT/Pk2BQURCFpZt9dN32t3Ed9
-	xZMsoFHYovybk0vDDC+ourgxeT8W30hVAjPIjKLgaNcdO1QUBrPFBiWHbGICl9b05q13w023JkD
-	y2P3PsmXmkmk2fgr6XT3e+v5VAg3pkxMcmsYcOPTLR1SA=
-X-Received: by 2002:a05:6402:14cf:b0:6b1:bbbf:25b4 with SMTP id
- 4fb4d7f45d1cf-6b3e5a5474dmr95197a12.6.1792562147138; Tue, 20 Oct 2026
- 22:55:47 -0700 (PDT)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 7F3961C7802;
+	Tue, 27 Oct 2026 11:52:48 +0100 (CET)
+Date: Tue, 27 Oct 2026 11:52:47 +0100
+From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
+To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
+Subject: COCONUT-SVSM Development Release v2026.10-devel
+Message-ID: <auCCf9ScqKH2xBty@8bytes.org>
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Post: <mailto:coconut-svsm@lists.linux.dev>
@@ -103,31 +46,105 @@ List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:coconut-svsm+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <CADRsRuW1zJxk2+WxM2oQX1T_nq9O5SOoswhMQH+OsNvz9hUiHg@mail.gmail.com>
- <c397a444492ac996add776569871dde6bac60b41.camel@HansenPartnership.com>
-In-Reply-To: <c397a444492ac996add776569871dde6bac60b41.camel@HansenPartnership.com>
-From: Jeff Andersen <jeffandersen@google.com>
-Date: Tue, 20 Oct 2026 22:55:36 -0700
-X-Gm-Features: AclHuK8ZzlUoP8CeFxf99dd6oMX41PkwiItdmTfzBQFgCRPyI-kDU5ygJMS8UEw
-Message-ID: <CADRsRuX=+0KOH4QmtnUjTmXe4BRgimyvD-jqwppcyvoQnpJAcA@mail.gmail.com>
-Subject: Re: Inline attestation of vTPM-bound keys
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: coconut-svsm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi James,
+Hi,
 
-You are correct. I believe the freshness assurances are effectively
-the same between SVSM_ATTEST_SINGLE_SERVICE and TPM2_CreatePrimary +
-TPM2_CertifyIntegrated. Both paths allow a remote entity to prove
-that the TPM currently controls a given key. Outside the context of
-SVSM, some schemes for attesting a software TPM are non-interactive and
-therefore lack freshness (e.g. surfacing an attestation over a TPM EK
-via a virtual NV index). TPM2_CertifyIntegrated helps there.
+Another small COCONUT-SVSM release is out: 2026.10-devel. This development
+snapshot release contains 49 non-merge commits from 4 contributors. The
+highlights in this release are:
 
-I'd say the main benefit of TPM2_CertifyIntegrated is that it provides
-a unified framework for attesting keys held by a software TPM running
-on top of some kind of integrated root of trust, be it SEV-SNP,
-TrustZone, or something else.
+  * New per-CPU storage infrastructure: Added linker-backed per-CPU keys with
+    GS-relative access, runtime initialization, and assembly support.
 
---Jeff Andersen
+  * Exception handling: Added GS-base switching on exception and interrupt
+    entry from userspace, including special handling for NMI, machine-check,
+    double-fault, and #HV paths.
+
+  * Page-table correctness: Fixed memory-management operations to use the
+    currently active page table after switching into task context. Added
+    immutable page-table walking and reader-writer locking for task page
+    tables.
+
+  * APIC emulation: Corrected processor-priority calculation when an in-service
+    interrupt determines the priority. Added unit tests for interrupt
+    priorities, guest IRQ delivery, EOI handling, and #HV doorbell
+    interactions.
+
+  * CPU feature detection: Improved handling of multi-bit CPUID fields and
+    corrected C-bit and INVLPGB capability detection.
+
+  * Panic handling: Prevented recursive panics and routed SEV-SNP GHCB I/O
+    failures through the panic handler so termination includes secrets-page
+    scrubbing.
+
+  * Dependency updates: Updated P-384, crypto-bigint, and Tokio to address
+    audit findings affecting constant-time arithmetic and AsyncFd I/O safety.
+
+The full shortlog of the non-merge commits is attached.
+
+Happy testing!
+
+Cheers,
+
+	Joerg
+
+Carlos López (20):
+      kernel: mm/pagetable: rename methods to reflect mutability
+      kernel: mm/pagetable: add immutable page table walking methods
+      kernel: task: deduplicate current_task()
+      kernel: task: always get active task via current_task()
+      kernel: task: replace pagetable spinlock with RWLock
+      kernel: cpu/percpu: store page table in AtomicPtr
+      kernel: cpu/percpu: explicitly install page table
+      kernel: cpu/percpu: add PerCpu::new_pgtable()
+      kernel: cpu/percpu: fix current page table accesses
+      kernel: prevent reentrant panicking
+      kernel: platform/snp: route GHCB I/O port failures through panic handler
+      kernel: cpu/features: allow arbitrary feature presence detection
+      kernel: cpu/apic: mask priority subclass if ISR determines PPR
+      kernel: cpu/apic: abstract away CPU APIC state
+      kernel: cpu/apic: introduce APIC testing infrastructure
+      kernel: cpu/apic: add basic APIC tests
+      kernel: cpu/apic: add guest IRQ delivery tests
+      kernel: cpu/apic: add EOI tests
+      kernel: cpu/apic: add #HV doorbell tests
+      xbuild: preserve build artifacts before objcopy
+
+Joerg Roedel (25):
+      kernel: cpu/idt: Handle GS swaps on exception entry and return
+      kernel/percpu: Add linker-backed per-CPU keys
+      kernel/percpu: Install CPU-local GS areas
+      kernel/percpu: Support runtime CPU-local initialization
+      kernel/percpu: Add assembly-visible per-CPU keys
+      kernel/vmsa: Move reset IP to a per-CPU key
+      kernel/irq: Move IRQ state to a per-CPU key
+      kernel/apic: Move the x86 APIC to a per-CPU key
+      kernel/apic: Move guest APIC state to a per-CPU key
+      kernel/mm: Move the 4K virtual-range allocator to a per-CPU key
+      kernel/mm: Move the 2M virtual-range allocator to a per-CPU key
+      kernel/hyperv: Move hypercall pages to a per-CPU key
+      kernel/sev: Move the GHCB page to a per-CPU key
+      kernel/percpu: Move context switch stack to a per-CPU key
+      kernel/percpu: Move paging root to a per-CPU key
+      kernel/smp: Move shared CPU state to a per-CPU key
+      kernel/sev: Move the HV doorbell to a per-CPU key
+      kernel/percpu: Move current stack to a per-CPU key
+      kernel/percpu: Move TSS to a per-CPU key
+      kernel/percpu: Move ISST to a per-CPU key
+      kernel/percpu: Move initial shadow stack to a per-CPU key
+      kernel/percpu: Move IST stacks to per-CPU keys
+      kernel/percpu: Move legacy per-CPU state into the percpu directory
+      deps: Update p384 and Tokio to resolve audit findings
+      COCONUT-SVSM Release 2026.10-devel
+
+Luigi Leonardi (2):
+      kernel: make block and vsock imply virtio-drivers
+      verification/verus_macro_stub: remove unused proc-macro2 dependency
+
+Stefano Garzarella (2):
+      docs/RELEASE-TESTPLAN: add persistence test
+      build: remove legacy wrapper script
+
