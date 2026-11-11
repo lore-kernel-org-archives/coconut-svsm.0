@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794436160;
-	b=yxtUl4mZsRLSCrOBnt6052lV5pVvwQFLRMp2RxMapFZ5yvX9q0rDtGHVXDIh6UCiMZJa
-	 ZRf7tx8bjspLGlZXIpZKNpVn3y/dI6xn2VtbZj4/bfsPUTAOfkhDiBL+pvqM5BcJIfzLw
-	 mx2G5X1owdqoFLO9d1Vz7E9dsbtgl5qQ/AK08rpO7XO32PVBsMpMBD4ScjFevIs6APjAy
-	 +4V7h/z24unoN8+467b6JnljzWfNU8mBv8527UKb4ZdcmtsTwFomXRO6OMznHuhdc7U0Y
-	 9ogHNoJEgKvs/DiirkoXQivenF/UnxWXsKEg2w0udy9wnb6ZpI0eog+j1qKA0IxZN2g==
+	b=G3kyzVugGYfS/Kor0zlFMTEk5Dvjt3KbX6ANDObXksw5SyX5l+jHH/hBXt64JeigjGVC
+	 UALO7f+M74fHo96pr1RV+vavVZSMixWaYgZS9cxHraLRMjPy895P6qdcnO1GMkGGkIgx7
+	 ZPMyYgleL7pbcYgephQli7Nn85UtH0nc3A+dLw5XiVp91HYMwVCh2wDkc3afMKgEnfvV/
+	 1F4JpLrq/VDDWiJYm/L77KU3gT+4zqB7Kr5KttKq5pdaYZTLBJD2C7v/steK6GfJ2PB08
+	 Zy5niQlvklg0O3dHa5hKBT5OX1bWoqxgtnN7Ws385Dr+eqXH81zScsaJE/M5gGVcmOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794436160;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=oFTOekiPiKL4T1KhOTcidabBpJ5GICpNBEzlP5Id0Nc=;
-	b=BNNteILmjeMyDd33MHsA1nU0j8f2c1q/CQnlqpeJDe4WOHILDJ/mFY8xzlRj6cFhfsFJ
-	 QPD31YAfltk0OZxGpycvr3uWaisdO6ppjdQKYZbvbYvagDb/mh+YnhagtP4mCK+Beffu9
-	 JgGg4/Dm9CLBJEP4cSnVhK7DCCLTrOFFyh/PCnVZsmGag2cE7LxFJpZ4awSrLSbUs7nk2
-	 xZb3PxNunYJ3bneoLbjyjiC4Az8aKyKNVdB0OiLRDOTVyGc+EaPeMhwc3v86x4+fEVlfn
-	 qWM3uh0/vy9DXcZ1L03TfYAG5ny4Va5tEYDawgwrTRAcebgINE3h/RvlQ0SXw1BJ4ug==
+	bh=8qybenYqvG8G9PhMhPtpqHZ056gMFT0pwcSnxKT9iyE=;
+	b=jb0hymn3RhD3obHFExRllU8JXfi/Yv6munGuNnlZRimoWvntLUMiIew1yCFSEbdkwRAo
+	 3Exic+nVGkWgU3TjFuVRPlj5HdJ4qwqctQG/mMXcuicdWqYbOoKc3jrt0kMhS2QyoRi6h
+	 NCznMQF5Q07akZbA4fdaDjwfKAyx/kE5tM2dqI1YHhHM5SsS9k4jTQHT4nzrqGetRRjfQ
+	 R2sTrtWpn2TpRz3QsRVswfmvvI5/Ii1aD6uOj9mxwQqZK/nGR/lXPvHCVAngElYr0Nh4v
+	 W0W9L01gDV5LTQ9VzdLsjbVVSEhEoYkc+Kg82GVGhcI01XFNl+bZ1X3Oqt+FFLtw14g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=none smtp.mailfrom=desiato.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=C9BSB26Y;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=GTTbU0sn;
 	arc=none smtp.remote-ip=90.155.92.199
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D7060A262A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E0C60A262E;
 	Wed, 11 Nov 2026 22:29:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8D7060A262A
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8E0C60A262E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=C9BSB26Y
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=GTTbU0sn
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=oFTOekiPiKL4T1KhOTcidabBpJ5GICpNBEzlP5Id0Nc=; b=C9BSB26YSXAAAt8dotx5k4npei
-	7lOaJNzIG3vNyJXet0BSEzgeND3o0kmPi8zLlvguz0/YykL482sDuJo5mz8z+C8YDdaVn4MK2U3B4
-	qeX6HzVze6Jw2bKaqD+IZuDS2A3FuaC92BrhMw3foF5vgGYk+QRLIbK+f2hyKYzpveDgRgWatXglx
-	h9pgQtP9oXDL5gAGu1XPX2UhzPHdc6RiKTRcuWp+xsEd9gXZS14E6bSCqwHCYvenocTcMtqgTsRJB
-	COcg+iRyM2waOsPu0BXkMhP1pEY/pF5Y6CDua+bGhd0RA33jBQwPEwTLAMZ+oLBw3uSlm0MnChIqM
-	H2YjHJWg==;
+	bh=8qybenYqvG8G9PhMhPtpqHZ056gMFT0pwcSnxKT9iyE=; b=GTTbU0snO/nUQajge+xBq1MFqg
+	QCVuIo3EK60swCUZBbdORPP9nzonwyf38wVn5CkrR4E+VbSwxUtREevKSLliFB6FkoA4U0PawrBC6
+	21DVG1UqXCWYh8595L2Ac34v8l+N9Em9XG6MOE7cPxBGxDpGLbck/jzBxXsBA9L5afdyIarQH8c0Z
+	w7w29b0ah/iBIIRVSrPjcp4hF3oE56z6pIjvpaUGM9Nyjm6z4yMxONuU0qhp079dLqajLEtUPtKCU
+	wOMpaAYrFNfqQZpOFD++SIM+GIlqjp42fskxCot1POq9AKgO20oFdAjP691kKLoqXW6LMXgwjthK6
+	Idrz/Zwg==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRGoc-00000009dbd-2A1k;
+	id 1xRGoc-00000009dba-29nz;
 	Wed, 11 Nov 2026 22:29:14 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xRGoa-0000000008a-0ZfS;
-	Wed, 11 Nov 2026 22:29:12 +0000
+	id 1xRGoZ-00000000081-2lp5;
+	Wed, 11 Nov 2026 22:29:11 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: =?UTF-8?q?J=C3=B6rg=20R=C3=B6del?= <joro@8bytes.org>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -74,9 +74,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 	Mushahid Hussain <hmushi@amazon.co.uk>,
 	Sriram Nambakam <snambakam@linux.microsoft.com>,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH 12/16] KVM: VMX: Leave the IPIv PID-table entry to the plane 0 vCPU
-Date: Wed, 11 Nov 2026 14:29:07 -0800
-Message-ID: <20261111222911.477-13-dwmw2@infradead.org>
+Subject: [PATCH 04/16] KVM: Guard the per-plane KVM_SIGNAL_MSI cases with __KVM_HAVE_MSI
+Date: Wed, 11 Nov 2026 14:28:59 -0800
+Message-ID: <20261111222911.477-5-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261111222911.477-1-dwmw2@infradead.org>
 References: <20260608144252.351443-1-joro@8bytes.org>
@@ -96,54 +96,52 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-The IPI virtualization PID table is indexed by vCPU ID, and a plane
-vCPU has the same vCPU ID as its plane 0 twin. vmx_vcpu_create() for a
-twin therefore repoints plane 0's entry at the twin's posted-interrupt
-descriptor, and vmx_vcpu_free() for a twin (including the error path
-of a failed KVM_CREATE_VCPU on a plane fd) clears it. Plane 0 is left
-with no valid entry, or one naming a freed descriptor.
+KVM_SIGNAL_MSI fails with -ENOTTY on both the VM fd and plane fds,
+while KVM_CHECK_EXTENSION still reports KVM_CAP_SIGNAL_MSI. A VMM that
+sends MSIs through the ioctl, such as QEMU with a split irqchip, cannot
+inject device interrupts at all.
 
-Nothing consumes the table while that is the case today: a VM with
-planes has APICv inhibited, so IPIv stays off. But the entry must not
-depend on that. Fill and clear it for the plane 0 vCPU only.
+The new cases in kvm_vm_ioctl() and __kvm_plane_ioctl() test
+CONFIG_HAVE_KVM_MSI, which no Kconfig defines; the macro architectures
+set is __KVM_HAVE_MSI, as the old VM-fd case used. So both compile
+away. Use __KVM_HAVE_MSI.
 
-Fixes the IPIv PID-table handling for the plane vCPUs that "KVM:
-Implement KVM_CREATE_VCPU ioctl for planes" creates.
+test_plane_msi in the x86 planes selftest, added later in this series,
+catches this.
 
-Fixes: https://lore.kernel.org/all/20260608144252.351443-34-joro@8bytes.org/
+Fixes the per-plane KVM_SIGNAL_MSI cases added by "kvm: Make
+KVM_SIGNAL_MSI per plane".
+
+Fixes: https://lore.kernel.org/all/20260608144252.351443-39-joro@8bytes.org/
+Reported-by: Sriram Nambakam <snambakam@linux.microsoft.com>
+Closes: https://lore.kernel.org/all/20261104065536.15232-1-snambakam@linux.microsoft.com/
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- arch/x86/kvm/vmx/vmx.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ virt/kvm/kvm_main.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 44d0e8eba45b..591c7745e3e9 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -7525,7 +7525,8 @@ void vmx_vcpu_free(struct kvm_vcpu *vcpu)
- 	free_loaded_vmcs(vmx->loaded_vmcs);
- 	free_page((unsigned long)vmx->ve_info);
- 
--	if (vmx_can_use_ipiv(vcpu))
-+	/* See vmx_vcpu_create(): only the plane 0 vCPU owns the entry. */
-+	if (vmx_can_use_ipiv(vcpu) && !vcpu->plane_level)
- 		WRITE_ONCE(to_kvm_vmx(vcpu->kvm)->pid_table[vcpu->vcpu_id], 0);
- }
- 
-@@ -7614,7 +7615,12 @@ int vmx_vcpu_create(struct kvm_vcpu *vcpu)
- 		vmx->ve_info = page_to_virt(page);
- 	}
- 
--	if (vmx_can_use_ipiv(vcpu))
-+	/*
-+	 * The PID table is indexed by vCPU ID, which a plane vCPU shares
-+	 * with its plane 0 twin: only plane 0 fills the entry, or creating
-+	 * (and freeing) a twin would repoint (and clear) plane 0's.
-+	 */
-+	if (vmx_can_use_ipiv(vcpu) && !vcpu->plane_level)
- 		WRITE_ONCE(to_kvm_vmx(vcpu->kvm)->pid_table[vcpu->vcpu_id],
- 			   __pa(&vmx->vt.pi_desc) | PID_TABLE_ENTRY_VALID);
- 
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 0136156df252..95de904f0c61 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -5016,7 +5016,7 @@ static long __kvm_plane_ioctl(struct kvm_plane *plane, unsigned int ioctl, unsig
+ 	case KVM_CREATE_VCPU:
+ 		r = kvm_plane_ioctl_create_vcpu(plane, arg);
+ 		break;
+-#ifdef CONFIG_HAVE_KVM_MSI
++#ifdef __KVM_HAVE_MSI
+ 	case KVM_SIGNAL_MSI: {
+ 		void __user *argp = (void __user *)arg;
+ 		struct kvm_msi msi;
+@@ -5662,7 +5662,7 @@ static long kvm_vm_ioctl(struct file *filp,
+ 		r = kvm_vm_ioctl_create_plane(kvm, arg);
+ 		break;
+ 	case KVM_CREATE_VCPU:
+-#ifdef CONFIG_HAVE_KVM_MSI
++#ifdef __KVM_HAVE_MSI
+ 	case KVM_SIGNAL_MSI:
+ #endif
+ #ifdef CONFIG_HAVE_KVM_IRQ_ROUTING
 -- 
 2.50.1
 
