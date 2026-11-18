@@ -1,68 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795024735;
-	b=og4NLbq4GuiqR2jDhRBh+lVPmdgH6vGVqEoZPms5+d4fiiISuvYuZ9HjBHUkhwHw9YTV
-	 KZG8IuTGYzeLfWB+hbBSD9UHPwVP07VbTyL7U/CPnz5h0tu8e6xBVYN7nz13ZV6z18Id4
-	 ZJYLjpFiEUYplI2K6MhKI6MRY6V670h2wv/tVAgS8G1gvHVHPBOTCL8030vm0GwhsYf7H
-	 shx1O8W1TeFCs9IEpcWSjVgb5QVakH/pZC4J2kMmWYKE7pCueYbCUzrSsQBvlSoSbt4kd
-	 pty0GJwZTrlZQT9g5MWTN7j84vVvGh2tW8hY6aFARne8N0ge25EL03yw+UwM/Ot4M3Q==
+	t=1795029014;
+	b=1wqi61LcrR4LTl+rgmr4DrrUitA52tivkolCKZCkA28R71ICO0w1XUpwbA6J1ay4buRx
+	 MfPf8J105pT/r4iCIrP/5hHjvN2sJ7VaLoHlk8JnpDX5u3eNbe9abxE6sK6GDWMnz2K7D
+	 KkHP48mXVinQHdePDC7BiFe/W6cLo6ax3Fb9uIloz0C0fSbU+0th7bFxKL+G/kM9vcEpn
+	 kKDb23cB+D2f9M3s2b1VKo7J1KdrbbiVZJAPA/oQ0u4wfD72llEJ4SXVJbLuCQSnh16J1
+	 77nyTJ378mYjde0Ijagx2csSjoHo1ZISYIt/6i4v0n8waQNRtE/zs+qkoVnLv7+Gn4A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795024735;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:Autocrypt:In-Reply-To:
-	 X-Scanned-By:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
-	 Content-Language:Content-Type:Content-Transfer-Encoding;
-	bh=/aEvVPN2vkIpoOGbqbjwslntOnXXcoUrCbDoxZ9fqIU=;
-	b=Gb8Qx2lUV/AiavmQBppI8RM3KN4Lg8ArlKoRDQtpIqdiwXS+P98Shj/7G1hJdJ9Hy2aV
-	 BwO9G6SlyTQfJxtCSHUI3E72vaZYmwm4IRpsM4Aua+ycVJqTh4Wk64vSPkvPYY2s2M+LF
-	 +h2/soLsDYMVcc1N6/CMMdSlCxlxVqjMfq3SQen+3CDy0b4mgBd53dU4SejWSC/CMyuLF
-	 lDY5fn5xbC+Y12nDUApxeCpkL/hE0ja0zMVV0nISS66s0tx6b+/Snc34jn03jaWnb0lnP
-	 5sQeqYOUYE6q3Bz5z3ulcFnWPFysBxVnT973billlOCV2fwJC5zLo2iz4pcqO3cj+3g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795029014;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:CC:Subject:
+	 User-Agent:In-Reply-To:References:Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-SRS-Rewrite;
+	bh=YxWsOpaN6CU+fFgVMclUNy68ZrjNu1idGsKCVJ6O9Z4=;
+	b=4T/1Ueq6uZyFYbRStjJugXV4AP8dov3sLN+NlINzXBFTlzMkhsriQSD3u2aV1CMyR2xZ
+	 P7ATWuSB5XOfB8BC4wKzERixFQ2qMqu4FqKxy69AQzLuKy6c/MUYz1eoJkzirFz8dGWhF
+	 Thy71k7RBuCFmIokERdmo8g1pER4QffsqFaI5uSzevLbWXZB/rN7v8aUvRWoOFHVJWMwX
+	 xx+dgzgcpkTI56WPdVe+ATGBnUnlFbgq4U/pI7+Il+M4nTP/EOLrNWpWZFfq9DWJQxiGJ
+	 ob9LWjxaUFtfGfzL/OvzAXjfVz9nfCfIRvuAX9YuFXU3bLfasnk00FKN8Mh6UuztF1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=J9P9vpAA;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dmarc=pass header.from=infradead.org;
+	spf=none smtp.mailfrom=desiato.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=i6T5OkA6;
+	arc=none smtp.remote-ip=90.155.92.199
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA43A60A2603
-	for <coconut-svsm@lists.linux.dev>; Wed, 18 Nov 2026 17:58:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA43A60A2603
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E65606A31C;
+	Wed, 18 Nov 2026 19:10:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2E65606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=J9P9vpAA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795024733;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=/aEvVPN2vkIpoOGbqbjwslntOnXXcoUrCbDoxZ9fqIU=;
-	b=J9P9vpAA7lsIOoOwo11f/jua3xj8BePR7xSBkREzex9x3I0fjl1KWWM80+cEAJ6g3TNb5J
-	mZB6jaoH2+h6lJ1hiSL0TqQiI0mYKPbk3WSu+iLceu71NHPzZpP4rGf+JP/Naj0Hca2ufO
-	YnNcAH7QErvRjGjMJZhNJYwR469nI3Q=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-454-eKEYaacdP5iXcYIWe_UR6A-1; Wed,
- 18 Nov 2026 12:58:49 -0500
-X-MC-Unique: eKEYaacdP5iXcYIWe_UR6A-1
-X-Mimecast-MFC-AGG-ID: eKEYaacdP5iXcYIWe_UR6A_1795024724
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A7C8C1954B09;
-	Wed, 18 Nov 2026 17:58:42 +0000 (UTC)
-Received: from [100.90.222.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id ED59A18004F5;
-	Wed, 18 Nov 2026 17:58:35 +0000 (UTC)
-Message-ID: <4e4fb011-9171-42c1-b499-27b0333a2fd6@redhat.com>
-Date: Wed, 18 Nov 2026 18:58:33 +0100
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=i6T5OkA6
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=YxWsOpaN6CU+fFgVMclUNy68ZrjNu1idGsKCVJ6O9Z4=; b=i6T5OkA6HB7NG25CMcQ8Te4Ltr
+	KxIOzXx/mNFMONQ4ViCWFPNmIrUOuZVTIe8TZnkkJlz9SvrT7bF+8x41WWOLI8qO2kRjpz3bGORzX
+	iZXB3H/1+181sDQQBjKkDX3Ecxc0BS+EsdKOocrWt+stbQmWHtKIf0QpLepBumkQf/831tPfnEejg
+	Mn0K+Y6S4HnvTOy97cfE4cJl/H97wFiYDnoEOJ+PmptkQJL2VFtvIU9o0jXrb7h8DKMAaRLOBo6Ic
+	75Zv3gjRNJV25Ap9P2B/c6B1/SSOXgveIKaxkIQi9zRBBjJ2Hb8o/hzhGZMKQfHMsaX3VVDtMH58Q
+	ZlneSFqw==;
+Received: from [2a00:23ee:2910:16f:a90:4999:d4c:f045] (helo=ehlo.thunderbird.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xTl2l-0000000GRW5-1yMX;
+	Wed, 18 Nov 2026 19:10:07 +0000
+Date: Wed, 18 Nov 2026 19:10:01 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?ISO-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
+CC: Sean Christopherson <seanjc@google.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, ashish.kalra@amd.com,
+ michael.roth@amd.com, nsaenz@amazon.com, anelkz@amazon.de,
+ James.Bottomley@HansenPartnership.com, Melody Wang <huibo.wang@amd.com>,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, kvm-riscv@lists.infradead.org, x86@kernel.org,
+ coconut-svsm@lists.linux.dev, joerg.roedel@amd.com,
+ Mushahid Hussain <hmushi@amazon.co.uk>,
+ Sriram Nambakam <snambakam@linux.microsoft.com>,
+ David Woodhouse <dwmw@amazon.co.uk>
+Subject: Re: [PATCH 06/16] KVM: x86: Widen the plane vCPU fd ioctl allowlist
+User-Agent: K-9 Mail for Android
+In-Reply-To: <4e4fb011-9171-42c1-b499-27b0333a2fd6@redhat.com>
+References: <20260608144252.351443-1-joro@8bytes.org> <20261111222911.477-1-dwmw2@infradead.org> <20261111222911.477-7-dwmw2@infradead.org> <4e4fb011-9171-42c1-b499-27b0333a2fd6@redhat.com>
+Message-ID: <D0EE54A9-3FF3-4005-875B-A9AF04EB1341@infradead.org>
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Post: <mailto:coconut-svsm@lists.linux.dev>
@@ -72,97 +76,58 @@ List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:coconut-svsm+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/16] KVM: x86: Widen the plane vCPU fd ioctl allowlist
-To: David Woodhouse <dwmw2@infradead.org>, =?UTF-8?B?SsO2cmcgUsO2ZGVs?=
- <joro@8bytes.org>
-Cc: Sean Christopherson <seanjc@google.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, ashish.kalra@amd.com,
- michael.roth@amd.com, nsaenz@amazon.com, anelkz@amazon.de,
- James.Bottomley@HansenPartnership.com, Melody Wang <huibo.wang@amd.com>,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev,
- loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, kvm-riscv@lists.infradead.org,
- x86@kernel.org, coconut-svsm@lists.linux.dev, joerg.roedel@amd.com,
- Mushahid Hussain <hmushi@amazon.co.uk>,
- Sriram Nambakam <snambakam@linux.microsoft.com>,
- David Woodhouse <dwmw@amazon.co.uk>
-References: <20260608144252.351443-1-joro@8bytes.org>
- <20261111222911.477-1-dwmw2@infradead.org>
- <20261111222911.477-7-dwmw2@infradead.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Autocrypt: addr=pbonzini@redhat.com; keydata=
- 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
-In-Reply-To: <20261111222911.477-7-dwmw2@infradead.org>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-MFC-PROC-ID: DwDT3JSxARjkpYcgFlKRAHQQIYK0k0YLYjIkq7e1D2Y_1795024724
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
-On 11/11/26 23:29, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> 
-> A VMM that puts an initial VTL context on a higher plane cannot finish
-> the job through the plane vCPU's fd. kvm_arch_is_vcpu_plane_ioctl()
-> refuses the ioctls it needs, while the one capability ioctl it does
-> admit, KVM_ENABLE_CAP, reaches *every* vCPU capability handler.
-> 
->   - KVM_GET/SET_MP_STATE: a plane vCPU for an AP starts in
->     wait-for-INIT like any non-boot x86 vCPU, and nothing ever sends
->     INIT/SIPI to the higher plane of an AP. The VMM has to mark it
->     runnable itself.
->   - KVM_SET_GUEST_DEBUG: single-step and breakpoints on a non-zero
->     plane. The debug exits surface through the plane-0 KVM_RUN loop
->     like any other plane exit.
->   - KVM_X86_SETUP_MCE: mcg_cap is per vCPU and every twin starts with
->     the KVM_MAX_MCE_BANKS default, so programming plane 0 alone leaves
->     the planes disagreeing. Hyper-V shares MCG state across VTLs.
->   - KVM_ENABLE_CAP: accept only the audited capabilities on a plane fd,
->     the SynIC pair and the two CPUID-enforcement toggles, which change
->     state that each twin keeps separately. Anything else gets -EINVAL, as
->     non-allowlisted ioctls already do. The nested paths behind
->     enlightened VMCS and direct TLB flush have never been audited for
->     plane_level > 0, and without the filter any future vCPU cap would
->     work on planes without anyone having decided that it should.
+On 18 November 2026 17:58:33 GMT, Paolo Bonzini <pbonzini@redhat=2Ecom> wro=
+te:
+>On 11/11/26 23:29, David Woodhouse wrote:
+>> From: David Woodhouse <dwmw@amazon=2Eco=2Euk>
+>>=20
+>> A VMM that puts an initial VTL context on a higher plane cannot finish
+>> the job through the plane vCPU's fd=2E kvm_arch_is_vcpu_plane_ioctl()
+>> refuses the ioctls it needs, while the one capability ioctl it does
+>> admit, KVM_ENABLE_CAP, reaches *every* vCPU capability handler=2E
+>>=20
+>>   - KVM_GET/SET_MP_STATE: a plane vCPU for an AP starts in
+>>     wait-for-INIT like any non-boot x86 vCPU, and nothing ever sends
+>>     INIT/SIPI to the higher plane of an AP=2E The VMM has to mark it
+>>     runnable itself=2E
+>>   - KVM_SET_GUEST_DEBUG: single-step and breakpoints on a non-zero
+>>     plane=2E The debug exits surface through the plane-0 KVM_RUN loop
+>>     like any other plane exit=2E
+>>   - KVM_X86_SETUP_MCE: mcg_cap is per vCPU and every twin starts with
+>>     the KVM_MAX_MCE_BANKS default, so programming plane 0 alone leaves
+>>     the planes disagreeing=2E Hyper-V shares MCG state across VTLs=2E
+>>   - KVM_ENABLE_CAP: accept only the audited capabilities on a plane fd,
+>>     the SynIC pair and the two CPUID-enforcement toggles, which change
+>>     state that each twin keeps separately=2E Anything else gets -EINVAL=
+, as
+>>     non-allowlisted ioctls already do=2E The nested paths behind
+>>     enlightened VMCS and direct TLB flush have never been audited for
+>>     plane_level > 0, and without the filter any future vCPU cap would
+>>     work on planes without anyone having decided that it should=2E
+>
+>Not sure about KVM_ENABLE_CAP, the other seem sane=2E
+>
+>BTW at some point I'll rewrite these commit messages, they're infuriating=
+=2E=2E=2E
 
-Not sure about KVM_ENABLE_CAP, the other seem sane.
+Yeah=2E I've grown kind of immune to them now=2E Even found myself typing =
+"load-bearing" with my actual meat fingers the other day=2E
 
-BTW at some point I'll rewrite these commit messages, they're infuriating...
+I've also been looking harder at the completion thing=2E We *can't* (well,=
+ I don't want to) enter another plane while there's still a completion wait=
+ing on the first plane=2E
 
-Paolo
+Which means any control register or MSR interception which needs to be han=
+ded to another plane has to completed first=2E
+
+I think we need to be able to complete them with the RIP unchanged (not ad=
+vanced over the instruction)=2E Then for VSM, it's VTL1 which will handle t=
+hem and then advance RIP for its VTL0=2E VTL1 wants to be told the instruct=
+ion length too; I could make QEMU find it but since KVM tends to have it an=
+yway, I'm looking at how I can export that=2E
 
