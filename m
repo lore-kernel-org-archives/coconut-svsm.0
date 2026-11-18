@@ -1,82 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794955982;
-	b=3rtkMsFDqfIQgzbp3sEh+SJ2ZearqR3GUnf/8MP/wVr2LQz/mNsi/V3R86MxuGtw1siD
-	 9Mg77TJPXtv6QqKyoVJR1uTzyRIQy8TpkgD+yKz180NFPmgRHXzXWdhgOc1HSQKZG8YHN
-	 ZS6/vEQmeCuNS2r/4CjNFMKcTwPnN1/y7XPc3pRp38jWe+n1A6Omh06b39Sp6UfrkLGVj
-	 05KOy4zFlQgpAJ3zEmNxDMk8/9DZkJnCyD1OoSsNGoYK65XrqjvczOGXMlAyiYpjc8S4+
-	 Ux9X2UWYdzsR3dYw4HX0zwu3vTesWxmLgaO3skzyM7Zs39bckWp+0iFSNJpOjX78mBg==
+	t=1795024735;
+	b=og4NLbq4GuiqR2jDhRBh+lVPmdgH6vGVqEoZPms5+d4fiiISuvYuZ9HjBHUkhwHw9YTV
+	 KZG8IuTGYzeLfWB+hbBSD9UHPwVP07VbTyL7U/CPnz5h0tu8e6xBVYN7nz13ZV6z18Id4
+	 ZJYLjpFiEUYplI2K6MhKI6MRY6V670h2wv/tVAgS8G1gvHVHPBOTCL8030vm0GwhsYf7H
+	 shx1O8W1TeFCs9IEpcWSjVgb5QVakH/pZC4J2kMmWYKE7pCueYbCUzrSsQBvlSoSbt4kd
+	 pty0GJwZTrlZQT9g5MWTN7j84vVvGh2tW8hY6aFARne8N0ge25EL03yw+UwM/Ot4M3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794955982;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795024735;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
-	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
-	 Content-Type;
-	bh=vnzxIkFjO/uws6giHzZ1s0Tl8JvX28Ubm/U0YTfgZHA=;
-	b=4nLlP2zJkthf3suUPHZWWEHGwwEl/DtFeBWWW7ciaeclXlO4Yg3BjHt3d1pKdQjgC3d9
-	 j2dk5/nhudFrIrWzffIeJyYWxQsvm5HOVnHh0al9JGHPPQ+477VeRKpIgi1xqerq+nCBR
-	 h90/X6qvvLB75JrIpIvq5yc5Nh8gfA7oQG019RbBetgSepNr7YyhNSfL/ubq3zynPhROq
-	 dwGLuOw6plM3r2Xp0J/fnPJ3kIBPSedmU1G13p0NZY7ddoabccjt50fklXLcdSIcN9sKE
-	 vP2AMuvm0RNKcphiBPqzeVxQ6ET7/WNKEsVtZ1uzjCwhlscyEV3xs2k4YHgUlnKJAYw==
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Autocrypt:In-Reply-To:
+	 X-Scanned-By:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
+	 Content-Language:Content-Type:Content-Transfer-Encoding;
+	bh=/aEvVPN2vkIpoOGbqbjwslntOnXXcoUrCbDoxZ9fqIU=;
+	b=Gb8Qx2lUV/AiavmQBppI8RM3KN4Lg8ArlKoRDQtpIqdiwXS+P98Shj/7G1hJdJ9Hy2aV
+	 BwO9G6SlyTQfJxtCSHUI3E72vaZYmwm4IRpsM4Aua+ycVJqTh4Wk64vSPkvPYY2s2M+LF
+	 +h2/soLsDYMVcc1N6/CMMdSlCxlxVqjMfq3SQen+3CDy0b4mgBd53dU4SejWSC/CMyuLF
+	 lDY5fn5xbC+Y12nDUApxeCpkL/hE0ja0zMVV0nISS66s0tx6b+/Snc34jn03jaWnb0lnP
+	 5sQeqYOUYE6q3Bz5z3ulcFnWPFysBxVnT973billlOCV2fwJC5zLo2iz4pcqO3cj+3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=gM2t1aNa;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=J9P9vpAA;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C131606A32A
-	for <coconut-svsm@lists.linux.dev>; Tue, 17 Nov 2026 22:53:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C131606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA43A60A2603
+	for <coconut-svsm@lists.linux.dev>; Wed, 18 Nov 2026 17:58:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA43A60A2603
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=gM2t1aNa
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=J9P9vpAA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794955980;
+	s=mimecast20190719; t=1795024733;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vnzxIkFjO/uws6giHzZ1s0Tl8JvX28Ubm/U0YTfgZHA=;
-	b=gM2t1aNaBrFhQNQuqFlyLnfDx6vlIUyPR55lVRMd+ki/E4KMOwh27+4suYkqEXzhF1f3ep
-	dY3vrpSvKXnBUMhyIArAGqN67gz3St1KpmKt449cDcaK2T4A4EduKC1DC55wHpf8KONGTX
-	qL4KGBAoPvSSa7lhUdNlQFicTu3N5mI=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-353-RNJ41AV-M0KbzYXErtj8og-1; Tue, 17 Nov 2026 17:52:58 -0500
-X-MC-Unique: RNJ41AV-M0KbzYXErtj8og-1
-X-Mimecast-MFC-AGG-ID: RNJ41AV-M0KbzYXErtj8og_1794955978
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2e9995cea88so2111915ad.0
-        for <coconut-svsm@lists.linux.dev>; Tue, 17 Nov 2026 14:52:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794955978; x=1795560778;
-        h=content-type:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vnzxIkFjO/uws6giHzZ1s0Tl8JvX28Ubm/U0YTfgZHA=;
-        b=DRd+sS4c7SKDX9kDxYosZnjIsjr3ximBuN1IChlSBqeYwFmZ9Bef2M/dAC7EKlviRY
-         PymKEmjbSnQJ9BAWmYGhMkHWI5pyD0JM7S10LbAGruhuZaJ22+xg5DkMcHzwlhE64Fvh
-         +UQp0trFqrMrMY9pFIpLWD0/GWn/1+TbHLg0OzXO7RKGzdiBnBlkbXVp7TGcnumLsyWd
-         TscsKjJEgFIjvaeTwWtdSH82UF+vnDto7webeLTIBB6WV2ES/9EAbV4y5PQVjatcvoWs
-         fiakLQuzXAhzYt4Rb3ypDi/N8d1BrcNy2BnC9sxxiNCTfhszJrs5TD4PUMN5H5NdvwDp
-         YuvQ==
-X-Gm-Message-State: APuU4Z9oOkpLPpphWP8y24QCMxSheChw6ZLd3BSYt4YxoUQ+zauTThmp
-	AXlSRR5UY3tgXHd7yHBqnDjTMj1ndXsAlqD7aeI6HbQ+HlObsHiZPbOpeHh2YCLbNkcHmiofBgl
-	2ssSm6SfrTygFFhB8U/e11h3wVLYjeUH+kiVN+TXuaGNYoXBnbudVJFMk/XuBfII86CwL/ND0yo
-	wYiJbb0x84wfij+JDupnoGrjxvmTwcZFzqCvsZ3B5NjGRAD19o
-X-Gm-Gg: AZFdTZfMZ+h0cNNh85WUnG9EwRQ6yRjwFX9OnWGdItoaMC7zia71KxkN1pnt06w51vz
-	9dGuBhZqD+TonuNYhe121BFS+D4oSJDgHnSEJcK81Djo4XjHBihb842gIahkOHTR0XvzhJ5w6oF
-	6EHwe/J1O+uwcvpqfi544UMojOINbYLVievkF8DPIldhgrQw/Oczta3iz27w==
-X-Received: by 2002:a17:902:e790:b0:2e2:dfb8:818a with SMTP id d9443c01a7336-2eff7574cbamr6491225ad.62.1794955977583;
-        Tue, 17 Nov 2026 14:52:57 -0800 (PST)
-X-Received: by 2002:a17:902:e790:b0:2e2:dfb8:818a with SMTP id
- d9443c01a7336-2eff7574cbamr6491025ad.62.1794955977016; Tue, 17 Nov 2026
- 14:52:57 -0800 (PST)
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=/aEvVPN2vkIpoOGbqbjwslntOnXXcoUrCbDoxZ9fqIU=;
+	b=J9P9vpAA7lsIOoOwo11f/jua3xj8BePR7xSBkREzex9x3I0fjl1KWWM80+cEAJ6g3TNb5J
+	mZB6jaoH2+h6lJ1hiSL0TqQiI0mYKPbk3WSu+iLceu71NHPzZpP4rGf+JP/Naj0Hca2ufO
+	YnNcAH7QErvRjGjMJZhNJYwR469nI3Q=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-454-eKEYaacdP5iXcYIWe_UR6A-1; Wed,
+ 18 Nov 2026 12:58:49 -0500
+X-MC-Unique: eKEYaacdP5iXcYIWe_UR6A-1
+X-Mimecast-MFC-AGG-ID: eKEYaacdP5iXcYIWe_UR6A_1795024724
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A7C8C1954B09;
+	Wed, 18 Nov 2026 17:58:42 +0000 (UTC)
+Received: from [100.90.222.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id ED59A18004F5;
+	Wed, 18 Nov 2026 17:58:35 +0000 (UTC)
+Message-ID: <4e4fb011-9171-42c1-b499-27b0333a2fd6@redhat.com>
+Date: Wed, 18 Nov 2026 18:58:33 +0100
 X-Mailing-List: coconut-svsm@lists.linux.dev
 List-Id: <coconut-svsm.lists.linux.dev>
 List-Post: <mailto:coconut-svsm@lists.linux.dev>
@@ -86,37 +72,97 @@ List-Unsubscribe: <mailto:coconut-svsm+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:coconut-svsm+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <aqlXypyTlhuLRVmD@8bytes.org> <CAGxU2F4VaSUGe7QkhqCm2=AzcYxzZqgxm+yjk=QTRkUTxq_3Ew@mail.gmail.com>
- <CAGxU2F5=Yh_ywLJ0eNAeL_Cqa6LNeThN3r8upRKaXs6ZBed+ug@mail.gmail.com>
-In-Reply-To: <CAGxU2F5=Yh_ywLJ0eNAeL_Cqa6LNeThN3r8upRKaXs6ZBed+ug@mail.gmail.com>
-From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Tue, 17 Nov 2026 23:52:45 +0100
-X-Gm-Features: Aa3M54pcHnE_FTFiw-y6-U_ScXMFc2hV4sru3RD4iJg1cE8QPWLiZ53h5ZVvcnQ
-Message-ID: <CAGxU2F5pif_d6ZNca=CovuD4L359+t21mMNqYEcOjd_bAcmqag@mail.gmail.com>
-Subject: SVSM Development Call November 18st, 2026
-To: coconut-svsm@lists.linux.dev, linux-coco@lists.linux.dev
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: JPgZXn0SW8yj5tJduk8ehcaVJaVn6uTRZs-yMVWCjRs_1794955978
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/16] KVM: x86: Widen the plane vCPU fd ioctl allowlist
+To: David Woodhouse <dwmw2@infradead.org>, =?UTF-8?B?SsO2cmcgUsO2ZGVs?=
+ <joro@8bytes.org>
+Cc: Sean Christopherson <seanjc@google.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, ashish.kalra@amd.com,
+ michael.roth@amd.com, nsaenz@amazon.com, anelkz@amazon.de,
+ James.Bottomley@HansenPartnership.com, Melody Wang <huibo.wang@amd.com>,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, kvm-riscv@lists.infradead.org,
+ x86@kernel.org, coconut-svsm@lists.linux.dev, joerg.roedel@amd.com,
+ Mushahid Hussain <hmushi@amazon.co.uk>,
+ Sriram Nambakam <snambakam@linux.microsoft.com>,
+ David Woodhouse <dwmw@amazon.co.uk>
+References: <20260608144252.351443-1-joro@8bytes.org>
+ <20261111222911.477-1-dwmw2@infradead.org>
+ <20261111222911.477-7-dwmw2@infradead.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Autocrypt: addr=pbonzini@redhat.com; keydata=
+ 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
+In-Reply-To: <20261111222911.477-7-dwmw2@infradead.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-MFC-PROC-ID: DwDT3JSxARjkpYcgFlKRAHQQIYK0k0YLYjIkq7e1D2Y_1795024724
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 11/11/26 23:29, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> A VMM that puts an initial VTL context on a higher plane cannot finish
+> the job through the plane vCPU's fd. kvm_arch_is_vcpu_plane_ioctl()
+> refuses the ioctls it needs, while the one capability ioctl it does
+> admit, KVM_ENABLE_CAP, reaches *every* vCPU capability handler.
+> 
+>   - KVM_GET/SET_MP_STATE: a plane vCPU for an AP starts in
+>     wait-for-INIT like any non-boot x86 vCPU, and nothing ever sends
+>     INIT/SIPI to the higher plane of an AP. The VMM has to mark it
+>     runnable itself.
+>   - KVM_SET_GUEST_DEBUG: single-step and breakpoints on a non-zero
+>     plane. The debug exits surface through the plane-0 KVM_RUN loop
+>     like any other plane exit.
+>   - KVM_X86_SETUP_MCE: mcg_cap is per vCPU and every twin starts with
+>     the KVM_MAX_MCE_BANKS default, so programming plane 0 alone leaves
+>     the planes disagreeing. Hyper-V shares MCG state across VTLs.
+>   - KVM_ENABLE_CAP: accept only the audited capabilities on a plane fd,
+>     the SynIC pair and the two CPUID-enforcement toggles, which change
+>     state that each twin keeps separately. Anything else gets -EINVAL, as
+>     non-allowlisted ioctls already do. The nested paths behind
+>     enlightened VMCS and direct TLB flush have never been audited for
+>     plane_level > 0, and without the filter any future vCPU cap would
+>     work on planes without anyone having decided that it should.
 
-Here is the call for agenda items for this weeks SVSM development call.  Please
-send any agenda items you have in mind as a reply to this email or raise them
-in the meeting.
+Not sure about KVM_ENABLE_CAP, the other seem sane.
 
-We will use the LF Zoom instance. Details of the meeting  can be found in our
-governance repository at:
+BTW at some point I'll rewrite these commit messages, they're infuriating...
 
-        https://github.com/coconut-svsm/governance
-
-The link to the COCONUT-SVSM calendar is:
-
-        https://zoom-lfx.platform.linuxfoundation.org/meetings/coconut-svsm?view=week
-
-The meeting will be recorded and the recording eventually published.
-
-Ciao,
-Stefano
+Paolo
 
